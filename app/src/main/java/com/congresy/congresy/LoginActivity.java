@@ -1,25 +1,31 @@
 package com.congresy.congresy;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.congresy.congresy.model.ResObj;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
+
+    public static DefaultHttpClient httpClient;
+    public static String username;
+    public static String password;
 
     EditText edtUsername;
     EditText edtPassword;
@@ -70,6 +76,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()){
                     if(!response.raw().request().url().toString().contains("error")){
+                        LoginActivity.username = username;
+                        LoginActivity.password = password;
+
                         //login start main activity
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.putExtra("username", username);

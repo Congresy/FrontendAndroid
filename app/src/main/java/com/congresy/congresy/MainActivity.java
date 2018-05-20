@@ -9,6 +9,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
@@ -19,6 +20,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.congresy.congresy.remote.ApiUtils;
+
 public class MainActivity extends Activity implements OnClickListener {
 
     @Override
@@ -66,13 +70,16 @@ public class MainActivity extends Activity implements OnClickListener {
         @Override
 
         protected String doInBackground(Void... params) {
-            HttpClient httpClient = new DefaultHttpClient();
             HttpContext localContext = new BasicHttpContext();
             HttpGet httpGet = new HttpGet("https://congresy.herokuapp.com/actors");
             String text = null;
             try {
+                LoginActivity.httpClient = new DefaultHttpClient();
 
-                HttpResponse response = httpClient.execute(httpGet, localContext);
+                HttpPost httppost = new HttpPost(ApiUtils.BASE_URL + "login?username=" + LoginActivity.username + "&password=" + LoginActivity.password);
+                HttpResponse response1 = LoginActivity.httpClient.execute(httppost);
+
+                HttpResponse response = LoginActivity.httpClient.execute(httpGet, localContext);
 
                 HttpEntity entity = response.getEntity();
 
