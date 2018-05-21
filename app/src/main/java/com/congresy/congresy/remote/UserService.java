@@ -19,4 +19,7 @@ public interface UserService {
 
     @GET("userAccount/{username}")
     Call<Void> getUserAccount(@Path("username") String username);
+
+    @GET("conferences/detailed?order=date")
+    Call<Void> getAllConferencesDetailed();
 }

@@ -9,6 +9,7 @@
     android:orientation="vertical" >
 
     <TextView
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="- Home -"
@@ -17,10 +18,19 @@
         />
 
     <Button
+        android:layout_marginTop="100dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Profile"
         android:id="@+id/profileButton"/>
+
+    <Button
+        android:layout_marginTop="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="My conferences"
+        android:id="@+id/conferenceButton"/>
 
 </LinearLayout>
