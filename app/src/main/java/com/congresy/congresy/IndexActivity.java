@@ -1,5 +1,6 @@
 package com.congresy.congresy;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -20,9 +21,16 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,6 +46,7 @@ public class IndexActivity extends AppCompatActivity {
     public static String text2;
     public static int conferencesSize;
     public static int usersSize;
+    public static int activeConferences;
 
     EditText edtUsername;
     EditText edtPassword;
@@ -121,6 +130,8 @@ public class IndexActivity extends AppCompatActivity {
                 JSONArray array1 = new JSONArray(text);
                 JSONArray array2 = new JSONArray(text2);
 
+                setActiveConferences(array1);
+
                 conferencesSize = array1.length();
                 usersSize = array2.length();
 
@@ -132,17 +143,41 @@ public class IndexActivity extends AppCompatActivity {
             return text;
         }
 
+        @SuppressLint("SetTextI18n")
         protected void onPostExecute(String json) {
             super.onPostExecute(json);
             // dismiss the dialog after getting all products
             try
             {
-                data.setText(conferencesSize + " active conferences right now!\n" +  usersSize + " users using our app");
+                data.setText(conferencesSize + " conferences registed in our database\n" + activeConferences + " active conferences\n" + usersSize + " users using our app");
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
         }
+    }
+
+    private void setActiveConferences (JSONArray jsonArray) throws JSONException, ParseException {
+        for(int index = 0; index < jsonArray.length(); index++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(index);
+            if(checkEndDate(jsonObject.getString("end"))) {
+                activeConferences++;
+            }
+        }
+    }
+
+    private boolean checkEndDate(String date) throws ParseException {
+        boolean res = true;
+
+        Date today = new Date();
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
+        Date dateFormated = format.parse(date);
+
+        if (dateFormated.before(today)){
+            res = false;
+        }
+
+        return res;
     }
 }
