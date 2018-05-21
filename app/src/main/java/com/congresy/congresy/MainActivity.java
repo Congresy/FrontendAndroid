@@ -23,6 +23,8 @@ import android.widget.EditText;
 
 import com.congresy.congresy.remote.ApiUtils;
 
+import static com.congresy.congresy.remote.ApiUtils.useSession;
+
 public class MainActivity extends Activity implements OnClickListener {
 
     @Override
@@ -76,8 +78,7 @@ public class MainActivity extends Activity implements OnClickListener {
             try {
                 LoginActivity.httpClient = new DefaultHttpClient();
 
-                HttpPost httppost = new HttpPost(ApiUtils.BASE_URL + "login?username=" + LoginActivity.username + "&password=" + LoginActivity.password);
-                HttpResponse response1 = LoginActivity.httpClient.execute(httppost);
+                useSession();
 
                 HttpResponse response = LoginActivity.httpClient.execute(httpGet, localContext);
 
