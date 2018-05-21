@@ -28,7 +28,6 @@ import static com.congresy.congresy.remote.ApiUtils.useSession;
 public class MainActivity extends Activity implements OnClickListener {
 
     @Override
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -39,7 +38,6 @@ public class MainActivity extends Activity implements OnClickListener {
     }
 
     @Override
-
     public void onClick(View arg0) {
 
         Button b = (Button)findViewById(R.id.my_button);
@@ -65,7 +63,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
             }
 
-            return out.toString();
+            return "cabesa" + out.toString();
 
         }
 

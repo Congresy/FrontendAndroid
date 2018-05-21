@@ -7,6 +7,8 @@ import com.congresy.congresy.LoginActivity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 
+import static com.congresy.congresy.LoginActivity.httpClient;
+
 public class ApiUtils extends AsyncTask<Void, Void, String> {
 
     @Override
@@ -23,11 +25,15 @@ public class ApiUtils extends AsyncTask<Void, Void, String> {
     public static void useSession(){
         try {
             HttpPost httppost = new HttpPost(ApiUtils.BASE_URL + "login?username=" + LoginActivity.username + "&password=" + LoginActivity.password);
-            LoginActivity.httpClient.execute(httppost);
+            httpClient.execute(httppost);
         } catch (Exception e) {
             e.printStackTrace();
 
         }
+    }
+
+    public static Integer getActorId(){
+        return 0;
     }
 
 }
