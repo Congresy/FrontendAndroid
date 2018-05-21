@@ -38,15 +38,12 @@ import retrofit2.Response;
 
 public class IndexActivity extends AppCompatActivity {
 
-    public static DefaultHttpClient httpClient;
-    public static String username;
-    public static String password;
-
     public static String text;
     public static String text2;
-    public static int conferencesSize;
-    public static int usersSize;
-    public static int activeConferences;
+
+    private int conferencesSize;
+    private int usersSize;
+    private int activeConferences;
 
     EditText edtUsername;
     EditText edtPassword;

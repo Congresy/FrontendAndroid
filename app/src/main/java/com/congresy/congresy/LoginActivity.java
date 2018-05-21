@@ -43,11 +43,6 @@ public class LoginActivity extends AppCompatActivity {
     public static String username;
     public static String password;
 
-    public static String text;
-    public static String text2;
-    public static int conferencesSize;
-    public static int usersSize;
-
     EditText edtUsername;
     EditText edtPassword;
 
