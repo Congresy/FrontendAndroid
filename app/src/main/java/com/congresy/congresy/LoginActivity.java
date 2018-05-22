@@ -104,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                         //login start main activity
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         intent.putExtra("username", username);
+                        intent.putExtra("password", password);
                         startActivity(intent);
 
                     } else {

@@ -1,5 +1,8 @@
 package com.congresy.congresy.remote;
 
+import com.congresy.congresy.domain.Conference;
+import com.congresy.congresy.domain.UserAccount;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
@@ -19,11 +22,11 @@ public interface UserService {
     @POST("actors")
     Call<Void> register(@Body JsonObject jsonObject);
 
-    @POST("./")
-    Call<Void> createConference(@Body JSONObject jsonObject);
+    @POST("conferences")
+    Call<Void> createConference(@Body JsonObject jsonObject);
 
-    @GET("userAccount/{username}")
-    Call<Void> getUserAccount(@Path("username") String username);
+    @GET("actors/userAccount/{username}")
+    Call<UserAccount> getUserAccount(@Path("username") String username);
 
     @GET("conferences/detailed?order=date")
     Call<Void> getAllConferencesDetailed();

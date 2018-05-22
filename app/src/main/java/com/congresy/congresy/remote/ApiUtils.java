@@ -23,6 +23,10 @@ public class ApiUtils extends AsyncTask<Void, Void, String> {
         return RetrofitClient.getClient(BASE_URL).create(UserService.class);
     }
 
+    public static UserService getUserServiceNoSession(){
+        return RetrofitClient.getClientNoSession(BASE_URL).create(UserService.class);
+    }
+
     public static void useSession(){
         try {
             HttpPost httppost = new HttpPost(ApiUtils.BASE_URL + "login?username=" + LoginActivity.username + "&password=" + LoginActivity.password);
@@ -32,9 +36,4 @@ public class ApiUtils extends AsyncTask<Void, Void, String> {
 
         }
     }
-
-    public static Integer getActorId(){
-        return 0;
-    }
-
 }

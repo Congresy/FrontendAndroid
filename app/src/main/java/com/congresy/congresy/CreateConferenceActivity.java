@@ -9,14 +9,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.congresy.congresy.domain.Conference;
+import com.congresy.congresy.domain.UserAccount;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.json.JSONArray;
@@ -67,7 +69,8 @@ public class CreateConferenceActivity extends AppCompatActivity {
         edtDescription = findViewById(R.id.edtDescription);
 
         userService = ApiUtils.getUserService();
-        new LoadUserAccount().execute();
+
+        // new LoadUserAccount().execute();
 
         btnCreateConference.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,29 +84,21 @@ public class CreateConferenceActivity extends AppCompatActivity {
                 String description = edtDescription.getText().toString();
 
                 // adding properties to json for POST
-                JSONObject json = new JSONObject();
-                List<String> organizators = new ArrayList<>();
-                organizators.add(userAccountId);
+                JsonObject json = new JsonObject();
 
-                try {
+                json.addProperty("name", name);
+                json.addProperty("theme", theme);
+                json.addProperty("price", Double.valueOf(price));
+                json.addProperty("start", start);
+                json.addProperty("end", end);
+                json.addProperty("speakersNames", speakers);
+                json.addProperty("description", description);
 
-                    json.put("name", name);
-                    json.put("theme", theme);
-                    json.put("price", Double.valueOf(price));
-                    json.put("start", start);
-                    json.put("end", end);
-                    json.put("speakersNames", speakers);
-                    json.put("description", description);
-                    json.put("organizators", new JSONArray(organizators));
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
 
                 //validate form
                 if(validateRegister(name, theme, price, start, end, speakers, description)){
-                    doConference(json);
+                    createConference(json);
                 }
             }
         });
@@ -120,32 +115,15 @@ public class CreateConferenceActivity extends AppCompatActivity {
         return true;
     }
 
-    private void doConference(final JSONObject json){
-        Call call1 = userService.login(LoginActivity.username, LoginActivity.password);
-        call1.enqueue(new Callback() {
+    private void doConference(final JsonObject json){
+        Call call = userService.createConference(json);
+        call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()){
 
-                    call = userService.createConference(json);
-                    call.enqueue(new Callback() {
-                        @Override
-                        public void onResponse(Call call, Response response) {
-                            if(response.isSuccessful()){
-
-                                Intent intent = new Intent(CreateConferenceActivity.this, HomeActivity.class);
-                                startActivity(intent);
-
-                            } else {
-                                Toast.makeText(CreateConferenceActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call call, Throwable t) {
-                            Toast.makeText(CreateConferenceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    Intent intent = new Intent(CreateConferenceActivity.this, HomeActivity.class);
+                    startActivity(intent);
 
                 } else {
                     Toast.makeText(CreateConferenceActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
@@ -157,55 +135,27 @@ public class CreateConferenceActivity extends AppCompatActivity {
                 Toast.makeText(CreateConferenceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
-    private class LoadUserAccount extends AsyncTask<Void, Void, String> {
-        protected String getASCIIContentFromEntity(HttpEntity entity) throws IllegalStateException, IOException {
+    private void createConference(final JsonObject json){
+        Call<UserAccount> call = userService.getUserAccount(LoginActivity.username);
+        call.enqueue(new Callback<UserAccount>() {
+            @Override
+            public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {
+                userAccountId = response.body().getId();
 
-            InputStream in = entity.getContent();
+                JsonArray organizators = new JsonArray();
+                organizators.add(userAccountId);
 
-            StringBuffer out = new StringBuffer();
-            int n = 1;
-            while (n>0) {
-                byte[] b = new byte[4096];
+                json.add("organizators", organizators);
 
-                n =  in.read(b);
-
-                if (n>0) out.append(new String(b, 0, n));
-
+                doConference(json);
             }
 
-            return out.toString();
-
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            HttpContext localContext = new BasicHttpContext();
-            HttpGet httpGet = new HttpGet("https://congresy.herokuapp.com/actors/userAccount/" + LoginActivity.username);
-            String text;
-            try {
-
-                useSession();
-
-                HttpResponse response = LoginActivity.httpClient.execute(httpGet, localContext);
-                HttpEntity entity = response.getEntity();
-                text = getASCIIContentFromEntity(entity);
-                userAccount = text;
-
-                JSONObject jsonUserAccount = new JSONObject(userAccount);
-                userAccountId = jsonUserAccount.getString("id");
-
-
-            } catch (Exception e) {
-                return e.getLocalizedMessage();
-
+            @Override
+            public void onFailure(Call<UserAccount> call, Throwable t) {
+                Toast.makeText(CreateConferenceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
-
-            return text;
-
-        }
+        });
     }
 }
