@@ -82,8 +82,23 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Start date: "
+                android:text="Allowed participants: "
                 android:layout_below = "@+id/edtPrice"
+                android:id="@+id/edtParticT"
+                />
+
+            <EditText
+                android:id="@+id/edtPartic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtParticT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start date: "
+                android:layout_below = "@+id/edtPartic"
                 android:id="@+id/edtStartT"
                 />
 

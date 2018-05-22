@@ -1,12 +1,15 @@
-
 package com.congresy.congresy.domain;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Conference {
 
+    @SerializedName("allowedParticipants")
+    @Expose
+    private Integer allowedParticipants;
     @SerializedName("comments")
     @Expose
     private List<String> comments = null;
@@ -25,9 +28,12 @@ public class Conference {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("organizators")
+    @SerializedName("organizator")
     @Expose
-    private List<String> organizators = null;
+    private String organizator;
+    @SerializedName("participants")
+    @Expose
+    private List<String> participants = null;
     @SerializedName("popularity")
     @Expose
     private Double popularity;
@@ -43,6 +49,14 @@ public class Conference {
     @SerializedName("theme")
     @Expose
     private String theme;
+
+    public Integer getAllowedParticipants() {
+        return allowedParticipants;
+    }
+
+    public void setAllowedParticipants(Integer allowedParticipants) {
+        this.allowedParticipants = allowedParticipants;
+    }
 
     public List<String> getComments() {
         return comments;
@@ -92,12 +106,20 @@ public class Conference {
         this.name = name;
     }
 
-    public List<String> getOrganizators() {
-        return organizators;
+    public String getOrganizator() {
+        return organizator;
     }
 
-    public void setOrganizators(List<String> organizators) {
-        this.organizators = organizators;
+    public void setOrganizator(String organizator) {
+        this.organizator = organizator;
+    }
+
+    public List<String> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<String> participants) {
+        this.participants = participants;
     }
 
     public Double getPopularity() {
@@ -139,4 +161,5 @@ public class Conference {
     public void setTheme(String theme) {
         this.theme = theme;
     }
+
 }

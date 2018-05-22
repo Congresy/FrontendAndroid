@@ -34,14 +34,13 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        //TODO
-        //listConferencesButton.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-        //    public void onClick(View v) {
-        //        Intent intent = new Intent(HomeActivity.this, ListConferenceActivity.class);
-        //        startActivity(intent);
-        //    }
-        //});
+        listConferencesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, ShowMyConferencesActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

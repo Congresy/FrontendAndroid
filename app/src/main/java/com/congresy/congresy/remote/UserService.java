@@ -36,4 +36,7 @@ public interface UserService {
 
     @GET("actors/username/{username}")
     Call<Actor> getActorByUsername(@Path("username") String username);
+
+    @GET("conferences/organizator/{username}")
+    Call<List<Conference>> getMyConferences(@Path("username") String username);
 }

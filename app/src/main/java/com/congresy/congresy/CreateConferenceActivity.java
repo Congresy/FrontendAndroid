@@ -31,6 +31,7 @@ public class CreateConferenceActivity extends AppCompatActivity {
     EditText edtEnd;
     EditText edtSpeakers;
     EditText edtDescription;
+    EditText edtPartic;
 
     Button btnCreateConference;
 
@@ -48,6 +49,7 @@ public class CreateConferenceActivity extends AppCompatActivity {
         edtEnd = findViewById(R.id.edtEnd);
         edtSpeakers = findViewById(R.id.edtSpeakers);
         edtDescription = findViewById(R.id.edtDescription);
+        edtPartic = findViewById(R.id.edtPartic);
 
         userService = ApiUtils.getUserService();
 
@@ -61,6 +63,7 @@ public class CreateConferenceActivity extends AppCompatActivity {
                 String end = edtEnd.getText().toString();
                 String speakers = edtSpeakers.getText().toString();
                 String description = edtDescription.getText().toString();
+                String allowedParticipants = edtPartic.getText().toString();
 
                 // adding properties to json for POST
                 JsonObject json = new JsonObject();
@@ -72,7 +75,7 @@ public class CreateConferenceActivity extends AppCompatActivity {
                 json.addProperty("end", end);
                 json.addProperty("speakersNames", speakers);
                 json.addProperty("description", description);
-
+                json.addProperty("allowedParticipants", Integer.valueOf(allowedParticipants));
 
 
                 //validate form
@@ -123,10 +126,7 @@ public class CreateConferenceActivity extends AppCompatActivity {
             public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {
                 userAccountId = response.body().getId();
 
-                JsonArray organizators = new JsonArray();
-                organizators.add(userAccountId);
-
-                json.add("organizators", organizators);
+                json.addProperty("organizator", userAccountId);
 
                 doConference(json);
             }

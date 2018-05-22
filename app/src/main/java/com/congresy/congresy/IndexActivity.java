@@ -48,7 +48,7 @@ public class IndexActivity extends AppCompatActivity {
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnRegister = (Button) findViewById(R.id.btnRegister);
 
-        userService = ApiUtils.getUserServiceNoSession();
+        userService = ApiUtils.getUserService();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
