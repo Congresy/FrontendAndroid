@@ -3,10 +3,7 @@ package com.congresy.congresy.remote;
 import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.UserAccount;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -36,4 +33,7 @@ public interface UserService {
 
     @GET("actors/role/User")
     Call<List<Actor>> getAllUsers();
+
+    @GET("actors/username/{username}")
+    Call<Actor> getActorByUsername(@Path("username") String username);
 }

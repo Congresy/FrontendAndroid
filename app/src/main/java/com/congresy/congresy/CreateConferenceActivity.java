@@ -1,7 +1,6 @@
 package com.congresy.congresy;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,38 +8,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.UserAccount;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.congresy.congresy.remote.ApiUtils.useSession;
 
 public class CreateConferenceActivity extends AppCompatActivity {
 
     UserService userService;
 
-    public static String userAccount;
     public static String userAccountId;
 
     EditText edtName;
@@ -69,8 +50,6 @@ public class CreateConferenceActivity extends AppCompatActivity {
         edtDescription = findViewById(R.id.edtDescription);
 
         userService = ApiUtils.getUserService();
-
-        // new LoadUserAccount().execute();
 
         btnCreateConference.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -14,7 +14,7 @@ public class HomeActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_home);
 
-        Button profileButton = (Button) findViewById(R.id.profileButton);
+        Button profileButton = findViewById(R.id.profileButton);
         Button createConferencesButton = findViewById(R.id.createConferencesButton);
         Button listConferencesButton = findViewById(R.id.listConferencesButton);
 

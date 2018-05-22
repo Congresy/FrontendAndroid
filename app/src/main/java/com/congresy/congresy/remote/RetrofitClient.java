@@ -13,7 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     private static Retrofit retrofit = null;
-    private static OkHttpClient client;
 
     public static Retrofit getClient(String url){
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -21,7 +20,7 @@ public class RetrofitClient {
 
         CookieHandler cookieHandler = new CookieManager();
 
-        client = new OkHttpClient.Builder().addNetworkInterceptor(interceptor)
+        OkHttpClient client = new OkHttpClient.Builder().addNetworkInterceptor(interceptor)
                 .cookieJar(new JavaNetCookieJar(cookieHandler))
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
@@ -44,7 +43,6 @@ public class RetrofitClient {
             retrofit = new Retrofit.Builder()
                     .baseUrl(url)
                     .addConverterFactory(GsonConverterFactory.create())
-                    .client(client)
                     .build();
         }
         return retrofit;

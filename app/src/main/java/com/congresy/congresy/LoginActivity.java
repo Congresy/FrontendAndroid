@@ -1,10 +1,7 @@
 package com.congresy.congresy;
 
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -14,32 +11,13 @@ import android.widget.Toast;
 
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.congresy.congresy.remote.ApiUtils.useSession;
-
 public class LoginActivity extends AppCompatActivity {
 
-    public static DefaultHttpClient httpClient;
     public static String username;
     public static String password;
 
@@ -58,10 +36,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        edtUsername = (EditText) findViewById(R.id.edtUsername);
-        edtPassword = (EditText) findViewById(R.id.edtPassword);
+        edtUsername = findViewById(R.id.edtUsername);
+        edtPassword = findViewById(R.id.edtPassword);
 
-        btnLogin = (Button) findViewById(R.id.btnLogin);
+        btnLogin = findViewById(R.id.btnLogin);
 
         userService = ApiUtils.getUserService();
 

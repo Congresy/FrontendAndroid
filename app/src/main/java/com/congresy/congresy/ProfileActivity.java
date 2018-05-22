@@ -1,42 +1,24 @@
 package com.congresy.congresy;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.provider.ContactsContract;
-import android.support.v7.app.AppCompatActivity;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.JsonObject;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
+import com.congresy.congresy.domain.Actor;
+import com.congresy.congresy.remote.ApiUtils;
+import com.congresy.congresy.remote.UserService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.congresy.congresy.remote.ApiUtils.getUserService;
-import static com.congresy.congresy.remote.ApiUtils.useSession;
-
 public class ProfileActivity extends AppCompatActivity {
 
-    private ProgressDialog pDialog;
-    public static String aux;
+    UserService userService;
 
     TextView tName;
     TextView tSurname;
@@ -61,125 +43,41 @@ public class ProfileActivity extends AppCompatActivity {
         tPlace = findViewById(R.id.place);
         image = findViewById(R.id.image);
 
-        // Loading Profile in Background Thread
-        new LoadProfile().execute();
+        userService = ApiUtils.getUserService();
+
+        LoadProfile();
     }
 
-    private class LoadProfile extends AsyncTask<Void, Void, String> {
-        protected String getASCIIContentFromEntity(HttpEntity entity) throws IllegalStateException, IOException {
+    private void LoadProfile() {
+        Call<Actor> call = userService.getActorByUsername(LoginActivity.username);
+        call.enqueue(new Callback<Actor>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(Call<Actor> call, Response<Actor> response) {
+                if (response.isSuccessful()) {
 
-            InputStream in = entity.getContent();
+                    Actor body = response.body();
 
-            StringBuffer out = new StringBuffer();
-            int n = 1;
-            while (n>0) {
-                byte[] b = new byte[4096];
+                    tName.setText("Name: "  + body.getName());
+                    tSurname.setText("Surname: " + body.getSurname());
+                    tEmail.setText("Email: " + body.getEmail());
+                    tPhone.setText("Phone: " + body.getPhone());
+                    tNick.setText("Nick: " + body.getNick());
+                    tRole.setText("Role: " + body.getRole());
+                    tPlace.setText("Place: " + body.getPlace());
 
-                n =  in.read(b);
+                    chargeImage(body.getPhoto());
 
-                if (n>0) out.append(new String(b, 0, n));
-
-            }
-
-            return out.toString();
-
-        }
-
- //       @Override
- //       protected void onPreExecute() {
- //           super.onPreExecute();//           pDialog = new ProgressDialog(ProfileActivity.this);
- //            pDialog.setMessage("Loading profile ...");
- //            pDialog.setIndeterminate(false);
- //            pDialog.setCancelable(false);
- //            pDialog.show();
- //        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            HttpContext localContext = new BasicHttpContext();
-            HttpGet httpGet = new HttpGet("https://congresy.herokuapp.com/actors");
-            HttpGet httpGet1 = new HttpGet("https://congresy.herokuapp.com/actors/userAccount/" + LoginActivity.username);
-            String text = null;
-            String text1 = null;
-            try {
-                LoginActivity.httpClient = new DefaultHttpClient();
-
-                useSession();
-
-                HttpResponse response = LoginActivity.httpClient.execute(httpGet, localContext);
-
-                HttpEntity entity = response.getEntity();
-
-                text = getASCIIContentFromEntity(entity);
-
-                HttpResponse response1 = LoginActivity.httpClient.execute(httpGet1, localContext);
-                HttpEntity entity1 = response1.getEntity();
-                text1 = getASCIIContentFromEntity(entity1);
-                aux = text1;
-
-            } catch (Exception e) {
-                return e.getLocalizedMessage();
-
-            }
-
-            return text;
-
-        }
-
-        protected void onPostExecute(String json) {
-            super.onPostExecute(json);
-            // dismiss the dialog after getting all products
-            try
-            {
-                JSONArray array = new JSONArray(json);
-                int pos = getPosition(array, LoginActivity.username);
-
-
-                if (pos == -1){
-                    Toast.makeText(ProfileActivity.this, "Your user is not found, try again", Toast.LENGTH_SHORT).show();
                 } else {
-                    JSONObject res = array.getJSONObject(pos);
-                    String name = res.getString("name");
-                    String surname = res.getString("surname");
-                    String email = res.getString("email");
-                    String phone = res.getString("phone");
-                    String photo = res.getString("photo");
-                    String nick = res.getString("nick");
-                    String role = res.getString("role");
-                    String place = res.getString("place");
-
-
-                    // displaying all data in textview
-
-                    tName.setText("Name: "  + name);
-                    tSurname.setText("Surname: " + surname);
-                    tEmail.setText("Email: " + email);
-                    tPhone.setText("Phone: " + phone);
-                    tNick.setText("Nick: " + nick);
-                    tRole.setText("Role: " + role);
-                    tPlace.setText("Place: " + place);
-
-                    chargeImage(photo);
-
+                    Toast.makeText(ProfileActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
                 }
-
-            } catch (Exception e) {
-                e.printStackTrace();
             }
 
-        }
-
-    }
-
-    private int getPosition (JSONArray jsonArray, String username) throws JSONException {
-        JSONObject jsonObject1 = new JSONObject(aux);
-        for(int index = 0; index < jsonArray.length(); index++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(index);
-            if(jsonObject.getString("userAccount_").equals(jsonObject1.getString("id"))) {
-                return index;
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Toast.makeText(ProfileActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }
-        return -1;
+        });
     }
 
     private void chargeImage(String url){

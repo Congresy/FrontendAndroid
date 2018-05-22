@@ -1,11 +1,11 @@
 package com.congresy.congresy;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,15 +27,9 @@ import retrofit2.Response;
 
 public class IndexActivity extends AppCompatActivity {
 
-    public static String text;
-    public static String text2;
-
     private int conferencesSize;
     private int usersSize;
     private int activeConferences;
-
-    EditText edtUsername;
-    EditText edtPassword;
 
     TextView data;
 
@@ -54,7 +48,7 @@ public class IndexActivity extends AppCompatActivity {
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnRegister = (Button) findViewById(R.id.btnRegister);
 
-        userService = ApiUtils.getUserService();
+        userService = ApiUtils.getUserServiceNoSession();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +73,7 @@ public class IndexActivity extends AppCompatActivity {
     private void getAllUsers(){
         Call<List<Actor>> call = userService.getAllUsers();
         call.enqueue(new Callback<List<Actor>>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(Call<List<Actor>> call, Response<List<Actor>> response) {
                 if(response.isSuccessful()){
