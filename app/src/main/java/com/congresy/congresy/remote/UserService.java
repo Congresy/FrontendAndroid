@@ -1,11 +1,14 @@
 package com.congresy.congresy.remote;
 
+import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.UserAccount;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -29,5 +32,8 @@ public interface UserService {
     Call<UserAccount> getUserAccount(@Path("username") String username);
 
     @GET("conferences/detailed?order=date")
-    Call<Void> getAllConferencesDetailed();
+    Call<List<Conference>> getAllConferencesDetailedOrderByDate();
+
+    @GET("actors/role/User")
+    Call<List<Actor>> getAllUsers();
 }

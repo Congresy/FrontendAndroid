@@ -1,35 +1,24 @@
 package com.congresy.congresy;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.congresy.congresy.domain.Actor;
+import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -65,6 +54,8 @@ public class IndexActivity extends AppCompatActivity {
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnRegister = (Button) findViewById(R.id.btnRegister);
 
+        userService = ApiUtils.getUserService();
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,87 +72,66 @@ public class IndexActivity extends AppCompatActivity {
             }
         });
 
-        new IndexActivity.LoadData().execute();
+        LoadData();
 
     }
 
+    private void getAllUsers(){
+        Call<List<Actor>> call = userService.getAllUsers();
+        call.enqueue(new Callback<List<Actor>>() {
+            @Override
+            public void onResponse(Call<List<Actor>> call, Response<List<Actor>> response) {
+                if(response.isSuccessful()){
 
-    private class LoadData extends AsyncTask<Void, Void, String> {
-        protected String getASCIIContentFromEntity(HttpEntity entity) throws IllegalStateException, IOException {
+                    List<Actor> body = response.body();
+                    usersSize = body.size();
 
-            InputStream in = entity.getContent();
+                    data.setText(conferencesSize + " conferences registed in our database\n" + activeConferences + " active conferences\n" + usersSize + " users using our app");
 
-            StringBuffer out = new StringBuffer();
-            int n = 1;
-            while (n>0) {
-                byte[] b = new byte[4096];
-
-                n =  in.read(b);
-
-                if (n>0) out.append(new String(b, 0, n));
-
+                } else {
+                    Toast.makeText(IndexActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                }
             }
 
-            return out.toString();
-
-        }
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            HttpContext localContext = new BasicHttpContext();
-            HttpGet httpGet = new HttpGet("https://congresy.herokuapp.com/conferences/detailed?order=date");
-            HttpGet httpGet2 = new HttpGet("https://congresy.herokuapp.com/actors/role/User");
-
-            try {
-                DefaultHttpClient def1 = new DefaultHttpClient();
-                DefaultHttpClient def2 = new DefaultHttpClient();
-
-                HttpResponse response = def1.execute(httpGet, localContext);
-                HttpEntity entity = response.getEntity();
-                text = getASCIIContentFromEntity(entity);
-
-                HttpResponse response2 = def2.execute(httpGet2, localContext);
-                HttpEntity entity2 = response2.getEntity();
-                text2 = getASCIIContentFromEntity(entity2);
-
-                JSONArray array1 = new JSONArray(text);
-                JSONArray array2 = new JSONArray(text2);
-
-                setActiveConferences(array1);
-
-                conferencesSize = array1.length();
-                usersSize = array2.length();
-
-            } catch (Exception e) {
-                return e.getLocalizedMessage();
-
+            @Override
+            public void onFailure(Call<List<Actor>> call, Throwable t) {
+                Toast.makeText(IndexActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
-
-            return text;
-        }
-
-        @SuppressLint("SetTextI18n")
-        protected void onPostExecute(String json) {
-            super.onPostExecute(json);
-            // dismiss the dialog after getting all products
-            try
-            {
-                data.setText(conferencesSize + " conferences registed in our database\n" + activeConferences + " active conferences\n" + usersSize + " users using our app");
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
+        });
     }
 
-    private void setActiveConferences (JSONArray jsonArray) throws JSONException, ParseException {
-        for(int index = 0; index < jsonArray.length(); index++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(index);
-            if(checkEndDate(jsonObject.getString("end"))) {
-                activeConferences++;
+    private void LoadData(){
+        Call<List<Conference>> call = userService.getAllConferencesDetailedOrderByDate();
+        call.enqueue(new Callback<List<Conference>>() {
+            @Override
+            public void onResponse(Call<List<Conference>> call, Response<List<Conference>> response) {
+                if(response.isSuccessful()){
+
+                    List<Conference> body = response.body();
+                    conferencesSize = body.size();
+
+                    for (Conference c : body){
+                        try {
+                            if(checkEndDate(c.getEnd())){
+                                activeConferences++;
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    getAllUsers();
+
+                } else {
+                    Toast.makeText(IndexActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                }
             }
-        }
+
+            @Override
+            public void onFailure(Call<List<Conference>> call, Throwable t) {
+                Toast.makeText(IndexActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private boolean checkEndDate(String date) throws ParseException {

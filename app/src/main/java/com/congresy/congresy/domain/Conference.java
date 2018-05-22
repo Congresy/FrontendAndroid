@@ -30,10 +30,10 @@ public class Conference {
     private List<String> organizators = null;
     @SerializedName("popularity")
     @Expose
-    private Integer popularity;
+    private Double popularity;
     @SerializedName("price")
     @Expose
-    private Integer price;
+    private Double price;
     @SerializedName("speakersNames")
     @Expose
     private String speakersNames;
@@ -100,19 +100,19 @@ public class Conference {
         this.organizators = organizators;
     }
 
-    public Integer getPopularity() {
+    public Double getPopularity() {
         return popularity;
     }
 
-    public void setPopularity(Integer popularity) {
+    public void setPopularity(Double popularity) {
         this.popularity = popularity;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
