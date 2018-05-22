@@ -162,4 +162,8 @@ public class Conference {
         this.theme = theme;
     }
 
+    @Override
+    public String toString(){
+        return this.name;
+    }
 }

@@ -30,10 +30,6 @@ public class ShowMyConferencesActivity extends AppCompatActivity {
         userService = ApiUtils.getUserService();
 
         LoadMyConferences();
-
-        ArrayAdapter<Conference> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, conferencesList);
-        ListView lv = findViewById(R.id.listView);
-        lv.setAdapter(adapter);
     }
 
     private void LoadMyConferences(){
@@ -44,6 +40,10 @@ public class ShowMyConferencesActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
 
                     conferencesList = response.body();
+
+                    ArrayAdapter<Conference> adapter = new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1, conferencesList);
+                    ListView lv = findViewById(R.id.listView);
+                    lv.setAdapter(adapter);
 
                 } else {
                     Toast.makeText(ShowMyConferencesActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
