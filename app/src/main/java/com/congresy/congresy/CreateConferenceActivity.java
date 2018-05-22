@@ -89,7 +89,7 @@ public class CreateConferenceActivity extends AppCompatActivity {
 
                     json.put("name", name);
                     json.put("theme", theme);
-                    json.put("price", price);
+                    json.put("price", Double.valueOf(price));
                     json.put("start", start);
                     json.put("end", end);
                     json.put("speakersNames", speakers);
@@ -121,14 +121,31 @@ public class CreateConferenceActivity extends AppCompatActivity {
     }
 
     private void doConference(final JSONObject json){
-        Call call = userService.createConference(json);
-        call.enqueue(new Callback() {
+        Call call1 = userService.login(LoginActivity.username, LoginActivity.password);
+        call1.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()){
 
-                    Intent intent = new Intent(CreateConferenceActivity.this, HomeActivity.class);
-                    startActivity(intent);
+                    call = userService.createConference(json);
+                    call.enqueue(new Callback() {
+                        @Override
+                        public void onResponse(Call call, Response response) {
+                            if(response.isSuccessful()){
+
+                                Intent intent = new Intent(CreateConferenceActivity.this, HomeActivity.class);
+                                startActivity(intent);
+
+                            } else {
+                                Toast.makeText(CreateConferenceActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call call, Throwable t) {
+                            Toast.makeText(CreateConferenceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
                 } else {
                     Toast.makeText(CreateConferenceActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
@@ -140,6 +157,8 @@ public class CreateConferenceActivity extends AppCompatActivity {
                 Toast.makeText(CreateConferenceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
 
     private class LoadUserAccount extends AsyncTask<Void, Void, String> {
@@ -168,8 +187,6 @@ public class CreateConferenceActivity extends AppCompatActivity {
             HttpGet httpGet = new HttpGet("https://congresy.herokuapp.com/actors/userAccount/" + LoginActivity.username);
             String text;
             try {
-
-                LoginActivity.httpClient = new DefaultHttpClient();
 
                 useSession();
 
