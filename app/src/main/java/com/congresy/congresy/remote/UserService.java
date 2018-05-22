@@ -2,6 +2,8 @@ package com.congresy.congresy.remote;
 
 import com.google.gson.JsonObject;
 
+import org.json.JSONObject;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -16,6 +18,9 @@ public interface UserService {
 
     @POST("actors")
     Call<Void> register(@Body JsonObject jsonObject);
+
+    @POST("./")
+    Call<Void> createConference(@Body JSONObject jsonObject);
 
     @GET("userAccount/{username}")
     Call<Void> getUserAccount(@Path("username") String username);

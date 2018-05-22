@@ -1,34 +1,12 @@
 package com.congresy.congresy;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import static com.congresy.congresy.LoginActivity.httpClient;
-import static com.congresy.congresy.remote.ApiUtils.useSession;
-
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,19 +14,35 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         setContentView(R.layout.activity_home);
 
-        findViewById(R.id.profileButton).setOnClickListener(this);
+        Button profileButton = (Button) findViewById(R.id.profileButton);
+        Button createConferencesButton = findViewById(R.id.createConferencesButton);
+        Button listConferencesButton = findViewById(R.id.listConferencesButton);
 
-    }
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
 
-    @Override
-    public void onClick(View arg0) {
+        createConferencesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, CreateConferenceActivity.class);
+                startActivity(intent);
+            }
+        });
 
-        Button b = findViewById(R.id.profileButton);
+        //TODO
+        //listConferencesButton.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View v) {
+        //        Intent intent = new Intent(HomeActivity.this, ListConferenceActivity.class);
+        //        startActivity(intent);
+        //    }
+        //});
 
-        b.setClickable(false);
-
-        Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-        startActivity(intent);
     }
 
 }
