@@ -5,8 +5,25 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.congresy.congresy.domain.Actor;
+import com.congresy.congresy.remote.ApiUtils;
+import com.congresy.congresy.remote.UserService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
+
+    private UserService userService;
+
+    public static String role;
+
+    Button profileButton;
+    Button createConferencesButton;
+    Button listConferencesButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -14,34 +31,75 @@ public class HomeActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_home);
 
-        Button profileButton = findViewById(R.id.profileButton);
-        Button createConferencesButton = findViewById(R.id.createConferencesButton);
-        Button listConferencesButton = findViewById(R.id.listConferencesButton);
+        userService = ApiUtils.getUserService();
 
-        profileButton.setOnClickListener(new View.OnClickListener() {
+
+        profileButton = findViewById(R.id.profileButton);
+        createConferencesButton = findViewById(R.id.createConferencesButton);
+        listConferencesButton = findViewById(R.id.listConferencesButton);
+
+        createConferencesButton.setVisibility(View.GONE);
+        profileButton.setVisibility(View.GONE);
+        listConferencesButton.setVisibility(View.GONE);
+
+        loadActor();
+
+    }
+
+    private void loadActor(){
+        Call<Actor> call = userService.getActorByUsername(LoginActivity.username);
+        call.enqueue(new Callback<Actor>() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-                startActivity(intent);
+            public void onResponse(Call<Actor> call, Response<Actor> response) {
+                if(response.isSuccessful()){
+
+                    final Actor actor = response.body();
+
+                    role = actor.getRole();
+
+                    profileButton.setVisibility(View.VISIBLE);
+
+                    if (actor.getRole().equals("Organizator")) {
+                        createConferencesButton.setVisibility(View.VISIBLE);
+                    }
+
+                    listConferencesButton.setVisibility(View.VISIBLE);
+
+                    profileButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+
+                    createConferencesButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(HomeActivity.this, CreateConferenceActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+
+                    listConferencesButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(HomeActivity.this, ShowConferencesActivity.class);
+                            intent.putExtra("role", actor.getRole());
+                            startActivity(intent);
+                        }
+                    });
+
+                } else {
+                    Toast.makeText(HomeActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Actor> call, Throwable t) {
+                Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
-        createConferencesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, CreateConferenceActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        listConferencesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, ShowMyConferencesActivity.class);
-                startActivity(intent);
-            }
-        });
-
     }
 
 }

@@ -37,18 +37,7 @@ public class ShowEventsOfConferenceActivity extends AppCompatActivity {
         userService = ApiUtils.getUserService();
 
         btnEvents = findViewById(R.id.btnCreateEvent);
-
-        btnEvents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = getIntent();
-                String idConference = myIntent.getExtras().get("idConference").toString();
-
-                Intent intent = new Intent(ShowEventsOfConferenceActivity.this, CreateEventActivity.class);
-                intent.putExtra("idConference", idConference);
-                startActivity(intent);
-            }
-        });
+        btnEvents.setVisibility(View.GONE);
 
         LoadEvents();
     }
@@ -68,6 +57,22 @@ public class ShowEventsOfConferenceActivity extends AppCompatActivity {
                     ArrayAdapter<Event> adapter = new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1, eventsList);
                     ListView lv = findViewById(R.id.listView);
                     lv.setAdapter(adapter);
+
+                    if (HomeActivity.role.equals("Organizator")){
+                        btnEvents.setVisibility(View.VISIBLE);
+                    }
+
+                    btnEvents.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent myIntent = getIntent();
+                            String idConference = myIntent.getExtras().get("idConference").toString();
+
+                            Intent intent = new Intent(ShowEventsOfConferenceActivity.this, CreateEventActivity.class);
+                            intent.putExtra("idConference", idConference);
+                            startActivity(intent);
+                        }
+                    });
 
                 } else {
                     Toast.makeText(ShowEventsOfConferenceActivity.this, "This conference have no events!", Toast.LENGTH_SHORT).show();

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
@@ -13,17 +12,16 @@ import android.widget.TextView;
 
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
-import com.congresy.congresy.ShowMyConferencesActivity;
 import com.congresy.congresy.domain.Conference;
 
 import java.util.List;
 
-public class ConferenceListAdapter extends BaseAdapter implements ListAdapter {
+public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter {
 
     private List<Conference> items;
     private Context context;
 
-    public ConferenceListAdapter(Context context, List<Conference> items) {
+    public ConferenceListAllAdapter(Context context, List<Conference> items) {
         this.context = context;
         this.items = items;
     }
@@ -49,15 +47,25 @@ public class ConferenceListAdapter extends BaseAdapter implements ListAdapter {
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.conference_list, null);
+            view = inflater.inflate(R.layout.conference_list_all, null);
         }
 
         TextView listItemText = view.findViewById(R.id.name);
         listItemText.setText(items.get(position).getName());
 
         Button showEvents = view.findViewById(R.id.btnShowEvents);
+        Button joinEvent = view.findViewById(R.id.btnJoin);
 
         showEvents.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(context.getApplicationContext(), ShowEventsOfConferenceActivity.class);
+                myIntent.putExtra("idConference", items.get(position).getId());
+                context.startActivity(myIntent);
+            }
+        });
+
+        joinEvent.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context.getApplicationContext(), ShowEventsOfConferenceActivity.class);

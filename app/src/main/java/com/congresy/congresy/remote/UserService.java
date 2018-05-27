@@ -41,7 +41,6 @@ public interface UserService {
     @GET("conferences/organizator/{username}")
     Call<List<Conference>> getMyConferences(@Path("username") String username);
 
-
     @GET("/events/talks/all/conferences/{idConference}")
     Call<List<Event>> getConferenceEvents(@Path("idConference") String idConference);
 

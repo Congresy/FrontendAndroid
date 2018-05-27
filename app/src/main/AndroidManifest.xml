@@ -23,7 +23,7 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".CreateConferenceActivity" />
-        <activity android:name=".ShowMyConferencesActivity" />
+        <activity android:name=".ShowConferencesActivity" />
         <activity android:name=".ShowEventsOfConferenceActivity" />
         <activity
             android:name=".CreateEventActivity"
