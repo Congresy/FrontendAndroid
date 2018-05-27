@@ -1,16 +1,19 @@
 package com.congresy.congresy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.congresy.congresy.adapters.ConferenceListAdapter;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
-import java.text.ParseException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -41,9 +44,19 @@ public class ShowMyConferencesActivity extends AppCompatActivity {
 
                     conferencesList = response.body();
 
-                    ArrayAdapter<Conference> adapter = new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1, conferencesList);
-                    ListView lv = findViewById(R.id.listView);
+                    ConferenceListAdapter adapter = new ConferenceListAdapter(getApplicationContext(), conferencesList);
+
+                    final ListView lv = findViewById(R.id.listView);
                     lv.setAdapter(adapter);
+
+                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent myIntent = new Intent(ShowMyConferencesActivity.this, ShowEventsOfConferenceActivity.class);
+                            myIntent.putExtra("idConference", conferencesList.get(position).getId());
+                            startActivity(myIntent);
+                        }
+                    });
 
                 } else {
                     Toast.makeText(ShowMyConferencesActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();

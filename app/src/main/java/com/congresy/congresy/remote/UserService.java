@@ -2,6 +2,7 @@ package com.congresy.congresy.remote;
 
 import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
+import com.congresy.congresy.domain.Event;
 import com.congresy.congresy.domain.UserAccount;
 import com.google.gson.JsonObject;
 
@@ -39,4 +40,11 @@ public interface UserService {
 
     @GET("conferences/organizator/{username}")
     Call<List<Conference>> getMyConferences(@Path("username") String username);
+
+
+    @GET("/events/talks/all/conferences/{idConference}")
+    Call<List<Event>> getConferenceEvents(@Path("idConference") String idConference);
+
+    @POST("events")
+    Call<Event> createEvent(@Body JsonObject jsonObject);
 }

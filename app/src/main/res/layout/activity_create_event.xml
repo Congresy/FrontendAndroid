@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.congresy.congresy.LoginActivity">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        >
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="- Creation of event -"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/creationEvent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name: "
+                android:layout_below = "@+id/creationEvent"
+                android:id="@+id/edtNameT"
+                />
+
+            <EditText
+                android:id="@+id/edtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtNameT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Type: "
+                android:layout_below = "@+id/edtName"
+                android:id="@+id/edtTypeT"
+                />
+
+            <EditText
+                android:id="@+id/edtType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtTypeT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description: "
+                android:layout_below = "@+id/edtType"
+                android:id="@+id/edtRequirementsT"
+                />
+
+            <EditText
+                android:id="@+id/edtRequirements"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtRequirementsT"
+                />
+
+            <TextView
+                android:id="@+id/edtPlaceT"
+                android:layout_below = "@+id/edtRequirements"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Place: "
+                />
+
+            <EditText
+                android:id="@+id/edtPlace"
+                android:layout_below = "@+id/edtPlaceT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start date: "
+                android:layout_below = "@+id/edtPlace"
+                android:id="@+id/edtStartT"
+                />
+
+            <EditText
+                android:id="@+id/edtStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtStartT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="End date: "
+                android:layout_below = "@+id/edtStart"
+                android:id="@+id/edtEndT"
+                />
+
+            <EditText
+                android:id="@+id/edtEnd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtEndT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Role: "
+                android:layout_below = "@+id/edtEnd"
+                android:id="@+id/edtRoleT"
+                />
+
+            <EditText
+                android:id="@+id/edtRole"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtRoleT"
+                />
+
+            <Button
+                android:layout_below = "@+id/edtRole"
+                android:id="@+id/btnCreate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Create"
+                />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

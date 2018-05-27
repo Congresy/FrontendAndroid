@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Congresy</string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_create_event">CreateEventActivity</string>
 </resources>
