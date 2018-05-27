@@ -14,6 +14,7 @@ import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -31,7 +32,7 @@ public class ShowConferencesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Intent myIntent = getIntent();
-        String role = myIntent.getExtras().get("role").toString();
+        String role = HomeActivity.role;
 
         setContentView(R.layout.activity_show_my_conferences);
 
@@ -78,9 +79,20 @@ public class ShowConferencesActivity extends AppCompatActivity {
             public void onResponse(Call<List<Conference>> call, Response<List<Conference>> response) {
                 if(response.isSuccessful()){
 
-                    conferencesListAll = response.body();
+                    List<Conference> conferencesListAll_ = response.body();
+                    List<Conference> aux = new ArrayList<>();
 
-                    ConferenceListAllAdapter adapter = new ConferenceListAllAdapter(getApplicationContext(), conferencesListAll);
+                    for(Conference c : conferencesListAll_){
+                        if(c.getParticipants() == null){
+                            aux.add(c);
+                        } else {
+                            if (!c.getParticipants().contains(HomeActivity.actor_.getId())){
+                                aux.add(c);
+                            }
+                        }
+                    }
+
+                    ConferenceListAllAdapter adapter = new ConferenceListAllAdapter(ShowConferencesActivity.this, aux);
 
                     final ListView lv = findViewById(R.id.listView);
                     lv.setAdapter(adapter);

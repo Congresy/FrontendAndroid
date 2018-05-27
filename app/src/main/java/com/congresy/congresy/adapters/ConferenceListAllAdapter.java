@@ -9,14 +9,28 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.congresy.congresy.HomeActivity;
+import com.congresy.congresy.LoginActivity;
 import com.congresy.congresy.R;
+import com.congresy.congresy.RegisterActivity;
+import com.congresy.congresy.ShowConferencesActivity;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
 import com.congresy.congresy.domain.Conference;
+import com.congresy.congresy.remote.ApiUtils;
+import com.congresy.congresy.remote.UserService;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter {
+
+    private UserService userService;
 
     private List<Conference> items;
     private Context context;
@@ -44,7 +58,10 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+
+        userService = ApiUtils.getUserService();
         View view = convertView;
+
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.conference_list_all, null);
@@ -54,12 +71,12 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
         listItemText.setText(items.get(position).getName());
 
         Button showEvents = view.findViewById(R.id.btnShowEvents);
-        Button joinEvent = view.findViewById(R.id.btnJoin);
+        final Button joinEvent = view.findViewById(R.id.btnJoin);
 
         showEvents.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(context.getApplicationContext(), ShowEventsOfConferenceActivity.class);
+                Intent myIntent = new Intent(context, ShowEventsOfConferenceActivity.class);
                 myIntent.putExtra("idConference", items.get(position).getId());
                 context.startActivity(myIntent);
             }
@@ -68,12 +85,34 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
         joinEvent.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(context.getApplicationContext(), ShowEventsOfConferenceActivity.class);
-                myIntent.putExtra("idConference", items.get(position).getId());
-                context.startActivity(myIntent);
+                join(items.get(position).getId(), HomeActivity.actor_.getId(), position);
             }
         });
 
         return view;
     }
+
+    private void join(String idConference, String idActor, final int position){
+        Call call = userService.addParticipant(idConference, idActor);
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if(response.isSuccessful()){
+
+                    Intent intent = new Intent(context, ShowConferencesActivity.class);
+                    intent.putExtra("idConference", items.get(position).getId());
+                    context.startActivity(intent);
+
+                } else {
+                    Toast.makeText(context.getApplicationContext(), "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }

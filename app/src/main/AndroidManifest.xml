@@ -25,10 +25,6 @@
         <activity android:name=".CreateConferenceActivity" />
         <activity android:name=".ShowConferencesActivity" />
         <activity android:name=".ShowEventsOfConferenceActivity" />
-        <activity
-            android:name=".CreateEventActivity"
-            android:label="@string/title_activity_create_event"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

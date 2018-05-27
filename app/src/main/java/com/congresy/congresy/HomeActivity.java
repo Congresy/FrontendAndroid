@@ -20,6 +20,7 @@ public class HomeActivity extends AppCompatActivity {
     private UserService userService;
 
     public static String role;
+    public static Actor actor_;
 
     Button profileButton;
     Button createConferencesButton;
@@ -55,6 +56,7 @@ public class HomeActivity extends AppCompatActivity {
 
                     final Actor actor = response.body();
 
+                    actor_ = actor;
                     role = actor.getRole();
 
                     profileButton.setVisibility(View.VISIBLE);
