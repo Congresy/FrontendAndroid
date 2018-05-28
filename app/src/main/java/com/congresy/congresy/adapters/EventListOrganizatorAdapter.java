@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.congresy.congresy.EditConferenceActivity;
+import com.congresy.congresy.EditEventActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
 import com.congresy.congresy.ShowMyConferencesActivity;
@@ -82,7 +83,7 @@ public class EventListOrganizatorAdapter extends BaseAdapter implements ListAdap
         editEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(context, EditConferenceActivity.class);
+                Intent myIntent = new Intent(context, EditEventActivity.class);
                 context.startActivity(myIntent);
             }
         });

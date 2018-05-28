@@ -62,6 +62,9 @@ public interface UserService {
     @PUT("conferences/{idConference}")
     Call<Conference> editConference(@Path("idConference") String idConference, @Body JsonObject jsonObject);
 
+    @PUT("events/{idEvent}")
+    Call<Event> editEvent(@Path("idEvent") String idEvent, @Body JsonObject jsonObject);
+
     @GET("conferences/detailed/{idConference}")
     Call<Conference> getConference(@Path("idConference") String idConference);
 }
