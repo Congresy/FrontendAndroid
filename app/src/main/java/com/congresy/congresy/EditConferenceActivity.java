@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.congresy.congresy.adapters.ConferenceListOrganizatorAdapter;
+import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.UserAccount;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
@@ -17,11 +19,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CreateConferenceActivity extends AppCompatActivity {
+public class EditConferenceActivity extends AppCompatActivity {
+
+    private Conference conference = ConferenceListOrganizatorAdapter.conferece_;
 
     UserService userService;
-
-    public static String userAccountId;
 
     EditText edtName;
     EditText edtTheme;
@@ -32,14 +34,12 @@ public class CreateConferenceActivity extends AppCompatActivity {
     EditText edtDescription;
     EditText edtPartic;
 
-    Button btnCreateConference;
+    Button btnEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_conference);
-
-        btnCreateConference = findViewById(R.id.btnCreate);
+        setContentView(R.layout.activity_edit_conference);
 
         edtName = findViewById(R.id.edtName);
         edtTheme = findViewById(R.id.edtTheme);
@@ -52,7 +52,18 @@ public class CreateConferenceActivity extends AppCompatActivity {
 
         userService = ApiUtils.getUserService();
 
-        btnCreateConference.setOnClickListener(new View.OnClickListener() {
+        edtName.setText(conference.getName());
+        edtTheme.setText(conference.getTheme());
+        edtPrice.setText(String.valueOf(conference.getPrice()));
+        edtStart.setText(conference.getStart());
+        edtEnd.setText(conference.getEnd());
+        edtSpeakers.setText(conference.getSpeakersNames());
+        edtDescription.setText(conference.getDescription());
+        edtPartic.setText(String.valueOf(conference.getAllowedParticipants()));
+
+        btnEdit = findViewById(R.id.btnEdit);
+
+        btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = edtName.getText().toString();
@@ -79,7 +90,7 @@ public class CreateConferenceActivity extends AppCompatActivity {
 
                 //validate form
                 if(validateRegister(name, theme, price, start, end, speakers, description)){
-                    createConference(json);
+                    editConference(conference.getId(), json);
                 }
             }
         });
@@ -96,44 +107,46 @@ public class CreateConferenceActivity extends AppCompatActivity {
         return true;
     }
 
-    private void doConference(final JsonObject json){
-        Call call = userService.createConference(json);
+    private void editConferenceAux(String idConference, final JsonObject json){
+        Call call = userService.editConference(idConference, json);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()){
 
-                    Intent intent = new Intent(CreateConferenceActivity.this, ShowMyConferencesActivity.class);
+                    Intent intent = new Intent(EditConferenceActivity.this, ShowMyConferencesActivity.class);
                     startActivity(intent);
 
                 } else {
-                    Toast.makeText(CreateConferenceActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditConferenceActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                Toast.makeText(CreateConferenceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditConferenceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void createConference(final JsonObject json){
+    private void editConference(final String idConference, final JsonObject json){
         Call<UserAccount> call = userService.getUserAccount(LoginActivity.username);
         call.enqueue(new Callback<UserAccount>() {
             @Override
             public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {
-                userAccountId = response.body().getId();
+
+                String userAccountId = response.body().getId();
 
                 json.addProperty("organizator", userAccountId);
 
-                doConference(json);
+                editConferenceAux(idConference, json);
             }
 
             @Override
             public void onFailure(Call<UserAccount> call, Throwable t) {
-                Toast.makeText(CreateConferenceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditConferenceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 }
+

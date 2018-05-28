@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.congresy.congresy.LoginActivity">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        >
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="- Editing conference -"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/creationConference"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name: "
+                android:layout_below = "@+id/creationConference"
+                android:id="@+id/edtNameT"
+                />
+
+            <EditText
+                android:id="@+id/edtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtNameT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Theme: "
+                android:layout_below = "@+id/edtName"
+                android:id="@+id/edtThemeT"
+                />
+
+            <EditText
+                android:id="@+id/edtTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtThemeT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price: "
+                android:layout_below = "@+id/edtTheme"
+                android:id="@+id/edtPriceT"
+                />
+
+            <EditText
+                android:id="@+id/edtPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtPriceT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Allowed participants: "
+                android:layout_below = "@+id/edtPrice"
+                android:id="@+id/edtParticT"
+                />
+
+            <EditText
+                android:id="@+id/edtPartic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtParticT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start date: "
+                android:layout_below = "@+id/edtPartic"
+                android:id="@+id/edtStartT"
+                />
+
+            <EditText
+                android:id="@+id/edtStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtStartT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="End date: "
+                android:layout_below = "@+id/edtStart"
+                android:id="@+id/edtEndT"
+                />
+
+            <EditText
+                android:id="@+id/edtEnd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtEndT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Speakers' names: "
+                android:layout_below = "@+id/edtEnd"
+                android:id="@+id/edtSpeakersT"
+                />
+
+            <EditText
+                android:id="@+id/edtSpeakers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtSpeakersT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description: "
+                android:layout_below = "@+id/edtSpeakers"
+                android:id="@+id/edtDescriptionT"
+                />
+
+            <EditText
+                android:id="@+id/edtDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtDescriptionT"
+                />
+
+            <Button
+                android:layout_below = "@+id/edtDescription"
+                android:id="@+id/btnEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Edit"
+                />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

@@ -9,6 +9,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:text="- Events of conference -"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
 
@@ -19,7 +20,7 @@
         android:layout_gravity="center"
         android:text="Create new event"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+
         android:layout_below="@id/eventsConferenceT"
         android:layout_centerHorizontal="true"
         />

@@ -4,6 +4,7 @@ import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.Event;
 import com.congresy.congresy.domain.UserAccount;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.List;
@@ -54,4 +55,10 @@ public interface UserService {
 
     @DELETE("conferences/{idConference}")
     Call<Void> deleteConference(@Path("idConference") String idConference);
+
+    @PUT("conferences/{idConference}")
+    Call<Conference> editConference(@Path("idConference") String idConference, @Body JsonObject jsonObject);
+
+    @GET("conferences/detailed/{idConference}")
+    Call<Conference> getConference(@Path("idConference") String idConference);
 }

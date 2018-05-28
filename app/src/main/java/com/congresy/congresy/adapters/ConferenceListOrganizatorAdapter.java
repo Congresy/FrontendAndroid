@@ -11,6 +11,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.congresy.congresy.EditConferenceActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
 import com.congresy.congresy.ShowMyConferencesActivity;
@@ -26,6 +27,7 @@ import retrofit2.Response;
 
 public class ConferenceListOrganizatorAdapter extends BaseAdapter implements ListAdapter {
 
+    public static Conference conferece_;
     private UserService userService = ApiUtils.getUserService();
 
     private List<Conference> items;
@@ -65,6 +67,7 @@ public class ConferenceListOrganizatorAdapter extends BaseAdapter implements Lis
         listItemText.setText(items.get(position).getName());
 
         Button showEvents = view.findViewById(R.id.btnShowEvents);
+        Button editConference = view.findViewById(R.id.btnEditConference);
         final Button deleteConference = view.findViewById(R.id.btnDeleteConference);
 
         showEvents.setOnClickListener(new View.OnClickListener(){
@@ -80,6 +83,17 @@ public class ConferenceListOrganizatorAdapter extends BaseAdapter implements Lis
             @Override
             public void onClick(View v) {
                 deleteConference(items.get(position).getId());
+            }
+        });
+
+        editConference.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                conferece_ = items.get(position);
+
+                Intent myIntent = new Intent(context, EditConferenceActivity.class);
+                myIntent.putExtra("idConference", items.get(position).getId());
+                context.startActivity(myIntent);
             }
         });
 
