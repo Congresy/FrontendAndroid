@@ -9,7 +9,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.congresy.congresy.adapters.ConferenceListOrganizatorAdapter;
-import com.congresy.congresy.adapters.ConferenceListAllAdapter;
 import com.congresy.congresy.adapters.ConferenceListUserAdapter;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
@@ -60,7 +59,7 @@ public class ShowMyConferencesActivity extends AppCompatActivity {
                     lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent intent = new Intent(ShowMyConferencesActivity.this, ShowConference.class);
+                            Intent intent = new Intent(ShowMyConferencesActivity.this, ShowConferenceActivity.class);
                             intent.putExtra("idConference", conferencesList.get(position).getId());
                             startActivity(intent);
                         }

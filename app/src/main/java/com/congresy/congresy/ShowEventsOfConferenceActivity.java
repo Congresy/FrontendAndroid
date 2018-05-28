@@ -77,6 +77,15 @@ public class ShowEventsOfConferenceActivity extends AppCompatActivity {
                         lv.setAdapter(adapter1);
                     }
 
+                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(ShowEventsOfConferenceActivity.this, ShowEventActivity.class);
+                            intent.putExtra("idEvent", eventsList.get(position).getId());
+                            startActivity(intent);
+                        }
+                    });
+
                     btnEvents.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

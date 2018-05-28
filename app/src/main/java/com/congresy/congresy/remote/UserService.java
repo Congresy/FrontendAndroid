@@ -67,4 +67,7 @@ public interface UserService {
 
     @GET("conferences/detailed/{idConference}")
     Call<Conference> getConference(@Path("idConference") String idConference);
+
+    @GET("events/{idEvent}")
+    Call<Event> getEvent(@Path("idEvent") String idEvent);
 }

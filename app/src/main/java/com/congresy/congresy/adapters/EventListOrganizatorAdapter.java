@@ -52,8 +52,7 @@ public class EventListOrganizatorAdapter extends BaseAdapter implements ListAdap
 
     @Override
     public long getItemId(int pos) {
-        return Long.valueOf(items.get(pos).getId());
-        //just return 0 if your list items do not have an Id variable.
+        return 0;
     }
 
     @Override

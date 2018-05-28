@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.congresy.congresy.adapters.ConferenceListOrganizatorAdapter;
-import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
@@ -17,7 +15,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShowConference extends AppCompatActivity {
+public class ShowConferenceActivity extends AppCompatActivity {
 
     private Conference conference;
 
@@ -77,7 +75,7 @@ public class ShowConference extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<Conference> call, Throwable t) {
-                    Toast.makeText(ShowConference.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShowConferenceActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
                 }
         });
 
