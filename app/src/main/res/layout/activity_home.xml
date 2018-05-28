@@ -37,6 +37,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:text="All conferences"
+        android:id="@+id/listAllConferencesButton"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="Create conference"
         android:id="@+id/createConferencesButton"/>
 

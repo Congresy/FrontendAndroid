@@ -9,11 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.congresy.congresy.HomeActivity;
 import com.congresy.congresy.R;
-import com.congresy.congresy.ShowMyConferencesActivity;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
@@ -21,18 +18,14 @@ import com.congresy.congresy.remote.UserService;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter {
+public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapter {
 
     private UserService userService;
 
     private List<Conference> items;
     private Context context;
 
-    public ConferenceListAllAdapter(Context context, List<Conference> items) {
+    public ConferenceListUserAdapter(Context context, List<Conference> items) {
         this.context = context;
         this.items = items;
     }
@@ -68,9 +61,11 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
         listItemText.setText(items.get(position).getName());
 
         Button showEvents = view.findViewById(R.id.btnShowEvents);
-        final Button joinEvent = view.findViewById(R.id.btnJoin);
+        Button joinEvent = view.findViewById(R.id.btnJoin);
 
-        showEvents.setOnClickListener(new View.OnClickListener(){
+        joinEvent.setVisibility(View.GONE);
+
+        showEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, ShowEventsOfConferenceActivity.class);
@@ -79,37 +74,7 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
             }
         });
 
-        joinEvent.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                join(items.get(position).getId(), HomeActivity.actor_.getId(), position);
-            }
-        });
+    return view;
 
-        return view;
     }
-
-    private void join(String idConference, String idActor, final int position){
-        Call call = userService.addParticipant(idConference, idActor);
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if(response.isSuccessful()){
-
-                    Intent intent = new Intent(context, ShowMyConferencesActivity.class);
-                    intent.putExtra("idConference", items.get(position).getId());
-                    context.startActivity(intent);
-
-                } else {
-                    Toast.makeText(context.getApplicationContext(), "Error! Please try again!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
 }

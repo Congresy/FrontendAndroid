@@ -25,6 +25,7 @@ public class HomeActivity extends AppCompatActivity {
     Button profileButton;
     Button createConferencesButton;
     Button listConferencesButton;
+    Button listAllConferencesButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,10 +39,12 @@ public class HomeActivity extends AppCompatActivity {
         profileButton = findViewById(R.id.profileButton);
         createConferencesButton = findViewById(R.id.createConferencesButton);
         listConferencesButton = findViewById(R.id.listConferencesButton);
+        listAllConferencesButton = findViewById(R.id.listAllConferencesButton);
 
         createConferencesButton.setVisibility(View.GONE);
         profileButton.setVisibility(View.GONE);
         listConferencesButton.setVisibility(View.GONE);
+        listAllConferencesButton.setVisibility(View.GONE);
 
         loadActor();
 
@@ -63,6 +66,8 @@ public class HomeActivity extends AppCompatActivity {
 
                     if (actor.getRole().equals("Organizator")) {
                         createConferencesButton.setVisibility(View.VISIBLE);
+                    } else {
+                        listAllConferencesButton.setVisibility(View.VISIBLE);
                     }
 
                     listConferencesButton.setVisibility(View.VISIBLE);
@@ -86,8 +91,16 @@ public class HomeActivity extends AppCompatActivity {
                     listConferencesButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(HomeActivity.this, ShowConferencesActivity.class);
+                            Intent intent = new Intent(HomeActivity.this, ShowMyConferencesActivity.class);
                             intent.putExtra("role", actor.getRole());
+                            startActivity(intent);
+                        }
+                    });
+
+                    listAllConferencesButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(HomeActivity.this, ShowAllConferencesActivity.class);
                             startActivity(intent);
                         }
                     });
