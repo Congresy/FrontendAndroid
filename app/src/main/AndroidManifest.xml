@@ -28,7 +28,8 @@
         <activity android:name=".ShowAllConferencesActivity" />
         <activity android:name=".CreateEventActivity" />
         <activity android:name=".EditConferenceActivity" />
-        <activity android:name=".EditEventActivity"></activity>
+        <activity android:name=".EditEventActivity" />
+        <activity android:name=".ShowConference"></activity>
     </application>
 
 </manifest>

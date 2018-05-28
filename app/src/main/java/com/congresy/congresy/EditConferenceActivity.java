@@ -21,7 +21,7 @@ import retrofit2.Response;
 
 public class EditConferenceActivity extends AppCompatActivity {
 
-    private Conference conference = ConferenceListOrganizatorAdapter.conferece_;
+    private Conference conference = ConferenceListOrganizatorAdapter.conference_;
 
     UserService userService;
 

@@ -28,6 +28,7 @@ import retrofit2.Response;
 public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter {
 
     private UserService userService;
+    public static Conference conference_;
 
     private List<Conference> items;
     private Context context;
@@ -63,6 +64,8 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.conference_list_user, null);
         }
+
+        conference_ = items.get(position);
 
         TextView listItemText = view.findViewById(R.id.name);
         listItemText.setText(items.get(position).getName());

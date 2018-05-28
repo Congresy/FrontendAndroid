@@ -9,18 +9,26 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.congresy.congresy.HomeActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
+import com.congresy.congresy.ShowMyConferencesActivity;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapter {
 
     private UserService userService;
+    public static Conference conference_;
 
     private List<Conference> items;
     private Context context;
@@ -56,6 +64,8 @@ public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapte
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.conference_list_user, null);
         }
+
+        conference_ = items.get(position);
 
         TextView listItemText = view.findViewById(R.id.name);
         listItemText.setText(items.get(position).getName());

@@ -27,7 +27,7 @@ import retrofit2.Response;
 
 public class ConferenceListOrganizatorAdapter extends BaseAdapter implements ListAdapter {
 
-    public static Conference conferece_;
+    public static Conference conference_;
     private UserService userService = ApiUtils.getUserService();
 
     private List<Conference> items;
@@ -50,8 +50,7 @@ public class ConferenceListOrganizatorAdapter extends BaseAdapter implements Lis
 
     @Override
     public long getItemId(int pos) {
-        return Long.valueOf(items.get(pos).getId());
-        //just return 0 if your list items do not have an Id variable.
+        return 0;
     }
 
     @Override
@@ -69,6 +68,8 @@ public class ConferenceListOrganizatorAdapter extends BaseAdapter implements Lis
         Button showEvents = view.findViewById(R.id.btnShowEvents);
         Button editConference = view.findViewById(R.id.btnEditConference);
         final Button deleteConference = view.findViewById(R.id.btnDeleteConference);
+
+        conference_ = items.get(position);
 
         showEvents.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -89,8 +90,6 @@ public class ConferenceListOrganizatorAdapter extends BaseAdapter implements Lis
         editConference.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                conferece_ = items.get(position);
-
                 Intent myIntent = new Intent(context, EditConferenceActivity.class);
                 myIntent.putExtra("idConference", items.get(position).getId());
                 context.startActivity(myIntent);

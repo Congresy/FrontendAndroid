@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.congresy.congresy.LoginActivity">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+        android:layout_width="fill_parent"
+
+        android:layout_height="fill_parent"
+
+        android:orientation="vertical" >
+
+    <TextView
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="150dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="- Conference details -"
+                android:layout_gravity="center"
+                android:id="@+id/creationConference"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                />
+
+            <TextView
+                android:id="@+id/edtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 android:gravity="center"
+                />
+
+
+            <TextView
+                android:id="@+id/edtTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 android:gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/edtPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 android:gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/edtPartic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 android:gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/edtStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 android:gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/edtEnd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 android:gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/edtSpeakers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 android:gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/edtDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 android:gravity="center"
+                />
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

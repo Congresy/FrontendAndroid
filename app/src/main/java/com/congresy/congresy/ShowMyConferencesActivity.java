@@ -1,7 +1,10 @@
 package com.congresy.congresy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -53,6 +56,15 @@ public class ShowMyConferencesActivity extends AppCompatActivity {
                     }
 
                     final ListView lv = findViewById(R.id.listView);
+
+                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(ShowMyConferencesActivity.this, ShowConference.class);
+                            intent.putExtra("idConference", conferencesList.get(position).getId());
+                            startActivity(intent);
+                        }
+                    });
 
                     if(role.equals("Organizator")) {
                         lv.setAdapter(adapter);
