@@ -46,7 +46,7 @@ public class ShowMyConferencesActivity extends AppCompatActivity {
                     ConferenceListUserAdapter adapter1 = null;
                     conferencesList = response.body();
 
-                    if(!role.equals("Organizator")) {
+                    if(role.equals("Organizator")) {
                         adapter = new ConferenceListOrganizatorAdapter(getApplicationContext(), conferencesList);
                     } else {
                         adapter1 = new ConferenceListUserAdapter(getApplicationContext(), conferencesList);
@@ -54,7 +54,7 @@ public class ShowMyConferencesActivity extends AppCompatActivity {
 
                     final ListView lv = findViewById(R.id.listView);
 
-                    if(!role.equals("Organizator")) {
+                    if(role.equals("Organizator")) {
                         lv.setAdapter(adapter);
                     } else {
                         lv.setAdapter(adapter1);
