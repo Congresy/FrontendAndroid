@@ -56,6 +56,9 @@ public interface UserService {
     @DELETE("conferences/{idConference}")
     Call<Void> deleteConference(@Path("idConference") String idConference);
 
+    @DELETE("events/{idEvent}")
+    Call<Void> deleteEvent(@Path("idEvent") String idEvent);
+
     @PUT("conferences/{idConference}")
     Call<Conference> editConference(@Path("idConference") String idConference, @Body JsonObject jsonObject);
 

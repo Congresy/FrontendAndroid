@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.congresy.congresy.adapters.ConferenceListOrganizatorAdapter;
+import com.congresy.congresy.adapters.EventListOrganizatorAdapter;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.Event;
 import com.congresy.congresy.remote.ApiUtils;
@@ -52,14 +54,27 @@ public class ShowEventsOfConferenceActivity extends AppCompatActivity {
             public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
                 if(response.isSuccessful()){
 
+                    if(HomeActivity.role.equals("Organizator")){
+                        btnEvents.setVisibility(View.VISIBLE);
+                    }
+
+                    String role = HomeActivity.role;
+                    EventListOrganizatorAdapter adapter = null;
+                    ArrayAdapter<Event> adapter1 = null;
                     eventsList = response.body();
 
-                    ArrayAdapter<Event> adapter = new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1, eventsList);
-                    ListView lv = findViewById(R.id.listView);
-                    lv.setAdapter(adapter);
+                    if(role.equals("Organizator")) {
+                        adapter = new EventListOrganizatorAdapter(getApplicationContext(), eventsList);
+                    } else {
+                        adapter1 = new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1, eventsList);
+                    }
 
-                    if (HomeActivity.role.equals("Organizator")){
-                        btnEvents.setVisibility(View.VISIBLE);
+                    final ListView lv = findViewById(R.id.listView);
+
+                    if(role.equals("Organizator")) {
+                        lv.setAdapter(adapter);
+                    } else {
+                        lv.setAdapter(adapter1);
                     }
 
                     btnEvents.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +91,21 @@ public class ShowEventsOfConferenceActivity extends AppCompatActivity {
 
                 } else {
                     Toast.makeText(ShowEventsOfConferenceActivity.this, "This conference have no events!", Toast.LENGTH_SHORT).show();
+                    if(HomeActivity.role.equals("Organizator")) {
+                        btnEvents.setVisibility(View.VISIBLE);
+
+                        btnEvents.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent myIntent = getIntent();
+                                String idConference = myIntent.getExtras().get("idConference").toString();
+
+                                Intent intent = new Intent(ShowEventsOfConferenceActivity.this, CreateEventActivity.class);
+                                intent.putExtra("idConference", idConference);
+                                startActivity(intent);
+                            }
+                        });
+                    }
                 }
             }
 
