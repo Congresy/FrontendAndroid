@@ -60,26 +60,34 @@ public class EventListOrganizatorAdapter extends BaseAdapter implements ListAdap
 
         event_ = items.get(position);
 
+        final ViewHolder holder;
         View view = convertView;
+
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.event_list_organizator, null);
+
+            holder = new ViewHolder();
+
+            convertView = inflater.inflate(R.layout.event_list_organizator, null);
+            holder.name = convertView.findViewById(R.id.name);
+            holder.edit = convertView.findViewById(R.id.btnEditEvent);
+            holder.delete = convertView.findViewById(R.id.btnDeleteEvent);
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        TextView listItemText = view.findViewById(R.id.name);
-        listItemText.setText(items.get(position).getName());
+        holder.name.setText(items.get(position).getName());
 
-        Button editEvent = view.findViewById(R.id.btnEditEvent);
-        Button deleteEvent = view.findViewById(R.id.btnDeleteEvent);
-
-        deleteEvent.setOnClickListener(new View.OnClickListener(){
+        holder.delete.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 deleteEvent(items.get(position).getId());
             }
         });
 
-        editEvent.setOnClickListener(new View.OnClickListener() {
+        holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, EditEventActivity.class);
@@ -87,7 +95,7 @@ public class EventListOrganizatorAdapter extends BaseAdapter implements ListAdap
             }
         });
 
-        return view;
+        return convertView;
     }
 
     private void deleteEvent(String idEvent){
@@ -112,5 +120,11 @@ public class EventListOrganizatorAdapter extends BaseAdapter implements ListAdap
                 Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    static class ViewHolder {
+        TextView name;
+        Button edit;
+        Button delete;
     }
 }

@@ -50,30 +50,43 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
 
     @Override
     public long getItemId(int pos) {
-        return Long.valueOf(items.get(pos).getId());
-        //just return 0 if your list items do not have an Id variable.
+        return 0;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
         userService = ApiUtils.getUserService();
+        final ViewHolder holder;
         View view = convertView;
 
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.conference_list_user, null);
+
+            holder = new ViewHolder();
+
+            convertView = inflater.inflate(R.layout.conference_list_user, null);
+            holder.name = convertView.findViewById(R.id.name);
+            holder.events = convertView.findViewById(R.id.btnShowEvents);
+            holder.join = convertView.findViewById(R.id.btnJoin);
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
         conference_ = items.get(position);
 
-        TextView listItemText = view.findViewById(R.id.name);
-        listItemText.setText(items.get(position).getName());
+        holder.name.setText(items.get(position).getName());
 
-        Button showEvents = view.findViewById(R.id.btnShowEvents);
-        final Button joinEvent = view.findViewById(R.id.btnJoin);
+        holder.join.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                join(items.get(position).getId(), HomeActivity.actor_.getId(), position);
+            }
+        });
 
-        showEvents.setOnClickListener(new View.OnClickListener(){
+        holder.events.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, ShowEventsOfConferenceActivity.class);
@@ -82,14 +95,7 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
             }
         });
 
-        joinEvent.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                join(items.get(position).getId(), HomeActivity.actor_.getId(), position);
-            }
-        });
-
-        return view;
+        return convertView;
     }
 
     private void join(String idConference, String idActor, final int position){
@@ -113,6 +119,12 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
                 Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    static class ViewHolder {
+        TextView name;
+        Button events;
+        Button join;
     }
 
 }

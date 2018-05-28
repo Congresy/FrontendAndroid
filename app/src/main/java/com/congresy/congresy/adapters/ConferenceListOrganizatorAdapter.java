@@ -56,22 +56,31 @@ public class ConferenceListOrganizatorAdapter extends BaseAdapter implements Lis
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
+        userService = ApiUtils.getUserService();
+        final ViewHolder holder;
         View view = convertView;
+
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.conference_list_organizator, null);
+
+            holder = new ViewHolder();
+
+            convertView = inflater.inflate(R.layout.conference_list_organizator, null);
+            holder.name = convertView.findViewById(R.id.name);
+            holder.events = convertView.findViewById(R.id.btnShowEvents);
+            holder.edit = convertView.findViewById(R.id.btnEditConference);
+            holder.delete = convertView.findViewById(R.id.btnDeleteConference);
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        TextView listItemText = view.findViewById(R.id.name);
-        listItemText.setText(items.get(position).getName());
-
-        Button showEvents = view.findViewById(R.id.btnShowEvents);
-        Button editConference = view.findViewById(R.id.btnEditConference);
-        final Button deleteConference = view.findViewById(R.id.btnDeleteConference);
+        holder.name.setText(items.get(position).getName());
 
         conference_ = items.get(position);
 
-        showEvents.setOnClickListener(new View.OnClickListener(){
+        holder.events.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context.getApplicationContext(), ShowEventsOfConferenceActivity.class);
@@ -80,14 +89,14 @@ public class ConferenceListOrganizatorAdapter extends BaseAdapter implements Lis
             }
         });
 
-        deleteConference.setOnClickListener(new View.OnClickListener(){
+        holder.delete.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 deleteConference(items.get(position).getId());
             }
         });
 
-        editConference.setOnClickListener(new View.OnClickListener() {
+        holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, EditConferenceActivity.class);
@@ -96,7 +105,7 @@ public class ConferenceListOrganizatorAdapter extends BaseAdapter implements Lis
             }
         });
 
-        return view;
+        return convertView;
     }
 
     private void deleteConference(String idConference){
@@ -119,5 +128,12 @@ public class ConferenceListOrganizatorAdapter extends BaseAdapter implements Lis
                 Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    static class ViewHolder {
+        TextView name;
+        Button events;
+        Button edit;
+        Button delete;
     }
 }
