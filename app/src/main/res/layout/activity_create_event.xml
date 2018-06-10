@@ -132,15 +132,16 @@
                 android:id="@+id/edtRoleT"
                 />
 
-            <EditText
-                android:id="@+id/edtRole"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <Spinner xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/spinner"
                 android:layout_below = "@+id/edtRoleT"
-                />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical" />
 
             <Button
-                android:layout_below = "@+id/edtRole"
+                android:layout_below = "@+id/spinner"
                 android:id="@+id/btnCreate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

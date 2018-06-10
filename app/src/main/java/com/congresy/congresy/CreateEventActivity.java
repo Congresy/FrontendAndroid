@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.congresy.congresy.domain.Event;
@@ -27,7 +29,7 @@ public class CreateEventActivity extends AppCompatActivity {
     EditText edtStart;
     EditText edtEnd;
     EditText edtPlace;
-    EditText edtRole;
+    Spinner s;
 
     Button btnCreate;
 
@@ -40,7 +42,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
         edtName = findViewById(R.id.edtName);
         edtType = findViewById(R.id.edtType);
-        edtRole = findViewById(R.id.edtRole);
+        s = findViewById(R.id.spinner);
         edtStart = findViewById(R.id.edtStart);
         edtEnd = findViewById(R.id.edtEnd);
         edtPlace = findViewById(R.id.edtPlace);
@@ -48,12 +50,21 @@ public class CreateEventActivity extends AppCompatActivity {
 
         userService = ApiUtils.getUserService();
 
+        // set spinner values
+        String[] arraySpinner = new String[] {
+                "Social Event", "Workshop", "Ordinary", "Invitation"
+        };
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, arraySpinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        s.setAdapter(adapter);
+
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = edtName.getText().toString();
                 String type = edtType.getText().toString();
-                String role = edtRole.getText().toString();
                 String start = edtStart.getText().toString();
                 String end = edtEnd.getText().toString();
                 String place = edtPlace.getText().toString();
@@ -61,6 +72,8 @@ public class CreateEventActivity extends AppCompatActivity {
 
                 // adding properties to json for POST
                 JsonObject json = new JsonObject();
+
+                String role = s.getSelectedItem().toString();
 
                 json.addProperty("name", name);
                 json.addProperty("type", type);

@@ -4,13 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,7 +35,6 @@ public class RegisterActivity extends AppCompatActivity {
     EditText edtPlace;
     EditText edtPhoto;
     EditText edtNick;
-    EditText edtRole;
 
     Button btnRegister;
 
@@ -37,6 +42,17 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        // set spinner values
+        String[] arraySpinner = new String[] {
+                "Organizator", "User"
+        };
+
+        final Spinner s = findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, arraySpinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        s.setAdapter(adapter);
 
         btnRegister = findViewById(R.id.btnRegister);
         edtUsername = findViewById(R.id.edtUsername);
@@ -48,7 +64,6 @@ public class RegisterActivity extends AppCompatActivity {
         edtPlace = findViewById(R.id.edtPlace);
         edtPhoto = findViewById(R.id.edtPhoto);
         edtNick = findViewById(R.id.edtNick);
-        edtRole = findViewById(R.id.edtRole);
 
         userService = ApiUtils.getUserService();
 
@@ -64,7 +79,6 @@ public class RegisterActivity extends AppCompatActivity {
                 String place = edtPlace.getText().toString();
                 String photo = edtPhoto.getText().toString();
                 String nick = edtNick.getText().toString();
-                String role = edtRole.getText().toString();
 
                 // adding properties to json for POST
                 JsonObject json = new JsonObject();
@@ -81,6 +95,9 @@ public class RegisterActivity extends AppCompatActivity {
                 jsonActor.addProperty("place", place);
                 jsonActor.addProperty("photo", photo);
                 jsonActor.addProperty("nick", nick);
+
+                String role = s.getSelectedItem().toString();
+
                 jsonActor.addProperty("role", role);
 
                 json.add("actor", jsonActor);
