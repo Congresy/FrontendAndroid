@@ -70,9 +70,9 @@ public class HomeActivity extends AppCompatActivity {
 
                     List<String> osArray = new ArrayList<>();
                     osArray.add("Profile");
-                    osArray.add("Create conference");
-                    osArray.add("My conferences");
                     osArray.add("All conferences");
+                    osArray.add("My conferences");
+                    osArray.add("Create conference");
 
                     if (actor.getRole().equals("Organizator")) {
                         osArray.remove("All conferences");
@@ -96,14 +96,14 @@ public class HomeActivity extends AppCompatActivity {
                                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
                                 startActivity(intent);
                             } else if(position == 1){
-                                Intent intent = new Intent(HomeActivity.this, CreateConferenceActivity.class);
+                                Intent intent = new Intent(HomeActivity.this, ShowAllConferencesActivity.class);
                                 startActivity(intent);
                             } else if(position == 2){
                                 Intent intent = new Intent(HomeActivity.this, ShowMyConferencesActivity.class);
                                 intent.putExtra("role", actor.getRole());
                                 startActivity(intent);
                             } else if(position == 3){
-                                Intent intent = new Intent(HomeActivity.this, ShowAllConferencesActivity.class);
+                                Intent intent = new Intent(HomeActivity.this, CreateConferenceActivity.class);
                                 startActivity(intent);
                             }
                         }

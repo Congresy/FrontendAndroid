@@ -29,6 +29,7 @@ public class CreateEventActivity extends AppCompatActivity {
     EditText edtStart;
     EditText edtEnd;
     EditText edtPlace;
+    EditText edtAllw;
     Spinner s;
 
     Button btnCreate;
@@ -47,6 +48,7 @@ public class CreateEventActivity extends AppCompatActivity {
         edtEnd = findViewById(R.id.edtEnd);
         edtPlace = findViewById(R.id.edtPlace);
         edtDescription = findViewById(R.id.edtRequirements);
+        edtAllw = findViewById(R.id.edtAllw);
 
         userService = ApiUtils.getUserService();
 
@@ -69,6 +71,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 String end = edtEnd.getText().toString();
                 String place = edtPlace.getText().toString();
                 String description = edtDescription.getText().toString();
+                String allw = edtAllw.getText().toString();
 
                 // adding properties to json for POST
                 JsonObject json = new JsonObject();
@@ -82,6 +85,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 json.addProperty("role", role);
                 json.addProperty("place", place);
                 json.addProperty("requirements", description);
+                json.addProperty("allowedParticipants", Integer.valueOf(allw));
 
                 Intent myIntent = getIntent();
                 String idConference = myIntent.getExtras().get("idConference").toString();

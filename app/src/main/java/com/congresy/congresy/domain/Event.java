@@ -36,6 +36,17 @@ public class Event {
     @SerializedName("type")
     @Expose
     private String type;
+    @SerializedName("allowedParticipants")
+    @Expose
+    private Integer allowedParticipants;
+
+    public Integer getAllowedParticipants() {
+        return allowedParticipants;
+    }
+
+    public void setAllowedParticipants(Integer allowedParticipants) {
+        this.allowedParticipants = allowedParticipants;
+    }
 
     public String getConference() {
         return conference;

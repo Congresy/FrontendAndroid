@@ -68,6 +68,7 @@ public class ShowEventActivity extends AppCompatActivity {
                 edtEnd.setText("End time: " + event.getEnd());
                 edtPlace.setText("Place: " + event.getPlace());
                 edtDescription.setText("Description: " + event.getRequirements());
+                edtDescription.setText("AllowedParticipants: " + event.getAllowedParticipants());
 
             }
 
