@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,29 +47,32 @@ public class IndexActivity extends AppCompatActivity {
 
         data = findViewById(R.id.data);
 
-        btnLogin = (Button) findViewById(R.id.btnLogin);
-        btnRegister = (Button) findViewById(R.id.btnRegister);
-
         userService = ApiUtils.getUserService();
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(IndexActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(IndexActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
-        });
 
         LoadData();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.index_menu_options, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.login:
+                startActivity(new Intent(this, LoginActivity.class));
+                return true;
+            case R.id.register:
+                startActivity(new Intent(this, RegisterActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void getAllUsers(){
