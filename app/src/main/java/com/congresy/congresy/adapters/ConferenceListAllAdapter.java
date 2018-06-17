@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.congresy.congresy.HomeActivity;
+import com.congresy.congresy.LoginActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowMyConferencesActivity;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
@@ -82,7 +83,7 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
         holder.join.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                join(items.get(position).getId(), HomeActivity.actor_.getId(), position);
+                join(items.get(position).getId(), LoginActivity.actor_.getId(), position);
             }
         });
 

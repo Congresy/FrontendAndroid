@@ -37,7 +37,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".EditSocialNetworkActivity" />
         <activity android:name=".ShowSocialNetworkActivity" />
-        <activity android:name=".CreateSocialNetworkActivity"></activity>
+        <activity android:name=".CreateSocialNetworkActivity" />
     </application>
 
 </manifest>

@@ -43,7 +43,7 @@ public class ShowMyConferencesActivity extends AppCompatActivity {
             public void onResponse(Call<List<Conference>> call, Response<List<Conference>> response) {
                 if(response.isSuccessful()){
 
-                    String role = HomeActivity.role;
+                    String role = LoginActivity.role;
                     ConferenceListOrganizatorAdapter adapter = null;
                     ConferenceListUserAdapter adapter1 = null;
                     conferencesList = response.body();

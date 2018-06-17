@@ -54,11 +54,11 @@ public class ShowEventsOfConferenceActivity extends AppCompatActivity {
             public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
                 if(response.isSuccessful()){
 
-                    if(HomeActivity.role.equals("Organizator")){
+                    if(LoginActivity.role.equals("Organizator")){
                         btnEvents.setVisibility(View.VISIBLE);
                     }
 
-                    String role = HomeActivity.role;
+                    String role = LoginActivity.role;
                     EventListOrganizatorAdapter adapter = null;
                     ArrayAdapter<Event> adapter1 = null;
                     eventsList = response.body();
@@ -100,7 +100,7 @@ public class ShowEventsOfConferenceActivity extends AppCompatActivity {
 
                 } else {
                     Toast.makeText(ShowEventsOfConferenceActivity.this, "This conference have no events!", Toast.LENGTH_SHORT).show();
-                    if(HomeActivity.role.equals("Organizator")) {
+                    if(LoginActivity.role.equals("Organizator")) {
                         btnEvents.setVisibility(View.VISIBLE);
 
                         btnEvents.setOnClickListener(new View.OnClickListener() {

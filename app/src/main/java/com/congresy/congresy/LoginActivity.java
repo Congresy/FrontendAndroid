@@ -7,13 +7,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,6 +27,8 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static Actor actor_;
+    public static String role;
     public static String username;
     public static String password;
 
@@ -94,6 +102,29 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
+    private void loadActor(){
+        Call<Actor> call = userService.getActorByUsername(LoginActivity.username);
+        call.enqueue(new Callback<Actor>() {
+            @Override
+            public void onResponse(Call<Actor> call, Response<Actor> response) {
+                if(response.isSuccessful()){
+
+                    final Actor actor = response.body();
+                    actor_ = actor;
+                    role = actor.getRole();
+
+                } else {
+                    Toast.makeText(LoginActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Actor> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void doLogin(final String username,final String password){
         Call call = userService.login(username,password);
         call.enqueue(new Callback() {
@@ -103,6 +134,8 @@ public class LoginActivity extends AppCompatActivity {
                     if(!response.raw().request().url().toString().contains("error")){
                         LoginActivity.username = username;
                         LoginActivity.password = password;
+
+                        loadActor();
 
                         //login start main activity
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);

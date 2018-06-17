@@ -8,11 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.congresy.congresy.adapters.ConferenceListOrganizatorAdapter;
+import com.congresy.congresy.adapters.ConferenceListUserAdapter;
 import com.congresy.congresy.domain.Actor;
+import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
@@ -27,9 +29,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private UserService userService;
 
-    public static String role;
-    public static Actor actor_;
-
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
@@ -37,12 +36,14 @@ public class HomeActivity extends AppCompatActivity {
     private ListView mDrawerList;
     private ArrayAdapter<String> mAdapter;
 
+    private static List<Conference> conferencesList;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // test drawer icon
-
+        
         //TODO -----------
 
         setContentView(R.layout.activity_home);
@@ -52,7 +53,7 @@ public class HomeActivity extends AppCompatActivity {
         // menu
         mDrawerList = findViewById(R.id.navList);
 
-        loadActor();
+        LoadMyConferences();
 
     }
 
@@ -64,9 +65,6 @@ public class HomeActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
 
                     final Actor actor = response.body();
-
-                    actor_ = actor;
-                    role = actor.getRole();
 
                     List<String> osArray = new ArrayList<>();
                     osArray.add("Profile");
@@ -81,14 +79,7 @@ public class HomeActivity extends AppCompatActivity {
 
                     mAdapter = new ArrayAdapter<>(HomeActivity.this, android.R.layout.simple_list_item_1, osArray);
                     mDrawerList.setAdapter(mAdapter);
-
-                    mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-                            startActivity(intent);
-                        }
-                    });
+                    mDrawerList.bringToFront();
 
                     mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -104,7 +95,7 @@ public class HomeActivity extends AppCompatActivity {
                                 intent.putExtra("role", actor.getRole());
                                 startActivity(intent);
                             } else if(position == 3){
-                                Intent intent = new Intent(HomeActivity.this, ShowMyConferencesActivity.class);
+                                Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
                                 intent.putExtra("role", actor.getRole());
                                 startActivity(intent);
                             } else if(position == 4){
@@ -121,6 +112,55 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Actor> call, Throwable t) {
+                Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    
+    private void LoadMyConferences(){
+        Call<List<Conference>> call = userService.getMyConferences(LoginActivity.username);
+        call.enqueue(new Callback<List<Conference>>() {
+            @Override
+            public void onResponse(Call<List<Conference>> call, Response<List<Conference>> response) {
+                if(response.isSuccessful()){
+
+                    String role = LoginActivity.role;
+                    ConferenceListOrganizatorAdapter adapter = null;
+                    ConferenceListUserAdapter adapter1 = null;
+                    conferencesList = response.body();
+
+                    if(role.equals("Organizator")) {
+                        adapter = new ConferenceListOrganizatorAdapter(getApplicationContext(), conferencesList);
+                    } else {
+                        adapter1 = new ConferenceListUserAdapter(getApplicationContext(), conferencesList);
+                    }
+
+                    final ListView lv = findViewById(R.id.listView);
+
+                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(HomeActivity.this, ShowConferenceActivity.class);
+                            intent.putExtra("idConference", conferencesList.get(position).getId());
+                            startActivity(intent);
+                        }
+                    });
+
+                    if(role.equals("Organizator")) {
+                        lv.setAdapter(adapter);
+                    } else {
+                        lv.setAdapter(adapter1);
+                    }
+                    
+                    loadActor();
+
+                } else {
+                    Toast.makeText(HomeActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Conference>> call, Throwable t) {
                 Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

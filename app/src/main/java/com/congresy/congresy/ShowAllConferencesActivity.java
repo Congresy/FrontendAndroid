@@ -49,7 +49,7 @@ public class ShowAllConferencesActivity extends AppCompatActivity {
                         if(c.getParticipants() == null){
                             aux.add(c);
                         } else {
-                            if (!c.getParticipants().contains(HomeActivity.actor_.getId())){
+                            if (!c.getParticipants().contains(LoginActivity.actor_.getId())){
                                 aux.add(c);
                             }
                         }

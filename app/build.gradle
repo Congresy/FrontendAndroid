@@ -1,6 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
+
+    defaultConfig {
+        vectorDrawables.useSupportLibrary = true
+    }
+
     compileSdkVersion 27
     useLibrary 'org.apache.http.legacy'
     defaultConfig {
@@ -19,10 +24,14 @@ android {
     }
 }
 
+ext {
+    supportLibVersion = '27.1.1'  // variable that can be referenced to keep support libs consistent
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.android.support:design:27.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
@@ -36,4 +45,16 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.6.0'
+    implementation 'com.android.support:design:27.1.1'
+
+    implementation "com.android.support:appcompat-v7:${supportLibVersion}"
+    implementation "com.android.support:design:${supportLibVersion}"
+    implementation "com.android.support:recyclerview-v7:${supportLibVersion}"
+    implementation "com.android.support:percent:${supportLibVersion}"
+    implementation "com.android.support:support-vector-drawable:${supportLibVersion}"
+    // VectorDrawableCompat
+    implementation "com.android.support:animated-vector-drawable:${supportLibVersion}"
+    // AnimatedVectorDrawableCompat
+    implementation "com.android.support:transition:${supportLibVersion}"
+    implementation "com.android.support:support-annotations:${supportLibVersion}"
 }
