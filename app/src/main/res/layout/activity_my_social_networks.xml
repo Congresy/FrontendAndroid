@@ -13,14 +13,25 @@
         android:text="- My Social Networks -"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
 
+    <Button
+        android:id="@+id/btnCreateSN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Create new social network"
+        android:layout_marginTop="10dp"
+
+        android:layout_below="@id/mySocialNetworks"
+        android:layout_centerHorizontal="true"
+        />
+
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/mySocialNetworks"
+        android:layout_below="@id/btnCreateSN"
         android:layout_marginTop="5dp">
     </ListView>
 
 </RelativeLayout>
-

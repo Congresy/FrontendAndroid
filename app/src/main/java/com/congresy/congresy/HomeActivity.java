@@ -70,12 +70,13 @@ public class HomeActivity extends AppCompatActivity {
 
                     List<String> osArray = new ArrayList<>();
                     osArray.add("Profile");
+                    osArray.add("My social networks");
                     osArray.add("All conferences");
                     osArray.add("My conferences");
                     osArray.add("Create conference");
 
-                    if (actor.getRole().equals("Organizator")) {
-                        osArray.remove("All conferences");
+                    if (actor.getRole().equals("User")) {
+                        osArray.remove("Create conference");
                     }
 
                     mAdapter = new ArrayAdapter<>(HomeActivity.this, android.R.layout.simple_list_item_1, osArray);
@@ -96,13 +97,17 @@ public class HomeActivity extends AppCompatActivity {
                                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
                                 startActivity(intent);
                             } else if(position == 1){
-                                Intent intent = new Intent(HomeActivity.this, ShowAllConferencesActivity.class);
+                                Intent intent = new Intent(HomeActivity.this, ShowMySocialNetworksActivity.class);
                                 startActivity(intent);
-                            } else if(position == 2){
-                                Intent intent = new Intent(HomeActivity.this, ShowMyConferencesActivity.class);
+                            } else if(position == 2) {
+                                Intent intent = new Intent(HomeActivity.this, ShowAllConferencesActivity.class);
                                 intent.putExtra("role", actor.getRole());
                                 startActivity(intent);
                             } else if(position == 3){
+                                Intent intent = new Intent(HomeActivity.this, ShowMyConferencesActivity.class);
+                                intent.putExtra("role", actor.getRole());
+                                startActivity(intent);
+                            } else if(position == 4){
                                 Intent intent = new Intent(HomeActivity.this, CreateConferenceActivity.class);
                                 startActivity(intent);
                             }

@@ -31,6 +31,13 @@
         <activity android:name=".EditEventActivity" />
         <activity android:name=".ShowConferenceActivity" />
         <activity android:name=".ShowEventActivity" />
+        <activity
+            android:name=".ShowMySocialNetworksActivity"
+            android:label="@string/title_activity_my_social_networks"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".EditSocialNetworkActivity" />
+        <activity android:name=".ShowSocialNetworkActivity" />
+        <activity android:name=".CreateSocialNetworkActivity"></activity>
     </application>
 
 </manifest>

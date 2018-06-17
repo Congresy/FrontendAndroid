@@ -92,7 +92,9 @@ public class RegisterActivity extends AppCompatActivity {
                 jsonActor.addProperty("email", email);
                 jsonActor.addProperty("phone", phone);
                 jsonActor.addProperty("place", place);
-                jsonActor.addProperty("photo", photo);
+                if(!photo.equals("null")){
+                    jsonActor.addProperty("photo", photo);
+                }
                 jsonActor.addProperty("nick", nick);
 
                 String role = s.getSelectedItem().toString();
@@ -104,9 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                 //validate form
-                if(validateRegister(username, password, name, surname, email, phone, place, photo, nick, role)){
-                    doRegister(json);
-                }
+                doRegister(json);
             }
         });
     }

@@ -18,6 +18,9 @@ public class Actor {
     @SerializedName("email")
     @Expose
     private String email;
+    @SerializedName("events")
+    @Expose
+    private List<String> events = null;
     @SerializedName("folders")
     @Expose
     private List<String> folders = null;
@@ -56,7 +59,7 @@ public class Actor {
     private String role;
     @SerializedName("socialNetworks")
     @Expose
-    private List<SocialNetwork> socialNetworks = null;
+    private List<String> socialNetworks = null;
     @SerializedName("surname")
     @Expose
     private String surname;
@@ -94,6 +97,14 @@ public class Actor {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<String> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<String> events) {
+        this.events = events;
     }
 
     public List<String> getFolders() {
@@ -192,11 +203,11 @@ public class Actor {
         this.role = role;
     }
 
-    public List<SocialNetwork> getSocialNetworks() {
+    public List<String> getSocialNetworks() {
         return socialNetworks;
     }
 
-    public void setSocialNetworks(List<SocialNetwork> socialNetworks) {
+    public void setSocialNetworks(List<String> socialNetworks) {
         this.socialNetworks = socialNetworks;
     }
 

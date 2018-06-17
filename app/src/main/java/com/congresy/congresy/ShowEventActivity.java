@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.Event;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
@@ -17,8 +16,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ShowEventActivity extends AppCompatActivity {
-
-    private Conference conference;
 
     private UserService userService;
 

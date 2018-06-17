@@ -15,9 +15,5 @@ public class ApiUtils extends AsyncTask<Void, Void, String> {
         return RetrofitClient.getClient(BASE_URL).create(UserService.class);
     }
 
-    public static UserService getUserServiceNoSession(){
-        return RetrofitClient.getClientNoSession(BASE_URL).create(UserService.class);
-    }
-
 
 }

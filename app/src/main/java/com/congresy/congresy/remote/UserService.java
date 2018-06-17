@@ -3,6 +3,7 @@ package com.congresy.congresy.remote;
 import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.Event;
+import com.congresy.congresy.domain.SocialNetwork;
 import com.congresy.congresy.domain.UserAccount;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -70,4 +71,20 @@ public interface UserService {
 
     @GET("events/{idEvent}")
     Call<Event> getEvent(@Path("idEvent") String idEvent);
+
+    @GET("socialNetworks/actor/{idActor}")
+    Call<List<SocialNetwork>> getSocialNetworksByActor(@Path("idActor") String idActor);
+
+    @GET("socialNetworks/{idSocialNetwork}")
+    Call<SocialNetwork> getSocialNetwork(@Path("idSocialNetwork") String idSocialNetwork);
+
+    @POST("socialNetworks/{idActor}")
+    Call<SocialNetwork> createSocialNetwork(@Path("idActor") String idActor, @Body JsonObject jsonObject);
+
+    @PUT("socialNetworks/{idSocialNetwork}")
+    Call<SocialNetwork> editSocialNetwork(@Path("idSocialNetwork") String idSocialNetwork, @Body JsonObject jsonObject);
+
+    @DELETE("socialNetworks/{idSocialNetwork}")
+    Call<Void> deleteSocialNetwork(@Path("idSocialNetwork") String idSocialNetwork);
+
 }
