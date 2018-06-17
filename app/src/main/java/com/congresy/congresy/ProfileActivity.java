@@ -95,9 +95,9 @@ public class ProfileActivity extends AppCompatActivity {
                         socialNetworks.setText("");
                     }
 
-
-
-                    chargeImage(body.getPhoto());
+                    if(body.getPhoto() != null){
+                        chargeImage(body.getPhoto());
+                    }
 
                 } else {
                     Toast.makeText(ProfileActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
