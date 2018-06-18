@@ -14,13 +14,14 @@ import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
+import java.security.BasicPermission;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShowMyConferencesActivity extends AppCompatActivity {
+public class ShowMyConferencesActivity extends BaseActivity {
 
     UserService userService;
     private static List<Conference> conferencesList;
@@ -29,7 +30,7 @@ public class ShowMyConferencesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_show_my_conferences);
+        loadDrawer(R.layout.activity_show_my_conferences);
 
         userService = ApiUtils.getUserService();
 
@@ -70,6 +71,7 @@ public class ShowMyConferencesActivity extends AppCompatActivity {
                     } else {
                         lv.setAdapter(adapter1);
                     }
+
 
                 } else {
                     Toast.makeText(ShowMyConferencesActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();

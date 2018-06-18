@@ -24,6 +24,9 @@ public interface UserService {
     @POST("login")
     Call<Void> login(@Query("username") String username, @Query("password") String password);
 
+    @POST("logout")
+    Call<Void> logout();
+
     @POST("actors")
     Call<Void> register(@Body JsonObject jsonObject);
 

@@ -19,7 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CreateSocialNetworkActivity extends AppCompatActivity {
+public class CreateSocialNetworkActivity extends BaseActivity {
 
     UserService userService;
 
@@ -32,7 +32,7 @@ public class CreateSocialNetworkActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_social_network);
+        loadDrawer(R.layout.activity_create_social_network);
 
         btnCreate = findViewById(R.id.btnCreate);
 

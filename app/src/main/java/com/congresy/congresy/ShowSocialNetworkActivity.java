@@ -15,7 +15,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShowSocialNetworkActivity extends AppCompatActivity {
+public class ShowSocialNetworkActivity extends BaseActivity {
 
     private UserService userService;
 
@@ -25,7 +25,7 @@ public class ShowSocialNetworkActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_social_network);
+        loadDrawer(R.layout.activity_show_social_network);
 
         Intent myIntent = getIntent();
         String idSocialNetwork = myIntent.getExtras().get("idSocialNetwork").toString();

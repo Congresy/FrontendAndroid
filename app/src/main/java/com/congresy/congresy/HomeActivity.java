@@ -2,39 +2,26 @@ package com.congresy.congresy;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.congresy.congresy.adapters.ConferenceListOrganizatorAdapter;
 import com.congresy.congresy.adapters.ConferenceListUserAdapter;
-import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity {
 
     private UserService userService;
-
-    private ActionBarDrawerToggle mDrawerToggle;
-    private DrawerLayout mDrawerLayout;
-    private String mActivityTitle;
-
-    private ListView mDrawerList;
-    private ArrayAdapter<String> mAdapter;
 
     private static List<Conference> conferencesList;
 
@@ -42,79 +29,11 @@ public class HomeActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // test drawer icon
-        
-        //TODO -----------
-
-        setContentView(R.layout.activity_home);
+        loadDrawer(R.layout.activity_home);
 
         userService = ApiUtils.getUserService();
 
-        // menu
-        mDrawerList = findViewById(R.id.navList);
-
         LoadMyConferences();
-
-    }
-
-    private void loadActor(){
-        Call<Actor> call = userService.getActorByUsername(LoginActivity.username);
-        call.enqueue(new Callback<Actor>() {
-            @Override
-            public void onResponse(Call<Actor> call, Response<Actor> response) {
-                if(response.isSuccessful()){
-
-                    final Actor actor = response.body();
-
-                    List<String> osArray = new ArrayList<>();
-                    osArray.add("Profile");
-                    osArray.add("My social networks");
-                    osArray.add("All conferences");
-                    osArray.add("My conferences");
-                    osArray.add("Create conference");
-
-                    if (actor.getRole().equals("User")) {
-                        osArray.remove("Create conference");
-                    }
-
-                    mAdapter = new ArrayAdapter<>(HomeActivity.this, android.R.layout.simple_list_item_1, osArray);
-                    mDrawerList.setAdapter(mAdapter);
-                    mDrawerList.bringToFront();
-
-                    mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            if(position == 0){
-                                Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-                                startActivity(intent);
-                            } else if(position == 1){
-                                Intent intent = new Intent(HomeActivity.this, ShowMySocialNetworksActivity.class);
-                                startActivity(intent);
-                            } else if(position == 2) {
-                                Intent intent = new Intent(HomeActivity.this, ShowAllConferencesActivity.class);
-                                intent.putExtra("role", actor.getRole());
-                                startActivity(intent);
-                            } else if(position == 3){
-                                Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
-                                intent.putExtra("role", actor.getRole());
-                                startActivity(intent);
-                            } else if(position == 4){
-                                Intent intent = new Intent(HomeActivity.this, CreateConferenceActivity.class);
-                                startActivity(intent);
-                            }
-                        }
-                    });
-
-                } else {
-                    Toast.makeText(HomeActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Actor> call, Throwable t) {
-                Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
     
     private void LoadMyConferences(){
@@ -151,8 +70,6 @@ public class HomeActivity extends AppCompatActivity {
                     } else {
                         lv.setAdapter(adapter1);
                     }
-                    
-                    loadActor();
 
                 } else {
                     Toast.makeText(HomeActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();

@@ -15,7 +15,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShowEventActivity extends AppCompatActivity {
+public class ShowEventActivity extends BaseActivity {
 
     private UserService userService;
 
@@ -30,7 +30,7 @@ public class ShowEventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_event);
+        loadDrawer(R.layout.activity_show_event);
 
         Intent myIntent = getIntent();
         String idEvent = myIntent.getExtras().get("idEvent").toString();

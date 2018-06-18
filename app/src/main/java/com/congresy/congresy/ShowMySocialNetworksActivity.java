@@ -21,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShowMySocialNetworksActivity extends AppCompatActivity {
+public class ShowMySocialNetworksActivity extends BaseActivity {
 
     UserService userService;
     private static List<SocialNetwork> socialNetworkList;
@@ -32,7 +32,7 @@ public class ShowMySocialNetworksActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_my_social_networks);
+        loadDrawer(R.layout.activity_my_social_networks);
 
         userService = ApiUtils.getUserService();
 

@@ -19,7 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EditConferenceActivity extends AppCompatActivity {
+public class EditConferenceActivity extends BaseActivity {
 
     private Conference conference = ConferenceListOrganizatorAdapter.conference_;
 
@@ -39,7 +39,7 @@ public class EditConferenceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_conference);
+        loadDrawer(R.layout.activity_edit_conference);
 
         edtName = findViewById(R.id.edtName);
         edtTheme = findViewById(R.id.edtTheme);

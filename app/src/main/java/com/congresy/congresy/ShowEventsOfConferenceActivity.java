@@ -23,7 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShowEventsOfConferenceActivity extends AppCompatActivity {
+public class ShowEventsOfConferenceActivity extends BaseActivity {
 
 
     UserService userService;
@@ -34,7 +34,7 @@ public class ShowEventsOfConferenceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_events_of_conference);
+        loadDrawer(R.layout.activity_show_events_of_conference);
 
         userService = ApiUtils.getUserService();
 

@@ -38,6 +38,10 @@
         <activity android:name=".EditSocialNetworkActivity" />
         <activity android:name=".ShowSocialNetworkActivity" />
         <activity android:name=".CreateSocialNetworkActivity" />
+        <activity
+            android:name=".BaseActivity"
+            android:label="@string/title_activity_basic"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

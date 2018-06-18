@@ -15,7 +15,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShowConferenceActivity extends AppCompatActivity {
+public class ShowConferenceActivity extends BaseActivity {
 
     private Conference conference;
 
@@ -33,7 +33,7 @@ public class ShowConferenceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_conference);
+        loadDrawer(R.layout.activity_show_conference);
 
         Intent myIntent = getIntent();
         String idConference = myIntent.getExtras().get("idConference").toString();

@@ -17,7 +17,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CreateConferenceActivity extends AppCompatActivity {
+public class CreateConferenceActivity extends BaseActivity {
 
     UserService userService;
 
@@ -37,7 +37,7 @@ public class CreateConferenceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_conference);
+        loadDrawer(R.layout.activity_create_conference);
 
         btnCreateConference = findViewById(R.id.btnCreate);
 

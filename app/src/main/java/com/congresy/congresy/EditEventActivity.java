@@ -18,7 +18,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EditEventActivity extends AppCompatActivity {
+public class EditEventActivity extends BaseActivity {
 
     private Event event = EventListOrganizatorAdapter.event_;
 
@@ -37,7 +37,7 @@ public class EditEventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_event);
+        loadDrawer(R.layout.activity_edit_event);
 
         btnEdit = findViewById(R.id.btnEdit);
 

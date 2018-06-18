@@ -19,7 +19,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CreateEventActivity extends AppCompatActivity {
+public class CreateEventActivity extends BaseActivity {
 
     UserService userService;
 
@@ -37,7 +37,7 @@ public class CreateEventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_event);
+        loadDrawer(R.layout.activity_create_event);
 
         btnCreate = findViewById(R.id.btnCreate);
 
