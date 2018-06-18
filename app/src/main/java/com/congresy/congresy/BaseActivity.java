@@ -27,34 +27,37 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void loadDrawer(int layout) {
 
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        String role = sp.getString("Role", "Not found");
+
         setContentView(layout);
 
         ListView mDrawerList = findViewById(R.id.navList);
 
         List<String> osArray = new ArrayList<>();
 
-        //if(HomeActivity.actor_.getRole().equals("User")){
+        if(role.equals("User")){
             osArray.add("Profile");
             osArray.add("My social networks");
             osArray.add("All conferences");
             osArray.add("My conferences");
             osArray.add("My events");
-        //}
+        }
 
-        /*if(HomeActivity.actor_.getRole().equals("Organizator")){
+        if(role.equals("Organizator")){
             osArray.add("Profile");
             osArray.add("My social networks");
             osArray.add("My conferences");
             osArray.add("My events");
             osArray.add("Create conference");
 
-        }*/
+        }
 
         ArrayAdapter<String> mAdapter = new ArrayAdapter<>(BaseActivity.this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
         mDrawerList.bringToFront();
 
-        //if(HomeActivity.actor_.getRole().equals("User")) {
+        if(role.equals("User")) {
             mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -76,9 +79,9 @@ public class BaseActivity extends AppCompatActivity {
                     }
                 }
             });
-        //}
+        }
 
-        /*if(HomeActivity.actor_.getRole().equals("Organizator")) {
+        if(role.equals("Organizator")) {
             mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -100,7 +103,7 @@ public class BaseActivity extends AppCompatActivity {
                     }
                 }
             });
-        }*/
+        }
     }
 
 
@@ -133,6 +136,7 @@ public class BaseActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sp.edit();
                 editor.remove("Username");
                 editor.remove("Password");
+                editor.remove("Role");
                 editor.putInt("logged", 0);
                 editor.apply();
 

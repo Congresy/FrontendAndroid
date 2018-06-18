@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.congresy.congresy.adapters.EventListOrganizatorAdapter;
@@ -30,7 +32,7 @@ public class EditEventActivity extends BaseActivity {
     EditText edtStart;
     EditText edtEnd;
     EditText edtPlace;
-    EditText edtRole;
+    Spinner edtRole;
 
     Button btnEdit;
 
@@ -43,7 +45,7 @@ public class EditEventActivity extends BaseActivity {
 
         edtName = findViewById(R.id.edtName);
         edtType = findViewById(R.id.edtType);
-        edtRole = findViewById(R.id.edtRole);
+        edtRole = findViewById(R.id.spinner);
         edtStart = findViewById(R.id.edtStart);
         edtEnd = findViewById(R.id.edtEnd);
         edtPlace = findViewById(R.id.edtPlace);
@@ -51,9 +53,30 @@ public class EditEventActivity extends BaseActivity {
 
         userService = ApiUtils.getUserService();
 
+        // set spinner values
+        String[] arraySpinner = new String[] {
+                "Social Event", "Workshop", "Ordinary", "Invitation"
+        };
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, arraySpinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        edtRole.setAdapter(adapter);
+
+        Intent myIntent = getIntent();
+        String nameAux = myIntent.getExtras().get("role").toString();
+
+        int index = 0;
+        for (String s : arraySpinner){
+            if(s.equals(nameAux)){
+                edtRole.setSelection(index);
+                break;
+            }
+            index++;
+        }
+
         edtName.setText(event.getName());
         edtType.setText(event.getType());
-        edtRole.setText(event.getRole());
         edtStart.setText(event.getStart());
         edtEnd.setText(event.getEnd());
         edtPlace.setText(event.getPlace());
@@ -64,7 +87,7 @@ public class EditEventActivity extends BaseActivity {
             public void onClick(View v) {
                 String name = edtName.getText().toString();
                 String type = edtType.getText().toString();
-                String role = edtRole.getText().toString();
+                String role = edtRole.getSelectedItem().toString();
                 String start = edtStart.getText().toString();
                 String end = edtEnd.getText().toString();
                 String place = edtPlace.getText().toString();

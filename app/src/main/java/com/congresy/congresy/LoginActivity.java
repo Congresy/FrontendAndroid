@@ -113,7 +113,12 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     intent.putExtra("username", username);
                     intent.putExtra("password", password);
-                    intent.putExtra("role", role);
+
+                    SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("Role", actor.getRole());
+                    editor.apply();
+
                     startActivity(intent);
 
                 } else {

@@ -91,6 +91,7 @@ public class EventListOrganizatorAdapter extends BaseAdapter implements ListAdap
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, EditEventActivity.class);
+                myIntent.putExtra("role", items.get(position).getRole());
                 context.startActivity(myIntent);
             }
         });
