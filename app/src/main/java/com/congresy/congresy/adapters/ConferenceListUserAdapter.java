@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.congresy.congresy.HomeActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
+import com.congresy.congresy.ShowEventsOfConferenceAuxActivity;
 import com.congresy.congresy.ShowMyConferencesActivity;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
@@ -84,7 +85,7 @@ public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapte
         holder.events.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(context, ShowEventsOfConferenceActivity.class);
+                Intent myIntent = new Intent(context, ShowEventsOfConferenceAuxActivity.class);
                 myIntent.putExtra("idConference", items.get(position).getId());
                 context.startActivity(myIntent);
             }

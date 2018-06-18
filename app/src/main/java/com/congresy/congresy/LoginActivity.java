@@ -7,8 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,9 +15,6 @@ import android.widget.Toast;
 import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -110,8 +105,14 @@ public class LoginActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
 
                     final Actor actor = response.body();
-                    actor_ = actor;
-                    role = actor.getRole();
+                    LoginActivity.actor_ = actor;
+                    LoginActivity.role = actor.getRole();
+
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    intent.putExtra("username", username);
+                    intent.putExtra("password", password);
+                    intent.putExtra("role", role);
+                    startActivity(intent);
 
                 } else {
                     Toast.makeText(LoginActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
@@ -136,12 +137,6 @@ public class LoginActivity extends AppCompatActivity {
                         LoginActivity.password = password;
 
                         loadActor();
-
-                        //login start main activity
-                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                        intent.putExtra("username", username);
-                        intent.putExtra("password", password);
-                        startActivity(intent);
 
                     } else {
                         Toast.makeText(LoginActivity.this, "The username or password is incorrect", Toast.LENGTH_SHORT).show();

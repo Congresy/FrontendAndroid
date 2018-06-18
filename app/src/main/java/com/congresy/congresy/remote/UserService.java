@@ -48,8 +48,14 @@ public interface UserService {
     @GET("conferences/organizator/{username}")
     Call<List<Conference>> getMyConferences(@Path("username") String username);
 
-    @GET("/events/talks/all/conferences/{idConference}")
-    Call<List<Event>> getConferenceEvents(@Path("idConference") String idConference);
+    @GET("events/all/conferences/{idConference}")
+    Call<List<Event>> getConferenceEventsAllAndOrganizator(@Path("idConference") String idConference);
+
+    @GET("events/all/conferences/{idConference}/actor/{idActor}")
+    Call<List<Event>> getConferenceEventsUser(@Path("idConference") String idConference, @Path("idActor") String idActor);
+
+    @GET("events/own/{idActor}")
+    Call<List<Event>> getOwnEvents(@Path("idActor") String idActor);
 
     @POST("events")
     Call<Event> createEvent(@Body JsonObject jsonObject);

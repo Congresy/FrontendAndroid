@@ -23,13 +23,14 @@ public class BaseActivity extends AppCompatActivity {
         osArray.add("My social networks");
         osArray.add("All conferences");
         osArray.add("My conferences");
+        osArray.add("My events");
         osArray.add("Create conference");
 
         ArrayAdapter<String> mAdapter = new ArrayAdapter<>(BaseActivity.this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
         mDrawerList.bringToFront();
 
-        if(LoginActivity.role.equals("User")){
+        if(LoginActivity.actor_.getRole().equals("User")){
             osArray.remove("Create conference");
         }
 
@@ -49,6 +50,9 @@ public class BaseActivity extends AppCompatActivity {
                     Intent intent = new Intent(BaseActivity.this, ShowMyConferencesActivity.class);
                     startActivity(intent);
                 } else if(position == 4){
+                    Intent intent = new Intent(BaseActivity.this, ShowMyEventsActivity.class);
+                    startActivity(intent);
+                } else if(position == 5){
                     Intent intent = new Intent(BaseActivity.this, CreateConferenceActivity.class);
                     startActivity(intent);
                 }

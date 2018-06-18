@@ -24,7 +24,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:text="- Events of conference -"
+        android:text="- Events -"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     <Button
