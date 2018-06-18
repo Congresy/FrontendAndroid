@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.congresy.congresy.HomeActivity;
+import com.congresy.congresy.JoiningConferenceActivity;
 import com.congresy.congresy.LoginActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowMyConferencesActivity;
@@ -83,7 +84,9 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
         holder.join.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                join(items.get(position).getId(), LoginActivity.actor_.getId(), position);
+                Intent intent = new Intent(context, JoiningConferenceActivity.class);
+                intent.putExtra("idConference", items.get(position).getId());
+                context.startActivity(intent);
             }
         });
 
@@ -97,29 +100,6 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
         });
 
         return convertView;
-    }
-
-    private void join(String idConference, String idActor, final int position){
-        Call call = userService.addParticipant(idConference, idActor);
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if(response.isSuccessful()){
-
-                    Intent intent = new Intent(context, ShowMyConferencesActivity.class);
-                    intent.putExtra("idConference", items.get(position).getId());
-                    context.startActivity(intent);
-
-                } else {
-                    Toast.makeText(context.getApplicationContext(), "Error! Please try again!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     static class ViewHolder {

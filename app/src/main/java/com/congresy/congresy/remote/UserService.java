@@ -51,6 +51,9 @@ public interface UserService {
     @GET("events/all/conferences/{idConference}")
     Call<List<Event>> getConferenceEventsAllAndOrganizator(@Path("idConference") String idConference);
 
+    @PUT("events/add/{idEvent}/participants/{idActor}")
+    Call<Event> addParticipantToEvent(@Path("idEvent") String idEvent, @Path("idActor") String idActor);
+
     @GET("events/all/conferences/{idConference}/actor/{idActor}")
     Call<List<Event>> getConferenceEventsUser(@Path("idConference") String idConference, @Path("idActor") String idActor);
 
@@ -95,5 +98,8 @@ public interface UserService {
 
     @DELETE("socialNetworks/{idSocialNetwork}")
     Call<Void> deleteSocialNetwork(@Path("idSocialNetwork") String idSocialNetwork);
+
+    @PUT("events/delete/{idEvent}/participants/{idActor}")
+    Call<Event> deleteParticipant(@Path("idEvent") String idEvent, @Path("idActor") String idActor);
 
 }

@@ -43,7 +43,8 @@
             android:label="@string/title_activity_basic"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ShowMyEventsActivity" />
-        <activity android:name=".ShowEventsOfConferenceAuxActivity"></activity>
+        <activity android:name=".ShowEventsOfConferenceAuxActivity" />
+        <activity android:name=".JoiningConferenceActivity"></activity>
     </application>
 
 </manifest>
