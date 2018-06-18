@@ -110,7 +110,7 @@ public class JoiningConferenceActivity extends BaseActivity {
     }
 
     private void loadEvents(){
-        Call<Actor> call = userService.getActorByUsername(LoginActivity.username);
+        Call<Actor> call = userService.getActorByUsername(HomeActivity.username);
         call.enqueue(new Callback<Actor>() {
             @Override
             public void onResponse(Call<Actor> call, Response<Actor> response) {
@@ -202,7 +202,7 @@ public class JoiningConferenceActivity extends BaseActivity {
     }
 
     private void join(){
-        Call<Actor> call = userService.getActorByUsername(LoginActivity.username);
+        Call<Actor> call = userService.getActorByUsername(HomeActivity.username);
         call.enqueue(new Callback<Actor>() {
             @Override
             public void onResponse(Call<Actor> call, Response<Actor> response) {

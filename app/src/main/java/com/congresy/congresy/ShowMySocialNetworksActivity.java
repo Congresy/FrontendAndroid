@@ -42,7 +42,7 @@ public class ShowMySocialNetworksActivity extends BaseActivity {
     }
 
     private void LoadMySocialNetworks(){
-        Call<Actor> call = userService.getActorByUsername(LoginActivity.username);
+        Call<Actor> call = userService.getActorByUsername(HomeActivity.username);
         call.enqueue(new Callback<Actor>() {
             @Override
             public void onResponse(Call<Actor> call, Response<Actor> response) {

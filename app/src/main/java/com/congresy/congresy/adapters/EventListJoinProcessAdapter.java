@@ -11,7 +11,8 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.congresy.congresy.LoginActivity;
+import com.congresy.congresy.HomeActivity;
+import com.congresy.congresy.HomeActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Event;
@@ -103,7 +104,7 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
     }
 
     private void join(final String idEvent, final ViewHolder holder){
-        Call<Actor> call = userService.getActorByUsername(LoginActivity.username);
+        Call<Actor> call = userService.getActorByUsername(HomeActivity.username);
         call.enqueue(new Callback<Actor>() {
             @Override
             public void onResponse(Call<Actor> call, Response<Actor> response) {
@@ -146,7 +147,7 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
     }
 
     private void delete(final String idEvent, final ViewHolder holder){
-        Call<Actor> call = userService.getActorByUsername(LoginActivity.username);
+        Call<Actor> call = userService.getActorByUsername(HomeActivity.username);
         call.enqueue(new Callback<Actor>() {
             @Override
             public void onResponse(Call<Actor> call, Response<Actor> response) {
@@ -186,6 +187,32 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
                 Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+
+    private boolean checkDates(List<Event> eventsList){
+        boolean res = false;
+
+        List<Event> eventsJoin = new ArrayList<>();
+
+        DateTimeFormatter f = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm");
+
+        for (int i=0; i<eventsList.size(); i++) {
+
+            LocalDateTime startTime1 = f.parseLocalDateTime(eventsList.get(i).getStart());
+            LocalDateTime endTime1 = f.parseLocalDateTime(eventsList.get(i).getEnd());
+            LocalDateTime startTime2 = f.parseLocalDateTime(eventsList.get(i+1).getStart());
+            LocalDateTime endTime2 = f.parseLocalDateTime(eventsList.get(i+1).getEnd());
+
+            Interval interval1 = new Interval(startTime1.toDateTime(), endTime1.toDateTime());
+            Interval interval2 = new Interval(startTime2.toDateTime(), endTime2.toDateTime());
+
+            if(interval1.overlaps(interval2)){
+                res = true;
+            }
+        }
+
+        return res;
     }
 
     static class ViewHolder {

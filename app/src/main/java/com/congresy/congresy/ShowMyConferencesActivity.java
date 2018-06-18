@@ -38,13 +38,13 @@ public class ShowMyConferencesActivity extends BaseActivity {
     }
 
     private void LoadMyConferences(){
-        Call<List<Conference>> call = userService.getMyConferences(LoginActivity.username);
+        Call<List<Conference>> call = userService.getMyConferences(HomeActivity.username);
         call.enqueue(new Callback<List<Conference>>() {
             @Override
             public void onResponse(Call<List<Conference>> call, Response<List<Conference>> response) {
                 if(response.isSuccessful()){
 
-                    String role = LoginActivity.role;
+                    String role = HomeActivity.role;
                     ConferenceListOrganizatorAdapter adapter = null;
                     ConferenceListUserAdapter adapter1 = null;
                     conferencesList = response.body();

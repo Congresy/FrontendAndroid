@@ -130,7 +130,7 @@ public class EditConferenceActivity extends BaseActivity {
     }
 
     private void editConference(final String idConference, final JsonObject json){
-        Call<UserAccount> call = userService.getUserAccount(LoginActivity.username);
+        Call<UserAccount> call = userService.getUserAccount(HomeActivity.username);
         call.enqueue(new Callback<UserAccount>() {
             @Override
             public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {

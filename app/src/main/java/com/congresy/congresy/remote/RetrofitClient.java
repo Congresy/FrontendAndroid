@@ -12,13 +12,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    private static Retrofit retrofit = null;
+    public static Retrofit retrofit = null;
 
     public static Retrofit getClient(String url){
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
+        CookieManager cookieManager = new CookieManager();
+
         CookieHandler cookieHandler = new CookieManager();
+        CookieHandler.setDefault(cookieManager);
 
         OkHttpClient client = new OkHttpClient.Builder().addNetworkInterceptor(interceptor)
                 .cookieJar(new JavaNetCookieJar(cookieHandler))
@@ -34,6 +37,7 @@ public class RetrofitClient {
                     .client(client)
                     .build();
         }
+
         return retrofit;
     }
 

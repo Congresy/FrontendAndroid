@@ -1,6 +1,8 @@
 package com.congresy.congresy;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -135,6 +137,13 @@ public class LoginActivity extends AppCompatActivity {
                     if(!response.raw().request().url().toString().contains("error")){
                         LoginActivity.username = username;
                         LoginActivity.password = password;
+
+                        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putInt("logged", 1);
+                        editor.putString("Username", username);
+                        editor.putString("Password", password);
+                        editor.apply();
 
                         loadActor();
 

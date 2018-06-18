@@ -1,7 +1,10 @@
 package com.congresy.congresy;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.LinearGradient;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
+import com.congresy.congresy.remote.RetrofitClient;
 import com.congresy.congresy.remote.UserService;
 
 import java.text.DateFormat;
@@ -44,6 +48,15 @@ public class IndexActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        int logged = sp.getInt("logged", 0);
+
+        if(logged == 1){
+            Intent intent = new Intent(IndexActivity.this, HomeActivity.class);
+            startActivity(intent);
+        }
+
         setContentView(R.layout.activity_index);
 
         data = findViewById(R.id.data);

@@ -61,7 +61,7 @@ public class ProfileActivity extends BaseActivity {
     }
 
     private void LoadProfile(final List<SocialNetwork> socialNetworksS) {
-        Call<Actor> call = userService.getActorByUsername(LoginActivity.username);
+        Call<Actor> call = userService.getActorByUsername(HomeActivity.username);
         call.enqueue(new Callback<Actor>() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -124,7 +124,7 @@ public class ProfileActivity extends BaseActivity {
     // Charge social networks
 
     private void Execute(){
-        Call<Actor> call = userService.getActorByUsername(LoginActivity.username);
+        Call<Actor> call = userService.getActorByUsername(HomeActivity.username);
         call.enqueue(new Callback<Actor>() {
             @Override
             public void onResponse(Call<Actor> call, Response<Actor> response) {

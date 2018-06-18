@@ -1,6 +1,8 @@
 package com.congresy.congresy;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,6 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.congresy.congresy.remote.ApiUtils;
+import com.congresy.congresy.remote.RetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,28 +33,28 @@ public class BaseActivity extends AppCompatActivity {
 
         List<String> osArray = new ArrayList<>();
 
-        if(LoginActivity.actor_.getRole().equals("User")){
+        //if(HomeActivity.actor_.getRole().equals("User")){
             osArray.add("Profile");
             osArray.add("My social networks");
             osArray.add("All conferences");
             osArray.add("My conferences");
             osArray.add("My events");
-        }
+        //}
 
-        if(LoginActivity.actor_.getRole().equals("Organizator")){
+        /*if(HomeActivity.actor_.getRole().equals("Organizator")){
             osArray.add("Profile");
             osArray.add("My social networks");
             osArray.add("My conferences");
             osArray.add("My events");
             osArray.add("Create conference");
 
-        }
+        }*/
 
         ArrayAdapter<String> mAdapter = new ArrayAdapter<>(BaseActivity.this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
         mDrawerList.bringToFront();
 
-        if(LoginActivity.actor_.getRole().equals("User")) {
+        //if(HomeActivity.actor_.getRole().equals("User")) {
             mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -73,9 +76,9 @@ public class BaseActivity extends AppCompatActivity {
                     }
                 }
             });
-        }
+        //}
 
-        if(LoginActivity.actor_.getRole().equals("Organizator")) {
+        /*if(HomeActivity.actor_.getRole().equals("Organizator")) {
             mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -97,8 +100,9 @@ public class BaseActivity extends AppCompatActivity {
                     }
                 }
             });
-        }
+        }*/
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -124,7 +128,15 @@ public class BaseActivity extends AppCompatActivity {
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
-                startActivity(new Intent(BaseActivity.this, LoginActivity.class));
+
+                SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.remove("Username");
+                editor.remove("Password");
+                editor.putInt("logged", 0);
+                editor.apply();
+
+                startActivity(new Intent(BaseActivity.this, IndexActivity.class));
             }
 
             @Override

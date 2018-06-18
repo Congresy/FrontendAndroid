@@ -42,7 +42,7 @@ public class ShowMyEventsActivity extends BaseActivity {
     }
 
     private void loadEventsUser(){
-        Call<Actor> call = userService.getActorByUsername(LoginActivity.username);
+        Call<Actor> call = userService.getActorByUsername(HomeActivity.username);
         call.enqueue(new Callback<Actor>() {
             @Override
             public void onResponse(Call<Actor> call, Response<Actor> response) {
@@ -71,11 +71,11 @@ public class ShowMyEventsActivity extends BaseActivity {
             public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
                 if(response.isSuccessful()){
 
-                    if(LoginActivity.role.equals("Organizator")){
+                    if(HomeActivity.role.equals("Organizator")){
                         btnEvents.setVisibility(View.VISIBLE);
                     }
 
-                    String role = LoginActivity.role;
+                    String role = HomeActivity.role;
                     EventListOrganizatorAdapter adapter = null;
                     ArrayAdapter<Event> adapter1 = null;
                     eventsList = response.body();
@@ -117,7 +117,7 @@ public class ShowMyEventsActivity extends BaseActivity {
 
                 } else {
                     Toast.makeText(ShowMyEventsActivity.this, "This conference have no events!", Toast.LENGTH_SHORT).show();
-                    if(LoginActivity.role.equals("Organizator")) {
+                    if(HomeActivity.role.equals("Organizator")) {
                         btnEvents.setVisibility(View.VISIBLE);
 
                         btnEvents.setOnClickListener(new View.OnClickListener() {

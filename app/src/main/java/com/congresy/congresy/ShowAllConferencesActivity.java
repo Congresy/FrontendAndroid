@@ -48,7 +48,7 @@ public class ShowAllConferencesActivity extends BaseActivity {
                         if(c.getParticipants() == null){
                             aux.add(c);
                         } else {
-                            if (!c.getParticipants().contains(LoginActivity.actor_.getId())){
+                            if (!c.getParticipants().contains(HomeActivity.actor_.getId())){
                                 aux.add(c);
                             }
                         }

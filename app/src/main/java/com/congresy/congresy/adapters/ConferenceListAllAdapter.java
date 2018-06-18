@@ -9,23 +9,15 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.congresy.congresy.HomeActivity;
 import com.congresy.congresy.JoiningConferenceActivity;
-import com.congresy.congresy.LoginActivity;
 import com.congresy.congresy.R;
-import com.congresy.congresy.ShowMyConferencesActivity;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter {
 
