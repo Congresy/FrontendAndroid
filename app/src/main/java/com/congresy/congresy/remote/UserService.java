@@ -28,7 +28,7 @@ public interface UserService {
     Call<Void> logout();
 
     @POST("actors")
-    Call<Void> register(@Body JsonObject jsonObject);
+    Call<Actor> register(@Body JsonObject jsonObject);
 
     @POST("conferences")
     Call<Void> createConference(@Body JsonObject jsonObject);
@@ -44,6 +44,9 @@ public interface UserService {
 
     @GET("actors/username/{username}")
     Call<Actor> getActorByUsername(@Path("username") String username);
+
+    @GET("actors/{id}")
+    Call<Actor> getActorById(@Path("id") String id);
 
     @GET("conferences/organizator/{username}")
     Call<List<Conference>> getMyConferences(@Path("username") String username);
@@ -101,5 +104,14 @@ public interface UserService {
 
     @PUT("events/delete/{idEvent}/participants/{idActor}")
     Call<Event> deleteParticipant(@Path("idEvent") String idEvent, @Path("idActor") String idActor);
+
+    @GET("actors/role/{role}")
+    Call<List<Actor>> getAllActorsByRole(@Path("role") String role);
+
+    @PUT("events/add/{idEvent}/speakers/{idSpeaker}")
+    Call<Event> addSpeaker(@Path("idEvent") String idEvent, @Path("idSpeaker") String idActor);
+
+    @PUT("events/delete/{idEvent}/speakers/{idSpeaker}")
+    Call<Event> deleteSpeaker(@Path("idEvent") String idEvent, @Path("idSpeaker") String idActor);
 
 }

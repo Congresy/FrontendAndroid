@@ -14,8 +14,10 @@ import android.widget.Toast;
 import com.congresy.congresy.EditConferenceActivity;
 import com.congresy.congresy.EditEventActivity;
 import com.congresy.congresy.R;
+import com.congresy.congresy.SearchSpeakersActivity;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
 import com.congresy.congresy.ShowMyConferencesActivity;
+import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.Event;
 import com.congresy.congresy.remote.ApiUtils;
@@ -31,6 +33,7 @@ public class EventListOrganizatorAdapter extends BaseAdapter implements ListAdap
 
     public static Event event_;
     private UserService userService = ApiUtils.getUserService();
+    public static List<Actor> speakers;
 
     private List<Event> items;
     private Context context;
@@ -70,6 +73,7 @@ public class EventListOrganizatorAdapter extends BaseAdapter implements ListAdap
 
             convertView = inflater.inflate(R.layout.event_list_organizator, null);
             holder.name = convertView.findViewById(R.id.name);
+            holder.speakers = convertView.findViewById(R.id.speakers);
             holder.edit = convertView.findViewById(R.id.btnEditEvent);
             holder.delete = convertView.findViewById(R.id.btnDeleteEvent);
 
@@ -95,6 +99,14 @@ public class EventListOrganizatorAdapter extends BaseAdapter implements ListAdap
                 context.startActivity(myIntent);
             }
         });
+
+        holder.speakers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSpeakers(position);
+            }
+        });
+
 
         return convertView;
     }
@@ -123,8 +135,36 @@ public class EventListOrganizatorAdapter extends BaseAdapter implements ListAdap
         });
     }
 
+
+    private void getSpeakers(final int position){
+        Call<List<Actor>> call = userService.getAllActorsByRole("Speaker");
+        call.enqueue(new Callback<List<Actor>>() {
+            @Override
+            public void onResponse(Call<List<Actor>> call, Response<List<Actor>> response) {
+                if(response.isSuccessful()){
+
+                    speakers = response.body();
+
+                    Intent intent = new Intent(context, SearchSpeakersActivity.class);
+                    intent.putExtra("idEvent", items.get(position).getId());
+                    context.startActivity(intent);
+
+
+                } else {
+                    Toast.makeText(context.getApplicationContext(), "There are no speakers", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Actor>> call, Throwable t) {
+                Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     static class ViewHolder {
         TextView name;
+        Button speakers;
         Button edit;
         Button delete;
     }

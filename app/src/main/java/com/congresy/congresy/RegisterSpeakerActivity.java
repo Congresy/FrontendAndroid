@@ -7,12 +7,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.congresy.congresy.domain.Actor;
+import com.congresy.congresy.domain.Event;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 import com.google.gson.JsonObject;
@@ -21,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterSpeakerActivity extends BaseActivity {
 
     UserService userService;
 
@@ -40,18 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-
-        // set spinner values
-        String[] arraySpinner = new String[] {
-                "Organizator", "User", "Speaker"
-        };
-
-        final Spinner s = findViewById(R.id.spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, arraySpinner);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        s.setAdapter(adapter);
+        setContentView(R.layout.activity_register_speaker);
 
         btnRegister = findViewById(R.id.btnRegister);
         edtUsername = findViewById(R.id.edtUsername);
@@ -97,15 +86,11 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 jsonActor.addProperty("nick", nick);
 
-                String role = s.getSelectedItem().toString();
-
-                jsonActor.addProperty("role", role);
+                jsonActor.addProperty("role", "Speaker");
 
                 json.add("actor", jsonActor);
                 json.add("userAccount", jsonAuth);
 
-
-                //validate form
                 doRegister(json);
             }
         });
@@ -123,10 +108,10 @@ public class RegisterActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.login:
-                startActivity(new Intent(this, LoginActivity.class));
+                startActivity(new Intent(this, RegisterSpeakerActivity.class));
                 return true;
             case R.id.register:
-                startActivity(new Intent(this, RegisterActivity.class));
+                startActivity(new Intent(this, RegisterSpeakerActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -134,24 +119,52 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void doRegister(final JsonObject json){
-        Call call = userService.register(json);
-        call.enqueue(new Callback() {
+        Call<Actor> call = userService.register(json);
+        call.enqueue(new Callback<Actor>() {
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(Call<Actor> call, Response<Actor> response) {
                 if(response.isSuccessful()){
 
-                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                        startActivity(intent);
+                    Actor actor = response.body();
+                    
+                    addSpeaker(actor.getId());
 
                 } else {
-                    Toast.makeText(RegisterActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterSpeakerActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
-                Toast.makeText(RegisterActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<Actor> call, Throwable t) {
+                Toast.makeText(RegisterSpeakerActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+    private void addSpeaker(String idActor){
+        Intent myIntent = getIntent();
+        String idEvent = myIntent.getExtras().get("idEvent").toString();
+        
+        Call<Event> call = userService.addSpeaker(idEvent, idActor);
+        call.enqueue(new Callback<Event>() {
+            @Override
+            public void onResponse(Call<Event> call, Response<Event> response) {
+                if(response.isSuccessful()){
+
+                    Intent intent = new Intent(RegisterSpeakerActivity.this, ShowMyConferencesActivity.class);
+                    startActivity(intent);
+
+
+                } else {
+                    Toast.makeText(RegisterSpeakerActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Event> call, Throwable t) {
+                Toast.makeText(RegisterSpeakerActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }

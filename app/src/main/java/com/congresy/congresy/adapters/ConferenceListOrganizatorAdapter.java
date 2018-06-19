@@ -13,8 +13,10 @@ import android.widget.Toast;
 
 import com.congresy.congresy.EditConferenceActivity;
 import com.congresy.congresy.R;
+import com.congresy.congresy.SearchSpeakersActivity;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
 import com.congresy.congresy.ShowMyConferencesActivity;
+import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;

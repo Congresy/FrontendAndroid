@@ -44,7 +44,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ShowMyEventsActivity" />
         <activity android:name=".ShowEventsOfConferenceAuxActivity" />
-        <activity android:name=".JoiningConferenceActivity"></activity>
+        <activity android:name=".JoiningConferenceActivity" />
+        <activity android:name=".SearchSpeakersActivity" />
+        <activity android:name=".RegisterSpeakerActivity"></activity>
     </application>
 
 </manifest>

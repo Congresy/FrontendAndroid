@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ListView
+        android:id="@+id/navList"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left|start"
+        android:background="#ffeeeeee"/>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="70dp"
+        >
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="- Registration -"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/registrarion"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Username: "
+                android:layout_below = "@+id/registrarion"
+                android:id="@+id/edtUsernameT"
+                />
+
+            <EditText
+                android:id="@+id/edtUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtUsernameT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Password: "
+                android:id="@+id/edtPasswordT"
+                android:layout_below = "@+id/edtUsername"
+                />
+
+            <EditText
+                android:id="@+id/edtPassword"
+                android:layout_below = "@+id/edtPasswordT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name: "
+                android:layout_below = "@+id/edtPassword"
+                android:id="@+id/edtNameT"
+                />
+
+            <EditText
+                android:id="@+id/edtName"
+                android:layout_below = "@+id/edtNameT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:id="@+id/edtSurnameT"
+                android:layout_below = "@+id/edtName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Surname: "
+                />
+
+            <EditText
+                android:id="@+id/edtSurname"
+                android:layout_below = "@+id/edtSurnameT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:id="@+id/edtEmailT"
+                android:layout_below = "@+id/edtSurname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email: "
+                />
+
+            <EditText
+                android:id="@+id/edtEmail"
+                android:layout_below = "@+id/edtEmailT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:id="@+id/edtPhoneT"
+                android:layout_below = "@+id/edtEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone: "
+                />
+
+            <EditText
+                android:id="@+id/edtPhone"
+                android:layout_below = "@+id/edtPhoneT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:id="@+id/edtPlaceT"
+                android:layout_below = "@+id/edtPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Place: "
+                />
+
+            <EditText
+                android:id="@+id/edtPlace"
+                android:layout_below = "@+id/edtPlaceT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:id="@+id/edtNickT"
+                android:layout_below = "@+id/edtPlace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nick: "
+                />
+
+            <EditText
+                android:id="@+id/edtNick"
+                android:layout_below = "@+id/edtNickT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:id="@+id/edtPhotoT"
+                android:layout_below = "@+id/edtNick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Photo: "
+                />
+
+            <EditText
+                android:id="@+id/edtPhoto"
+                android:layout_below = "@+id/edtPhotoT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <Button
+                android:layout_below = "@+id/edtPhoto"
+                android:id="@+id/btnRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Create"
+                />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</android.support.v4.widget.DrawerLayout>
