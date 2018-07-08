@@ -43,6 +43,8 @@
         <activity android:name=".RegisterSpeakerActivity" />
         <activity android:name=".ShowSpeakersOfEventActivity" />
         <activity android:name=".ShowAllPostsActivity" />
+        <activity android:name=".ShowPostActivity" />
+        <activity android:name=".CreatePostActivity"></activity>
     </application>
 
 </manifest>

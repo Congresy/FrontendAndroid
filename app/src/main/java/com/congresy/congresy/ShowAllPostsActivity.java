@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -35,6 +36,8 @@ public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQ
     ListView list;
     SearchView search;
 
+    Button create;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +47,7 @@ public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQ
         userService = ApiUtils.getUserService();
 
         search = findViewById(R.id.search);
+        create = findViewById(R.id.create);
 
         loadMostVotedPosts();
 
@@ -59,10 +63,20 @@ public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQ
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(ShowAllPostsActivity.this, ShowEventActivity.class);
+                Intent intent = new Intent(ShowAllPostsActivity.this, ShowPostActivity.class);
+                intent.putExtra("idPost", posts.get(position).getId());
                 startActivity(intent);
             }
         });
+
+        create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShowAllPostsActivity.this, CreatePostActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 
@@ -77,9 +91,9 @@ public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQ
                     List<Post> res = new ArrayList<>();
 
                     res.add(posts.get(0));
-                    //res.add(posts.get(1));
-                    //res.add(posts.get(2));
-                    //res.add(posts.get(3));
+                    res.add(posts.get(1));
+                    res.add(posts.get(2));
+                    res.add(posts.get(3));
 
                     ListView lv = findViewById(R.id.listViewMostVoted);
                     ArrayAdapter adapter = new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1, res);

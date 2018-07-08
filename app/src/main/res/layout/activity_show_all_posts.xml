@@ -14,11 +14,7 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:layout_height="fill_parent">
 
         <TextView
             android:id="@+id/title"
@@ -31,6 +27,15 @@
             android:text="- Forum -"
             android:textAppearance="?android:attr/textAppearanceLarge"/>
 
+        <Button
+            android:layout_below = "@+id/title"
+            android:id="@+id/create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Create"
+            />
+
         <TextView
             android:id="@+id/text1"
             android:layout_width="wrap_content"
@@ -38,7 +43,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_below="@id/title"
+            android:layout_below="@id/create"
             android:text="Most voted posts"
             />
 

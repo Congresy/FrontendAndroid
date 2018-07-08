@@ -127,4 +127,13 @@ public interface UserService {
     @GET("posts")
     Call<List<Post>> getAllPosts();
 
+    @GET("posts/{idPost}")
+    Call<Post> getPost(@Path("idPost") String idPost);
+
+    @POST("posts")
+    Call<Post> savePost(@Body JsonObject jsonObject);
+
+    @PUT("posts/public/{idPost}")
+    Call<Post> publicPost(@Path("idPost") String idPost);
+
 }

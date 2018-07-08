@@ -184,6 +184,8 @@ public class BaseActivity extends AppCompatActivity {
                 editor.remove("Username");
                 editor.remove("Password");
                 editor.remove("Role");
+                editor.remove("Name");
+                editor.remove("Id");
                 editor.putInt("logged", 0);
                 editor.apply();
 

@@ -12,6 +12,9 @@ public class Post {
     @SerializedName("body")
     @Expose
     private String body;
+    @SerializedName("draft")
+    @Expose
+    private Boolean draft;
     @SerializedName("category")
     @Expose
     private String category;
@@ -104,6 +107,14 @@ public class Post {
 
     public void setVotes(Integer votes) {
         this.votes = votes;
+    }
+
+    public Boolean getDraft() {
+        return draft;
+    }
+
+    public void setVotes(Boolean draft) {
+        this.draft = draft;
     }
 
     @Override
