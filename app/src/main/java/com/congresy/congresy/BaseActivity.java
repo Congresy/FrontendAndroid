@@ -56,6 +56,7 @@ public class BaseActivity extends AppCompatActivity {
             osArray.add("All conferences");
             osArray.add("My conferences");
             osArray.add("My events");
+            osArray.add("Forum");
         }
 
         if(role.equals("Organizator")){
@@ -63,7 +64,7 @@ public class BaseActivity extends AppCompatActivity {
             osArray.add("My social networks");
             osArray.add("My conferences");
             osArray.add("Create conference");
-
+            osArray.add("Forum");
         }
 
         ArrayAdapter<String> mAdapter = new ArrayAdapter<>(BaseActivity.this, android.R.layout.simple_list_item_1, osArray);
@@ -89,6 +90,9 @@ public class BaseActivity extends AppCompatActivity {
                     } else if (position == 4) {
                         Intent intent = new Intent(BaseActivity.this, ShowMyEventsActivity.class);
                         startActivity(intent);
+                    } else if (position == 5) {
+                        Intent intent = new Intent(BaseActivity.this, ShowAllPostsActivity.class);
+                        startActivity(intent);
                     }
                 }
             });
@@ -110,6 +114,9 @@ public class BaseActivity extends AppCompatActivity {
                     } else if (position == 3) {
                         Intent intent = new Intent(BaseActivity.this, CreateConferenceActivity.class);
                         startActivity(intent);
+                    } else if (position == 4) {
+                        Intent intent = new Intent(BaseActivity.this, ShowAllPostsActivity.class);
+                        startActivity(intent);
                     }
                 }
             });
@@ -124,7 +131,7 @@ public class BaseActivity extends AppCompatActivity {
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle("Navigation!");
+                getSupportActionBar().setTitle(mActivityTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 

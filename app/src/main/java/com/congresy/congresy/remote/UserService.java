@@ -3,6 +3,7 @@ package com.congresy.congresy.remote;
 import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.Event;
+import com.congresy.congresy.domain.Post;
 import com.congresy.congresy.domain.SocialNetwork;
 import com.congresy.congresy.domain.UserAccount;
 import com.google.gson.JsonArray;
@@ -119,5 +120,11 @@ public interface UserService {
 
     @GET("events/speakers/{idEvent}")
     Call<List<Actor>> getSpeakersOfEvent(@Path("idEvent") String idEvent);
+
+    @GET("posts/votes")
+    Call<List<Post>> getMostVoted();
+
+    @GET("posts")
+    Call<List<Post>> getAllPosts();
 
 }

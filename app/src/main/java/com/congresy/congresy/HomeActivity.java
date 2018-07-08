@@ -13,6 +13,7 @@ import com.congresy.congresy.adapters.ConferenceListOrganizatorAdapter;
 import com.congresy.congresy.adapters.ConferenceListUserAdapter;
 import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
+import com.congresy.congresy.domain.Post;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
@@ -27,6 +28,7 @@ public class HomeActivity extends BaseActivity {
     public static String username;
     public static String role;
     public static Actor actor_;
+    public static List<Post> posts_;
 
     private UserService userService;
 
@@ -42,6 +44,7 @@ public class HomeActivity extends BaseActivity {
 
         userService = ApiUtils.getUserService();
 
+        loadAllPosts();
 
     }
     
@@ -109,6 +112,28 @@ public class HomeActivity extends BaseActivity {
             }
             @Override
             public void onFailure(Call<Actor> call, Throwable t) {
+                Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void loadAllPosts(){
+        Call<List<Post>> call = userService.getAllPosts();
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                if(response.isSuccessful()){
+
+                    posts_ = response.body();
+
+
+                } else {
+                    Toast.makeText(HomeActivity.this, "There are no posts!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
                 Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

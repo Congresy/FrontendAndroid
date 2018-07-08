@@ -41,7 +41,8 @@
         <activity android:name=".JoiningConferenceActivity" />
         <activity android:name=".SearchSpeakersActivity" />
         <activity android:name=".RegisterSpeakerActivity" />
-        <activity android:name=".ShowSpeakersOfEventActivity"></activity>
+        <activity android:name=".ShowSpeakersOfEventActivity" />
+        <activity android:name=".ShowAllPostsActivity" />
     </application>
 
 </manifest>
