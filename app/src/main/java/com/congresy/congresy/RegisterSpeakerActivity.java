@@ -143,7 +143,7 @@ public class RegisterSpeakerActivity extends BaseActivity {
 
     private void addSpeaker(String idActor){
         Intent myIntent = getIntent();
-        String idEvent = myIntent.getExtras().get("idEvent").toString();
+        final String idEvent = myIntent.getExtras().get("idEvent").toString();
         
         Call<Event> call = userService.addSpeaker(idEvent, idActor);
         call.enqueue(new Callback<Event>() {
@@ -151,7 +151,8 @@ public class RegisterSpeakerActivity extends BaseActivity {
             public void onResponse(Call<Event> call, Response<Event> response) {
                 if(response.isSuccessful()){
 
-                    Intent intent = new Intent(RegisterSpeakerActivity.this, ShowMyConferencesActivity.class);
+                    Intent intent = new Intent(RegisterSpeakerActivity.this, ShowSpeakersOfEventActivity.class);
+                    intent.putExtra("idEvent", idEvent);
                     startActivity(intent);
 
 

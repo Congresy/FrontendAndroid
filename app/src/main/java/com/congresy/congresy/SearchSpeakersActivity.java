@@ -17,9 +17,9 @@ import com.congresy.congresy.remote.UserService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchSpeakersActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class SearchSpeakersActivity extends BaseActivity implements SearchView.OnQueryTextListener {
 
-    private final static List<Actor> speakers = EventListOrganizatorAdapter.speakers;
+    private final static List<Actor> speakers = ShowSpeakersOfEventActivity.speakers;
     private ConferenceListAddSpeakerAdapter adapter;
 
     ListView list;
@@ -27,6 +27,7 @@ public class SearchSpeakersActivity extends AppCompatActivity implements SearchV
     UserService userService;
 
     Button create;
+    Button next;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class SearchSpeakersActivity extends AppCompatActivity implements SearchV
         list = findViewById(R.id.listview);
         search = findViewById(R.id.search);
         create = findViewById(R.id.btnRegister);
+        next = findViewById(R.id.next);
 
         userService = ApiUtils.getUserService();
 
@@ -54,6 +56,15 @@ public class SearchSpeakersActivity extends AppCompatActivity implements SearchV
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(SearchSpeakersActivity.this, RegisterSpeakerActivity.class);
+                myIntent.putExtra("idEvent", idEvent);
+                startActivity(myIntent);
+            }
+        });
+
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(SearchSpeakersActivity.this, ShowSpeakersOfEventActivity.class);
                 myIntent.putExtra("idEvent", idEvent);
                 startActivity(myIntent);
             }

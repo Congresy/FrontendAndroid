@@ -11,14 +11,11 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.congresy.congresy.EditConferenceActivity;
 import com.congresy.congresy.EditEventActivity;
 import com.congresy.congresy.R;
-import com.congresy.congresy.SearchSpeakersActivity;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
-import com.congresy.congresy.ShowMyConferencesActivity;
+import com.congresy.congresy.ShowSpeakersOfEventActivity;
 import com.congresy.congresy.domain.Actor;
-import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.Event;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
@@ -103,7 +100,9 @@ public class EventListOrganizatorAdapter extends BaseAdapter implements ListAdap
         holder.speakers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSpeakers(position);
+                Intent intent = new Intent(context, ShowSpeakersOfEventActivity.class);
+                intent.putExtra("idEvent", items.get(position).getId());
+                context.startActivity(intent);
             }
         });
 
@@ -136,7 +135,7 @@ public class EventListOrganizatorAdapter extends BaseAdapter implements ListAdap
     }
 
 
-    private void getSpeakers(final int position){
+    /*private void getSpeakers(final int position){
         Call<List<Actor>> call = userService.getAllActorsByRole("Speaker");
         call.enqueue(new Callback<List<Actor>>() {
             @Override
@@ -160,7 +159,7 @@ public class EventListOrganizatorAdapter extends BaseAdapter implements ListAdap
                 Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
+    }*/
 
     static class ViewHolder {
         TextView name;

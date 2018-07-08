@@ -44,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // set spinner values
         String[] arraySpinner = new String[] {
-                "Organizator", "User", "Speaker"
+                "Organizator", "User"
         };
 
         final Spinner s = findViewById(R.id.spinner);

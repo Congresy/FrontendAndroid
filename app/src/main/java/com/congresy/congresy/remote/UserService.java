@@ -108,10 +108,16 @@ public interface UserService {
     @GET("actors/role/{role}")
     Call<List<Actor>> getAllActorsByRole(@Path("role") String role);
 
+    @GET("actors/speakers/event/{idEvent}")
+    Call<List<Actor>> getSpeakers(@Path("idEvent") String idEvent);
+
     @PUT("events/add/{idEvent}/speakers/{idSpeaker}")
     Call<Event> addSpeaker(@Path("idEvent") String idEvent, @Path("idSpeaker") String idActor);
 
     @PUT("events/delete/{idEvent}/speakers/{idSpeaker}")
     Call<Event> deleteSpeaker(@Path("idEvent") String idEvent, @Path("idSpeaker") String idActor);
+
+    @GET("events/speakers/{idEvent}")
+    Call<List<Actor>> getSpeakersOfEvent(@Path("idEvent") String idEvent);
 
 }
