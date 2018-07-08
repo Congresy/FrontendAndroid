@@ -3,6 +3,8 @@ package com.congresy.congresy;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,12 +27,24 @@ import retrofit2.Response;
 
 public class BaseActivity extends AppCompatActivity {
 
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private String mActivityTitle;
+
     protected void loadDrawer(int layout) {
+
+        setContentView(layout);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        mDrawerLayout =  findViewById(R.id.drawer_layout);
+        mActivityTitle = getTitle().toString();
+
+        setupDrawer();
 
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         String role = sp.getString("Role", "Not found");
-
-        setContentView(layout);
 
         ListView mDrawerList = findViewById(R.id.navList);
 
@@ -48,7 +62,6 @@ public class BaseActivity extends AppCompatActivity {
             osArray.add("Profile");
             osArray.add("My social networks");
             osArray.add("My conferences");
-            osArray.add("My events");
             osArray.add("Create conference");
 
         }
@@ -95,15 +108,38 @@ public class BaseActivity extends AppCompatActivity {
                         Intent intent = new Intent(BaseActivity.this, ShowMyConferencesActivity.class);
                         startActivity(intent);
                     } else if (position == 3) {
-                        Intent intent = new Intent(BaseActivity.this, ShowMyEventsActivity.class);
-                        startActivity(intent);
-                    } else if (position == 4) {
                         Intent intent = new Intent(BaseActivity.this, CreateConferenceActivity.class);
                         startActivity(intent);
                     }
                 }
             });
         }
+    }
+
+
+    public void setupDrawer() {
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.string.drawer_open, R.string.drawer_close) {
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getSupportActionBar().setTitle("Navigation!");
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getSupportActionBar().setTitle(mActivityTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.setHomeAsUpIndicator(R.drawable.ic_menu_slideshow);
+        mDrawerToggle.syncState();
     }
 
 
@@ -117,6 +153,10 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         switch (item.getItemId()) {
             case R.id.logout:
                 logout();

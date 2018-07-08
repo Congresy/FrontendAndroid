@@ -24,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShowSpeakersOfEventActivity extends AppCompatActivity {
+public class ShowSpeakersOfEventActivity extends BaseActivity {
 
     UserService userService;
 
@@ -40,7 +40,7 @@ public class ShowSpeakersOfEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_show_speakers_of_event);
+        loadDrawer(R.layout.activity_show_speakers_of_event);
 
         userService = ApiUtils.getUserService();
 

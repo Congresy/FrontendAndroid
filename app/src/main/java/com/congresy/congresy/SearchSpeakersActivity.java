@@ -36,7 +36,7 @@ public class SearchSpeakersActivity extends BaseActivity implements SearchView.O
         Intent myIntent = getIntent();
         final String idEvent = myIntent.getExtras().get("idEvent").toString();
 
-        setContentView(R.layout.activity_search_speakers);
+        loadDrawer(R.layout.activity_search_speakers);
 
         list = findViewById(R.id.listview);
         search = findViewById(R.id.search);
