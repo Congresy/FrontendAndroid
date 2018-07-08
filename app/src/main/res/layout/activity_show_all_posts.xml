@@ -16,24 +16,12 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="- Forum -"
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
-
         <Button
-            android:layout_below = "@+id/title"
-            android:id="@+id/create"
+            android:id="@+id/myPosts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Create"
+            android:text="My posts"
             />
 
         <TextView
@@ -43,7 +31,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_below="@id/create"
+            android:layout_below="@id/myPosts"
             android:text="Most voted posts"
             />
 

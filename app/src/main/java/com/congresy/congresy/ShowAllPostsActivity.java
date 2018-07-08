@@ -6,21 +6,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.congresy.congresy.adapters.ConferenceListAddSpeakerAdapter;
 import com.congresy.congresy.adapters.PostListSearchAdapter;
-import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Post;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,7 +32,7 @@ public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQ
     ListView list;
     SearchView search;
 
-    Button create;
+    Button myPosts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +43,7 @@ public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQ
         userService = ApiUtils.getUserService();
 
         search = findViewById(R.id.search);
-        create = findViewById(R.id.create);
+        myPosts = findViewById(R.id.myPosts);
 
         loadMostVotedPosts();
 
@@ -69,10 +65,10 @@ public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQ
             }
         });
 
-        create.setOnClickListener(new View.OnClickListener() {
+        myPosts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ShowAllPostsActivity.this, CreatePostActivity.class);
+                Intent intent = new Intent(ShowAllPostsActivity.this, ShowMyPostsActivity.class);
                 startActivity(intent);
             }
         });

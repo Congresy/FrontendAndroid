@@ -130,8 +130,14 @@ public interface UserService {
     @GET("posts/{idPost}")
     Call<Post> getPost(@Path("idPost") String idPost);
 
+    @GET("posts/own/{idActor}")
+    Call<List<Post>> getOwnPosts(@Path("idActor") String idPost);
+
     @POST("posts")
     Call<Post> savePost(@Body JsonObject jsonObject);
+
+    @DELETE("posts/{idPost}")
+    Call<Void> deletePost(@Path("idPost") String idPost);
 
     @PUT("posts/public/{idPost}")
     Call<Post> publishPost(@Path("idPost") String idPost);

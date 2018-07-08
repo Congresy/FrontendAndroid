@@ -42,7 +42,6 @@ public class CreatePostActivity extends BaseActivity {
         loadDrawer(R.layout.activity_create_post);
 
         create = findViewById(R.id.create);
-        save = findViewById(R.id.save);
 
         titleE = findViewById(R.id.titleE);
         bodyE = findViewById(R.id.bodyE);
