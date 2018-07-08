@@ -29,7 +29,7 @@ import retrofit2.Response;
 public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQueryTextListener{
 
     private PostListSearchAdapter adapter;
-    private final static List<Post> posts = new ArrayList<>(HomeActivity.posts_);
+    public static List<Post> posts = new ArrayList<>(HomeActivity.posts_);
 
     UserService userService;
 

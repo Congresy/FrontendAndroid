@@ -134,6 +134,6 @@ public interface UserService {
     Call<Post> savePost(@Body JsonObject jsonObject);
 
     @PUT("posts/public/{idPost}")
-    Call<Post> publicPost(@Path("idPost") String idPost);
+    Call<Post> publishPost(@Path("idPost") String idPost);
 
 }

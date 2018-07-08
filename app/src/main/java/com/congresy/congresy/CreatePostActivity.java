@@ -1,9 +1,11 @@
 package com.congresy.congresy;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -58,16 +60,16 @@ public class CreatePostActivity extends BaseActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         s.setAdapter(adapter);
 
+
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = titleE.getText().toString();
-                String body = bodyE.getText().toString();
 
-                // adding properties to json for POST
                 JsonObject json = new JsonObject();
 
                 String category = s.getSelectedItem().toString();
+                String title = titleE.getText().toString();
+                String body = bodyE.getText().toString();
 
                 SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
                 String id = sp.getString("Id", "not found");
@@ -81,13 +83,13 @@ public class CreatePostActivity extends BaseActivity {
                 json.addProperty("views", 0);
                 json.addProperty("posted", LocalDateTime.now().toString("dd/MM/yyyy HH:mm"));
 
-                createPost(json);
-                //savePost();
+                showAlertDialog(json);
             }
         });
+
     }
 
-    private void createPost(final JsonObject json){
+    private void savePost(final JsonObject json){
         Call<Post> call = userService.savePost(json);
         call.enqueue(new Callback<Post>() {
             @Override
@@ -107,5 +109,77 @@ public class CreatePostActivity extends BaseActivity {
                 Toast.makeText(CreatePostActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void publishPost(final JsonObject json){
+        Call<Post> call = userService.savePost(json);
+        call.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                if(response.isSuccessful()){
+
+                    executePublish(response.body().getId());
+
+                } else {
+                    Toast.makeText(CreatePostActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                Toast.makeText(CreatePostActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void executePublish(String idPost){
+        Call<Post> call = userService.publishPost(idPost);
+        call.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                if(response.isSuccessful()){
+
+                    Intent intent = new Intent(CreatePostActivity.this, ShowAllPostsActivity.class);
+                    ShowAllPostsActivity.posts.add(response.body());
+                    startActivity(intent);
+
+                } else {
+                    Toast.makeText(CreatePostActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                Toast.makeText(CreatePostActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void showAlertDialog(final JsonObject json) {
+
+
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Attention!");
+        builder.setMessage("You can choose between make the post public or save it as a draft. Note that if you make it public you won't be able to edit it afterwards.");
+
+        // add a button
+        builder.setPositiveButton("Publish", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                publishPost(json);
+            }
+        });
+
+        builder.setNegativeButton("Save as draft", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                savePost(json);
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

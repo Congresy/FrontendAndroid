@@ -17,6 +17,7 @@ import com.congresy.congresy.domain.Post;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -124,8 +125,17 @@ public class HomeActivity extends BaseActivity {
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 if(response.isSuccessful()){
 
+                    List<Post> toRemove = new ArrayList<>();
+
                     posts_ = response.body();
 
+                    for (Post p : posts_){
+                        if (p.getDraft()){
+                            toRemove.add(p);
+                        }
+                    }
+
+                    posts_.removeAll(toRemove);
 
                 } else {
                     Toast.makeText(HomeActivity.this, "There are no posts!", Toast.LENGTH_SHORT).show();

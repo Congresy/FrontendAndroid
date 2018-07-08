@@ -100,17 +100,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="Create"
+                android:text="Continue"
                 />
 
-            <Button
-                android:layout_below = "@+id/create"
-                android:id="@+id/save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="Save"
-                />
 
         </RelativeLayout>
     </ScrollView>
