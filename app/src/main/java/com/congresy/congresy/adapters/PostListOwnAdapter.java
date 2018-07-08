@@ -27,6 +27,7 @@ public class PostListOwnAdapter extends BaseAdapter implements ListAdapter{
 
     private List<Post> items;
     private Context context;
+    public static Post post_;
 
     public PostListOwnAdapter(Context context, List<Post> items) {
         this.context = context;
@@ -74,6 +75,8 @@ public class PostListOwnAdapter extends BaseAdapter implements ListAdapter{
             holder.edit.setVisibility(View.INVISIBLE);
         }
 
+        post_ = items.get(position);
+
         holder.title.setText(items.get(position).getTitle());
 
         holder.edit.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +84,7 @@ public class PostListOwnAdapter extends BaseAdapter implements ListAdapter{
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, EditPostActivity.class);
                 myIntent.putExtra("idPost", items.get(position).getId());
+                myIntent.putExtra("category", items.get(position).getCategory());
                 context.startActivity(myIntent);
             }
         });

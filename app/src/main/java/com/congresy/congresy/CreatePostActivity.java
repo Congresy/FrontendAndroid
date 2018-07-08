@@ -33,7 +33,6 @@ public class CreatePostActivity extends BaseActivity {
     Spinner s;
 
     Button create;
-    Button save;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +94,7 @@ public class CreatePostActivity extends BaseActivity {
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if(response.isSuccessful()){
 
-                    Intent intent = new Intent(CreatePostActivity.this, ShowAllPostsActivity.class);
+                    Intent intent = new Intent(CreatePostActivity.this, ShowMyPostsActivity.class);
                     startActivity(intent);
 
                 } else {
@@ -138,7 +137,7 @@ public class CreatePostActivity extends BaseActivity {
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if(response.isSuccessful()){
 
-                    Intent intent = new Intent(CreatePostActivity.this, ShowAllPostsActivity.class);
+                    Intent intent = new Intent(CreatePostActivity.this, ShowMyPostsActivity.class);
                     ShowAllPostsActivity.posts.add(response.body());
                     startActivity(intent);
 

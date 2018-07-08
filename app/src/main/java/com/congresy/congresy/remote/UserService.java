@@ -142,4 +142,7 @@ public interface UserService {
     @PUT("posts/public/{idPost}")
     Call<Post> publishPost(@Path("idPost") String idPost);
 
+    @PUT("posts/{idPost}")
+    Call<Post> editPost(@Path("idPost") String idPost, @Body JsonObject jsonObject);
+
 }
