@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,19 +14,19 @@
         android:background="#ffeeeeee"/>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
         android:layout_width="fill_parent"
-
-        android:layout_height="fill_parent"
-
-        android:orientation="vertical" >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <TextView
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="150dp"
+            android:layout_marginBottom="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
             android:id="@+id/title"
             android:textAppearance="?android:attr/textAppearanceLarge"
             />
@@ -75,7 +76,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_below="@id/votes"
+            android:layout_below="@id/views"
+            />
+
+        <Button
+            android:layout_marginTop="15dp"
+            android:layout_below = "@+id/votes"
+            android:id="@+id/voteUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Vote positive"
+            />
+
+        <Button
+            android:layout_marginTop="15dp"
+            android:layout_below = "@+id/voteUp"
+            android:id="@+id/voteDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Vote negative"
             />
 
 

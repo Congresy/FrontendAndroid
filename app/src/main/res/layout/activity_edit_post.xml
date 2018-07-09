@@ -92,7 +92,6 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical" />
 
-
             <Button
                 android:layout_marginTop="15dp"
                 android:layout_below = "@+id/spinner"

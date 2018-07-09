@@ -83,7 +83,7 @@ public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQ
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 if(response.isSuccessful()){
 
-                    List<Post> posts = response.body();
+                    final List<Post> posts = response.body();
                     List<Post> res = new ArrayList<>();
 
                     res.add(posts.get(0));
@@ -99,7 +99,8 @@ public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQ
                     lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent intent = new Intent(ShowAllPostsActivity.this, ShowEventActivity.class);
+                            Intent intent = new Intent(ShowAllPostsActivity.this, ShowPostActivity.class);
+                            intent.putExtra("idPost", posts.get(position).getId());
                             startActivity(intent);
                         }
                     });
