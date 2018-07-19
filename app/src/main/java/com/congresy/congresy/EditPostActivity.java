@@ -27,8 +27,6 @@ import retrofit2.Response;
 
 public class EditPostActivity extends BaseActivity {
 
-    private Post post = PostListOwnAdapter.post_;
-
     UserService userService;
 
     EditText titleE;
@@ -51,54 +49,77 @@ public class EditPostActivity extends BaseActivity {
 
         userService = ApiUtils.getUserService();
 
-        // set spinner values
-        String[] arraySpinner = new String[] {
-                "General", "Administration", "Stories", "Tutorial", "Information", "Other"
-        };
+        getPost();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, arraySpinner);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        s.setAdapter(adapter);
+    }
 
+    private void getPost(){
         Intent myIntent = getIntent();
-        String nameAux = myIntent.getExtras().get("category").toString();
+        String idPost = myIntent.getExtras().get("idPost").toString();
 
-        int index = 0;
-        for (String st : arraySpinner){
-            if(st.equals(nameAux)){
-                s.setSelection(index);
-                break;
-            }
-            index++;
-        }
-
-        titleE.setText(post.getTitle());
-        bodyE.setText(post.getBody());
-
-        save.setOnClickListener(new View.OnClickListener() {
+        Call<Post> call = userService.getPost(idPost);
+        call.enqueue(new Callback<Post>() {
             @Override
-            public void onClick(View v) {
+            public void onResponse(Call<Post> call, Response<Post> response) {
 
-                JsonObject json = new JsonObject();
+                Post post = response.body();
 
-                String category = s.getSelectedItem().toString();
-                String title = titleE.getText().toString();
-                String body = bodyE.getText().toString();
+                // set spinner values
+                String[] arraySpinner = new String[] {
+                        "General", "Administration", "Stories", "Tutorial", "Information", "Other"
+                };
 
-                SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-                String id = sp.getString("Id", "not found");
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),
+                        android.R.layout.simple_spinner_item, arraySpinner);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                s.setAdapter(adapter);
 
-                json.addProperty("author", id);
-                json.addProperty("title", title);
-                json.addProperty("body", body);
-                json.addProperty("category", category);
-                json.addProperty("draft", true);
-                json.addProperty("votes", 0);
-                json.addProperty("views", 0);
-                json.addProperty("posted", LocalDateTime.now().toString("dd/MM/yyyy HH:mm"));
+                Intent myIntent = getIntent();
+                String nameAux = myIntent.getExtras().get("category").toString();
 
-                showAlertDialog(json);
+                int index = 0;
+                for (String st : arraySpinner){
+                    if(st.equals(nameAux)){
+                        s.setSelection(index);
+                        break;
+                    }
+                    index++;
+                }
+
+                titleE.setText(post.getTitle());
+                bodyE.setText(post.getBody());
+
+                save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        JsonObject json = new JsonObject();
+
+                        String category = s.getSelectedItem().toString();
+                        String title = titleE.getText().toString();
+                        String body = bodyE.getText().toString();
+
+                        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                        String id = sp.getString("Id", "not found");
+
+                        json.addProperty("author", id);
+                        json.addProperty("title", title);
+                        json.addProperty("body", body);
+                        json.addProperty("category", category);
+                        json.addProperty("draft", true);
+                        json.addProperty("votes", 0);
+                        json.addProperty("views", 0);
+                        json.addProperty("posted", LocalDateTime.now().toString("dd/MM/yyyy HH:mm"));
+
+                        showAlertDialog(json);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                Toast.makeText(EditPostActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
             }
         });
 

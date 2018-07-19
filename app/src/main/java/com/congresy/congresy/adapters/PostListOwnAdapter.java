@@ -27,7 +27,6 @@ public class PostListOwnAdapter extends BaseAdapter implements ListAdapter{
 
     private List<Post> items;
     private Context context;
-    public static Post post_;
 
     public PostListOwnAdapter(Context context, List<Post> items) {
         this.context = context;
@@ -50,7 +49,7 @@ public class PostListOwnAdapter extends BaseAdapter implements ListAdapter{
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
 
         View view = convertView;
         final ViewHolder holder;
@@ -75,7 +74,7 @@ public class PostListOwnAdapter extends BaseAdapter implements ListAdapter{
             holder.edit.setVisibility(View.INVISIBLE);
         }
 
-        post_ = items.get(position);
+        final int new_position = position;
 
         holder.title.setText(items.get(position).getTitle());
 
@@ -83,8 +82,8 @@ public class PostListOwnAdapter extends BaseAdapter implements ListAdapter{
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, EditPostActivity.class);
-                myIntent.putExtra("idPost", items.get(position).getId());
-                myIntent.putExtra("category", items.get(position).getCategory());
+                myIntent.putExtra("idPost", items.get(new_position).getId());
+                myIntent.putExtra("category", items.get(new_position).getCategory());
                 context.startActivity(myIntent);
             }
         });
@@ -92,7 +91,7 @@ public class PostListOwnAdapter extends BaseAdapter implements ListAdapter{
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deletePost(items.get(position).getId());
+                deletePost(items.get(new_position).getId());
             }
         });
 

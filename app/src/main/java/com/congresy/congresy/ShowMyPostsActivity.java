@@ -15,6 +15,7 @@ import com.congresy.congresy.domain.Post;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,7 +38,7 @@ public class ShowMyPostsActivity extends BaseActivity {
 
         userService = ApiUtils.getUserService();
 
-        create = findViewById(R.id.btnCreate);
+        create = findViewById(R.id.create);
 
         create.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,17 +61,42 @@ public class ShowMyPostsActivity extends BaseActivity {
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 if(response.isSuccessful()){
 
-                    List<Post> posts = response.body();
+                    final List<Post> posts = response.body();
 
-                    ListView lv = findViewById(R.id.listView);
-                    PostListOwnAdapter adapter = new PostListOwnAdapter(getApplicationContext(), posts);
+                    List<Post> drafts = new ArrayList<>();
+                    List<Post> published = new ArrayList<>();
 
-                    lv.setAdapter(adapter);
+                    for (Post p : posts){
+                        if (p.getDraft()){
+                            drafts.add(p);
+                         } else {
+                            published.add(p);
+                        }
+                    }
 
-                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    ListView lv1 = findViewById(R.id.drafts);
+                    ListView lv2 = findViewById(R.id.published);
+
+                    PostListOwnAdapter adapter1 = new PostListOwnAdapter(getApplicationContext(), drafts);
+                    PostListOwnAdapter adapter2 = new PostListOwnAdapter(getApplicationContext(), published);
+
+                    lv1.setAdapter(adapter1);
+                    lv2.setAdapter(adapter2);
+
+                    lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Intent intent = new Intent(ShowMyPostsActivity.this, ShowPostActivity.class);
+                            intent.putExtra("idPost", posts.get(position).getId());
+                            startActivity(intent);
+                        }
+                    });
+
+                    lv2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(ShowMyPostsActivity.this, ShowPostActivity.class);
+                            intent.putExtra("idPost", posts.get(position).getId());
                             startActivity(intent);
                         }
                     });
