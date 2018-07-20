@@ -96,7 +96,7 @@ public class EditCommentActivity extends BaseActivity {
 
                 String id_ = ShowPostActivity.id_;
 
-                Intent intent = new Intent(EditCommentActivity.this, ShowPostActivity.class);
+                Intent intent = new Intent(EditCommentActivity.this, ShowMyCommentsActivity.class);
                 intent.putExtra("idComment", comment.getId());
                 intent.putExtra("idPost", id_);
                 startActivity(intent);

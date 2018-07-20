@@ -164,4 +164,10 @@ public interface UserService {
     @GET("comments/{idComment}")
     Call<Comment> getComment(@Path("idComment") String idComment);
 
+    @GET("comments/own/{idActor}")
+    Call<List<Comment>> getMyComments(@Path("idActor") String idActor);
+
+    @DELETE("comments/{idComment}")
+    Call<Void> deleteComment(@Path("idComment") String idComment);
+
 }

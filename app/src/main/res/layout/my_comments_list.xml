@@ -10,7 +10,8 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:layout_marginRight="15dp"
         android:layout_marginEnd="15dp" />
@@ -26,39 +27,41 @@
         />
 
     <Button
-        android:id="@+id/voteUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="UP"
-        android:layout_below="@id/text"
-        android:focusable="false"/>
-
-    <Button
-        android:id="@+id/voteDown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="DOWN"
-        android:layout_toRightOf="@id/voteUp"
-        android:layout_below="@id/text"
-        android:focusable="false"
-        />
-
-    <Button
-        android:id="@+id/reply"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="REPLY"
-        android:layout_toRightOf="@id/voteDown"
-        android:layout_below="@id/text"
-        android:focusable="false"
-        />
-
-    <Button
         android:id="@+id/replies"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="REPLIES"
         android:layout_toRightOf="@id/reply"
+        android:layout_below="@id/text"
+        android:focusable="false"
+        />
+
+    <Button
+        android:id="@+id/edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EDIT"
+        android:layout_toRightOf="@id/replies"
+        android:layout_below="@id/text"
+        android:focusable="false"
+        />
+
+    <Button
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:layout_toRightOf="@id/edit"
+        android:layout_below="@id/text"
+        android:focusable="false"
+        />
+
+    <Button
+        android:id="@+id/commentable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="To C"
+        android:layout_toRightOf="@id/delete"
         android:layout_below="@id/text"
         android:focusable="false"
         />

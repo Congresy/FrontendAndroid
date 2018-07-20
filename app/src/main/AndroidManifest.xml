@@ -48,7 +48,8 @@
         <activity android:name=".ShowMyPostsActivity" />
         <activity android:name=".EditPostActivity" />
         <activity android:name=".ShowResponsesOfComment" />
-        <activity android:name=".EditCommentActivity"></activity>
+        <activity android:name=".EditCommentActivity" />
+        <activity android:name=".ShowMyCommentsActivity"></activity>
     </application>
 
 </manifest>

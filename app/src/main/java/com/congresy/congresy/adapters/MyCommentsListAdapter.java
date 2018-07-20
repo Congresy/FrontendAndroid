@@ -1,9 +1,7 @@
 package com.congresy.congresy.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +13,10 @@ import android.widget.Toast;
 
 import com.congresy.congresy.EditCommentActivity;
 import com.congresy.congresy.R;
+import com.congresy.congresy.ShowMyCommentsActivity;
 import com.congresy.congresy.ShowPostActivity;
 import com.congresy.congresy.ShowResponsesOfComment;
 import com.congresy.congresy.domain.Comment;
-import com.congresy.congresy.domain.Post;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
@@ -28,14 +26,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CommentListAdapter extends BaseAdapter implements ListAdapter {
+public class MyCommentsListAdapter extends BaseAdapter implements ListAdapter {
 
     private UserService userService = ApiUtils.getUserService();
 
     private List<Comment> items;
     private Context context;
 
-    public CommentListAdapter(Context context, List<Comment> items) {
+    public MyCommentsListAdapter(Context context, List<Comment> items) {
         this.context = context;
         this.items = items;
     }
@@ -66,13 +64,13 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
 
             holder = new ViewHolder();
 
-            convertView = inflater.inflate(R.layout.comment_list, null);
+            convertView = inflater.inflate(R.layout.my_comments_list, null);
             holder.title = convertView.findViewById(R.id.title);
             holder.text = convertView.findViewById(R.id.text);
-            holder.up = convertView.findViewById(R.id.voteUp);
-            holder.down = convertView.findViewById(R.id.voteDown);
-            holder.reply = convertView.findViewById(R.id.reply);
+            holder.edit = convertView.findViewById(R.id.edit);
             holder.replies = convertView.findViewById(R.id.replies);
+            holder.toC = convertView.findViewById(R.id.commentable);
+            holder.delete = convertView.findViewById(R.id.delete);
 
             convertView.setTag(holder);
         } else {
@@ -82,24 +80,28 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
         holder.title.setText(items.get(position).getTitle());
         holder.text.setText(items.get(position).getText());
 
-        holder.up.setOnClickListener(new View.OnClickListener(){
+        holder.delete.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                voteUp(holder, items.get(position).getId(), position);
+                delete(items.get(position).getId());
             }
         });
 
-        holder.down.setOnClickListener(new View.OnClickListener(){
+        holder.toC.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                voteDown(holder, items.get(position).getId(), position);
+                Intent myIntent = new Intent(context, ShowPostActivity.class);
+                myIntent.putExtra("idPost", items.get(position).getCommentable());
+                context.startActivity(myIntent);
             }
         });
 
-        holder.reply.setOnClickListener(new View.OnClickListener(){
+        holder.edit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
+                Intent myIntent = new Intent(context, EditCommentActivity.class);
+                myIntent.putExtra("idComment", items.get(position).getId());
+                context.startActivity(myIntent);
             }
         });
 
@@ -115,39 +117,20 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
         return convertView;
     }
 
-    private void voteUp(final ViewHolder holder, String idComment, final int position){
-        Call<Comment> call = userService.voteComment(idComment, "Up");
-        call.enqueue(new Callback<Comment>() {
+    private void delete(String idComment){
+        Call<Void> call = userService.deleteComment(idComment);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Comment> call, Response<Comment> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
 
-                Toast.makeText(context.getApplicationContext(), "Vote sent correctly!", Toast.LENGTH_SHORT).show();
-                holder.up.setVisibility(View.GONE);
-                holder.down.setVisibility(View.VISIBLE);
+                Toast.makeText(context.getApplicationContext(), "Comment deleted correctly!", Toast.LENGTH_SHORT).show();
+                Intent myIntent = new Intent(context, ShowMyCommentsActivity.class);
+                context.startActivity(myIntent);
 
             }
 
             @Override
-            public void onFailure(Call<Comment> call, Throwable t) {
-                Toast.makeText(context.getApplicationContext(), "Error! Please try again!", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void voteDown(final ViewHolder holder, String idComment, final int position){
-        Call<Comment> call = userService.voteComment(idComment, "DOwn");
-        call.enqueue(new Callback<Comment>() {
-            @Override
-            public void onResponse(Call<Comment> call, Response<Comment> response) {
-
-                Toast.makeText(context.getApplicationContext(), "Vote sent correctly!", Toast.LENGTH_SHORT).show();
-                holder.down.setVisibility(View.GONE);
-                holder.up.setVisibility(View.VISIBLE);
-
-            }
-
-            @Override
-            public void onFailure(Call<Comment> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(context.getApplicationContext(), "Error! Please try again!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -156,10 +139,10 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
     static class ViewHolder {
         TextView title;
         TextView text;
-        Button up;
-        Button down;
-        Button reply;
+        Button edit;
         Button replies;
+        Button toC;
+        Button delete;
     }
 
 }

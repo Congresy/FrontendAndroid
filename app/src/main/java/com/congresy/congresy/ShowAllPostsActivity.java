@@ -38,6 +38,7 @@ public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQ
 
     Button myPosts;
     Button filter;
+    Button myComments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQ
         search = findViewById(R.id.search);
         myPosts = findViewById(R.id.myPosts);
         filter = findViewById(R.id.filter);
+        myComments = findViewById(R.id.myComments);
 
         loadMostVotedPosts();
 
@@ -102,6 +104,14 @@ public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQ
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ShowAllPostsActivity.this, ShowMyPostsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        myComments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShowAllPostsActivity.this, ShowMyCommentsActivity.class);
                 startActivity(intent);
             }
         });
