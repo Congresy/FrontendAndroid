@@ -23,7 +23,6 @@
         android:minLines="3"
         android:ellipsize="end"
         android:layout_below="@id/title"
-        android:text="ola"
         />
 
     <Button
@@ -50,6 +49,26 @@
         android:layout_height="wrap_content"
         android:text="REPLY"
         android:layout_toRightOf="@id/voteDown"
+        android:layout_below="@id/text"
+        android:focusable="false"
+        />
+
+    <Button
+        android:id="@+id/replies"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="REPLIES"
+        android:layout_toRightOf="@id/reply"
+        android:layout_below="@id/text"
+        android:focusable="false"
+        />
+
+    <Button
+        android:id="@+id/edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EDIT"
+        android:layout_toRightOf="@id/replies"
         android:layout_below="@id/text"
         android:focusable="false"
         />

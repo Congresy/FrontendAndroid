@@ -7,7 +7,9 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +43,8 @@ public class ShowPostActivity extends BaseActivity {
 
     ListView comments;
 
+    public static String id_;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +53,8 @@ public class ShowPostActivity extends BaseActivity {
 
         Intent myIntent = getIntent();
         final String idPost = myIntent.getExtras().get("idPost").toString();
+
+        id_ = idPost;
 
         userService = ApiUtils.getUserService();
 
@@ -130,6 +136,10 @@ public class ShowPostActivity extends BaseActivity {
 
                 comments.setAdapter(adapter);
 
+                justifyListViewHeightBasedOnChildren(comments);
+
+                comments.setScrollContainer(false);
+
             }
 
             @Override
@@ -186,6 +196,27 @@ public class ShowPostActivity extends BaseActivity {
                 Toast.makeText(ShowPostActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void justifyListViewHeightBasedOnChildren (ListView listView) {
+
+        ListAdapter adapter = listView.getAdapter();
+
+        if (adapter == null) {
+            return;
+        }
+        ViewGroup vg = listView;
+        int totalHeight = 0;
+        for (int i = 0; i < adapter.getCount(); i++) {
+            View listItem = adapter.getView(i, null, vg);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams par = listView.getLayoutParams();
+        par.height = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - 1));
+        listView.setLayoutParams(par);
+        listView.requestLayout();
     }
 
 

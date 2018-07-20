@@ -32,7 +32,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="- Edition of post -"
+                android:text="- Edition of comment -"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/creationPost"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -75,26 +75,9 @@
                 android:scrollbars="vertical"
                 />
 
-            <TextView
-                android:id="@+id/category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Category"
-                android:layout_below="@id/bodyE"
-                />
-
-
-            <Spinner xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/spinner"
-                android:layout_below = "@+id/category"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical" />
-
             <Button
                 android:layout_marginTop="15dp"
-                android:layout_below = "@+id/spinner"
+                android:layout_below = "@+id/bodyE"
                 android:id="@+id/save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -152,4 +152,16 @@ public interface UserService {
     @GET("comments/commentable/{idCommentable}")
     Call<List<Comment>> getAllCommentsOfCommentableItem(@Path("idCommentable") String idCommentable);
 
+    @GET("comments/{idComment}/responses")
+    Call<List<Comment>> getResponsesOfComment(@Path("idComment") String idComment);
+
+    @PUT("comments/vote/{idComment}")
+    Call<Comment> voteComment(@Path("idComment") String idComment, @Query("action") String action);
+
+    @PUT("comments/{idComment}")
+    Call<Comment> editComment(@Path("idComment") String idComment, @Body JsonObject jsonObject);
+
+    @GET("comments/{idComment}")
+    Call<Comment> getComment(@Path("idComment") String idComment);
+
 }
