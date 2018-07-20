@@ -90,14 +90,31 @@
             />
 
         <Button
-            android:layout_marginTop="15dp"
-            android:layout_below = "@+id/voteUp"
-            android:id="@+id/voteDown"
+            android:id="@+id/down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Create new event" />
+
+        <TextView
+            android:id="@+id/text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Vote negative"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/down"
+            android:text="Comments"
             />
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/text1"
+            android:layout_marginTop="5dp">
+        </ListView>
 
 
     </RelativeLayout>

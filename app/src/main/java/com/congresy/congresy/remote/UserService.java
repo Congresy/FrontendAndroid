@@ -1,6 +1,7 @@
 package com.congresy.congresy.remote;
 
 import com.congresy.congresy.domain.Actor;
+import com.congresy.congresy.domain.Comment;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.Event;
 import com.congresy.congresy.domain.Post;
@@ -147,5 +148,8 @@ public interface UserService {
 
     @PUT("posts/votes/{idPost}")
     Call<Post> votePost(@Path("idPost") String idPost, @Query("action") String action);
+
+    @GET("comments/commentable/{idCommentable}")
+    Call<List<Comment>> getAllCommentsOfCommentableItem(@Path("idCommentable") String idCommentable);
 
 }

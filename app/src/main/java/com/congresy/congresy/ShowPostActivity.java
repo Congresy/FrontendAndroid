@@ -8,12 +8,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.congresy.congresy.adapters.CommentListAdapter;
+import com.congresy.congresy.domain.Comment;
 import com.congresy.congresy.domain.Post;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +39,8 @@ public class ShowPostActivity extends BaseActivity {
     Button voteUp;
     Button voteDown;
 
+    ListView comments;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +53,7 @@ public class ShowPostActivity extends BaseActivity {
         userService = ApiUtils.getUserService();
 
         voteUp = findViewById(R.id.voteUp);
-        voteDown = findViewById(R.id.voteDown);
+        voteDown = findViewById(R.id.down);
 
         title = findViewById(R.id.title);
         author = findViewById(R.id.author);
@@ -55,6 +62,8 @@ public class ShowPostActivity extends BaseActivity {
         category = findViewById(R.id.category);
         views = findViewById(R.id.views);
         votes = findViewById(R.id.votes);
+
+        comments = findViewById(R.id.listView);
 
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         String aux = sp.getString("AlreadyVoted " + idPost, "not found");
@@ -81,7 +90,7 @@ public class ShowPostActivity extends BaseActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    private void showPost(String idPost){
+    private void showPost(final String idPost){
         Call<Post> call = userService.getPost(idPost);
         call.enqueue(new Callback<Post>() {
             @Override
@@ -97,10 +106,34 @@ public class ShowPostActivity extends BaseActivity {
                 views.setText("Category:" +  Post.getCategory());
                 votes.setText(Post.getVotes() + " votes and " + Post.getViews() + " views");
 
+                loadComments(idPost);
+
             }
 
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
+                Toast.makeText(ShowPostActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void loadComments(String idPost){
+        Call<List<Comment>> call = userService.getAllCommentsOfCommentableItem(idPost);
+        call.enqueue(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+
+                List<Comment> commentsOfCommentable = response.body();
+
+                CommentListAdapter adapter = new CommentListAdapter(getApplicationContext(), commentsOfCommentable);
+
+                comments.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Comment>> call, Throwable t) {
                 Toast.makeText(ShowPostActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
             }
         });
