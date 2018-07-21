@@ -2,21 +2,18 @@ package com.congresy.congresy;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.congresy.congresy.adapters.ConferenceListAddSpeakerAdapter;
 import com.congresy.congresy.adapters.ConferenceListOrganizatorAdapter;
 import com.congresy.congresy.adapters.ConferenceListUserAdapter;
-import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
-import java.security.BasicPermission;
 import java.util.List;
 
 import retrofit2.Call;
@@ -28,15 +25,28 @@ public class ShowMyConferencesActivity extends BaseActivity {
     UserService userService;
     private static List<Conference> conferencesList;
 
+    Button myComments;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         loadDrawer(R.layout.activity_show_my_conferences);
 
+        myComments = findViewById(R.id.myComments);
+
         userService = ApiUtils.getUserService();
 
         LoadMyConferences();
+
+        myComments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShowMyConferencesActivity.this, ShowMyCommentsActivity.class);
+                intent.putExtra("parent", "conference");
+                startActivity(intent);
+            }
+        });
     }
 
     private void LoadMyConferences(){

@@ -112,6 +112,7 @@ public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQ
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ShowAllPostsActivity.this, ShowMyCommentsActivity.class);
+                intent.putExtra("parent", "post");
                 startActivity(intent);
             }
         });

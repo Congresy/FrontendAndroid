@@ -1,6 +1,7 @@
 package com.congresy.congresy;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ListView;
@@ -33,19 +34,25 @@ public class ShowMyCommentsActivity extends BaseActivity {
 
         userService = ApiUtils.getUserService();
 
-        loadData();
+        loadMyComments();
 
     }
 
-    private void loadMyComments(String idActor){
-        Call<List<Comment>> call = userService.getMyComments(idActor);
+    private void loadMyComments(){
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        String id = sp.getString("Id", "not_found");
+
+        Intent myIntent = getIntent();
+        final String parent = myIntent.getExtras().get("parent").toString();
+
+        Call<List<Comment>> call = userService.getMyComments(id);
         call.enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
 
                 List<Comment> myComments = response.body();
 
-                MyCommentsListAdapter adapter = new MyCommentsListAdapter(getApplicationContext(), myComments);
+                MyCommentsListAdapter adapter = new MyCommentsListAdapter(getApplicationContext(), myComments, parent);
 
                 lv.setAdapter(adapter);
 
@@ -59,26 +66,4 @@ public class ShowMyCommentsActivity extends BaseActivity {
 
     }
 
-    private void loadData(){
-        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-        String id = sp.getString("Id", "not_found");
-
-        Call<Actor> call = userService.getActorById(id);
-        call.enqueue(new Callback<Actor>() {
-            @Override
-            public void onResponse(Call<Actor> call, Response<Actor> response) {
-
-                Actor actor = response.body();
-
-                loadMyComments(actor.getId());
-
-            }
-
-            @Override
-            public void onFailure(Call<Actor> call, Throwable t) {
-                Toast.makeText(ShowMyCommentsActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
 }

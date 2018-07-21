@@ -81,15 +81,23 @@ public class CreateCommentActivity extends BaseActivity {
 
         Intent myIntent = getIntent();
         String idCommentable = myIntent.getExtras().get("idCommentable").toString();
+        final String parent = myIntent.getExtras().get("parent").toString();
 
         Call<Comment> call = userService.createComment(json, idCommentable, id);
         call.enqueue(new Callback<Comment>() {
             @Override
             public void onResponse(Call<Comment> call, Response<Comment> response) {
 
-                Intent intent = new Intent(CreateCommentActivity.this, ShowPostActivity.class);
-                intent.putExtra("idPost", response.body().getCommentable());
-                startActivity(intent);
+                if (parent.equals("conference")){
+                    Intent intent = new Intent(CreateCommentActivity.this, ShowConferenceActivity.class);
+                    intent.putExtra("idConference", response.body().getCommentable());
+                    startActivity(intent);
+                } else if (parent.equals("post")){
+                    Intent intent = new Intent(CreateCommentActivity.this, ShowPostActivity.class);
+                    intent.putExtra("idPost", response.body().getCommentable());
+                    startActivity(intent);
+                }
+
 
             }
 
@@ -111,6 +119,7 @@ public class CreateCommentActivity extends BaseActivity {
         call.enqueue(new Callback<Comment>() {
             @Override
             public void onResponse(Call<Comment> call, Response<Comment> response) {
+
 
                 Intent intent = new Intent(CreateCommentActivity.this, ShowResponsesOfComment.class);
                 intent.putExtra("idComment", idCommentable);

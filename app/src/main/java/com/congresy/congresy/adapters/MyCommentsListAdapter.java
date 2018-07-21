@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.congresy.congresy.EditCommentActivity;
 import com.congresy.congresy.R;
+import com.congresy.congresy.ShowConferenceActivity;
 import com.congresy.congresy.ShowMyCommentsActivity;
 import com.congresy.congresy.ShowPostActivity;
 import com.congresy.congresy.ShowResponsesOfComment;
@@ -32,10 +33,12 @@ public class MyCommentsListAdapter extends BaseAdapter implements ListAdapter {
 
     private List<Comment> items;
     private Context context;
+    private String parent_;
 
-    public MyCommentsListAdapter(Context context, List<Comment> items) {
+    public MyCommentsListAdapter(Context context, List<Comment> items, String parent_) {
         this.context = context;
         this.items = items;
+        this.parent_ = parent_;
     }
 
     @Override
@@ -90,9 +93,16 @@ public class MyCommentsListAdapter extends BaseAdapter implements ListAdapter {
         holder.toC.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(context, ShowPostActivity.class);
-                myIntent.putExtra("idPost", items.get(position).getCommentable());
-                context.startActivity(myIntent);
+                if (parent_.equals("conference")){
+                    Intent myIntent = new Intent(context, ShowConferenceActivity.class);
+                    myIntent.putExtra("idConference", items.get(position).getCommentable());
+                    context.startActivity(myIntent);
+                } else if (parent_.equals("post")){
+                    Intent myIntent = new Intent(context, ShowPostActivity.class);
+                    myIntent.putExtra("idPost", items.get(position).getCommentable());
+                    context.startActivity(myIntent);
+                }
+
             }
         });
 

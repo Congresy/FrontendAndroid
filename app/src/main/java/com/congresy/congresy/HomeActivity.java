@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,6 +34,8 @@ public class HomeActivity extends BaseActivity {
 
     private UserService userService;
 
+    Button myComments;
+
     private static List<Conference> conferencesList;
 
     @Override
@@ -45,7 +48,18 @@ public class HomeActivity extends BaseActivity {
 
         userService = ApiUtils.getUserService();
 
+        myComments = findViewById(R.id.myComments);
+
         loadAllPosts();
+
+        myComments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, ShowMyCommentsActivity.class);
+                intent.putExtra("parent", "conference");
+                startActivity(intent);
+            }
+        });
 
     }
     
