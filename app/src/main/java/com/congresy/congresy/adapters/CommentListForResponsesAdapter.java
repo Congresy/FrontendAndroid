@@ -1,6 +1,7 @@
 package com.congresy.congresy.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.congresy.congresy.CreateCommentActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.domain.Comment;
 import com.congresy.congresy.remote.ApiUtils;
@@ -18,14 +20,14 @@ import java.util.List;
 
 public class CommentListForResponsesAdapter extends BaseAdapter implements ListAdapter {
 
-    private UserService userService;
-
     private List<Comment> items;
     private Context context;
+    private String idParentComment;
 
-    public CommentListForResponsesAdapter(Context context, List<Comment> items) {
+    public CommentListForResponsesAdapter(Context context, List<Comment> items, String idParentComment) {
         this.context = context;
         this.items = items;
+        this.idParentComment = idParentComment;
     }
 
     @Override
@@ -46,7 +48,6 @@ public class CommentListForResponsesAdapter extends BaseAdapter implements ListA
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        userService = ApiUtils.getUserService();
         ViewHolder holder;
         View view = convertView;
 
@@ -90,7 +91,10 @@ public class CommentListForResponsesAdapter extends BaseAdapter implements ListA
         holder.reply.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
+                Intent myIntent = new Intent(context, CreateCommentActivity.class);
+                myIntent.putExtra("idCommentable", idParentComment);
+                myIntent.putExtra("comeFrom", "reply child");
+                context.startActivity(myIntent);
             }
         });
 

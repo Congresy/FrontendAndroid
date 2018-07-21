@@ -40,7 +40,7 @@ public class ShowResponsesOfComment extends BaseActivity {
         loadComments(id);
     }
 
-    private void loadComments(String idComment){
+    private void loadComments(final String idComment){
         Call<List<Comment>> call = userService.getResponsesOfComment(idComment);
         call.enqueue(new Callback<List<Comment>>() {
             @Override
@@ -48,7 +48,7 @@ public class ShowResponsesOfComment extends BaseActivity {
 
                 List<Comment> commentsOfCommentable = response.body();
 
-                CommentListForResponsesAdapter adapter = new CommentListForResponsesAdapter(getApplicationContext(), commentsOfCommentable);
+                CommentListForResponsesAdapter adapter = new CommentListForResponsesAdapter(getApplicationContext(), commentsOfCommentable, idComment);
 
                 respones.setAdapter(adapter);
 

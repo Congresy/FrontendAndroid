@@ -31,6 +31,8 @@ public class CreateCommentActivity extends BaseActivity {
 
     Button save;
 
+    String comeFrom;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +45,9 @@ public class CreateCommentActivity extends BaseActivity {
         bodyE = findViewById(R.id.bodyE);
 
         userService = ApiUtils.getUserService();
+
+        Intent myIntent = getIntent();
+        comeFrom = myIntent.getExtras().get("comeFrom").toString();
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +64,11 @@ public class CreateCommentActivity extends BaseActivity {
                 json.addProperty("thumbsDown", 0);
                 json.addProperty("sentMoment", LocalDateTime.now().toString("dd/MM/yyyy HH:mm"));
 
-                createComment(json);
+                if (comeFrom.equals("reply parent") || comeFrom.equals("reply child")){
+                    createResponse(json);
+                } else {
+                    createComment(json);
+                }
 
             }
         });
@@ -80,6 +89,31 @@ public class CreateCommentActivity extends BaseActivity {
 
                 Intent intent = new Intent(CreateCommentActivity.this, ShowPostActivity.class);
                 intent.putExtra("idPost", response.body().getCommentable());
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
+                Toast.makeText(CreateCommentActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void createResponse(JsonObject json){
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        String id = sp.getString("Id", "not_found");
+
+        Intent myIntent = getIntent();
+        final String idCommentable = myIntent.getExtras().get("idCommentable").toString();
+
+        Call<Comment> call = userService.createResponse(json, idCommentable, id);
+        call.enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+
+                Intent intent = new Intent(CreateCommentActivity.this, ShowResponsesOfComment.class);
+                intent.putExtra("idComment", idCommentable);
                 startActivity(intent);
 
             }

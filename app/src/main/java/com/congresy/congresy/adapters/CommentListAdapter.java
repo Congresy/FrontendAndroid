@@ -13,6 +13,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.congresy.congresy.CreateCommentActivity;
 import com.congresy.congresy.EditCommentActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowPostActivity;
@@ -99,7 +100,10 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
         holder.reply.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
+                Intent myIntent = new Intent(context, CreateCommentActivity.class);
+                myIntent.putExtra("idCommentable", items.get(position).getId());
+                myIntent.putExtra("comeFrom", "reply parent");
+                context.startActivity(myIntent);
             }
         });
 
