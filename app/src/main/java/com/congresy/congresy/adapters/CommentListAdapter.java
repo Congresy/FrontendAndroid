@@ -83,10 +83,25 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
         holder.title.setText(items.get(position).getTitle());
         holder.text.setText(items.get(position).getText());
 
+        holder.up.setVisibility(View.GONE);
+        holder.down.setVisibility(View.GONE);
+
+        SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        String aux = sp.getString("AlreadyVoted " + items.get(position).getId(), "not found");
+        if(aux.equals("not found")){
+            holder.up.setVisibility(View.VISIBLE);
+            holder.down.setVisibility(View.VISIBLE);
+        }
+
         holder.up.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 voteUp(holder, items.get(position).getId(), position);
+
+                SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("AlreadyVoted " + items.get(position).getId(), "1");
+                editor.apply();
             }
         });
 
@@ -94,6 +109,11 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
             @Override
             public void onClick(View v) {
                 voteDown(holder, items.get(position).getId(), position);
+
+                SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("AlreadyVoted " + items.get(position).getId(), "1");
+                editor.apply();
             }
         });
 
@@ -127,7 +147,7 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
 
                 Toast.makeText(context.getApplicationContext(), "Vote sent correctly!", Toast.LENGTH_SHORT).show();
                 holder.up.setVisibility(View.GONE);
-                holder.down.setVisibility(View.VISIBLE);
+                holder.down.setVisibility(View.GONE);
 
             }
 
@@ -146,7 +166,7 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
 
                 Toast.makeText(context.getApplicationContext(), "Vote sent correctly!", Toast.LENGTH_SHORT).show();
                 holder.down.setVisibility(View.GONE);
-                holder.up.setVisibility(View.VISIBLE);
+                holder.up.setVisibility(View.GONE);
 
             }
 

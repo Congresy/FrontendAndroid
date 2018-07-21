@@ -26,29 +26,10 @@
         />
 
     <Button
-        android:id="@+id/voteUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="UP"
-        android:layout_below="@id/text"
-        android:focusable="false"/>
-
-    <Button
-        android:id="@+id/voteDown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="DOWN"
-        android:layout_toRightOf="@id/voteUp"
-        android:layout_below="@id/text"
-        android:focusable="false"
-        />
-
-    <Button
         android:id="@+id/reply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="REPLY"
-        android:layout_toRightOf="@id/voteDown"
         android:layout_below="@id/text"
         android:focusable="false"
         />
@@ -59,6 +40,25 @@
         android:layout_height="wrap_content"
         android:text="REPLIES"
         android:layout_toRightOf="@id/reply"
+        android:layout_below="@id/text"
+        android:focusable="false"
+        />
+
+    <Button
+        android:id="@+id/voteUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UP"
+        android:layout_toRightOf="@id/replies"
+        android:layout_below="@id/text"
+        android:focusable="false"/>
+
+    <Button
+        android:id="@+id/voteDown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DOWN"
+        android:layout_toRightOf="@id/voteUp"
         android:layout_below="@id/text"
         android:focusable="false"
         />
