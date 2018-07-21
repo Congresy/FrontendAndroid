@@ -40,6 +40,7 @@ public class ShowPostActivity extends BaseActivity {
 
     Button voteUp;
     Button voteDown;
+    Button create;
 
     ListView comments;
 
@@ -60,6 +61,7 @@ public class ShowPostActivity extends BaseActivity {
 
         voteUp = findViewById(R.id.voteUp);
         voteDown = findViewById(R.id.down);
+        create = findViewById(R.id.create);
 
         title = findViewById(R.id.title);
         author = findViewById(R.id.author);
@@ -89,6 +91,16 @@ public class ShowPostActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 voteDown(idPost);
+            }
+        });
+
+        create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShowPostActivity.this, CreateCommentActivity.class);
+                intent.putExtra("idCommentable", idPost);
+                startActivity(intent);
+
             }
         });
 

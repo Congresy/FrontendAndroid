@@ -170,4 +170,10 @@ public interface UserService {
     @DELETE("comments/{idComment}")
     Call<Void> deleteComment(@Path("idComment") String idComment);
 
+    @POST("comments/{idCommentable}/{idAuthor}")
+    Call<Comment> createComment(@Body JsonObject jsonObject, @Path("idCommentable") String idCommentable, @Path("idAuthor") String idAuthor);
+
+    @POST("comments/{idCommentable}/response/{idAuthor}")
+    Call<Comment> createResponse(@Body JsonObject jsonObject, @Path("idCommentable") String idCommentable, @Path("idAuthor") String idAuthor);
+
 }
