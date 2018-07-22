@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.congresy.congresy.adapters.SocialNetworkAdapter;
 import com.congresy.congresy.domain.Actor;
+import com.congresy.congresy.domain.Place;
 import com.congresy.congresy.domain.SocialNetwork;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
@@ -32,11 +33,15 @@ public class ProfileActivity extends BaseActivity {
     TextView tSurname;
     TextView tEmail;
     TextView tPhone;
-    TextView tPlace;
     TextView tNick;
     TextView tRole;
     TextView socialNetworks;
     ImageView image;
+
+    TextView ePlace;
+    TextView eAddress;
+    TextView eDetails;
+
 
     List<SocialNetwork> socialNetworkList;
 
@@ -51,13 +56,39 @@ public class ProfileActivity extends BaseActivity {
         tPhone = findViewById(R.id.phone);
         tNick = findViewById(R.id.nick);
         tRole = findViewById(R.id.role);
-        tPlace = findViewById(R.id.place);
         image = findViewById(R.id.image);
         socialNetworks = findViewById(R.id.socialNetworks);
+
+        ePlace = findViewById(R.id.edtPlace);
+        eAddress = findViewById(R.id.edtAddress);
+        eDetails = findViewById(R.id.edtDetailsT);
 
         userService = ApiUtils.getUserService();
 
         Execute();
+    }
+
+    private void loadPlace(String idPlace){
+        Call<Place> call = userService.getPlace(idPlace);
+        call.enqueue(new Callback<Place>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(Call<Place> call, Response<Place> response) {
+
+                Place p = response.body();
+
+                ePlace.setText(p.getTown() + ", " + p.getCountry());
+                eAddress.setText(p.getAddress() + ", " + p.getPostalCode());
+                eAddress.setText("Details: " + p.getDetails());
+
+            }
+
+            @Override
+            public void onFailure(Call<Place> call, Throwable t) {
+                Toast.makeText(ProfileActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void LoadProfile(final List<SocialNetwork> socialNetworksS) {
@@ -76,7 +107,6 @@ public class ProfileActivity extends BaseActivity {
                     tPhone.setText("Phone: " + body.getPhone());
                     tNick.setText("Nick: " + body.getNick());
                     tRole.setText("Role: " + body.getRole());
-                    tPlace.setText("Place: " + body.getPlace());
 
                     if(socialNetworksS != null){
                         String auxSN = "";
@@ -98,6 +128,8 @@ public class ProfileActivity extends BaseActivity {
                     if(body.getPhoto() != null){
                         chargeImage(body.getPhoto());
                     }
+
+                    loadPlace(body.getPlace());
 
                 } else {
                     Toast.makeText(ProfileActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();

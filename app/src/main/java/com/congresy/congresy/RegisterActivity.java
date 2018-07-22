@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.congresy.congresy.domain.Actor;
+import com.congresy.congresy.domain.Place;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 import com.google.gson.JsonObject;
@@ -31,9 +33,15 @@ public class RegisterActivity extends AppCompatActivity {
     EditText edtSurname;
     EditText edtEmail;
     EditText edtPhone;
-    EditText edtPlace;
     EditText edtPhoto;
     EditText edtNick;
+
+    // Place attributes
+    EditText edtTown;
+    EditText edtCountry;
+    EditText edtAddress;
+    EditText edtPostalCode;
+    EditText edtDetails;
 
     Button btnRegister;
 
@@ -60,9 +68,15 @@ public class RegisterActivity extends AppCompatActivity {
         edtSurname = findViewById(R.id.edtSurname);
         edtEmail = findViewById(R.id.edtEmail);
         edtPhone = findViewById(R.id.edtPhone);
-        edtPlace = findViewById(R.id.edtPlace);
         edtPhoto = findViewById(R.id.edtPhoto);
         edtNick = findViewById(R.id.edtNick);
+
+        // Pace attributes
+        edtTown = findViewById(R.id.edtTown);
+        edtCountry = findViewById(R.id.edtCountry);
+        edtAddress = findViewById(R.id.edtAddress);
+        edtPostalCode = findViewById(R.id.edtPostalCode);
+        edtDetails = findViewById(R.id.edtDetails);
 
         userService = ApiUtils.getUserService();
 
@@ -75,9 +89,15 @@ public class RegisterActivity extends AppCompatActivity {
                 String surname = edtSurname.getText().toString();
                 String email = edtEmail.getText().toString();
                 String phone = edtPhone.getText().toString();
-                String place = edtPlace.getText().toString();
                 String photo = edtPhoto.getText().toString();
                 String nick = edtNick.getText().toString();
+
+                // Place attributes
+                String town = edtTown.getText().toString();
+                String country = edtCountry.getText().toString();
+                String address = edtAddress.getText().toString();
+                String postalCode = edtPostalCode.getText().toString();
+                String details = edtDetails.getText().toString();
 
                 // adding properties to json for POST
                 JsonObject json = new JsonObject();
@@ -91,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
                 jsonActor.addProperty("surname", surname);
                 jsonActor.addProperty("email", email);
                 jsonActor.addProperty("phone", phone);
-                jsonActor.addProperty("place", place);
+
                 if(!photo.equals("null")){
                     jsonActor.addProperty("photo", photo);
                 }
@@ -104,9 +124,16 @@ public class RegisterActivity extends AppCompatActivity {
                 json.add("actor", jsonActor);
                 json.add("userAccount", jsonAuth);
 
+                JsonObject jsonPlace = new JsonObject();
+                jsonPlace.addProperty("town", town);
+                jsonPlace.addProperty("country", country);
+                jsonPlace.addProperty("address", address);
+                jsonPlace.addProperty("postalCode", postalCode);
+                jsonPlace.addProperty("details", details);
+
 
                 //validate form
-                doRegister(json);
+                doRegister(json, jsonPlace);
             }
         });
     }
@@ -133,15 +160,34 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private void doRegister(final JsonObject json){
-        Call call = userService.register(json);
-        call.enqueue(new Callback() {
+    private void createPlace(final JsonObject jsonPlace, String id){
+        Call<Place> call = userService.createPlace(jsonPlace, id);
+        call.enqueue(new Callback<Place>() {
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(Call<Place> call, Response<Place> response) {
+
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onFailure(Call<Place> call, Throwable t) {
+                Toast.makeText(RegisterActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void doRegister(final JsonObject json, final JsonObject jsonPlace){
+        Call<Actor> call = userService.register(json);
+        call.enqueue(new Callback<Actor>() {
+            @Override
+            public void onResponse(Call<Actor> call, Response<Actor> response) {
                 if(response.isSuccessful()){
 
-                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                        startActivity(intent);
+                    Actor actor = response.body();
+
+                    createPlace(jsonPlace, actor.getId());
 
                 } else {
                     Toast.makeText(RegisterActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
@@ -149,7 +195,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
+            public void onFailure(Call<Actor> call, Throwable t) {
                 Toast.makeText(RegisterActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
