@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Event;
+import com.congresy.congresy.domain.Place;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 import com.google.gson.JsonObject;
@@ -35,6 +36,13 @@ public class RegisterSpeakerActivity extends BaseActivity {
     EditText edtPhoto;
     EditText edtNick;
 
+    // Place attributes
+    EditText edtTown;
+    EditText edtCountry;
+    EditText edtAddress;
+    EditText edtPostalCode;
+    EditText edtDetails;
+
     Button btnRegister;
 
     @Override
@@ -50,8 +58,15 @@ public class RegisterSpeakerActivity extends BaseActivity {
         edtEmail = findViewById(R.id.edtEmail);
         edtPhone = findViewById(R.id.edtPhone);
         edtPlace = findViewById(R.id.edtPlace);
-        edtPhoto = findViewById(R.id.edtPhoto);
+        edtPhoto = findViewById(R.id.edtPhotoP);
         edtNick = findViewById(R.id.edtNick);
+
+        // Pace attributes
+        edtTown = findViewById(R.id.edtTown);
+        edtCountry = findViewById(R.id.edtCountry);
+        edtAddress = findViewById(R.id.edtAddress);
+        edtPostalCode = findViewById(R.id.edtPostalCode);
+        edtDetails = findViewById(R.id.edtDetails);
 
         userService = ApiUtils.getUserService();
 
@@ -67,6 +82,13 @@ public class RegisterSpeakerActivity extends BaseActivity {
                 String place = edtPlace.getText().toString();
                 String photo = edtPhoto.getText().toString();
                 String nick = edtNick.getText().toString();
+
+                // Place attributes
+                String town = edtTown.getText().toString();
+                String country = edtCountry.getText().toString();
+                String address = edtAddress.getText().toString();
+                String postalCode = edtPostalCode.getText().toString();
+                String details = edtDetails.getText().toString();
 
                 // adding properties to json for POST
                 JsonObject json = new JsonObject();
@@ -91,7 +113,14 @@ public class RegisterSpeakerActivity extends BaseActivity {
                 json.add("actor", jsonActor);
                 json.add("userAccount", jsonAuth);
 
-                doRegister(json);
+                JsonObject jsonPlace = new JsonObject();
+                jsonPlace.addProperty("town", town);
+                jsonPlace.addProperty("country", country);
+                jsonPlace.addProperty("address", address);
+                jsonPlace.addProperty("postalCode", postalCode);
+                jsonPlace.addProperty("details", details);
+
+                doRegister(json, jsonPlace);
             }
         });
     }
@@ -118,7 +147,26 @@ public class RegisterSpeakerActivity extends BaseActivity {
         }
     }
 
-    private void doRegister(final JsonObject json){
+    private void createPlace(final JsonObject jsonPlace, String id, final String idEvent){
+        Call<Place> call = userService.createPlace(jsonPlace, id);
+        call.enqueue(new Callback<Place>() {
+            @Override
+            public void onResponse(Call<Place> call, Response<Place> response) {
+
+                Intent intent = new Intent(RegisterSpeakerActivity.this, ShowSpeakersOfEventActivity.class);
+                intent.putExtra("idEvent", idEvent);
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onFailure(Call<Place> call, Throwable t) {
+                Toast.makeText(RegisterSpeakerActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void doRegister(final JsonObject json, final JsonObject jsonPlace){
         Call<Actor> call = userService.register(json);
         call.enqueue(new Callback<Actor>() {
             @Override
@@ -127,7 +175,7 @@ public class RegisterSpeakerActivity extends BaseActivity {
 
                     Actor actor = response.body();
                     
-                    addSpeaker(actor.getId());
+                    addSpeaker(actor.getId(), jsonPlace);
 
                 } else {
                     Toast.makeText(RegisterSpeakerActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
@@ -141,7 +189,7 @@ public class RegisterSpeakerActivity extends BaseActivity {
         });
     }
 
-    private void addSpeaker(String idActor){
+    private void addSpeaker(final String idActor, final JsonObject jsonPlace){
         Intent myIntent = getIntent();
         final String idEvent = myIntent.getExtras().get("idEvent").toString();
         
@@ -151,9 +199,7 @@ public class RegisterSpeakerActivity extends BaseActivity {
             public void onResponse(Call<Event> call, Response<Event> response) {
                 if(response.isSuccessful()){
 
-                    Intent intent = new Intent(RegisterSpeakerActivity.this, ShowSpeakersOfEventActivity.class);
-                    intent.putExtra("idEvent", idEvent);
-                    startActivity(intent);
+                    createPlace(jsonPlace, idActor, response.body().getId());
 
 
                 } else {
