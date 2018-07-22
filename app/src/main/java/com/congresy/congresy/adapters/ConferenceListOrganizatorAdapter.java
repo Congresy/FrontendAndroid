@@ -29,7 +29,6 @@ import retrofit2.Response;
 
 public class ConferenceListOrganizatorAdapter extends BaseAdapter implements ListAdapter {
 
-    public static Conference conference_;
     private UserService userService = ApiUtils.getUserService();
 
     private List<Conference> items;
@@ -79,8 +78,6 @@ public class ConferenceListOrganizatorAdapter extends BaseAdapter implements Lis
         }
 
         holder.name.setText(items.get(position).getName());
-
-        conference_ = items.get(position);
 
         holder.events.setOnClickListener(new View.OnClickListener(){
             @Override

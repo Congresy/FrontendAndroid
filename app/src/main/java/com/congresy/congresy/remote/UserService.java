@@ -4,6 +4,7 @@ import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Comment;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.Event;
+import com.congresy.congresy.domain.Place;
 import com.congresy.congresy.domain.Post;
 import com.congresy.congresy.domain.SocialNetwork;
 import com.congresy.congresy.domain.UserAccount;
@@ -33,7 +34,7 @@ public interface UserService {
     Call<Actor> register(@Body JsonObject jsonObject);
 
     @POST("conferences")
-    Call<Void> createConference(@Body JsonObject jsonObject);
+    Call<Conference> createConference(@Body JsonObject jsonObject);
 
     @GET("actors/userAccount/{username}")
     Call<UserAccount> getUserAccount(@Path("username") String username);
@@ -176,4 +177,12 @@ public interface UserService {
     @POST("comments/{idCommentable}/response/{idAuthor}")
     Call<Comment> createResponse(@Body JsonObject jsonObject, @Path("idCommentable") String idCommentable, @Path("idAuthor") String idAuthor);
 
+    @POST("places/{id}")
+    Call<Place> createPlace(@Body JsonObject jsonObject, @Path("id") String id);
+
+    @PUT("places/{idPlace}")
+    Call<Place> editPlace(@Body JsonObject jsonObject, @Path("idPlace") String idPlace);
+
+    @GET("places/{idPlace}")
+    Call<Place> getPlace(@Path("idPlace") String idPlace);
 }

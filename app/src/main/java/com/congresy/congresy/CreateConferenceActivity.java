@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.congresy.congresy.domain.Conference;
+import com.congresy.congresy.domain.Place;
 import com.congresy.congresy.domain.UserAccount;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
@@ -32,6 +34,13 @@ public class CreateConferenceActivity extends BaseActivity {
     EditText edtDescription;
     EditText edtPartic;
 
+    // Place attributes
+    EditText edtTown;
+    EditText edtCountry;
+    EditText edtAddress;
+    EditText edtPostalCode;
+    EditText edtDetails;
+
     Button btnCreateConference;
 
     @Override
@@ -50,6 +59,13 @@ public class CreateConferenceActivity extends BaseActivity {
         edtDescription = findViewById(R.id.edtDescription);
         edtPartic = findViewById(R.id.edtPartic);
 
+        // Pace attributes
+        edtTown = findViewById(R.id.edtTown);
+        edtCountry = findViewById(R.id.edtCountry);
+        edtAddress = findViewById(R.id.edtAddress);
+        edtPostalCode = findViewById(R.id.edtPostalCode);
+        edtDetails = findViewById(R.id.edtDetails);
+
         userService = ApiUtils.getUserService();
 
         btnCreateConference.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +80,13 @@ public class CreateConferenceActivity extends BaseActivity {
                 String description = edtDescription.getText().toString();
                 String allowedParticipants = edtPartic.getText().toString();
 
+                // Place attributes
+                String town = edtTown.getText().toString();
+                String country = edtCountry.getText().toString();
+                String address = edtAddress.getText().toString();
+                String postalCode = edtPostalCode.getText().toString();
+                String details = edtDetails.getText().toString();
+
                 // adding properties to json for POST
                 JsonObject json = new JsonObject();
 
@@ -76,10 +99,16 @@ public class CreateConferenceActivity extends BaseActivity {
                 json.addProperty("description", description);
                 json.addProperty("allowedParticipants", Integer.valueOf(allowedParticipants));
 
+                JsonObject jsonPlace = new JsonObject();
+                jsonPlace.addProperty("town", town);
+                jsonPlace.addProperty("country", country);
+                jsonPlace.addProperty("address", address);
+                jsonPlace.addProperty("postalCode", postalCode);
+                jsonPlace.addProperty("details", details);
 
                 //validate form
                 if(validateRegister(name, theme, price, start, end, speakers, description)){
-                    createConference(json);
+                    createConference(json, jsonPlace);
                 }
             }
         });
@@ -96,15 +125,14 @@ public class CreateConferenceActivity extends BaseActivity {
         return true;
     }
 
-    private void doConference(final JsonObject json){
-        Call call = userService.createConference(json);
-        call.enqueue(new Callback() {
+    private void doConference(final JsonObject json, final JsonObject jsonPlace){
+        Call<Conference> call = userService.createConference(json);
+        call.enqueue(new Callback<Conference>() {
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(Call<Conference> call, Response<Conference> response) {
                 if(response.isSuccessful()){
 
-                    Intent intent = new Intent(CreateConferenceActivity.this, ShowMyConferencesActivity.class);
-                    startActivity(intent);
+                    createPlace(jsonPlace, response.body().getId());
 
                 } else {
                     Toast.makeText(CreateConferenceActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
@@ -112,13 +140,31 @@ public class CreateConferenceActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
+            public void onFailure(Call<Conference> call, Throwable t) {
                 Toast.makeText(CreateConferenceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void createConference(final JsonObject json){
+    private void createPlace(final JsonObject jsonPlace, String id){
+        Call<Place> call = userService.createPlace(jsonPlace, id);
+        call.enqueue(new Callback<Place>() {
+            @Override
+            public void onResponse(Call<Place> call, Response<Place> response) {
+
+                Intent intent = new Intent(CreateConferenceActivity.this, ShowMyConferencesActivity.class);
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onFailure(Call<Place> call, Throwable t) {
+                Toast.makeText(CreateConferenceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void createConference(final JsonObject json, final JsonObject jsonPlace){
         Call<UserAccount> call = userService.getUserAccount(HomeActivity.username);
         call.enqueue(new Callback<UserAccount>() {
             @Override
@@ -127,7 +173,7 @@ public class CreateConferenceActivity extends BaseActivity {
 
                 json.addProperty("organizator", userAccountId);
 
-                doConference(json);
+                doConference(json, jsonPlace);
             }
 
             @Override

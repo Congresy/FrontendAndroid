@@ -154,14 +154,100 @@
                 />
 
             <EditText
-                android:id="@+id/edtDescription"
+                android:id="@+id/edtDescriptionP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtDescriptionT"
                 />
 
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/edtDescriptionP"
+                android:text="-- Place --"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Town: "
+                android:layout_below = "@+id/text1"
+                android:id="@+id/edtTownT"
+                />
+
+            <EditText
+                android:id="@+id/edtTown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtTownT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Country: "
+                android:layout_below = "@+id/edtTown"
+                android:id="@+id/edtCountryT"
+                />
+
+            <EditText
+                android:id="@+id/edtCountry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtCountryT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address: "
+                android:layout_below = "@+id/edtCountry"
+                android:id="@+id/edtAddressT"
+                />
+
+            <EditText
+                android:id="@+id/edtAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtAddressT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Postal code: "
+                android:layout_below = "@+id/edtAddress"
+                android:id="@+id/edtPostalCodeT"
+                />
+
+            <EditText
+                android:id="@+id/edtPostalCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtPostalCodeT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Details: "
+                android:layout_below = "@+id/edtPostalCode"
+                android:id="@+id/edtDetailsT"
+                />
+
+            <EditText
+                android:id="@+id/edtDetailsP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtDetailsT"
+                />
+
             <Button
-                android:layout_below = "@+id/edtDescription"
+                android:layout_below = "@+id/edtDetailsP"
                 android:id="@+id/btnEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

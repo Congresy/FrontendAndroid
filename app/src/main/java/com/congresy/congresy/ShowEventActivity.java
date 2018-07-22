@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.congresy.congresy.domain.Event;
+import com.congresy.congresy.domain.Place;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
@@ -27,6 +28,10 @@ public class ShowEventActivity extends BaseActivity {
     TextView edtPlace;
     TextView edtRole;
 
+    TextView ePlace;
+    TextView eAddress;
+    TextView eDetails;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,10 +47,36 @@ public class ShowEventActivity extends BaseActivity {
         edtRole = findViewById(R.id.edtRole);
         edtStart = findViewById(R.id.edtStart);
         edtEnd = findViewById(R.id.edtEnd);
-        edtPlace = findViewById(R.id.edtPlace);
         edtDescription = findViewById(R.id.edtRequirements);
 
+        ePlace = findViewById(R.id.edtPlace);
+        eAddress = findViewById(R.id.edtAddress);
+        eDetails = findViewById(R.id.edtDetailsT);
+
         showConference(idEvent);
+
+    }
+
+    private void loadPlace(String idPlace){
+        Call<Place> call = userService.getPlace(idPlace);
+        call.enqueue(new Callback<Place>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(Call<Place> call, Response<Place> response) {
+
+                Place p = response.body();
+
+                ePlace.setText(p.getTown() + ", " + p.getCountry());
+                eAddress.setText(p.getAddress() + ", " + p.getPostalCode());
+                eAddress.setText("Details: " + p.getDetails());
+
+            }
+
+            @Override
+            public void onFailure(Call<Place> call, Throwable t) {
+                Toast.makeText(ShowEventActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -63,9 +94,10 @@ public class ShowEventActivity extends BaseActivity {
                 edtRole.setText("Role: " + event.getRole());
                 edtStart.setText("Start time: " + event.getStart());
                 edtEnd.setText("End time: " + event.getEnd());
-                edtPlace.setText("Place: " + event.getPlace());
                 edtDescription.setText("Description: " + event.getRequirements());
                 edtDescription.setText("AllowedParticipants: " + event.getAllowedParticipants());
+
+                loadPlace(event.getPlace());
 
             }
 

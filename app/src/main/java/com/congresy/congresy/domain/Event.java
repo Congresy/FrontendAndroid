@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Event {
 
+    @SerializedName("allowedParticipants")
+    @Expose
+    private Integer allowedParticipants;
     @SerializedName("conference")
     @Expose
     private String conference;
@@ -18,6 +21,9 @@ public class Event {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("participants")
+    @Expose
+    private List<String> participants = null;
     @SerializedName("place")
     @Expose
     private String place;
@@ -36,9 +42,6 @@ public class Event {
     @SerializedName("type")
     @Expose
     private String type;
-    @SerializedName("allowedParticipants")
-    @Expose
-    private Integer allowedParticipants;
 
     public Integer getAllowedParticipants() {
         return allowedParticipants;
@@ -78,6 +81,14 @@ public class Event {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<String> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<String> participants) {
+        this.participants = participants;
     }
 
     public String getPlace() {
@@ -129,8 +140,7 @@ public class Event {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.name;
     }
-
 }

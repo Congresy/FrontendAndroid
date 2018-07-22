@@ -86,25 +86,10 @@
                 />
 
             <TextView
-                android:id="@+id/edtPlaceT"
-                android:layout_below = "@+id/edtRequirements"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Place: "
-                />
-
-            <EditText
-                android:id="@+id/edtPlace"
-                android:layout_below = "@+id/edtPlaceT"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Start date: "
-                android:layout_below = "@+id/edtPlace"
+                android:layout_below = "@+id/edtRequirements"
                 android:id="@+id/edtStartT"
                 />
 
@@ -161,8 +146,94 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical" />
 
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/spinner"
+                android:text="-- Place --"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Town: "
+                android:layout_below = "@+id/text1"
+                android:id="@+id/edtTownT"
+                />
+
+            <EditText
+                android:id="@+id/edtTown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtTownT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Country: "
+                android:layout_below = "@+id/edtTown"
+                android:id="@+id/edtCountryT"
+                />
+
+            <EditText
+                android:id="@+id/edtCountry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtCountryT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address: "
+                android:layout_below = "@+id/edtCountry"
+                android:id="@+id/edtAddressT"
+                />
+
+            <EditText
+                android:id="@+id/edtAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtAddressT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Postal code: "
+                android:layout_below = "@+id/edtAddress"
+                android:id="@+id/edtPostalCodeT"
+                />
+
+            <EditText
+                android:id="@+id/edtPostalCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtPostalCodeT"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Details: "
+                android:layout_below = "@+id/edtPostalCode"
+                android:id="@+id/edtDetailsT"
+                />
+
+            <EditText
+                android:id="@+id/edtDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtDetailsT"
+                />
+
             <Button
-                android:layout_below = "@+id/spinner"
+                android:layout_below = "@+id/edtDetails"
                 android:id="@+id/btnCreate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

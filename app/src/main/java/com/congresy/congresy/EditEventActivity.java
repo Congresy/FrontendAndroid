@@ -1,7 +1,6 @@
 package com.congresy.congresy;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -10,8 +9,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.congresy.congresy.adapters.EventListOrganizatorAdapter;
 import com.congresy.congresy.domain.Event;
+import com.congresy.congresy.domain.Place;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 import com.google.gson.JsonObject;
@@ -22,8 +21,6 @@ import retrofit2.Response;
 
 public class EditEventActivity extends BaseActivity {
 
-    private Event event = EventListOrganizatorAdapter.event_;
-
     UserService userService;
 
     EditText edtName;
@@ -33,6 +30,13 @@ public class EditEventActivity extends BaseActivity {
     EditText edtEnd;
     EditText edtPlace;
     Spinner edtRole;
+
+    // Place attributes
+    EditText edtTown;
+    EditText edtCountry;
+    EditText edtAddress;
+    EditText edtPostalCode;
+    EditText edtDetails;
 
     Button btnEdit;
 
@@ -50,6 +54,13 @@ public class EditEventActivity extends BaseActivity {
         edtEnd = findViewById(R.id.edtEnd);
         edtPlace = findViewById(R.id.edtPlace);
         edtDescription = findViewById(R.id.edtRequirements);
+
+        // Pace attributes
+        edtTown = findViewById(R.id.edtTown);
+        edtCountry = findViewById(R.id.edtCountry);
+        edtAddress = findViewById(R.id.edtAddress);
+        edtPostalCode = findViewById(R.id.edtPostalCode);
+        edtDetails = findViewById(R.id.edtDetailsP);
 
         userService = ApiUtils.getUserService();
 
@@ -75,12 +86,7 @@ public class EditEventActivity extends BaseActivity {
             index++;
         }
 
-        edtName.setText(event.getName());
-        edtType.setText(event.getType());
-        edtStart.setText(event.getStart());
-        edtEnd.setText(event.getEnd());
-        edtPlace.setText(event.getPlace());
-        edtDescription.setText(event.getRequirements());
+        getEvent();
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,8 +96,14 @@ public class EditEventActivity extends BaseActivity {
                 String role = edtRole.getSelectedItem().toString();
                 String start = edtStart.getText().toString();
                 String end = edtEnd.getText().toString();
-                String place = edtPlace.getText().toString();
                 String description = edtDescription.getText().toString();
+
+                // Place attributes
+                String town = edtTown.getText().toString();
+                String country = edtCountry.getText().toString();
+                String address = edtAddress.getText().toString();
+                String postalCode = edtPostalCode.getText().toString();
+                String details = edtDetails.getText().toString();
 
                 // adding properties to json for POST
                 JsonObject json = new JsonObject();
@@ -101,30 +113,45 @@ public class EditEventActivity extends BaseActivity {
                 json.addProperty("start", start);
                 json.addProperty("end", end);
                 json.addProperty("role", role);
-                json.addProperty("place", place);
                 json.addProperty("requirements", description);
 
-                //validate form
-                if(validateRegister(name, description, start, end, role, place)){
-                    editEvent(json);
-                }
+                JsonObject jsonPlace = new JsonObject();
+                jsonPlace.addProperty("town", town);
+                jsonPlace.addProperty("country", country);
+                jsonPlace.addProperty("address", address);
+                jsonPlace.addProperty("postalCode", postalCode);
+                jsonPlace.addProperty("details", details);
+
+                editEvent(json, jsonPlace);
+
             }
         });
     }
 
-    private boolean validateRegister(String name, String price, String start, String end, String speakers, String descripton){ //TODO
-        if(name == null || name.trim().length() == 0 ||
-                price == null || price.trim().length() == 0 || end == null || end .trim().length() == 0 ||
-                start == null || start.trim().length() == 0 ||
-                speakers == null || speakers.trim().length() == 0 || descripton == null || descripton.trim().length() == 0){
-            Toast.makeText(this, "All fields must be filled", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
+    private void editPlace(final JsonObject jsonPlace, String id, final String idConference){
+        Call<Place> call = userService.editPlace(jsonPlace, id);
+        call.enqueue(new Callback<Place>() {
+            @Override
+            public void onResponse(Call<Place> call, Response<Place> response) {
+
+                Intent intent = new Intent(EditEventActivity.this, ShowEventsOfConferenceActivity.class);
+                intent.putExtra("idConference", idConference);
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onFailure(Call<Place> call, Throwable t) {
+                Toast.makeText(EditEventActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private void editEvent(final JsonObject json){
-        Call<Event> call = userService.editEvent(event.getId(), json);
+    private void editEvent(final JsonObject json, final JsonObject jsonPlace){
+        Intent myIntent = getIntent();
+        String idEvent = myIntent.getExtras().get("idEvent").toString();
+
+        Call<Event> call = userService.editEvent(idEvent, json);
         call.enqueue(new Callback<Event>() {
             @Override
             public void onResponse(Call<Event> call, Response<Event> response) {
@@ -132,9 +159,7 @@ public class EditEventActivity extends BaseActivity {
 
                     Event event = response.body();
 
-                    Intent intent = new Intent(EditEventActivity.this, ShowEventsOfConferenceActivity.class);
-                    intent.putExtra("idConference", event.getConference());
-                    startActivity(intent);
+                    editPlace(jsonPlace, event.getPlace(), event.getConference());
 
                 } else {
                     Toast.makeText(EditEventActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
@@ -148,4 +173,54 @@ public class EditEventActivity extends BaseActivity {
         });
     }
 
+    private void getPlace(String id){
+        Call<Place> call = userService.getPlace(id);
+        call.enqueue(new Callback<Place>() {
+            @Override
+            public void onResponse(Call<Place> call, Response<Place> response) {
+
+                Place place = response.body();
+
+                edtTown.setText(place.getTown());
+                edtCountry.setText(place.getCountry());
+                edtPostalCode.setText(place.getPostalCode());
+                edtAddress.setText(place.getAddress());
+                edtDetails.setText(place.getDetails());
+
+            }
+
+            @Override
+            public void onFailure(Call<Place> call, Throwable t) {
+                Toast.makeText(EditEventActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getEvent(){
+        Intent myIntent = getIntent();
+        String idEvent = myIntent.getExtras().get("idEvent").toString();
+
+        Call<Event> call = userService.getEvent(idEvent);
+        call.enqueue(new Callback<Event>() {
+            @Override
+            public void onResponse(Call<Event> call, Response<Event> response) {
+
+                Event event = response.body();
+
+                edtName.setText(event.getName());
+                edtType.setText(event.getType());
+                edtStart.setText(event.getStart());
+                edtEnd.setText(event.getEnd());
+                edtPlace.setText(event.getPlace());
+                edtDescription.setText(event.getRequirements());
+
+                getPlace(event.getPlace());
+            }
+
+            @Override
+            public void onFailure(Call<Event> call, Throwable t) {
+                Toast.makeText(EditEventActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

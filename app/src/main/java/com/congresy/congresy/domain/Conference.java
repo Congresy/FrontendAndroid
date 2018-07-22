@@ -1,9 +1,11 @@
+
 package com.congresy.congresy.domain;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import android.content.Intent;
 
 import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class Conference {
 
@@ -34,9 +36,12 @@ public class Conference {
     @SerializedName("participants")
     @Expose
     private List<String> participants = null;
+    @SerializedName("place")
+    @Expose
+    private String place;
     @SerializedName("popularity")
     @Expose
-    private Double popularity;
+    private Integer popularity;
     @SerializedName("price")
     @Expose
     private Double price;
@@ -122,11 +127,19 @@ public class Conference {
         this.participants = participants;
     }
 
-    public Double getPopularity() {
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public Integer getPopularity() {
         return popularity;
     }
 
-    public void setPopularity(Double popularity) {
+    public void setPopularity(Integer popularity) {
         this.popularity = popularity;
     }
 
@@ -166,4 +179,5 @@ public class Conference {
     public String toString(){
         return this.name;
     }
+
 }

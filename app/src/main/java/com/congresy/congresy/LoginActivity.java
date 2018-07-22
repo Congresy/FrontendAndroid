@@ -119,6 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("Role", actor.getRole());
                     editor.putString("Name", actor.getName() + " " + actor.getSurname());
                     editor.putString("Id", actor.getId());
+                    editor.putString("UserAccountId", actor.getUserAccount());
                     editor.apply();
 
                     startActivity(intent);

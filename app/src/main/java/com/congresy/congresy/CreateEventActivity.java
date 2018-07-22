@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.congresy.congresy.domain.Event;
+import com.congresy.congresy.domain.Place;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 import com.google.gson.JsonObject;
@@ -32,6 +33,13 @@ public class CreateEventActivity extends BaseActivity {
     EditText edtAllw;
     Spinner s;
 
+    // Place attributes
+    EditText edtTown;
+    EditText edtCountry;
+    EditText edtAddress;
+    EditText edtPostalCode;
+    EditText edtDetails;
+
     Button btnCreate;
 
     @Override
@@ -49,6 +57,13 @@ public class CreateEventActivity extends BaseActivity {
         edtPlace = findViewById(R.id.edtPlace);
         edtDescription = findViewById(R.id.edtRequirements);
         edtAllw = findViewById(R.id.edtAllw);
+
+        // Pace attributes
+        edtTown = findViewById(R.id.edtTown);
+        edtCountry = findViewById(R.id.edtCountry);
+        edtAddress = findViewById(R.id.edtAddress);
+        edtPostalCode = findViewById(R.id.edtPostalCode);
+        edtDetails = findViewById(R.id.edtDetails);
 
         userService = ApiUtils.getUserService();
 
@@ -69,9 +84,15 @@ public class CreateEventActivity extends BaseActivity {
                 String type = edtType.getText().toString();
                 String start = edtStart.getText().toString();
                 String end = edtEnd.getText().toString();
-                String place = edtPlace.getText().toString();
                 String description = edtDescription.getText().toString();
                 String allw = edtAllw.getText().toString();
+
+                // Place attributes
+                String town = edtTown.getText().toString();
+                String country = edtCountry.getText().toString();
+                String address = edtAddress.getText().toString();
+                String postalCode = edtPostalCode.getText().toString();
+                String details = edtDetails.getText().toString();
 
                 // adding properties to json for POST
                 JsonObject json = new JsonObject();
@@ -83,36 +104,46 @@ public class CreateEventActivity extends BaseActivity {
                 json.addProperty("start", start);
                 json.addProperty("end", end);
                 json.addProperty("role", role);
-                json.addProperty("place", place);
                 json.addProperty("requirements", description);
                 json.addProperty("allowedParticipants", Integer.valueOf(allw));
+
+                JsonObject jsonPlace = new JsonObject();
+                jsonPlace.addProperty("town", town);
+                jsonPlace.addProperty("country", country);
+                jsonPlace.addProperty("address", address);
+                jsonPlace.addProperty("postalCode", postalCode);
+                jsonPlace.addProperty("details", details);
 
                 Intent myIntent = getIntent();
                 String idConference = myIntent.getExtras().get("idConference").toString();
 
                 json.addProperty("conference", idConference);
 
-
-                //validate form
-                if(validateRegister(name, type, description, start, end, role, place)){
-                    createEvent(json);
-                }
+                createEvent(json, jsonPlace);
             }
         });
     }
 
-    private boolean validateRegister(String name, String theme, String price, String start, String end, String speakers, String descripton){ //TODO
-        if(name == null || name.trim().length() == 0 || theme == null || theme.trim().length() == 0 ||
-                price == null || price.trim().length() == 0 || end == null || end .trim().length() == 0 ||
-                start == null || start.trim().length() == 0 ||
-                speakers == null || speakers.trim().length() == 0 || descripton == null || descripton.trim().length() == 0){
-            Toast.makeText(this, "All fields must be filled", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
+    private void createPlace(final JsonObject jsonPlace, String idPlace, final String idConference){
+        Call<Place> call = userService.createPlace(jsonPlace, idPlace);
+        call.enqueue(new Callback<Place>() {
+            @Override
+            public void onResponse(Call<Place> call, Response<Place> response) {
+
+                Intent intent = new Intent(CreateEventActivity.this, ShowEventsOfConferenceActivity.class);
+                intent.putExtra("idConference", idConference);
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onFailure(Call<Place> call, Throwable t) {
+                Toast.makeText(CreateEventActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private void createEvent(final JsonObject json){
+    private void createEvent(final JsonObject json, final JsonObject jsonPlace){
         Call<Event> call = userService.createEvent(json);
         call.enqueue(new Callback<Event>() {
             @Override
@@ -121,9 +152,7 @@ public class CreateEventActivity extends BaseActivity {
 
                     Event event = response.body();
 
-                    Intent intent = new Intent(CreateEventActivity.this, ShowEventsOfConferenceActivity.class);
-                    intent.putExtra("idConference", event.getConference());
-                    startActivity(intent);
+                    createPlace(jsonPlace, event.getId(), event.getConference());
 
                 } else {
                     Toast.makeText(CreateEventActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();

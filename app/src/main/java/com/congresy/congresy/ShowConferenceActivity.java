@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.congresy.congresy.adapters.CommentListAdapter;
 import com.congresy.congresy.domain.Comment;
 import com.congresy.congresy.domain.Conference;
+import com.congresy.congresy.domain.Place;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
@@ -39,6 +40,10 @@ public class ShowConferenceActivity extends BaseActivity {
     TextView edtDescription;
     TextView edtPartic;
 
+    TextView ePlace;
+    TextView eAddress;
+    TextView eDetails;
+
     Button create;
 
     ListView comments;
@@ -62,6 +67,10 @@ public class ShowConferenceActivity extends BaseActivity {
         edtDescription = findViewById(R.id.edtDescription);
         edtPartic = findViewById(R.id.edtPartic);
 
+        ePlace = findViewById(R.id.edtPlace);
+        eAddress = findViewById(R.id.edtAddress);
+        eDetails = findViewById(R.id.edtDetailsT);
+
         create = findViewById(R.id.create);
         comments = findViewById(R.id.listView);
 
@@ -77,7 +86,7 @@ public class ShowConferenceActivity extends BaseActivity {
                 startActivity(intent);
 
             }
-        }); //TODO
+        });
 
     }
 
@@ -99,7 +108,7 @@ public class ShowConferenceActivity extends BaseActivity {
                 edtDescription.setText("Description: " + con.getDescription());
                 edtPartic.setText("Actual allowed participants: " + String.valueOf(con.getAllowedParticipants()));
 
-                loadComments(idConference);
+                loadComments(idConference, con.getPlace());
 
                 }
 
@@ -111,7 +120,7 @@ public class ShowConferenceActivity extends BaseActivity {
 
     }
 
-    private void loadComments(String idPost){
+    private void loadComments(final String idPost, final String idPlace){
         Call<List<Comment>> call = userService.getAllCommentsOfCommentableItem(idPost);
         call.enqueue(new Callback<List<Comment>>() {
             @Override
@@ -127,6 +136,8 @@ public class ShowConferenceActivity extends BaseActivity {
 
                 comments.setScrollContainer(false);
 
+                loadPlace(idPlace);
+
             }
 
             @Override
@@ -136,6 +147,30 @@ public class ShowConferenceActivity extends BaseActivity {
         });
 
     }
+
+    private void loadPlace(String idPlace){
+        Call<Place> call = userService.getPlace(idPlace);
+        call.enqueue(new Callback<Place>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(Call<Place> call, Response<Place> response) {
+
+                Place p = response.body();
+
+                ePlace.setText(p.getTown() + ", " + p.getCountry());
+                eAddress.setText(p.getAddress() + ", " + p.getPostalCode());
+                eAddress.setText("Details: " + p.getDetails());
+
+            }
+
+            @Override
+            public void onFailure(Call<Place> call, Throwable t) {
+                Toast.makeText(ShowConferenceActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
 
     public void justifyListViewHeightBasedOnChildren (ListView listView) {
 
