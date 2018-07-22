@@ -4,6 +4,8 @@ import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Comment;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.Event;
+import com.congresy.congresy.domain.Folder;
+import com.congresy.congresy.domain.Message;
 import com.congresy.congresy.domain.Place;
 import com.congresy.congresy.domain.Post;
 import com.congresy.congresy.domain.SocialNetwork;
@@ -44,6 +46,9 @@ public interface UserService {
 
     @GET("actors/role/User")
     Call<List<Actor>> getAllUsers();
+
+    @GET("actors")
+    Call<List<Actor>> getAllActors();
 
     @GET("actors/username/{username}")
     Call<Actor> getActorByUsername(@Path("username") String username);
@@ -185,4 +190,26 @@ public interface UserService {
 
     @GET("places/{idPlace}")
     Call<Place> getPlace(@Path("idPlace") String idPlace);
+
+    @GET("folders/{idActor}")
+    Call<List<Folder>> getFoldersOfActor(@Path("idActor") String idActor);
+
+    @GET("messages/folder/{idFolder}")
+    Call<List<Message>> getMessagesOfFolder(@Path("idFolder") String idFolder);
+
+    @GET("messages/{idMessage}")
+    Call<Message> getMessage(@Path("idMessage") String idMessage);
+
+    @POST("messages/{idSender}/{idReceiver}")
+    Call<Message> createMessage(@Body JsonObject jsonObject, @Path("idSender") String idSender, @Path("idReceiver") String idReceiver);
+
+    @POST("messages/reply/{idMessage}/{idActor}")
+    Call<Message> replyMessage(@Body JsonObject jsonObject, @Path("idMessage") String idMessage, @Path("idActor") String idActor);
+
+    @DELETE("messages/trash/{idActor}/{idMessage}")
+    Call<Message> sendMessagetoTrash(@Path("idActor") String idMessage, @Path("idMessage") String idActor);
+
+    @DELETE("messages/{idActor}/{idMessage}")
+    Call<Void> deleteMessage(@Path("idActor") String idMessage, @Path("idMessage") String idActor);
+
 }

@@ -57,6 +57,7 @@ public class BaseActivity extends AppCompatActivity {
             osArray.add("My conferences");
             osArray.add("My events");
             osArray.add("Forum");
+            osArray.add("Folders");
         }
 
         if(role.equals("Organizator")){
@@ -65,6 +66,7 @@ public class BaseActivity extends AppCompatActivity {
             osArray.add("My conferences");
             osArray.add("Create conference");
             osArray.add("Forum");
+            osArray.add("Folders");
         }
 
         ArrayAdapter<String> mAdapter = new ArrayAdapter<>(BaseActivity.this, android.R.layout.simple_list_item_1, osArray);
@@ -93,6 +95,9 @@ public class BaseActivity extends AppCompatActivity {
                     } else if (position == 5) {
                         Intent intent = new Intent(BaseActivity.this, ShowAllPostsActivity.class);
                         startActivity(intent);
+                    } else if (position == 6) {
+                        Intent intent = new Intent(BaseActivity.this, ShowMyFoldersActivity.class);
+                        startActivity(intent);
                     }
                 }
             });
@@ -116,6 +121,9 @@ public class BaseActivity extends AppCompatActivity {
                         startActivity(intent);
                     } else if (position == 4) {
                         Intent intent = new Intent(BaseActivity.this, ShowAllPostsActivity.class);
+                        startActivity(intent);
+                    } else if (position == 5) {
+                        Intent intent = new Intent(BaseActivity.this, ShowMyFoldersActivity.class);
                         startActivity(intent);
                     }
                 }
