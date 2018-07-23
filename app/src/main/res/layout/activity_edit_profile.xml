@@ -232,8 +232,22 @@
                 android:layout_below = "@+id/edtDetailsT"
                 />
 
-            <Button
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtDetails"
+                android:id="@+id/aux"
+                />
+
+            <CheckBox android:id="@+id/private_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Private profile"
+                android:onClick="onCheckboxClicked"
+                android:layout_below="@id/aux"/>
+
+            <Button
+                android:layout_below = "@+id/private_"
                 android:id="@+id/btnContinue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

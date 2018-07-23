@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -41,12 +43,16 @@ public class EditProfileActivity extends BaseActivity {
     EditText edtDetails;
 
     Button btnContinue;
+    CheckBox private_;
+
+    private Boolean privateAux;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadDrawer(R.layout.activity_edit_profile);
 
+        private_ = findViewById(R.id.private_);
         btnContinue = findViewById(R.id.btnContinue);
         edtPassword = findViewById(R.id.edtPassword);
         edtName = findViewById(R.id.edtName);
@@ -70,6 +76,7 @@ public class EditProfileActivity extends BaseActivity {
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String password = edtPassword.getText().toString();
                 String name = edtName.getText().toString();
                 String surname = edtSurname.getText().toString();
@@ -92,6 +99,9 @@ public class EditProfileActivity extends BaseActivity {
 
                 jsonAuth.addProperty("username", "default");
                 jsonAuth.addProperty("password", password);
+
+                jsonActor.addProperty("private_", privateAux);
+
 
                 jsonActor.addProperty("name", name);
                 jsonActor.addProperty("surname", surname);
@@ -119,6 +129,18 @@ public class EditProfileActivity extends BaseActivity {
                 editProfile(json, jsonPlace);
             }
         });
+    }
+
+    public void onCheckboxClicked(View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+
+        // Check which checkbox was clicked
+        switch(view.getId()) {
+            case R.id.private_:
+                privateAux = checked;
+                break;
+        }
     }
 
     private void editProfile(JsonObject json, final JsonObject jsonPlace){
