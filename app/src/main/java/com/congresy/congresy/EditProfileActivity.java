@@ -198,6 +198,8 @@ public class EditProfileActivity extends BaseActivity {
                 edtPhoto.setText(a.getPhoto());
                 edtNick.setText(a.getNick());
 
+                private_.setChecked(a.getPrivate());
+
                 getPlace(a.getPlace());
             }
 

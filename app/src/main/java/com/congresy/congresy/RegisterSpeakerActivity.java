@@ -155,6 +155,7 @@ public class RegisterSpeakerActivity extends BaseActivity {
 
                 Intent intent = new Intent(RegisterSpeakerActivity.this, ShowSpeakersOfEventActivity.class);
                 intent.putExtra("idEvent", idEvent);
+                intent.putExtra("comeFrom", "organizator");
                 startActivity(intent);
 
             }

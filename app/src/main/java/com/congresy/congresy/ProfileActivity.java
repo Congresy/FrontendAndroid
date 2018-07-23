@@ -71,7 +71,21 @@ public class ProfileActivity extends BaseActivity {
 
         userService = ApiUtils.getUserService();
 
-        Execute();
+        Intent myIntent = getIntent();
+
+        btnEdit.setVisibility(View.GONE);
+
+
+        try {
+            if (myIntent.getExtras().get("idOrganizator").toString() != null){
+                executeRest(myIntent.getExtras().get("idOrganizator").toString());
+            } else if (myIntent.getExtras().get("idSpeaker").toString() != null){
+                executeRest(myIntent.getExtras().get("idSpeaker").toString());
+            }
+        } catch (Exception e){
+            btnEdit.setVisibility(View.VISIBLE);
+            execute();
+        }
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,7 +183,7 @@ public class ProfileActivity extends BaseActivity {
     
     // Charge social networks
 
-    private void Execute(){
+    private void execute(){
         Call<Actor> call = userService.getActorByUsername(username);
         call.enqueue(new Callback<Actor>() {
             @Override
@@ -204,4 +218,105 @@ public class ProfileActivity extends BaseActivity {
             }
         });
     }
+
+    private void executeRest(String id){
+        Call<Actor> call = userService.getActorById(id);
+        call.enqueue(new Callback<Actor>() {
+            @Override
+            public void onResponse(Call<Actor> call, Response<Actor> response) {
+
+                final Actor actor = response.body();
+
+                LoadDataRest(actor);
+
+            }
+
+            @Override
+            public void onFailure(Call<Actor> call, Throwable t) {
+                Toast.makeText(ProfileActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void LoadDataRest(final Actor actor){
+        Call<List<SocialNetwork>> call = userService.getSocialNetworksByActor(actor.getId());
+        call.enqueue(new Callback<List<SocialNetwork>>() {
+            @Override
+            public void onResponse(Call<List<SocialNetwork>> call, Response<List<SocialNetwork>> response) {
+
+                socialNetworkList = response.body();
+                LoadProfileRest(socialNetworkList, actor.getId());
+
+            }
+
+            @Override
+            public void onFailure(Call<List<SocialNetwork>> call, Throwable t) {
+                Toast.makeText(ProfileActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void LoadProfileRest(final List<SocialNetwork> socialNetworksS, String id) {
+        Call<Actor> call = userService.getActorById(id);
+        call.enqueue(new Callback<Actor>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(Call<Actor> call, Response<Actor> response) {
+                if (response.isSuccessful()) {
+
+                    Actor body = response.body();
+
+                    if (body.getPrivate()){
+                        tName.setText("This profile is private");
+                        TextView places = findViewById(R.id.text3);
+                        TextView sN = findViewById(R.id.text2);
+
+                        places.setText("");
+                        sN.setText("");
+
+                    } else {
+                        tName.setText("Name: "  + body.getName());
+                        tSurname.setText("Surname: " + body.getSurname());
+                        tEmail.setText("Email: " + body.getEmail());
+                        tPhone.setText("Phone: " + body.getPhone());
+                        tNick.setText("Nick: " + body.getNick());
+                        tRole.setText("Role: " + body.getRole());
+
+                        if(socialNetworksS != null){
+                            String auxSN = "";
+                            int index = 0;
+
+                            for(SocialNetwork sn : socialNetworksS){
+                                if (index != 0) {
+                                    auxSN = auxSN + "\n";
+                                }
+                                auxSN = auxSN + sn.getName() + ": " + sn.getUrl();
+                                index++;
+                            }
+
+                            socialNetworks.setText(auxSN);
+                        } else {
+                            socialNetworks.setText("");
+                        }
+
+                        if(body.getPhoto() != null){
+                            chargeImage(body.getPhoto());
+                        }
+
+                        loadPlace(body.getPlace());
+                    }
+
+                } else {
+                    Toast.makeText(ProfileActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Toast.makeText(ProfileActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.congresy.congresy.HomeActivity;
+import com.congresy.congresy.ProfileActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
 import com.congresy.congresy.ShowEventsOfConferenceAuxActivity;
@@ -70,6 +71,7 @@ public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapte
             holder.name = convertView.findViewById(R.id.name);
             holder.events = convertView.findViewById(R.id.btnShowEvents);
             holder.join = convertView.findViewById(R.id.btnJoin);
+            holder.organizator = convertView.findViewById(R.id.organizator);
 
             convertView.setTag(holder);
         } else {
@@ -91,6 +93,15 @@ public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapte
             }
         });
 
+        holder.organizator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(context, ProfileActivity.class);
+                myIntent.putExtra("idOrganizator", items.get(position).getOrganizator());
+                context.startActivity(myIntent);
+            }
+        });
+
     return convertView;
 
     }
@@ -99,5 +110,6 @@ public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapte
         TextView name;
         Button events;
         Button join;
+        Button organizator;
     }
 }

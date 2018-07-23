@@ -103,6 +103,7 @@ public class EventListOrganizatorAdapter extends BaseAdapter implements ListAdap
             public void onClick(View v) {
                 Intent intent = new Intent(context, ShowSpeakersOfEventActivity.class);
                 intent.putExtra("idEvent", items.get(position).getId());
+                intent.putExtra("comeFrom", "organizator");
                 context.startActivity(intent);
             }
         });

@@ -66,6 +66,7 @@ public class SearchSpeakersActivity extends BaseActivity implements SearchView.O
             public void onClick(View v) {
                 Intent myIntent = new Intent(SearchSpeakersActivity.this, ShowSpeakersOfEventActivity.class);
                 myIntent.putExtra("idEvent", idEvent);
+                myIntent.putExtra("comeFrom", "organizator");
                 startActivity(myIntent);
             }
         });

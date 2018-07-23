@@ -11,6 +11,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.congresy.congresy.JoiningConferenceActivity;
+import com.congresy.congresy.ProfileActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
 import com.congresy.congresy.domain.Conference;
@@ -21,7 +22,6 @@ import java.util.List;
 
 public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter {
 
-    private UserService userService;
     public static Conference conference_;
 
     private List<Conference> items;
@@ -49,8 +49,6 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-
-        userService = ApiUtils.getUserService();
         final ViewHolder holder;
         View view = convertView;
 
@@ -63,6 +61,7 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
             holder.name = convertView.findViewById(R.id.name);
             holder.events = convertView.findViewById(R.id.btnShowEvents);
             holder.join = convertView.findViewById(R.id.btnJoin);
+            holder.organizator = convertView.findViewById(R.id.organizator);
 
             convertView.setTag(holder);
         } else {
@@ -91,6 +90,15 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
             }
         });
 
+        holder.organizator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(context, ProfileActivity.class);
+                myIntent.putExtra("idOrganizator", items.get(position).getOrganizator());
+                context.startActivity(myIntent);
+            }
+        });
+
         return convertView;
     }
 
@@ -98,6 +106,7 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
         TextView name;
         Button events;
         Button join;
+        Button organizator;
     }
 
 }

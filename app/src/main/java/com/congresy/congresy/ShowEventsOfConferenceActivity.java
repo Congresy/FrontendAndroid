@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.congresy.congresy.adapters.EventListOrganizatorAdapter;
+import com.congresy.congresy.adapters.EventListUserAdapter;
 import com.congresy.congresy.domain.Event;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
@@ -63,13 +64,13 @@ public class ShowEventsOfConferenceActivity extends BaseActivity {
                     }
 
                     EventListOrganizatorAdapter adapter = null;
-                    ArrayAdapter<Event> adapter1 = null;
+                    EventListUserAdapter adapter1 = null;
                     eventsList = response.body();
 
                     if(role.equals("Organizator")) {
                         adapter = new EventListOrganizatorAdapter(getApplicationContext(), eventsList);
                     } else {
-                        adapter1 = new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1, eventsList);
+                        adapter1 =  new EventListUserAdapter(getApplicationContext(), eventsList);
                     }
 
                     final ListView lv = findViewById(R.id.listView);

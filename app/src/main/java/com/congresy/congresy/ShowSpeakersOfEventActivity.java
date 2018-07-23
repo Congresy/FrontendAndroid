@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.congresy.congresy.adapters.ConferenceListOrganizatorAdapter;
 import com.congresy.congresy.adapters.EventListOrganizatorAdapter;
 import com.congresy.congresy.adapters.SpeakersOfEventListAdapter;
+import com.congresy.congresy.adapters.SpeakersOfEventListUserAdapter;
 import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Event;
 import com.congresy.congresy.remote.ApiUtils;
@@ -32,6 +33,8 @@ public class ShowSpeakersOfEventActivity extends BaseActivity {
 
     ListView listView;
 
+    private String comeFrom;
+
     public static String event_;
 
     public static List<Actor> speakers;
@@ -40,23 +43,34 @@ public class ShowSpeakersOfEventActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        loadDrawer(R.layout.activity_show_speakers_of_event);
+        Intent myIntent = getIntent();
+        String comeFrom = myIntent.getExtras().get("comeFrom").toString();
 
         userService = ApiUtils.getUserService();
 
-        btnAddSpeakers = findViewById(R.id.addSpeakers);
-        listView = findViewById(R.id.listView);
+        if (comeFrom.equals("user")) {
+            loadDrawer(R.layout.activity_show_speakers_of_event_user);
 
-        btnAddSpeakers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getSpeakers();
-            }
-        });
+            listView = findViewById(R.id.listView);
 
-        loadSpeakers();
+            loadSpeakers();
+        } else if (comeFrom.equals("organizator")){
+            loadDrawer(R.layout.activity_show_speakers_of_event);
+
+            btnAddSpeakers = findViewById(R.id.addSpeakers);
+            listView = findViewById(R.id.listView);
+
+            btnAddSpeakers.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getSpeakers();
+                }
+            });
+
+            loadSpeakers();
+        }
+
     }
-
 
     private void loadSpeakers(){
         Intent myIntent = getIntent();
@@ -70,13 +84,20 @@ public class ShowSpeakersOfEventActivity extends BaseActivity {
             public void onResponse(Call<List<Actor>> call, Response<List<Actor>> response) {
                 if(response.isSuccessful()){
 
+                    Intent myIntent = getIntent();
+                    String comeFrom = myIntent.getExtras().get("comeFrom").toString();
+
                     List<Actor> speakers = response.body();
 
                     ListView lv = findViewById(R.id.listView);
 
-                    SpeakersOfEventListAdapter adapter = new SpeakersOfEventListAdapter(getApplicationContext(), speakers);
-
-                    lv.setAdapter(adapter);
+                    if (comeFrom.equals("user")){
+                        SpeakersOfEventListUserAdapter adapter = new SpeakersOfEventListUserAdapter(getApplicationContext(), speakers);
+                        lv.setAdapter(adapter);
+                    } else if (comeFrom.equals("organizator")) {
+                        SpeakersOfEventListAdapter adapter = new SpeakersOfEventListAdapter(getApplicationContext(), speakers);
+                        lv.setAdapter(adapter);
+                    }
 
                     //TODO show details of speakers
 
@@ -97,17 +118,16 @@ public class ShowSpeakersOfEventActivity extends BaseActivity {
         Intent myIntent = getIntent();
         final String id = myIntent.getExtras().get("idEvent").toString();
 
-
-        Call<List<Actor>> call = userService.getSpeakers(id);
+        Call<List<Actor>> call = userService.getAllActorsByRole("Speaker");
         call.enqueue(new Callback<List<Actor>>() {
             @Override
             public void onResponse(Call<List<Actor>> call, Response<List<Actor>> response) {
                 if(response.isSuccessful()){
 
-                    speakers = response.body();
-
                     Intent myIntent = getIntent();
                     String id = myIntent.getExtras().get("idEvent").toString();
+
+                    speakers = response.body();
 
                     Intent intent = new Intent(ShowSpeakersOfEventActivity.this, SearchSpeakersActivity.class);
                     intent.putExtra("idEvent", id);
