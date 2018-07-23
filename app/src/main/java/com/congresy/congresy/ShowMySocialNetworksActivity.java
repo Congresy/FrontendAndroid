@@ -1,8 +1,9 @@
 package com.congresy.congresy;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -26,6 +27,8 @@ public class ShowMySocialNetworksActivity extends BaseActivity {
     UserService userService;
     private static List<SocialNetwork> socialNetworkList;
 
+    private String username;
+
     Button btnCreateSN;
 
     @Override
@@ -33,6 +36,9 @@ public class ShowMySocialNetworksActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         loadDrawer(R.layout.activity_my_social_networks);
+
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        username = sp.getString("Username", "not found");
 
         userService = ApiUtils.getUserService();
 
@@ -42,7 +48,7 @@ public class ShowMySocialNetworksActivity extends BaseActivity {
     }
 
     private void LoadMySocialNetworks(){
-        Call<Actor> call = userService.getActorByUsername(HomeActivity.username);
+        Call<Actor> call = userService.getActorByUsername(username);
         call.enqueue(new Callback<Actor>() {
             @Override
             public void onResponse(Call<Actor> call, Response<Actor> response) {

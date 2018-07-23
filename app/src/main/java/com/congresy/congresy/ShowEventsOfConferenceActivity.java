@@ -1,8 +1,9 @@
 package com.congresy.congresy;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,9 +11,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.congresy.congresy.adapters.ConferenceListOrganizatorAdapter;
 import com.congresy.congresy.adapters.EventListOrganizatorAdapter;
-import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.Event;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
@@ -29,12 +28,17 @@ public class ShowEventsOfConferenceActivity extends BaseActivity {
     UserService userService;
     private static List<Event> eventsList;
 
+    private String role;
+
     Button btnEvents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadDrawer(R.layout.activity_show_events_of_conference);
+
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        role = sp.getString("Role", "not found");
 
         userService = ApiUtils.getUserService();
 
@@ -54,11 +58,10 @@ public class ShowEventsOfConferenceActivity extends BaseActivity {
             public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
                 if(response.isSuccessful()){
 
-                    if(HomeActivity.role.equals("Organizator")){
+                    if(role.equals("Organizator")){
                         btnEvents.setVisibility(View.VISIBLE);
                     }
 
-                    String role = HomeActivity.role;
                     EventListOrganizatorAdapter adapter = null;
                     ArrayAdapter<Event> adapter1 = null;
                     eventsList = response.body();
@@ -100,7 +103,7 @@ public class ShowEventsOfConferenceActivity extends BaseActivity {
 
                 } else {
                     Toast.makeText(ShowEventsOfConferenceActivity.this, "This conference have no events!", Toast.LENGTH_SHORT).show();
-                    if(HomeActivity.role.equals("Organizator")) {
+                    if(role.equals("Organizator")) {
                         btnEvents.setVisibility(View.VISIBLE);
 
                         btnEvents.setOnClickListener(new View.OnClickListener() {

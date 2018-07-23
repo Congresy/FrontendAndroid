@@ -1,6 +1,8 @@
 package com.congresy.congresy;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,11 +25,16 @@ public class ShowAllConferencesActivity extends BaseActivity {
 
     UserService userService;
 
+    private String actorId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         loadDrawer(R.layout.activity_show_all_conferences);
+
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        actorId = sp.getString("Id", "not found");
 
         userService = ApiUtils.getUserService();
 
@@ -48,7 +55,7 @@ public class ShowAllConferencesActivity extends BaseActivity {
                         if(c.getParticipants() == null){
                             aux.add(c);
                         } else {
-                            if (!c.getParticipants().contains(HomeActivity.actor_.getId())){
+                            if (!c.getParticipants().contains(actorId)){
                                 aux.add(c);
                             }
                         }

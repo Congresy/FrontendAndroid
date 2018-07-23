@@ -1,6 +1,7 @@
 package com.congresy.congresy.remote;
 
 import com.congresy.congresy.domain.Actor;
+import com.congresy.congresy.domain.Announcement;
 import com.congresy.congresy.domain.Comment;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.Event;
@@ -211,5 +212,33 @@ public interface UserService {
 
     @DELETE("messages/{idActor}/{idMessage}")
     Call<Void> deleteMessage(@Path("idActor") String idMessage, @Path("idMessage") String idActor);
+
+    @GET("actors/{idActors}/followers")
+    Call<List<Actor>> getFollowers(@Path("idActor") String idActor);
+
+    @GET("actors/{idActors}/following")
+    Call<List<Actor>> getFollowing(@Path("idActor") String idActor);
+
+    @GET("actors/{idActor}/upComing")
+    Call<List<Conference>> getUpcomingConference(@Path("idActor") String idActor);
+
+    @PUT("actors/follow/{idActor}/{idActorToFollow}")
+    Call<Actor> follow(@Path("idActor") String idActor, @Path("idActor") String idActorToFollow, @Query("action") String action);
+
+    @GET("announcements")
+    Call<List<Announcement>> getAllAnnouncements();
+
+    @POST("announcements")
+    Call<Announcement> createAnnouncement(@Body JsonObject jsonObject);
+
+    @DELETE("announcements/{idAnnouncement}")
+    Call<Void> getAllAnnouncements(@Path("idAnnouncement") String idAnnouncement);
+
+    @POST("messages/conference/{idConference}")
+    Call<Announcement> createMessageToParticipants(@Body JsonObject jsonObject, @Path("idConference") String idConference);
+
+    @PUT("actors/{idActor}")
+    Call<Actor> editActor(@Path("idActor") String idActor, @Body JsonObject jsonObject);
+
 
 }

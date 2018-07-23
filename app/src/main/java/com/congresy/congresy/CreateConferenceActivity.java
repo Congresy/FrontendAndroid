@@ -1,8 +1,9 @@
 package com.congresy.congresy;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,7 +11,6 @@ import android.widget.Toast;
 
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.Place;
-import com.congresy.congresy.domain.UserAccount;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 import com.google.gson.JsonObject;
@@ -23,7 +23,8 @@ public class CreateConferenceActivity extends BaseActivity {
 
     UserService userService;
 
-    public static String userAccountId;
+    private String username;
+    private String userAccountId;
 
     EditText edtName;
     EditText edtTheme;
@@ -47,6 +48,10 @@ public class CreateConferenceActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadDrawer(R.layout.activity_create_conference);
+
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        username = sp.getString("Username", "not found");
+        userAccountId = sp.getString("UserAccountId", "not found");
 
         btnCreateConference = findViewById(R.id.btnCreate);
 
@@ -98,6 +103,7 @@ public class CreateConferenceActivity extends BaseActivity {
                 json.addProperty("speakersNames", speakers);
                 json.addProperty("description", description);
                 json.addProperty("allowedParticipants", Integer.valueOf(allowedParticipants));
+                json.addProperty("organizator", userAccountId);
 
                 JsonObject jsonPlace = new JsonObject();
                 jsonPlace.addProperty("town", town);
@@ -108,7 +114,7 @@ public class CreateConferenceActivity extends BaseActivity {
 
                 //validate form
                 if(validateRegister(name, theme, price, start, end, speakers, description)){
-                    createConference(json, jsonPlace);
+                    doConference(json, jsonPlace);
                 }
             }
         });
@@ -159,25 +165,6 @@ public class CreateConferenceActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<Place> call, Throwable t) {
-                Toast.makeText(CreateConferenceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void createConference(final JsonObject json, final JsonObject jsonPlace){
-        Call<UserAccount> call = userService.getUserAccount(HomeActivity.username);
-        call.enqueue(new Callback<UserAccount>() {
-            @Override
-            public void onResponse(Call<UserAccount> call, Response<UserAccount> response) {
-                userAccountId = response.body().getId();
-
-                json.addProperty("organizator", userAccountId);
-
-                doConference(json, jsonPlace);
-            }
-
-            @Override
-            public void onFailure(Call<UserAccount> call, Throwable t) {
                 Toast.makeText(CreateConferenceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

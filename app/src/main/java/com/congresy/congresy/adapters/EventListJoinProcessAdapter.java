@@ -1,7 +1,8 @@
 package com.congresy.congresy.adapters;
 
+import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.AlertDialog;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,6 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.congresy.congresy.HomeActivity;
-import com.congresy.congresy.HomeActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Event;
@@ -35,6 +34,8 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
 
     public static Event event_;
     private UserService userService = ApiUtils.getUserService();
+
+    private String username;
 
     private List<Event> items;
     private Context context;
@@ -104,7 +105,10 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
     }
 
     private void join(final String idEvent, final ViewHolder holder){
-        Call<Actor> call = userService.getActorByUsername(HomeActivity.username);
+        SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        username = sp.getString("Username", "not found");
+
+        Call<Actor> call = userService.getActorByUsername(username);
         call.enqueue(new Callback<Actor>() {
             @Override
             public void onResponse(Call<Actor> call, Response<Actor> response) {
@@ -147,7 +151,10 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
     }
 
     private void delete(final String idEvent, final ViewHolder holder){
-        Call<Actor> call = userService.getActorByUsername(HomeActivity.username);
+        SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        username = sp.getString("Username", "not found");
+
+        Call<Actor> call = userService.getActorByUsername(username);
         call.enqueue(new Callback<Actor>() {
             @Override
             public void onResponse(Call<Actor> call, Response<Actor> response) {

@@ -54,7 +54,8 @@
         <activity android:name=".ShowMyFoldersActivity" />
         <activity android:name=".ShowMessagesOfFolderActivity" />
         <activity android:name=".CreateMessageActivity" />
-        <activity android:name=".ChooseActorActivity"></activity>
+        <activity android:name=".ChooseActorActivity" />
+        <activity android:name=".EditProfileActivity"></activity>
     </application>
 
 </manifest>

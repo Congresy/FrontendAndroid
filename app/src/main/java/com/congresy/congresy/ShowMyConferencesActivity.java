@@ -1,6 +1,8 @@
 package com.congresy.congresy;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,6 +27,9 @@ public class ShowMyConferencesActivity extends BaseActivity {
     UserService userService;
     private static List<Conference> conferencesList;
 
+    private String username;
+    private String role;
+
     Button myComments;
 
     @Override
@@ -32,6 +37,10 @@ public class ShowMyConferencesActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         loadDrawer(R.layout.activity_show_my_conferences);
+
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        username = sp.getString("Username", "not found");
+        role = sp.getString("Role", "not found");
 
         myComments = findViewById(R.id.myComments);
 
@@ -50,13 +59,12 @@ public class ShowMyConferencesActivity extends BaseActivity {
     }
 
     private void LoadMyConferences(){
-        Call<List<Conference>> call = userService.getMyConferences(HomeActivity.username);
+        Call<List<Conference>> call = userService.getMyConferences(username);
         call.enqueue(new Callback<List<Conference>>() {
             @Override
             public void onResponse(Call<List<Conference>> call, Response<List<Conference>> response) {
                 if(response.isSuccessful()){
 
-                    String role = HomeActivity.role;
                     ConferenceListOrganizatorAdapter adapter = null;
                     ConferenceListUserAdapter adapter1 = null;
                     conferencesList = response.body();

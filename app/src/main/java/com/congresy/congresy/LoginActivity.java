@@ -24,11 +24,6 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static Actor actor_;
-    public static String role;
-    public static String username;
-    public static String password;
-
     EditText edtUsername;
     EditText edtPassword;
 
@@ -99,20 +94,16 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    private void loadActor(){
-        Call<Actor> call = userService.getActorByUsername(LoginActivity.username);
+    private void loadActor(final String username, final String password){
+        Call<Actor> call = userService.getActorByUsername(username);
         call.enqueue(new Callback<Actor>() {
             @Override
             public void onResponse(Call<Actor> call, Response<Actor> response) {
                 if(response.isSuccessful()){
 
                     final Actor actor = response.body();
-                    LoginActivity.actor_ = actor;
-                    LoginActivity.role = actor.getRole();
 
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                    intent.putExtra("username", username);
-                    intent.putExtra("password", password);
 
                     SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();
@@ -120,6 +111,9 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("Name", actor.getName() + " " + actor.getSurname());
                     editor.putString("Id", actor.getId());
                     editor.putString("UserAccountId", actor.getUserAccount());
+                    editor.putInt("logged", 1);
+                    editor.putString("Username", username);
+                    editor.putString("Password", password);
                     editor.apply();
 
                     startActivity(intent);
@@ -143,17 +137,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()){
                     if(!response.raw().request().url().toString().contains("error")){
-                        LoginActivity.username = username;
-                        LoginActivity.password = password;
 
-                        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.putInt("logged", 1);
-                        editor.putString("Username", username);
-                        editor.putString("Password", password);
-                        editor.apply();
-
-                        loadActor();
+                        loadActor(username, password);
 
                     } else {
                         Toast.makeText(LoginActivity.this, "The username or password is incorrect", Toast.LENGTH_SHORT).show();

@@ -1,18 +1,17 @@
 package com.congresy.congresy;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.congresy.congresy.adapters.SocialNetworkAdapter;
 import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Place;
 import com.congresy.congresy.domain.SocialNetwork;
@@ -42,6 +41,9 @@ public class ProfileActivity extends BaseActivity {
     TextView eAddress;
     TextView eDetails;
 
+    Button btnEdit;
+
+    private String username;
 
     List<SocialNetwork> socialNetworkList;
 
@@ -49,6 +51,9 @@ public class ProfileActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadDrawer(R.layout.activity_profile);
+
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        username = sp.getString("Username", "not found");
 
         tName = findViewById(R.id.name);
         tSurname = findViewById(R.id.surname);
@@ -58,6 +63,7 @@ public class ProfileActivity extends BaseActivity {
         tRole = findViewById(R.id.role);
         image = findViewById(R.id.image);
         socialNetworks = findViewById(R.id.socialNetworks);
+        btnEdit = findViewById(R.id.btnEdit);
 
         ePlace = findViewById(R.id.edtPlace);
         eAddress = findViewById(R.id.edtAddress);
@@ -66,6 +72,14 @@ public class ProfileActivity extends BaseActivity {
         userService = ApiUtils.getUserService();
 
         Execute();
+
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void loadPlace(String idPlace){
@@ -92,7 +106,7 @@ public class ProfileActivity extends BaseActivity {
     }
 
     private void LoadProfile(final List<SocialNetwork> socialNetworksS) {
-        Call<Actor> call = userService.getActorByUsername(HomeActivity.username);
+        Call<Actor> call = userService.getActorByUsername(username);
         call.enqueue(new Callback<Actor>() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -156,7 +170,7 @@ public class ProfileActivity extends BaseActivity {
     // Charge social networks
 
     private void Execute(){
-        Call<Actor> call = userService.getActorByUsername(HomeActivity.username);
+        Call<Actor> call = userService.getActorByUsername(username);
         call.enqueue(new Callback<Actor>() {
             @Override
             public void onResponse(Call<Actor> call, Response<Actor> response) {

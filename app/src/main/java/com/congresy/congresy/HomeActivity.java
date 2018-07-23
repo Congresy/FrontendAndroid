@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.congresy.congresy.adapters.ConferenceListOrganizatorAdapter;
 import com.congresy.congresy.adapters.ConferenceListUserAdapter;
-import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.Post;
 import com.congresy.congresy.remote.ApiUtils;
@@ -27,12 +26,11 @@ import retrofit2.Response;
 
 public class HomeActivity extends BaseActivity {
 
-    public static String username;
-    public static String role;
-    public static Actor actor_;
     public static List<Post> posts_;
 
     private UserService userService;
+    private String username;
+    private String role;
 
     Button myComments;
 
@@ -42,11 +40,15 @@ public class HomeActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        execute();
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        username = sp.getString("Username", "not found");
+        role = sp.getString("Role", "not found");
 
         loadDrawer(R.layout.activity_home);
 
         userService = ApiUtils.getUserService();
+
+        loadMyConferences(username);
 
         myComments = findViewById(R.id.myComments);
 
@@ -63,7 +65,7 @@ public class HomeActivity extends BaseActivity {
 
     }
     
-    private void LoadMyConferences(){
+    private void loadMyConferences(String username){
         Call<List<Conference>> call = userService.getMyConferences(username);
         call.enqueue(new Callback<List<Conference>>() {
             @Override
@@ -104,29 +106,6 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<List<Conference>> call, Throwable t) {
-                Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void execute(){
-        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-        username = sp.getString("Username", "Not found");
-
-        Call<Actor> call = ApiUtils.getUserService().getActorByUsername(username);
-        call.enqueue(new Callback<Actor>() {
-            @Override
-            public void onResponse(Call<Actor> call, Response<Actor> response) {
-
-                    Actor actor = response.body();
-                    actor_ = actor;
-                    role = actor.getRole();
-
-                    LoadMyConferences();
-
-            }
-            @Override
-            public void onFailure(Call<Actor> call, Throwable t) {
                 Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

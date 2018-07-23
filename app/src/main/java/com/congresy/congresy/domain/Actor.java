@@ -27,7 +27,7 @@ public class Actor {
     @SerializedName("following")
     @Expose
     private List<String> following = null;
-    @SerializedName("friends")
+    @SerializedName("followers")
     @Expose
     private List<String> friends = null;
     @SerializedName("id")
