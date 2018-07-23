@@ -12,10 +12,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.congresy.congresy.domain.Actor;
+import com.congresy.congresy.domain.Announcement;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.RetrofitClient;
@@ -27,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,6 +48,9 @@ public class IndexActivity extends AppCompatActivity {
     Button btnRegister;
 
     UserService userService;
+
+    ImageView image;
+    TextView conferenceE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +70,8 @@ public class IndexActivity extends AppCompatActivity {
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnRegister = (Button) findViewById(R.id.btnRegister);
+        image = findViewById(R.id.image);
+        conferenceE = findViewById(R.id.conference);
 
         userService = ApiUtils.getUserService();
 
@@ -83,6 +92,8 @@ public class IndexActivity extends AppCompatActivity {
         });
 
         LoadData();
+
+        showAnnouncement();
 
     }
 
@@ -180,4 +191,53 @@ public class IndexActivity extends AppCompatActivity {
 
         return res;
     }
+
+    private void showAnnouncement(){
+        Call<List<Announcement>> call = userService.getAllAnnouncements();
+        call.enqueue(new Callback<List<Announcement>>() {
+            @Override
+            public void onResponse(Call<List<Announcement>> call, Response<List<Announcement>> response) {
+
+                List<Announcement> announcements = response.body();
+
+                if (announcements.size() > 0){
+                    Random rand = new Random();
+                    Announcement announcement = announcements.get(rand.nextInt(announcements.size()));
+
+                    Glide.with(getApplicationContext())
+                            .load(announcement.getPicture()) // Image URL
+                            .centerCrop() // Image scale type
+                            .crossFade()
+                            .override(800,500) // Resize image
+                            .into(image); // ImageView to display image
+
+                    conferenceE.setText(announcement.getUrl());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Announcement>> call, Throwable t) {
+                Toast.makeText(IndexActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /* private void loadConference(String id){
+        Call<Conference> call = userService.getConference(id);
+        call.enqueue(new Callback<Conference>() {
+            @Override
+            public void onResponse(Call<Conference> call, Response<Conference> response) {
+
+                Conference conference = response.body();
+
+                conferenceE.setText(conference.getName());
+
+            }
+
+            @Override
+            public void onFailure(Call<Conference> call, Throwable t) {
+                Toast.makeText(IndexActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    } */
 }

@@ -50,6 +50,10 @@ public class BaseActivity extends AppCompatActivity {
 
         List<String> osArray = new ArrayList<>();
 
+        if(role.equals("Administrator")){
+            osArray.add("Announcements");
+        }
+
         if(role.equals("User")){
             osArray.add("Profile");
             osArray.add("My social networks");
@@ -73,6 +77,18 @@ public class BaseActivity extends AppCompatActivity {
         ArrayAdapter<String> mAdapter = new ArrayAdapter<>(BaseActivity.this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
         mDrawerList.bringToFront();
+
+        if(role.equals("Administrator")) {
+            mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (position == 0) {
+                        Intent intent = new Intent(BaseActivity.this, ShowAllAnnouncementsActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            });
+        }
 
         if(role.equals("User")) {
             mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

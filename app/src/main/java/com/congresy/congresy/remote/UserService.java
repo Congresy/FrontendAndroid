@@ -228,11 +228,14 @@ public interface UserService {
     @GET("announcements")
     Call<List<Announcement>> getAllAnnouncements();
 
+    @GET("announcements/{idAnnouncement}")
+    Call<Announcement> getAnnouncement(@Path("idAnnouncement") String idAnnouncement);
+
     @POST("announcements")
     Call<Announcement> createAnnouncement(@Body JsonObject jsonObject);
 
     @DELETE("announcements/{idAnnouncement}")
-    Call<Void> getAllAnnouncements(@Path("idAnnouncement") String idAnnouncement);
+    Call<Void> deleteAnnouncement(@Path("idAnnouncement") String idAnnouncement);
 
     @POST("messages/conference/{idConference}")
     Call<Announcement> createMessageToParticipants(@Body JsonObject jsonObject, @Path("idConference") String idConference);
