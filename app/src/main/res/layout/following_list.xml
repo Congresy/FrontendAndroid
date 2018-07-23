@@ -14,6 +14,14 @@
         android:focusable="false"/>
 
     <Button
+        android:id="@+id/upcoming"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upcoming"
+        android:focusable="false"
+        />
+
+    <Button
         android:id="@+id/unfollow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

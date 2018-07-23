@@ -33,16 +33,72 @@ public class ShowAllConferencesActivity extends BaseActivity {
 
         loadDrawer(R.layout.activity_show_all_conferences);
 
+        Intent myIntent = getIntent();
+
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         actorId = sp.getString("Id", "not found");
 
         userService = ApiUtils.getUserService();
 
-        LoadAllConferences();
+        if(myIntent.getExtras().get("comeFrom").toString() != null){
+            loadUpcomingConferences();
+        } else {
+            loadAllConferences();
+        }
+
     }
 
-    private void LoadAllConferences(){
+    private void loadAllConferences(){
         Call<List<Conference>> call = userService.getAllConferencesDetailedOrderByDate();
+        call.enqueue(new Callback<List<Conference>>() {
+            @Override
+            public void onResponse(Call<List<Conference>> call, Response<List<Conference>> response) {
+                if(response.isSuccessful()){
+
+                    final List<Conference> conferencesListAll_ = response.body();
+                    List<Conference> aux = new ArrayList<>();
+
+                    for(Conference c : conferencesListAll_){
+                        if(c.getParticipants() == null){
+                            aux.add(c);
+                        } else {
+                            if (!c.getParticipants().contains(actorId)){
+                                aux.add(c);
+                            }
+                        }
+                    }
+
+                    ConferenceListAllAdapter adapter = new ConferenceListAllAdapter(ShowAllConferencesActivity.this, aux);
+
+                    final ListView lv = findViewById(R.id.listView);
+                    lv.setAdapter(adapter);
+
+                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(ShowAllConferencesActivity.this, ShowConferenceActivity.class);
+                            intent.putExtra("idConference", conferencesListAll_.get(position).getId());
+                            startActivity(intent);
+                        }
+                    });
+
+                } else {
+                    Toast.makeText(ShowAllConferencesActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Conference>> call, Throwable t) {
+                Toast.makeText(ShowAllConferencesActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void loadUpcomingConferences(){
+        Intent myIntent = getIntent();
+        String idActor = myIntent.getExtras().get("idActor").toString();
+
+        Call<List<Conference>> call = userService.getUpcomingConference(idActor);
         call.enqueue(new Callback<List<Conference>>() {
             @Override
             public void onResponse(Call<List<Conference>> call, Response<List<Conference>> response) {

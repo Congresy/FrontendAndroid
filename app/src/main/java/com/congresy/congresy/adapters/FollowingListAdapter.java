@@ -17,6 +17,7 @@ import com.congresy.congresy.FollowingActivity;
 import com.congresy.congresy.JoiningConferenceActivity;
 import com.congresy.congresy.ProfileActivity;
 import com.congresy.congresy.R;
+import com.congresy.congresy.ShowAllConferencesActivity;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
 import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
@@ -69,6 +70,7 @@ public class FollowingListAdapter extends BaseAdapter implements ListAdapter {
             convertView = inflater.inflate(R.layout.following_list, null);
             holder.name = convertView.findViewById(R.id.name);
             holder.unfollow = convertView.findViewById(R.id.unfollow);
+            holder.upcoming = convertView.findViewById(R.id.upcoming);
 
             convertView.setTag(holder);
         } else {
@@ -81,6 +83,16 @@ public class FollowingListAdapter extends BaseAdapter implements ListAdapter {
             @Override
             public void onClick(View v) {
                 unfollow(items.get(position).getId());
+            }
+        });
+
+        holder.upcoming.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ShowAllConferencesActivity.class);
+                intent.putExtra("comeFrom", "1");
+                intent.putExtra("idActor", items.get(position).getId());
+                context.startActivity(intent);
             }
         });
 
@@ -115,6 +127,7 @@ public class FollowingListAdapter extends BaseAdapter implements ListAdapter {
     static class ViewHolder {
         TextView name;
         Button unfollow;
+        Button upcoming;
     }
 
 }
