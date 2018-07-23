@@ -42,6 +42,7 @@ public class ProfileActivity extends BaseActivity {
     TextView eDetails;
 
     Button btnEdit;
+    Button follow;
 
     private String username;
 
@@ -64,6 +65,7 @@ public class ProfileActivity extends BaseActivity {
         image = findViewById(R.id.image);
         socialNetworks = findViewById(R.id.socialNetworks);
         btnEdit = findViewById(R.id.btnEdit);
+        follow = findViewById(R.id.follow);
 
         ePlace = findViewById(R.id.edtPlace);
         eAddress = findViewById(R.id.edtAddress);
@@ -71,15 +73,58 @@ public class ProfileActivity extends BaseActivity {
 
         userService = ApiUtils.getUserService();
 
-        Intent myIntent = getIntent();
+        final Intent myIntent = getIntent();
 
         btnEdit.setVisibility(View.GONE);
-
+        follow.setVisibility(View.GONE);
 
         try {
             if (myIntent.getExtras().get("idOrganizator").toString() != null){
+
+                String aux = sp.getString("followed " + myIntent.getExtras().get("idOrganizator").toString(), "not found");
+
+                if (!aux.equals("not found")) {
+                    follow.setVisibility(View.GONE);
+                } else {
+                    follow.setVisibility(View.VISIBLE);
+
+                    follow.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putString("followed " + myIntent.getExtras().get("idOrganizator").toString(), "1");
+                            editor.apply();
+
+                            follow(myIntent.getExtras().get("idOrganizator").toString());
+                        }
+                    });
+                }
+
                 executeRest(myIntent.getExtras().get("idOrganizator").toString());
+
             } else if (myIntent.getExtras().get("idSpeaker").toString() != null){
+
+                String aux = sp.getString("followed " + myIntent.getExtras().get("idSpeaker").toString(), "not found");
+
+                if (!aux.equals("not found")) {
+                    follow.setVisibility(View.GONE);
+                } else {
+                    follow.setVisibility(View.VISIBLE);
+
+                    follow.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putString("followed " + myIntent.getExtras().get("idSpeaker").toString(), "1");
+                            editor.apply();
+
+                            follow(myIntent.getExtras().get("idSpeaker").toString());
+                        }
+                    });
+                }
+
                 executeRest(myIntent.getExtras().get("idSpeaker").toString());
             }
         } catch (Exception e){
@@ -92,6 +137,25 @@ public class ProfileActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
                 startActivity(intent);
+            }
+        });
+    }
+
+    private void follow(String idActorToFollow){
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        String idActor = sp.getString("Id", "not found");
+
+        Call<Actor> call = userService.follow(idActor, idActorToFollow, "follow");
+        call.enqueue(new Callback<Actor>() {
+            @Override
+            public void onResponse(Call<Actor> call, Response<Actor> response) {
+                Intent intent = new Intent(ProfileActivity.this, FollowingActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<Actor> call, Throwable t) {
+                Toast.makeText(ProfileActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

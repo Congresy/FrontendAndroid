@@ -58,6 +58,7 @@ public class BaseActivity extends AppCompatActivity {
             osArray.add("My events");
             osArray.add("Forum");
             osArray.add("Folders");
+            osArray.add("Following");
         }
 
         if(role.equals("Organizator")){
@@ -97,6 +98,9 @@ public class BaseActivity extends AppCompatActivity {
                         startActivity(intent);
                     } else if (position == 6) {
                         Intent intent = new Intent(BaseActivity.this, ShowMyFoldersActivity.class);
+                        startActivity(intent);
+                    } else if (position == 7) {
+                        Intent intent = new Intent(BaseActivity.this, FollowingActivity.class);
                         startActivity(intent);
                     }
                 }

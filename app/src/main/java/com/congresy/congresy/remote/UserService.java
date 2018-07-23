@@ -213,17 +213,17 @@ public interface UserService {
     @DELETE("messages/{idActor}/{idMessage}")
     Call<Void> deleteMessage(@Path("idActor") String idMessage, @Path("idMessage") String idActor);
 
-    @GET("actors/{idActors}/followers")
+    @GET("actors/{idActor}/followers")
     Call<List<Actor>> getFollowers(@Path("idActor") String idActor);
 
-    @GET("actors/{idActors}/following")
+    @GET("actors/{idActor}/following")
     Call<List<Actor>> getFollowing(@Path("idActor") String idActor);
 
     @GET("actors/{idActor}/upComing")
     Call<List<Conference>> getUpcomingConference(@Path("idActor") String idActor);
 
     @PUT("actors/follow/{idActor}/{idActorToFollow}")
-    Call<Actor> follow(@Path("idActor") String idActor, @Path("idActor") String idActorToFollow, @Query("action") String action);
+    Call<Actor> follow(@Path("idActor") String idActor, @Path("idActorToFollow") String idActorToFollow, @Query("action") String action);
 
     @GET("announcements")
     Call<List<Announcement>> getAllAnnouncements();

@@ -56,6 +56,7 @@
         <activity android:name=".CreateMessageActivity" />
         <activity android:name=".ChooseActorActivity" />
         <activity android:name=".EditProfileActivity" />
+        <activity android:name=".FollowingActivity"></activity>
     </application>
 
 </manifest>
