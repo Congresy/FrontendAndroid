@@ -26,6 +26,8 @@ import com.google.gson.JsonObject;
 
 import org.joda.time.LocalDateTime;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,33 +55,80 @@ public class CreateMessageActivity extends BaseActivity {
 
         userService = ApiUtils.getUserService();
 
-        btnCreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String subject = subjectT.getText().toString();
-                String body = bodyT.getText().toString();
+        Intent intent = getIntent();
 
-                // adding properties to json for POST
-                JsonObject json = new JsonObject();
+        try {
 
-                json.addProperty("subject", subject);
-                json.addProperty("body", body);
-                json.addProperty("sentMoment", LocalDateTime.now().toString("dd/MM/yyyy HH:mm"));
-                json.addProperty("senderId", "default");
-                json.addProperty("receiverId", "default");
+            final String idConference = intent.getExtras().get("fromConference").toString();
 
-                Intent myIntent = getIntent();
-                String comeFrom = myIntent.getExtras().get("comeFrom").toString();
+            btnCreate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String subject = subjectT.getText().toString();
+                    String body = bodyT.getText().toString();
 
-                if (comeFrom.equals("create")){
-                    createMessage(json);
-                } else if (comeFrom.equals("reply")) {
-                    reply(json);
+                    // adding properties to json for POST
+                    JsonObject json = new JsonObject();
+
+                    json.addProperty("subject", subject);
+                    json.addProperty("body", body);
+                    json.addProperty("sentMoment", LocalDateTime.now().toString("dd/MM/yyyy HH:mm"));
+                    json.addProperty("senderId", "default");
+                    json.addProperty("receiverId", "default");
+
+                    sendMessageToParticipants(json, idConference);
                 }
+            });
+
+        } catch (NullPointerException e){
+
+            btnCreate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String subject = subjectT.getText().toString();
+                    String body = bodyT.getText().toString();
+
+                    // adding properties to json for POST
+                    JsonObject json = new JsonObject();
+
+                    json.addProperty("subject", subject);
+                    json.addProperty("body", body);
+                    json.addProperty("sentMoment", LocalDateTime.now().toString("dd/MM/yyyy HH:mm"));
+                    json.addProperty("senderId", "default");
+                    json.addProperty("receiverId", "default");
+
+                    Intent myIntent = getIntent();
+                    String comeFrom = myIntent.getExtras().get("comeFrom").toString();
+
+                    if (comeFrom.equals("create")){
+                        createMessage(json);
+                    } else if (comeFrom.equals("reply")) {
+                        reply(json);
+                    }
+
+                }
+            });
+
+        }
+
+    }
+
+    private void sendMessageToParticipants(JsonObject json, String idConference){
+        Call<List<Message>> call = userService.createMessageToParticipants(json, idConference);
+        call.enqueue(new Callback<List<Message>>() {
+            @Override
+            public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
+
+                Intent intent = new Intent(CreateMessageActivity.this, ShowMyConferencesActivity.class);
+                startActivity(intent);
 
             }
-        });
 
+            @Override
+            public void onFailure(Call<List<Message>> call, Throwable t) {
+                Toast.makeText(CreateMessageActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void createMessage(JsonObject json){

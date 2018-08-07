@@ -238,7 +238,7 @@ public interface UserService {
     Call<Void> deleteAnnouncement(@Path("idAnnouncement") String idAnnouncement);
 
     @POST("messages/conference/{idConference}")
-    Call<Announcement> createMessageToParticipants(@Body JsonObject jsonObject, @Path("idConference") String idConference);
+    Call<List<Message>> createMessageToParticipants(@Body JsonObject jsonObject, @Path("idConference") String idConference);
 
     @PUT("actors/{idActor}")
     Call<Actor> editActor(@Path("idActor") String idActor, @Body JsonObject jsonObject);

@@ -84,6 +84,7 @@ public class IndexActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(IndexActivity.this, LoginActivity.class);
+                intent.putExtra("fromLogin", 0);
                 startActivity(intent);
                 }
         });
@@ -124,7 +125,9 @@ public class IndexActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.login:
-                startActivity(new Intent(this, LoginActivity.class));
+                Intent intent = new Intent(IndexActivity.this, LoginActivity.class);
+                intent.putExtra("fromLogin", 0);
+                startActivity(intent);
                 return true;
             case R.id.register:
                 startActivity(new Intent(this, RegisterActivity.class));

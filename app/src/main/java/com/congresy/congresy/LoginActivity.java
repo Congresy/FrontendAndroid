@@ -125,28 +125,38 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences sp1 = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
                     String role_ = sp1.getString("Role", "not found");
 
-                    if(auxOk || auxOk1) {
+                    try {
+
+                        Intent intentAux = getIntent();
+                        intentAux.getExtras().get("fromLogin").toString();
                         startActivity(intent);
-                    } else {
-                        try {
-                            if (!role_.equals("User")){
-                                showAlertDialogButtonClicked();
-                            } else {
 
-                                Intent intentN = getIntent();
-                                String id = intentN.getExtras().get("idConference").toString();
+                    } catch (NullPointerException n){
 
-                                if (actor.getConferences().contains(id)){
-                                    showAlertDialogButtonClicked1();
-                                } else {
-                                    Intent intentConference = new Intent(LoginActivity.this, JoiningConferenceActivity.class);
-                                    intentConference.putExtra("idConference", id);
-                                    startActivity(intentConference);
-                                }
-                            }
-
-                        } catch (Exception e) {
+                        if(auxOk || auxOk1) {
                             startActivity(intent);
+
+                        } else {
+                            try {
+                                if (!role_.equals("User")){
+                                    showAlertDialogButtonClicked();
+                                } else {
+
+                                    Intent intentN = getIntent();
+                                    String id = intentN.getExtras().get("idConference").toString();
+
+                                    if (actor.getConferences().contains(id)){
+                                        showAlertDialogButtonClicked1();
+                                    } else {
+                                        Intent intentConference = new Intent(LoginActivity.this, JoiningConferenceActivity.class);
+                                        intentConference.putExtra("idConference", id);
+                                        startActivity(intentConference);
+                                    }
+                                }
+
+                            } catch (Exception e) {
+                                startActivity(intent);
+                            }
                         }
                     }
 

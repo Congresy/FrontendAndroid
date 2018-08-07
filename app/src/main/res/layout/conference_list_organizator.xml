@@ -37,4 +37,12 @@
         android:focusable="false"
         />
 
+    <Button
+        android:id="@+id/btnMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="M"
+        android:focusable="false"
+        />
+
 </LinearLayout>

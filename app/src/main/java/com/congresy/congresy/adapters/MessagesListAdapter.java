@@ -89,12 +89,18 @@ public class MessagesListAdapter extends BaseAdapter implements ListAdapter {
         SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         String folderName = sp.getString("folderName", "not found");
 
+        holder.reply.setVisibility(View.GONE);
+
         if (!folderName.equals("Trash")){
             holder.delete.setVisibility(View.GONE);
             holder.toTrash.setVisibility(View.VISIBLE);
         } else {
             holder.delete.setVisibility(View.VISIBLE);
             holder.toTrash.setVisibility(View.GONE);
+        }
+
+        if (!items.get(position).getSenderId().equals("broadcast")){
+            holder.reply.setVisibility(View.VISIBLE);
         }
 
         holder.reply.setOnClickListener(new View.OnClickListener(){

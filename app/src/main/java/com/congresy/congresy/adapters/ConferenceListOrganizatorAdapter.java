@@ -11,6 +11,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.congresy.congresy.CreateMessageActivity;
 import com.congresy.congresy.EditConferenceActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.SearchSpeakersActivity;
@@ -71,6 +72,7 @@ public class ConferenceListOrganizatorAdapter extends BaseAdapter implements Lis
             holder.events = convertView.findViewById(R.id.btnShowEvents);
             holder.edit = convertView.findViewById(R.id.btnEditConference);
             holder.delete = convertView.findViewById(R.id.btnDeleteConference);
+            holder.message = convertView.findViewById(R.id.btnMessage);
 
             convertView.setTag(holder);
         } else {
@@ -100,6 +102,21 @@ public class ConferenceListOrganizatorAdapter extends BaseAdapter implements Lis
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, EditConferenceActivity.class);
                 myIntent.putExtra("idConference", items.get(position).getId());
+                context.startActivity(myIntent);
+            }
+        });
+
+        holder.message.setVisibility(View.GONE);
+
+        if (items.get(position).getParticipants() != null){
+            holder.message.setVisibility(View.VISIBLE);
+        }
+
+        holder.message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(context, CreateMessageActivity.class);
+                myIntent.putExtra("fromConference", items.get(position).getId());
                 context.startActivity(myIntent);
             }
         });
@@ -134,5 +151,6 @@ public class ConferenceListOrganizatorAdapter extends BaseAdapter implements Lis
         Button events;
         Button edit;
         Button delete;
+        Button message;
     }
 }
