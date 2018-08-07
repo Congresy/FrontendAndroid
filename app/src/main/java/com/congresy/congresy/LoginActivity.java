@@ -1,9 +1,11 @@
 package com.congresy.congresy;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,6 +26,9 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private boolean auxOk = false;
+    private boolean auxOk1 = false;
+
     EditText edtUsername;
     EditText edtPassword;
 
@@ -37,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
 
         edtUsername = findViewById(R.id.edtUsername);
@@ -116,7 +122,34 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("Password", password);
                     editor.apply();
 
-                    startActivity(intent);
+                    SharedPreferences sp1 = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                    String role_ = sp1.getString("Role", "not found");
+
+                    if(auxOk || auxOk1) {
+                        startActivity(intent);
+                    } else {
+                        try {
+                            if (!role_.equals("User")){
+                                showAlertDialogButtonClicked();
+                            } else {
+
+                                Intent intentN = getIntent();
+                                String id = intentN.getExtras().get("idConference").toString();
+
+                                if (actor.getConferences().contains(id)){
+                                    showAlertDialogButtonClicked1();
+                                } else {
+                                    Intent intentConference = new Intent(LoginActivity.this, JoiningConferenceActivity.class);
+                                    intentConference.putExtra("idConference", id);
+                                    startActivity(intentConference);
+                                }
+                            }
+
+                        } catch (Exception e) {
+                            startActivity(intent);
+                        }
+                    }
+
 
                 } else {
                     Toast.makeText(LoginActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
@@ -128,6 +161,46 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void showAlertDialogButtonClicked() {
+
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Attention!");
+        builder.setMessage("Your role in the app do not allow you to do this action. Click OK to continue to login normally");
+
+        // add a button
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                auxOk = true;
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void showAlertDialogButtonClicked1() {
+
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Attention!");
+        builder.setMessage("You are not allowed to continue because you are already in the conference of the announcement. Click OK to continue to login normally ");
+
+        // add a button
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                auxOk1 = true;
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void doLogin(final String username,final String password){

@@ -41,16 +41,19 @@ public class IndexActivity extends AppCompatActivity {
     private int conferencesSize;
     private int usersSize;
     private int activeConferences;
+    private Announcement announcement_;
 
     TextView data;
 
     Button btnLogin;
     Button btnRegister;
+    Button go;
 
     UserService userService;
 
     ImageView image;
     TextView conferenceE;
+    TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +71,12 @@ public class IndexActivity extends AppCompatActivity {
 
         data = findViewById(R.id.data);
 
-        btnLogin = (Button) findViewById(R.id.btnLogin);
-        btnRegister = (Button) findViewById(R.id.btnRegister);
+        btnLogin = findViewById(R.id.btnLogin);
+        btnRegister = findViewById(R.id.btnRegister);
         image = findViewById(R.id.image);
         conferenceE = findViewById(R.id.conference);
+        title= findViewById(R.id.title);
+        go = findViewById(R.id.go);
 
         userService = ApiUtils.getUserService();
 
@@ -89,6 +94,16 @@ public class IndexActivity extends AppCompatActivity {
                 Intent intent = new Intent(IndexActivity.this, RegisterActivity.class);
                 startActivity(intent);
                 }
+        });
+
+        go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(IndexActivity.this, LoginActivity.class);
+                String id = announcement_.getIdConference();
+                intent.putExtra("idConference", announcement_.getIdConference());
+                startActivity(intent);
+            }
         });
 
         LoadData();
@@ -202,16 +217,17 @@ public class IndexActivity extends AppCompatActivity {
 
                 if (announcements.size() > 0){
                     Random rand = new Random();
-                    Announcement announcement = announcements.get(rand.nextInt(announcements.size()));
+                    announcement_ = announcements.get(rand.nextInt(announcements.size()));
 
                     Glide.with(getApplicationContext())
-                            .load(announcement.getPicture()) // Image URL
+                            .load(announcement_.getPicture()) // Image URL
                             .centerCrop() // Image scale type
                             .crossFade()
                             .override(800,500) // Resize image
                             .into(image); // ImageView to display image
 
-                    conferenceE.setText(announcement.getUrl());
+                    conferenceE.setText(announcement_.getDescription());
+                    title.setText(announcement_.getUrl());
                 }
             }
 

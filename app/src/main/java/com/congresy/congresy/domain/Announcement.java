@@ -14,6 +14,12 @@ public class Announcement {
     @SerializedName("url")
     @Expose
     private String url;
+    @SerializedName("description")
+    @Expose
+    private String description;
+    @SerializedName("idConference")
+    @Expose
+    private String idConference;
 
     public String getId() {
         return id;
@@ -39,4 +45,19 @@ public class Announcement {
         this.url = url;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getIdConference() {
+        return idConference;
+    }
+
+    public void setIdConference(String idConference) {
+        this.idConference = idConference;
+    }
 }

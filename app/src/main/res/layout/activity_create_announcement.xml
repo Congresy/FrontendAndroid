@@ -63,9 +63,39 @@
                 android:layout_below = "@+id/picture"
                 />
 
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:layout_below="@id/pictureE"
+                />
+
+            <EditText
+                android:id="@+id/nameE"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/name"
+                />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:layout_below="@id/nameE"
+                />
+
+            <EditText
+                android:id="@+id/descriptionE"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/description"
+                />
+
             <Button
                 android:layout_marginTop="15dp"
-                android:layout_below = "@+id/pictureE"
+                android:layout_below = "@+id/descriptionE"
                 android:id="@+id/save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

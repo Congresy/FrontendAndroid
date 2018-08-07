@@ -1,10 +1,7 @@
 package com.congresy.congresy;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +14,11 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Announcement;
-import com.congresy.congresy.domain.Comment;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 import com.google.gson.JsonObject;
-
-import org.joda.time.LocalDateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +33,12 @@ public class CreateAnnouncementActivity extends BaseActivity {
     UserService userService;
 
     EditText pictureE;
+    EditText descriptionE;
+    EditText titleE;
 
     TextView pictureT;
+    TextView descriptionT;
+    TextView titleT;
 
     Button save;
     Button choose;
@@ -56,6 +53,10 @@ public class CreateAnnouncementActivity extends BaseActivity {
 
         pictureE = findViewById(R.id.pictureE);
         pictureT = findViewById(R.id.picture);
+        titleE = findViewById(R.id.nameE);
+        titleT = findViewById(R.id.name);
+        descriptionT = findViewById(R.id.description);
+        descriptionE = findViewById(R.id.descriptionE);
         save = findViewById(R.id.save);
         choose = findViewById(R.id.chooseConference);
 
@@ -67,12 +68,20 @@ public class CreateAnnouncementActivity extends BaseActivity {
         choose.setVisibility(View.GONE);
         pictureE.setVisibility(View.GONE);
         pictureT.setVisibility(View.GONE);
+        descriptionE.setVisibility(View.GONE);
+        descriptionT.setVisibility(View.GONE);
+        titleE.setVisibility(View.GONE);
+        titleT.setVisibility(View.GONE);
 
         try {
             intent.getExtras().get("idConference").toString();
             save.setVisibility(View.VISIBLE);
             pictureE.setVisibility(View.VISIBLE);
             pictureT.setVisibility(View.VISIBLE);
+            descriptionE.setVisibility(View.VISIBLE);
+            descriptionT.setVisibility(View.VISIBLE);
+            titleE.setVisibility(View.VISIBLE);
+            titleT.setVisibility(View.VISIBLE);
         } catch (Exception e){
             choose.setVisibility(View.VISIBLE);
         }
@@ -84,9 +93,13 @@ public class CreateAnnouncementActivity extends BaseActivity {
                 JsonObject json = new JsonObject();
 
                 String picture = pictureE.getText().toString();
+                String title= titleE.getText().toString();
+                String description = descriptionE.getText().toString();
 
                 json.addProperty("picture", picture);
-                json.addProperty("url", intent.getExtras().get("idConference").toString());
+                json.addProperty("url", title);
+                json.addProperty("idConference", intent.getExtras().get("idConference").toString());
+                json.addProperty("description", description);
 
                 createAnnouncement(json);
 
@@ -148,7 +161,7 @@ public class CreateAnnouncementActivity extends BaseActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent intent = new Intent(CreateAnnouncementActivity.this, CreateAnnouncementActivity.class);
-                        intent.putExtra("idConference", conferences.get(position).getName());
+                        intent.putExtra("idConference", conferences.get(position).getId());
                         startActivity(intent);
                     }
                 });

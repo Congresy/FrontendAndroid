@@ -51,14 +51,33 @@
             android:layout_width="250dp"
             android:layout_height="250dp"
             android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:contentDescription="Profile's image" />
+            android:layout_margin="1dp"
+            android:contentDescription="Conference's image" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/title"
+            android:layout_marginBottom="5dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:id="@+id/conference"
+            />
+
+        <Button
+            android:id="@+id/go"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Go!"
             />
 
     </LinearLayout>

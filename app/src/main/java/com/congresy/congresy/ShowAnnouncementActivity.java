@@ -25,6 +25,7 @@ public class ShowAnnouncementActivity extends BaseActivity {
     ImageView image;
 
     TextView conferenceE;
+    TextView titleE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class ShowAnnouncementActivity extends BaseActivity {
 
         image = findViewById(R.id.image);
         conferenceE = findViewById(R.id.conference);
+        titleE = findViewById(R.id.title);
 
         showAnnouncement();
 
@@ -56,7 +58,8 @@ public class ShowAnnouncementActivity extends BaseActivity {
                             .override(800,500)
                             .into(image); // ImageView to display image
 
-                conferenceE.setText(announcement.getUrl());
+                conferenceE.setText(announcement.getDescription());
+                titleE.setText(announcement.getUrl());
 
             }
 
@@ -66,23 +69,4 @@ public class ShowAnnouncementActivity extends BaseActivity {
             }
         });
     }
-
-    /* private void loadConference(String id){
-        Call<Conference> call = userService.getConference(id);
-        call.enqueue(new Callback<Conference>() {
-            @Override
-            public void onResponse(Call<Conference> call, Response<Conference> response) {
-
-                Conference conference = response.body();
-
-                conferenceE.setText(conference.getName());
-
-            }
-
-            @Override
-            public void onFailure(Call<Conference> call, Throwable t) {
-                Toast.makeText(ShowAnnouncementActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
-            }
-        });
-    } */
 }
