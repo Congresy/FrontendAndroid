@@ -90,6 +90,28 @@ public class MyCommentsListAdapter extends BaseAdapter implements ListAdapter {
             }
         });
 
+        try {
+
+            if (!items.get(position).getResponses().isEmpty()){
+                String str = String.valueOf(items.get(position).getResponses().size());
+                holder.replies.setText(String.format("Replies (%s)", str));
+
+                holder.replies.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        Intent myIntent = new Intent(context, ShowResponsesOfComment.class);
+                        myIntent.putExtra("idComment", items.get(position).getId());
+                        context.startActivity(myIntent);
+                    }
+                });
+            }
+
+        } catch (Exception e){
+
+            holder.replies.setText("Replies (0)");
+        }
+
+
         holder.toC.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -110,15 +132,6 @@ public class MyCommentsListAdapter extends BaseAdapter implements ListAdapter {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, EditCommentActivity.class);
-                myIntent.putExtra("idComment", items.get(position).getId());
-                context.startActivity(myIntent);
-            }
-        });
-
-        holder.replies.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(context, ShowResponsesOfComment.class);
                 myIntent.putExtra("idComment", items.get(position).getId());
                 context.startActivity(myIntent);
             }

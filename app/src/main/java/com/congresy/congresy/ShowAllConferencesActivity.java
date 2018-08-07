@@ -40,10 +40,12 @@ public class ShowAllConferencesActivity extends BaseActivity {
 
         userService = ApiUtils.getUserService();
 
-        if(myIntent.getExtras().get("comeFrom").toString() != null){
+        try {
+            myIntent.getExtras().get("comeFrom").toString();
             loadUpcomingConferences();
-        } else {
-            loadAllConferences();
+            } catch (Exception e){{
+                loadAllConferences();
+            }
         }
 
     }

@@ -102,34 +102,38 @@ public class ProfileActivity extends BaseActivity {
                 }
 
                 executeRest(myIntent.getExtras().get("idOrganizator").toString());
-
-            } else if (myIntent.getExtras().get("idSpeaker").toString() != null){
-
-                String aux = sp.getString("followed " + myIntent.getExtras().get("idSpeaker").toString(), "not found");
-
-                if (!aux.equals("not found")) {
-                    follow.setVisibility(View.GONE);
-                } else {
-                    follow.setVisibility(View.VISIBLE);
-
-                    follow.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sp.edit();
-                            editor.putString("followed " + myIntent.getExtras().get("idSpeaker").toString(), "1");
-                            editor.apply();
-
-                            follow(myIntent.getExtras().get("idSpeaker").toString());
-                        }
-                    });
-                }
-
-                executeRest(myIntent.getExtras().get("idSpeaker").toString());
             }
         } catch (Exception e){
-            btnEdit.setVisibility(View.VISIBLE);
-            execute();
+            try {
+                if (myIntent.getExtras().get("idSpeaker").toString() != null){
+
+                    String aux = sp.getString("followed " + myIntent.getExtras().get("idSpeaker").toString(), "not found");
+
+                    if (!aux.equals("not found")) {
+                        follow.setVisibility(View.GONE);
+                    } else {
+                        follow.setVisibility(View.VISIBLE);
+
+                        follow.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sp.edit();
+                                editor.putString("followed " + myIntent.getExtras().get("idSpeaker").toString(), "1");
+                                editor.apply();
+
+                                follow(myIntent.getExtras().get("idSpeaker").toString());
+                            }
+                        });
+                    }
+
+                    executeRest(myIntent.getExtras().get("idSpeaker").toString());
+            }
+
+            } catch (Exception es){
+                btnEdit.setVisibility(View.VISIBLE);
+                execute();
+            }
         }
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
@@ -338,6 +342,8 @@ public class ProfileActivity extends BaseActivity {
 
                         places.setText("");
                         sN.setText("");
+
+                        follow.setVisibility(View.GONE);
 
                     } else {
                         tName.setText("Name: "  + body.getName());
