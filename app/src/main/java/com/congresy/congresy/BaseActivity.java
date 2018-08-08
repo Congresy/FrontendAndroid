@@ -57,20 +57,18 @@ public class BaseActivity extends AppCompatActivity {
         if(role.equals("User")){
             osArray.add("Home");
             osArray.add("Profile");
-            osArray.add("My social networks");
+            osArray.add("Social");
             osArray.add("All conferences");
             osArray.add("My conferences");
             osArray.add("My events");
             osArray.add("Forum");
             osArray.add("Folders");
-            osArray.add("Following");
-            osArray.add("Friends");
         }
 
         if(role.equals("Organizator")){
             osArray.add("Home");
             osArray.add("Profile");
-            osArray.add("My social networks");
+            osArray.add("Social");
             osArray.add("My conferences");
             osArray.add("Create conference");
             osArray.add("Forum");
@@ -109,7 +107,7 @@ public class BaseActivity extends AppCompatActivity {
                         Intent intent = new Intent(BaseActivity.this, ProfileActivity.class);
                         startActivity(intent);
                     } else if (position == 2) {
-                        Intent intent = new Intent(BaseActivity.this, ShowMySocialNetworksActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, SocialActivity.class);
                         startActivity(intent);
                     } else if (position == 3) {
                         Intent intent = new Intent(BaseActivity.this, ShowAllConferencesActivity.class);
@@ -125,12 +123,6 @@ public class BaseActivity extends AppCompatActivity {
                         startActivity(intent);
                     } else if (position == 7) {
                         Intent intent = new Intent(BaseActivity.this, ShowMyFoldersActivity.class);
-                        startActivity(intent);
-                    } else if (position == 8) {
-                        Intent intent = new Intent(BaseActivity.this, FollowingActivity.class);
-                        startActivity(intent);
-                    } else if (position == 9) {
-                        Intent intent = new Intent(BaseActivity.this, ShowMyFriendsActivity.class);
                         startActivity(intent);
                     }
                 }
@@ -149,7 +141,7 @@ public class BaseActivity extends AppCompatActivity {
                         Intent intent = new Intent(BaseActivity.this, ProfileActivity.class);
                         startActivity(intent);
                     } else if (position == 2) {
-                        Intent intent = new Intent(BaseActivity.this, ShowMySocialNetworksActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, SocialActivity.class);
                         startActivity(intent);
                     } else if (position == 3) {
                         Intent intent = new Intent(BaseActivity.this, ShowMyConferencesActivity.class);

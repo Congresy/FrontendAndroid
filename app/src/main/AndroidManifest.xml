@@ -60,7 +60,9 @@
         <activity android:name=".ShowAllAnnouncementsActivity" />
         <activity android:name=".CreateAnnouncementActivity" />
         <activity android:name=".ShowAnnouncementActivity" />
-        <activity android:name=".ShowMyFriendsActivity"></activity>
+        <activity android:name=".ShowMyFriendsActivity" />
+        <activity android:name=".SocialActivity" />
+        <activity android:name=".FollowersActivity"></activity>
     </application>
 
 </manifest>
