@@ -1,7 +1,9 @@
 package com.congresy.congresy;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,11 +30,12 @@ public class RegisterSpeakerActivity extends BaseActivity {
 
     EditText edtUsername;
     EditText edtPassword;
+    EditText edtPasswordConfirm;
     EditText edtName;
     EditText edtSurname;
     EditText edtEmail;
+    EditText edtEmailConfirm;
     EditText edtPhone;
-    EditText edtPlace;
     EditText edtPhoto;
     EditText edtNick;
 
@@ -53,12 +56,13 @@ public class RegisterSpeakerActivity extends BaseActivity {
         btnRegister = findViewById(R.id.btnRegister);
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
+        edtPasswordConfirm = findViewById(R.id.edtPasswordConfirm);
         edtName = findViewById(R.id.edtName);
         edtSurname = findViewById(R.id.edtSurname);
         edtEmail = findViewById(R.id.edtEmail);
+        edtEmailConfirm = findViewById(R.id.edtEmailConfirm);
         edtPhone = findViewById(R.id.edtPhone);
-        edtPlace = findViewById(R.id.edtPlace);
-        edtPhoto = findViewById(R.id.edtPhotoP);
+        edtPhoto = findViewById(R.id.edtPhoto);
         edtNick = findViewById(R.id.edtNick);
 
         // Pace attributes
@@ -75,11 +79,12 @@ public class RegisterSpeakerActivity extends BaseActivity {
             public void onClick(View v) {
                 String username = edtUsername.getText().toString();
                 String password = edtPassword.getText().toString();
+                String passwordConfirm = edtPasswordConfirm.getText().toString();
                 String name = edtName.getText().toString();
                 String surname = edtSurname.getText().toString();
                 String email = edtEmail.getText().toString();
+                String emailConfirm = edtEmailConfirm.getText().toString();
                 String phone = edtPhone.getText().toString();
-                String place = edtPlace.getText().toString();
                 String photo = edtPhoto.getText().toString();
                 String nick = edtNick.getText().toString();
 
@@ -102,7 +107,7 @@ public class RegisterSpeakerActivity extends BaseActivity {
                 jsonActor.addProperty("surname", surname);
                 jsonActor.addProperty("email", email);
                 jsonActor.addProperty("phone", phone);
-                jsonActor.addProperty("place", place);
+
                 if(!photo.equals("null")){
                     jsonActor.addProperty("photo", photo);
                 }
@@ -120,9 +125,42 @@ public class RegisterSpeakerActivity extends BaseActivity {
                 jsonPlace.addProperty("postalCode", postalCode);
                 jsonPlace.addProperty("details", details);
 
-                doRegister(json, jsonPlace);
+                // Check confirmations
+                if (!password.equals(passwordConfirm) && !email.equals(emailConfirm)){
+                    showAlertDialogButtonClicked("both");
+                } else if (!email.equals(emailConfirm)){
+                    showAlertDialogButtonClicked("email");
+                } else if (!password.equals(passwordConfirm)) {
+                    showAlertDialogButtonClicked("password");
+                } else {
+                    doRegister(json, jsonPlace);
+                }
             }
         });
+    }
+
+    public void showAlertDialogButtonClicked(String action) {
+
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Attention!");
+
+        if (action.equals("email")){
+            builder.setMessage("Your email don't match the confirmation");
+        } else if (action.equals("password")){
+            builder.setMessage("Your password don't match the confirmation");
+        }
+
+        // add a button
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
