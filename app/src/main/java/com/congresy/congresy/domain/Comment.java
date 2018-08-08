@@ -30,6 +30,17 @@ public class Comment {
     @SerializedName("title")
     @Expose
     private String title;
+    @SerializedName("author")
+    @Expose
+    private String author;
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
     public String getCommentable() {
         return commentable;

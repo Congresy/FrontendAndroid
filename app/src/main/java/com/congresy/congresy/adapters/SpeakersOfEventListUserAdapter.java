@@ -82,6 +82,7 @@ public class SpeakersOfEventListUserAdapter extends BaseAdapter implements ListA
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context.getApplicationContext(), ProfileActivity.class);
+                intent.putExtra("goingTo", "Speaker");
                 intent.putExtra("idSpeaker", items.get(position).getId());
                 context.startActivity(intent);
             }

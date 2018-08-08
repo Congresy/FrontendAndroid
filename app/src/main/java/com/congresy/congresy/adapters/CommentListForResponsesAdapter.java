@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.congresy.congresy.CreateCommentActivity;
+import com.congresy.congresy.ProfileActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.domain.Comment;
 import com.congresy.congresy.remote.ApiUtils;
@@ -71,6 +72,7 @@ public class CommentListForResponsesAdapter extends BaseAdapter implements ListA
             holder.down = convertView.findViewById(R.id.voteDown);
             holder.reply = convertView.findViewById(R.id.reply);
             holder.replies = convertView.findViewById(R.id.replies);
+            holder.author = convertView.findViewById(R.id.author);
 
             convertView.setTag(holder);
         } else {
@@ -123,6 +125,22 @@ public class CommentListForResponsesAdapter extends BaseAdapter implements ListA
             }
         });
 
+        holder.author.setVisibility(View.GONE);
+
+        if (!items.get(position).getAuthor().equals(sp.getString("Id", "not found"))){
+            holder.author.setVisibility(View.VISIBLE);
+        }
+
+        holder.author.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(context, ProfileActivity.class);
+                myIntent.putExtra("goingTo", "Unknown");
+                myIntent.putExtra("idAuthor", items.get(position).getAuthor());
+                context.startActivity(myIntent);
+            }
+        });
+
         return convertView;
     }
 
@@ -171,6 +189,7 @@ public class CommentListForResponsesAdapter extends BaseAdapter implements ListA
         Button down;
         Button reply;
         Button replies;
+        Button author;
     }
 
 }

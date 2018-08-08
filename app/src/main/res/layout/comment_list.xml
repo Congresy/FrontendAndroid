@@ -45,11 +45,21 @@
         />
 
     <Button
+        android:id="@+id/author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Author"
+        android:layout_toRightOf="@id/replies"
+        android:layout_below="@id/text"
+        android:focusable="false"
+        />
+
+    <Button
         android:id="@+id/voteUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="UP"
-        android:layout_toRightOf="@id/replies"
+        android:layout_toRightOf="@id/author"
         android:layout_below="@id/text"
         android:focusable="false"/>
 

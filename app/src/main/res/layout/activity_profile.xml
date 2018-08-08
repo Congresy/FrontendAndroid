@@ -155,5 +155,15 @@
             android:text="Follow"
             />
 
+        <Button
+            android:layout_below = "@+id/follow"
+            android:id="@+id/friend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:text="Friend"
+            />
+
     </RelativeLayout>
 </android.support.v4.widget.DrawerLayout>

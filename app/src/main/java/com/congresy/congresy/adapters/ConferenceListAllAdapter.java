@@ -94,6 +94,7 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, ProfileActivity.class);
+                myIntent.putExtra("goingTo", "Organizator");
                 myIntent.putExtra("idOrganizator", items.get(position).getOrganizator());
                 context.startActivity(myIntent);
             }

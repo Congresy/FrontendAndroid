@@ -99,6 +99,7 @@ public class ShowPostActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ShowPostActivity.this, CreateCommentActivity.class);
                 intent.putExtra("idCommentable", idPost);
+                intent.putExtra("parent", "post");
                 intent.putExtra("comeFrom", "commentable");
                 startActivity(intent);
 

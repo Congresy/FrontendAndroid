@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,11 @@ import android.widget.Toast;
 
 import com.congresy.congresy.CreateCommentActivity;
 import com.congresy.congresy.EditCommentActivity;
+import com.congresy.congresy.ProfileActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowPostActivity;
 import com.congresy.congresy.ShowResponsesOfComment;
+import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Comment;
 import com.congresy.congresy.domain.Post;
 import com.congresy.congresy.remote.ApiUtils;
@@ -32,6 +35,7 @@ import retrofit2.Response;
 public class CommentListAdapter extends BaseAdapter implements ListAdapter {
 
     private UserService userService = ApiUtils.getUserService();
+    private Boolean aux_ = false;
 
     private List<Comment> items;
     private Context context;
@@ -74,6 +78,7 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
             holder.down = convertView.findViewById(R.id.voteDown);
             holder.reply = convertView.findViewById(R.id.reply);
             holder.replies = convertView.findViewById(R.id.replies);
+            holder.author= convertView.findViewById(R.id.author);
 
             convertView.setTag(holder);
         } else {
@@ -148,6 +153,30 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
             }
         });
 
+        holder.author.setVisibility(View.GONE);
+
+        String idActor = sp.getString("Id", "not found");
+
+        try  {
+            if (!items.get(position).getAuthor().equals(idActor)){
+                holder.author.setVisibility(View.VISIBLE);
+            }
+        }catch (Exception e){
+            holder.author.setVisibility(View.GONE);
+        }
+
+
+        holder.author.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                Intent myIntent = new Intent(context, ProfileActivity.class);
+                myIntent.putExtra("goingTo", "Unknown");
+                myIntent.putExtra("idAuthor", items.get(position).getAuthor());
+                context.startActivity(myIntent);
+            }
+        });
+
         return convertView;
     }
 
@@ -196,6 +225,7 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
         Button down;
         Button reply;
         Button replies;
+        Button author;
     }
 
 }

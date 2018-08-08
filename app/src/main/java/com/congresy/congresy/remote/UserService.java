@@ -216,6 +216,9 @@ public interface UserService {
     @GET("actors/{idActor}/followers")
     Call<List<Actor>> getFollowers(@Path("idActor") String idActor);
 
+    @GET("actors/{idActor}/friends")
+    Call<List<Actor>> getFriends(@Path("idActor") String idActor);
+
     @GET("actors/{idActor}/following")
     Call<List<Actor>> getFollowing(@Path("idActor") String idActor);
 
@@ -224,6 +227,9 @@ public interface UserService {
 
     @PUT("actors/follow/{idActor}/{idActorToFollow}")
     Call<Actor> follow(@Path("idActor") String idActor, @Path("idActorToFollow") String idActorToFollow, @Query("action") String action);
+
+    @PUT("actors/friend/{idActor}/{idActorToFriend}")
+    Call<Actor> friend(@Path("idActor") String idActor, @Path("idActorToFriend") String idActorToFriend, @Query("action") String action);
 
     @GET("announcements")
     Call<List<Announcement>> getAllAnnouncements();

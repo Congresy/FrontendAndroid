@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.congresy.congresy.adapters.FriendsListAdapter;
 import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Place;
 import com.congresy.congresy.domain.SocialNetwork;
@@ -43,6 +44,7 @@ public class ProfileActivity extends BaseActivity {
 
     Button btnEdit;
     Button follow;
+    Button friend;
 
     private String username;
 
@@ -66,6 +68,7 @@ public class ProfileActivity extends BaseActivity {
         socialNetworks = findViewById(R.id.socialNetworks);
         btnEdit = findViewById(R.id.btnEdit);
         follow = findViewById(R.id.follow);
+        friend = findViewById(R.id.friend);
 
         ePlace = findViewById(R.id.edtPlace);
         eAddress = findViewById(R.id.edtAddress);
@@ -77,34 +80,37 @@ public class ProfileActivity extends BaseActivity {
 
         btnEdit.setVisibility(View.GONE);
         follow.setVisibility(View.GONE);
+        friend.setVisibility(View.GONE);
 
         try {
-            if (myIntent.getExtras().get("idOrganizator").toString() != null){
+            if (myIntent.getExtras().get("goingTo").equals("Organizator")){
 
-                String aux = sp.getString("followed " + myIntent.getExtras().get("idOrganizator").toString(), "not found");
+                if (myIntent.getExtras().get("idOrganizator").toString() != null){
 
-                if (!aux.equals("not found")) {
-                    follow.setVisibility(View.GONE);
-                } else {
-                    follow.setVisibility(View.VISIBLE);
+                    String aux = sp.getString("followed " + myIntent.getExtras().get("idOrganizator").toString(), "not found");
 
-                    follow.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sp.edit();
-                            editor.putString("followed " + myIntent.getExtras().get("idOrganizator").toString(), "1");
-                            editor.apply();
+                    if (!aux.equals("not found")) {
+                        follow.setVisibility(View.GONE);
+                    } else {
+                        follow.setVisibility(View.VISIBLE);
 
-                            follow(myIntent.getExtras().get("idOrganizator").toString());
-                        }
-                    });
+                        follow.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sp.edit();
+                                editor.putString("followed " + myIntent.getExtras().get("idOrganizator").toString(), "1");
+                                editor.apply();
+
+                                follow(myIntent.getExtras().get("idOrganizator").toString());
+                            }
+                        });
+                    }
+
+                    executeRest(myIntent.getExtras().get("idOrganizator").toString());
                 }
+            } else if (myIntent.getExtras().get("goingTo").equals("Speaker")){
 
-                executeRest(myIntent.getExtras().get("idOrganizator").toString());
-            }
-        } catch (Exception e){
-            try {
                 if (myIntent.getExtras().get("idSpeaker").toString() != null){
 
                     String aux = sp.getString("followed " + myIntent.getExtras().get("idSpeaker").toString(), "not found");
@@ -128,12 +134,14 @@ public class ProfileActivity extends BaseActivity {
                     }
 
                     executeRest(myIntent.getExtras().get("idSpeaker").toString());
+                }
+            }  else if (myIntent.getExtras().get("goingTo").equals("Unknown")){
+                loadActor();
             }
 
-            } catch (Exception es){
-                btnEdit.setVisibility(View.VISIBLE);
-                execute();
-            }
+        } catch (Exception e){
+            btnEdit.setVisibility(View.VISIBLE);
+            execute();
         }
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +153,101 @@ public class ProfileActivity extends BaseActivity {
         });
     }
 
+    private void loadActor(){
+        final SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        final Intent myIntent = getIntent();
+
+        Call<Actor> call = userService.getActorById(getIntent().getExtras().getString("idAuthor"));
+        call.enqueue(new Callback<Actor>() {
+            @Override
+            public void onResponse(Call<Actor> call, Response<Actor> response) {
+
+                Actor actor = response.body();
+
+                if (actor.getRole().equals("User")){
+
+                    String aux = sp.getString("friend " + myIntent.getExtras().get("idAuthor").toString(), "not found");
+
+                    if (!aux.equals("not found")) {
+                        friend.setVisibility(View.GONE);
+                    } else {
+                        friend.setVisibility(View.VISIBLE);
+
+                        friend.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sp.edit();
+                                editor.putString("friend " + myIntent.getExtras().get("idAuthor").toString(), "1");
+                                editor.apply();
+
+                                friend(myIntent.getExtras().get("idAuthor").toString());
+                            }
+                        });
+                    }
+
+                    executeRest(myIntent.getExtras().get("idAuthor").toString());
+
+                } else if (actor.getRole().equals("Organizator")) {
+
+                    String aux = sp.getString("followed " + myIntent.getExtras().get("idAuthor").toString(), "not found");
+
+                    if (!aux.equals("not found")) {
+                        follow.setVisibility(View.GONE);
+                    } else {
+                        follow.setVisibility(View.VISIBLE);
+
+                        follow.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sp.edit();
+                                editor.putString("followed " + myIntent.getExtras().get("idAuthor").toString(), "1");
+                                editor.apply();
+
+                                follow(myIntent.getExtras().get("idAuthor").toString());
+                            }
+                        });
+                    }
+
+                    executeRest(myIntent.getExtras().get("idAuthor").toString());
+
+                } else if (actor.getRole().equals("Speaker")){
+
+                    String aux = sp.getString("followed " + myIntent.getExtras().get("idAuthor").toString(), "not found");
+
+                    if (!aux.equals("not found")) {
+                        follow.setVisibility(View.GONE);
+                    } else {
+                        follow.setVisibility(View.VISIBLE);
+
+                        follow.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sp.edit();
+                                editor.putString("followed " + myIntent.getExtras().get("idAuthor").toString(), "1");
+                                editor.apply();
+
+                                follow(myIntent.getExtras().get("idAuthor").toString());
+                            }
+                        });
+                    }
+
+                    executeRest(myIntent.getExtras().get("idAuthor").toString());
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Actor> call, Throwable t) {
+                Toast.makeText(ProfileActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
     private void follow(String idActorToFollow){
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         String idActor = sp.getString("Id", "not found");
@@ -154,6 +257,25 @@ public class ProfileActivity extends BaseActivity {
             @Override
             public void onResponse(Call<Actor> call, Response<Actor> response) {
                 Intent intent = new Intent(ProfileActivity.this, FollowingActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<Actor> call, Throwable t) {
+                Toast.makeText(ProfileActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void friend(String idActorToFriend){
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        String idActor = sp.getString("Id", "not found");
+
+        Call<Actor> call = userService.friend(idActor, idActorToFriend, "friend");
+        call.enqueue(new Callback<Actor>() {
+            @Override
+            public void onResponse(Call<Actor> call, Response<Actor> response) {
+                Intent intent = new Intent(ProfileActivity.this, ShowMyFriendsActivity.class);
                 startActivity(intent);
             }
 
@@ -186,6 +308,8 @@ public class ProfileActivity extends BaseActivity {
         });
 
     }
+
+
 
     private void LoadProfile(final List<SocialNetwork> socialNetworksS) {
         Call<Actor> call = userService.getActorByUsername(username);
