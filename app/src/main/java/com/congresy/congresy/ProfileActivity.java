@@ -182,7 +182,12 @@ public class ProfileActivity extends BaseActivity {
                     followers.setText("Followers (0)");
                 }
 
-                followers.setVisibility(View.VISIBLE);
+                if (!actor.getRole().equals("User")){
+                    followers.setVisibility(View.VISIBLE);
+                } else {
+                    followers.setVisibility(View.GONE);
+                }
+
 
             }
 

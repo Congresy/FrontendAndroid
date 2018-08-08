@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.congresy.congresy.adapters.ConferenceListAllAdapter;
@@ -25,6 +26,8 @@ public class ShowAllConferencesActivity extends BaseActivity {
 
     UserService userService;
 
+    TextView title;
+
     private String actorId;
 
     @Override
@@ -32,6 +35,8 @@ public class ShowAllConferencesActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         loadDrawer(R.layout.activity_show_all_conferences);
+
+        title = findViewById(R.id.myConferences);
 
         Intent myIntent = getIntent();
 
@@ -42,6 +47,7 @@ public class ShowAllConferencesActivity extends BaseActivity {
 
         try {
             myIntent.getExtras().get("comeFrom").toString();
+            title.setText("Upcoming conferences");
             loadUpcomingConferences();
             } catch (Exception e){{
                 loadAllConferences();

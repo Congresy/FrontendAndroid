@@ -91,7 +91,7 @@ public class FriendsListAdapter extends BaseAdapter implements ListAdapter {
                 Intent intent = new Intent(context, ShowAllConferencesActivity.class);
                 intent.putExtra("comeFrom", "1");
                 intent.putExtra("idActor", items.get(position).getId());
-                context.startActivity(intent); //TODO
+                context.startActivity(intent);
             }
         });
 
@@ -100,7 +100,8 @@ public class FriendsListAdapter extends BaseAdapter implements ListAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(context, CreateMessageActivity.class);
                 intent.putExtra("idReceiver", items.get(position).getId());
-                context.startActivity(intent); //TODO
+                intent.putExtra("comeFrom", "create");
+                context.startActivity(intent);
             }
         });
 
