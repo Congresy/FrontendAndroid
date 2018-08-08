@@ -55,6 +55,7 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         if(role.equals("User")){
+            osArray.add("Home");
             osArray.add("Profile");
             osArray.add("My social networks");
             osArray.add("All conferences");
@@ -66,6 +67,7 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         if(role.equals("Organizator")){
+            osArray.add("Home");
             osArray.add("Profile");
             osArray.add("My social networks");
             osArray.add("My conferences");
@@ -83,6 +85,10 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position == 0) {
+                        Intent intent = new Intent(BaseActivity.this, IndexActivity.class);
+                        intent.putExtra("logged", 1);
+                        startActivity(intent);
+                    } else if (position == 1) {
                         Intent intent = new Intent(BaseActivity.this, ShowAllAnnouncementsActivity.class);
                         startActivity(intent);
                     }
@@ -95,27 +101,31 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position == 0) {
-                        Intent intent = new Intent(BaseActivity.this, ProfileActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, IndexActivity.class);
+                        intent.putExtra("logged", 1);
                         startActivity(intent);
                     } else if (position == 1) {
-                        Intent intent = new Intent(BaseActivity.this, ShowMySocialNetworksActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, ProfileActivity.class);
                         startActivity(intent);
                     } else if (position == 2) {
-                        Intent intent = new Intent(BaseActivity.this, ShowAllConferencesActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, ShowMySocialNetworksActivity.class);
                         startActivity(intent);
                     } else if (position == 3) {
-                        Intent intent = new Intent(BaseActivity.this, ShowMyConferencesActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, ShowAllConferencesActivity.class);
                         startActivity(intent);
                     } else if (position == 4) {
-                        Intent intent = new Intent(BaseActivity.this, ShowMyEventsActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, ShowMyConferencesActivity.class);
                         startActivity(intent);
                     } else if (position == 5) {
-                        Intent intent = new Intent(BaseActivity.this, ShowAllPostsActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, ShowMyEventsActivity.class);
                         startActivity(intent);
                     } else if (position == 6) {
-                        Intent intent = new Intent(BaseActivity.this, ShowMyFoldersActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, ShowAllPostsActivity.class);
                         startActivity(intent);
                     } else if (position == 7) {
+                        Intent intent = new Intent(BaseActivity.this, ShowMyFoldersActivity.class);
+                        startActivity(intent);
+                    } else if (position == 8) {
                         Intent intent = new Intent(BaseActivity.this, FollowingActivity.class);
                         startActivity(intent);
                     }
@@ -128,21 +138,25 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position == 0) {
-                        Intent intent = new Intent(BaseActivity.this, ProfileActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, IndexActivity.class);
+                        intent.putExtra("logged", 1);
                         startActivity(intent);
                     } else if (position == 1) {
-                        Intent intent = new Intent(BaseActivity.this, ShowMySocialNetworksActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, ProfileActivity.class);
                         startActivity(intent);
                     } else if (position == 2) {
-                        Intent intent = new Intent(BaseActivity.this, ShowMyConferencesActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, ShowMySocialNetworksActivity.class);
                         startActivity(intent);
                     } else if (position == 3) {
-                        Intent intent = new Intent(BaseActivity.this, CreateConferenceActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, ShowMyConferencesActivity.class);
                         startActivity(intent);
                     } else if (position == 4) {
-                        Intent intent = new Intent(BaseActivity.this, ShowAllPostsActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, CreateConferenceActivity.class);
                         startActivity(intent);
                     } else if (position == 5) {
+                        Intent intent = new Intent(BaseActivity.this, ShowAllPostsActivity.class);
+                        startActivity(intent);
+                    } else if (position == 6) {
                         Intent intent = new Intent(BaseActivity.this, ShowMyFoldersActivity.class);
                         startActivity(intent);
                     }

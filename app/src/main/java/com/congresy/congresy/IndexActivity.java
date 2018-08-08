@@ -42,6 +42,7 @@ public class IndexActivity extends AppCompatActivity {
     private int usersSize;
     private int activeConferences;
     private Announcement announcement_;
+    private boolean aux = false;
 
     TextView data;
 
@@ -62,9 +63,20 @@ public class IndexActivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         int logged = sp.getInt("logged", 0);
 
+        Intent intentAux = getIntent();
+
         if(logged == 1){
-            Intent intent = new Intent(IndexActivity.this, HomeActivity.class);
-            startActivity(intent);
+
+            try {
+
+                intentAux.getExtras().get("logged");
+
+            } catch (NullPointerException e){
+
+                Intent intent = new Intent(IndexActivity.this, HomeActivity.class);
+                startActivity(intent);
+
+            }
         }
 
         setContentView(R.layout.activity_index);
@@ -79,6 +91,25 @@ public class IndexActivity extends AppCompatActivity {
         go = findViewById(R.id.go);
 
         userService = ApiUtils.getUserService();
+
+        btnLogin.setVisibility(View.GONE);
+        btnRegister.setVisibility(View.GONE);
+
+        Intent intent = getIntent();
+
+        try {
+
+           intent.getExtras().get("logged");
+
+            btnLogin.setVisibility(View.GONE);
+            btnRegister.setVisibility(View.GONE);
+
+        } catch (NullPointerException e){
+
+            btnLogin.setVisibility(View.VISIBLE);
+            btnRegister.setVisibility(View.VISIBLE);
+
+        }
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,17 +128,7 @@ public class IndexActivity extends AppCompatActivity {
                 }
         });
 
-        go.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(IndexActivity.this, LoginActivity.class);
-                String id = announcement_.getIdConference();
-                intent.putExtra("idConference", announcement_.getIdConference());
-                startActivity(intent);
-            }
-        });
-
-        LoadData();
+        loadData();
 
         showAnnouncement();
 
@@ -117,24 +138,72 @@ public class IndexActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.index_menu_options, menu);
+
+        try {
+            getIntent().getExtras().get("logged");
+            inflater.inflate(R.menu.index_menu_options_logged, menu);
+        } catch (Exception e){
+            inflater.inflate(R.menu.index_menu_options, menu);
+        }
+
         return true;
+    }
+
+    private void logout(){
+        Call call = ApiUtils.getUserService().logout();
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+
+                SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.remove("Username");
+                editor.remove("Password");
+                editor.remove("Role");
+                editor.remove("Name");
+                editor.remove("Id");
+                editor.putInt("logged", 0);
+                editor.apply();
+
+                startActivity(new Intent(IndexActivity.this, IndexActivity.class));
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Toast.makeText(IndexActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.login:
-                Intent intent = new Intent(IndexActivity.this, LoginActivity.class);
-                intent.putExtra("fromLogin", 0);
-                startActivity(intent);
-                return true;
-            case R.id.register:
-                startActivity(new Intent(this, RegisterActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+
+        try {
+            getIntent().getExtras().get("logged");
+
+            switch (item.getItemId()) {
+                case R.id.logout:
+                    logout();
+                    return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }
+        } catch (Exception e){
+            switch (item.getItemId()) {
+                case R.id.login:
+                    Intent intent = new Intent(IndexActivity.this, LoginActivity.class);
+                    intent.putExtra("fromLogin", 0);
+                    startActivity(intent);
+                    return true;
+                case R.id.register:
+                    startActivity(new Intent(this, RegisterActivity.class));
+                    return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }
         }
+
+
     }
 
     private void getAllUsers(){
@@ -162,7 +231,7 @@ public class IndexActivity extends AppCompatActivity {
         });
     }
 
-    private void LoadData(){
+    private void loadData(){
         Call<List<Conference>> call = userService.getAllConferencesDetailedOrderByDate();
         call.enqueue(new Callback<List<Conference>>() {
             @Override
@@ -232,6 +301,15 @@ public class IndexActivity extends AppCompatActivity {
                     conferenceE.setText(announcement_.getDescription());
                     title.setText(announcement_.getUrl());
                 }
+
+                try {
+
+                    getIntent().getExtras().get("logged");
+                    loadActor(announcement_.getIdConference());
+
+                } catch (NullPointerException e){
+
+                }
             }
 
             @Override
@@ -241,22 +319,61 @@ public class IndexActivity extends AppCompatActivity {
         });
     }
 
-    /* private void loadConference(String id){
-        Call<Conference> call = userService.getConference(id);
-        call.enqueue(new Callback<Conference>() {
+    private void loadActor(final String idConference){
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        String username = sp.getString("Username", "not found");
+
+        Call<Actor> call = userService.getActorByUsername(username);
+        call.enqueue(new Callback<Actor>() {
             @Override
-            public void onResponse(Call<Conference> call, Response<Conference> response) {
+            public void onResponse(Call<Actor> call, Response<Actor> response) {
 
-                Conference conference = response.body();
+                Actor actor = response.body();
 
-                conferenceE.setText(conference.getName());
+                if (actor.getConferences().contains(idConference)){
+                    aux = true;
+                }
+
+                Intent intent = getIntent();
+
+                try {
+
+                    intent.getExtras().get("logged");
+
+                    if (aux){
+                        go.setText("Already in!");
+
+                        go.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(IndexActivity.this, ShowConferenceActivity.class);
+                                intent.putExtra("idConference", announcement_.getIdConference());
+                                startActivity(intent);
+                            }
+                        });
+                    }
+
+                } catch (NullPointerException e){
+
+                    go.setText("Go!");
+
+                    go.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(IndexActivity.this, LoginActivity.class);
+                            intent.putExtra("idConference", announcement_.getIdConference());
+                            startActivity(intent);
+                        }
+                    });
+
+                }
 
             }
 
             @Override
-            public void onFailure(Call<Conference> call, Throwable t) {
+            public void onFailure(Call<Actor> call, Throwable t) {
                 Toast.makeText(IndexActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
             }
         });
-    } */
+    }
 }
