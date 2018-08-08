@@ -19,6 +19,7 @@ import com.congresy.congresy.domain.SocialNetwork;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import retrofit2.Call;
@@ -45,6 +46,7 @@ public class ProfileActivity extends BaseActivity {
     Button btnEdit;
     Button follow;
     Button friend;
+    Button followers;
 
     private String username;
 
@@ -69,6 +71,7 @@ public class ProfileActivity extends BaseActivity {
         btnEdit = findViewById(R.id.btnEdit);
         follow = findViewById(R.id.follow);
         friend = findViewById(R.id.friend);
+        followers = findViewById(R.id.followers);
 
         ePlace = findViewById(R.id.edtPlace);
         eAddress = findViewById(R.id.edtAddress);
@@ -81,6 +84,7 @@ public class ProfileActivity extends BaseActivity {
         btnEdit.setVisibility(View.GONE);
         follow.setVisibility(View.GONE);
         friend.setVisibility(View.GONE);
+        followers.setVisibility(View.GONE);
 
         try {
             if (myIntent.getExtras().get("goingTo").equals("Organizator")){
@@ -108,6 +112,7 @@ public class ProfileActivity extends BaseActivity {
                     }
 
                     executeRest(myIntent.getExtras().get("idOrganizator").toString());
+                    aux(myIntent.getExtras().get("idOrganizator").toString());
                 }
             } else if (myIntent.getExtras().get("goingTo").equals("Speaker")){
 
@@ -134,6 +139,7 @@ public class ProfileActivity extends BaseActivity {
                     }
 
                     executeRest(myIntent.getExtras().get("idSpeaker").toString());
+                    aux(myIntent.getExtras().get("Speaker").toString());
                 }
             }  else if (myIntent.getExtras().get("goingTo").equals("Unknown")){
                 loadActor();
@@ -153,6 +159,41 @@ public class ProfileActivity extends BaseActivity {
         });
     }
 
+    private void aux(String idAuthor){
+        Call<Actor> call = userService.getActorById(idAuthor);
+        call.enqueue(new Callback<Actor>() {
+            @Override
+            public void onResponse(Call<Actor> call, Response<Actor> response) {
+
+                final Actor actor = response.body();
+
+                try {
+                    followers.setText(MessageFormat.format("Followers ({0})", actor.getFollowers().size()));
+
+                    followers.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(ProfileActivity.this, FollowersActivity.class);
+                            intent.putExtra("idActor", actor.getId());
+                            startActivity(intent);
+                        }
+                    });
+                } catch (Exception e){
+                    followers.setText("Followers (0)");
+                }
+
+                followers.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void onFailure(Call<Actor> call, Throwable t) {
+                Toast.makeText(ProfileActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
     private void loadActor(){
         final SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         final Intent myIntent = getIntent();
@@ -162,7 +203,24 @@ public class ProfileActivity extends BaseActivity {
             @Override
             public void onResponse(Call<Actor> call, Response<Actor> response) {
 
-                Actor actor = response.body();
+                final Actor actor = response.body();
+
+                try {
+                    followers.setText(MessageFormat.format("Followers ({0})", actor.getFollowers().size()));
+
+                    followers.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(ProfileActivity.this, FollowersActivity.class);
+                            intent.putExtra("idActor", actor.getId());
+                            startActivity(intent);
+                        }
+                    });
+                } catch (Exception e){
+                    followers.setText("Followers (0)");
+                }
+
+                followers.setVisibility(View.VISIBLE);
 
                 if (actor.getRole().equals("User")){
 

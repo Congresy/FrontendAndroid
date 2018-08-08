@@ -29,6 +29,9 @@ public class Actor {
     private List<String> following = null;
     @SerializedName("followers")
     @Expose
+    private List<String> followers = null;
+    @SerializedName("friends")
+    @Expose
     private List<String> friends = null;
     @SerializedName("id")
     @Expose
@@ -66,6 +69,14 @@ public class Actor {
     @SerializedName("userAccount_")
     @Expose
     private String userAccount;
+
+    public List<String> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<String> followers) {
+        this.followers = followers;
+    }
 
     public Boolean getBanned() {
         return banned;

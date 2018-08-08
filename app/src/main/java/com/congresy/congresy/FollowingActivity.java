@@ -79,6 +79,7 @@ public class FollowingActivity extends BaseActivity{
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent intent = new Intent(FollowingActivity.this, ProfileActivity.class);
+                        intent.putExtra("goingTo", "Organizator");
                         intent.putExtra("idOrganizator", organizators.get(position).getId());
                         startActivity(intent);
                     }
@@ -88,6 +89,7 @@ public class FollowingActivity extends BaseActivity{
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent intent = new Intent(FollowingActivity.this, ProfileActivity.class);
+                        intent.putExtra("goingTo", "Speaker");
                         intent.putExtra("idSpeaker", speakers.get(position).getId());
                         startActivity(intent);
                     }
