@@ -17,7 +17,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="- Login -"
+            android:text="- Sign in -"
             android:layout_gravity="center"
             android:textAppearance="?android:attr/textAppearanceLarge"
             />
@@ -54,7 +54,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Login"
+            android:text="Continue"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Want to sign up instead? "
+            android:layout_marginTop="45dp"
+            android:layout_gravity="center"
+            />
+
+        <Button
+            android:id="@+id/registerAux"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Sign up"
             />
 
 

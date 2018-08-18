@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
     Button btnLogin;
     Button btnRegister;
+    Button btnRegisterAux;
 
     UserService userService;
 
@@ -47,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
 
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
+        btnRegisterAux = findViewById(R.id.registerAux);
 
         btnLogin = findViewById(R.id.btnLogin);
 
@@ -62,6 +64,14 @@ public class LoginActivity extends AppCompatActivity {
                     //do login
                     doLogin(username, password);
                 }
+            }
+        });
+
+        btnRegisterAux.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentConference = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intentConference);
             }
         });
     }
