@@ -53,6 +53,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtNameT"
+                android:hint="Name example"
+                android:inputType="text"
                 />
 
             <TextView
@@ -63,18 +65,19 @@
                 android:id="@+id/edtThemeT"
                 />
 
-            <EditText
-                android:id="@+id/edtTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <Spinner xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/spinner"
                 android:layout_below = "@+id/edtThemeT"
-                />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Price: "
-                android:layout_below = "@+id/edtTheme"
+                android:layout_below = "@+id/spinner"
                 android:id="@+id/edtPriceT"
                 />
 
@@ -83,6 +86,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtPriceT"
+                android:hint="20.99"
+                android:inputType="numberDecimal"
                 />
 
             <TextView
@@ -98,6 +103,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtParticT"
+                android:hint="100"
+                android:inputType="number"
                 />
 
             <TextView
@@ -113,6 +120,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtStartT"
+                android:hint="10/10/2019"
+                android:inputType="date"
                 />
 
             <TextView
@@ -128,6 +137,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtEndT"
+                android:hint="15/10/2019"
+                android:inputType="date"
                 />
 
             <TextView
@@ -143,6 +154,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtSpeakersT"
+                android:hint="Speaker 1, Speaker 2, Speaker 3"
+                android:inputType="text"
                 />
 
             <TextView
@@ -158,6 +171,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtDescriptionT"
+                android:hint="Short description example"
+                android:inputType="text"
                 />
 
             <TextView
@@ -184,6 +199,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtTownT"
+                android:hint="Madrid"
+                android:inputType="text"
                 />
 
             <TextView
@@ -199,6 +216,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtCountryT"
+                android:hint="Spain"
+                android:inputType="text"
                 />
 
             <TextView
@@ -214,6 +233,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtAddressT"
+                android:hint="Avda. Cruz del Campo, 45B, 3A"
+                android:inputType="text"
                 />
 
             <TextView
@@ -229,6 +250,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtPostalCodeT"
+                android:hint="41590"
+                android:inputType="number"
                 />
 
             <TextView
@@ -244,6 +267,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtDetailsT"
+                android:hint="Near the center's cafe, to the right"
+                android:inputType="text"
                 />
 
             <Button

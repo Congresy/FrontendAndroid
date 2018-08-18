@@ -6,8 +6,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.congresy.congresy.adapters.ConferenceListOrganizatorAdapter;
@@ -27,13 +29,13 @@ public class EditConferenceActivity extends BaseActivity {
     UserService userService;
 
     EditText edtName;
-    EditText edtTheme;
     EditText edtPrice;
     EditText edtStart;
     EditText edtEnd;
     EditText edtSpeakers;
     EditText edtDescription;
     EditText edtPartic;
+    Spinner spinner;
 
     // Place attributes
     EditText edtTown;
@@ -50,7 +52,7 @@ public class EditConferenceActivity extends BaseActivity {
         loadDrawer(R.layout.activity_edit_conference);
 
         edtName = findViewById(R.id.edtName);
-        edtTheme = findViewById(R.id.edtTheme);
+        spinner = findViewById(R.id.spinner);
         edtPrice = findViewById(R.id.edtPrice);
         edtStart = findViewById(R.id.edtStart);
         edtEnd = findViewById(R.id.edtEnd);
@@ -67,6 +69,16 @@ public class EditConferenceActivity extends BaseActivity {
         edtPostalCode = findViewById(R.id.edtPostalCode);
         edtDetails = findViewById(R.id.edtDetailsP);
 
+        // set spinner values
+        String[] arraySpinner = new String[] {
+                "General", "Another", "New one"
+        };
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, arraySpinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
         userService = ApiUtils.getUserService();
 
         getConference();
@@ -80,7 +92,7 @@ public class EditConferenceActivity extends BaseActivity {
 
 
                 String name = edtName.getText().toString();
-                String theme = edtTheme.getText().toString();
+                String theme = spinner.getSelectedItem().toString();
                 String price = edtPrice.getText().toString();
                 String start = edtStart.getText().toString();
                 String end = edtEnd.getText().toString();
@@ -196,8 +208,20 @@ public class EditConferenceActivity extends BaseActivity {
 
                 Conference conference = response.body();
 
+                String[] arraySpinner = new String[] {
+                        "General", "Another", "New one"
+                };
+
+                int index = 0;
+                for (String s : arraySpinner){
+                    if(s.equals(conference.getTheme())){
+                        spinner.setSelection(index);
+                        break;
+                    }
+                    index++;
+                }
+
                 edtName.setText(conference.getName());
-                edtTheme.setText(conference.getTheme());
                 edtPrice.setText(String.valueOf(conference.getPrice()));
                 edtStart.setText(conference.getStart());
                 edtEnd.setText(conference.getEnd());

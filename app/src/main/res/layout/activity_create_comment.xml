@@ -51,6 +51,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/title"
+                android:hint="Title example"
+                android:inputType="text"
                 />
 
             <TextView
@@ -73,6 +75,7 @@
                 android:maxLines="30"
                 android:gravity="top|left"
                 android:scrollbars="vertical"
+                android:hint="This is a body example \n\n It may have more than one line \n\n End."
                 />
 
             <Button

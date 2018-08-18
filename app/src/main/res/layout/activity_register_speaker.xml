@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ListView
-        android:id="@+id/navList"
-        android:layout_width="200dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="left|start"
-        android:background="#ffeeeeee"/>
+    android:layout_height="match_parent"
+    tools:context="com.congresy.congresy.LoginActivity">
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -53,6 +47,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtUsernameT"
+                android:hint="Username example"
+                android:inputType="text"
                 />
 
             <TextView
@@ -69,13 +65,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
+                android:hint="pas17@kaAKPIaia1"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirm password: "
+                android:id="@+id/edtPasswordConfirmT"
+                android:layout_below = "@+id/edtPassword"
+                />
+
+            <EditText
+                android:id="@+id/edtPasswordConfirm"
+                android:layout_below = "@+id/edtPasswordConfirmT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name: "
-                android:layout_below = "@+id/edtPassword"
+                android:layout_below = "@+id/edtPasswordConfirm"
                 android:id="@+id/edtNameT"
                 />
 
@@ -84,6 +97,8 @@
                 android:layout_below = "@+id/edtNameT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Name example"
+                android:inputType="text"
                 />
 
             <TextView
@@ -99,6 +114,8 @@
                 android:layout_below = "@+id/edtSurnameT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Surname example"
+                android:inputType="text"
                 />
 
             <TextView
@@ -114,11 +131,27 @@
                 android:layout_below = "@+id/edtEmailT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="email@gmail.com"
+                android:inputType="textEmailAddress" />
+
+            <TextView
+                android:id="@+id/edtEmailConfirmT"
+                android:layout_below = "@+id/edtEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirm email: "
+                />
+
+            <EditText
+                android:id="@+id/edtEmailConfirm"
+                android:layout_below = "@+id/edtEmailConfirmT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 />
 
             <TextView
                 android:id="@+id/edtPhoneT"
-                android:layout_below = "@+id/edtEmail"
+                android:layout_below = "@+id/edtEmailConfirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Phone: "
@@ -129,26 +162,13 @@
                 android:layout_below = "@+id/edtPhoneT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
-
-            <TextView
-                android:id="@+id/edtPlaceT"
-                android:layout_below = "@+id/edtPhone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Place: "
-                />
-
-            <EditText
-                android:id="@+id/edtPlace"
-                android:layout_below = "@+id/edtPlaceT"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:hint="+34 612718233"
+                android:inputType="phone"
                 />
 
             <TextView
                 android:id="@+id/edtNickT"
-                android:layout_below = "@+id/edtPlace"
+                android:layout_below = "@+id/edtPhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nick: "
@@ -159,6 +179,8 @@
                 android:layout_below = "@+id/edtNickT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="nick101"
+                android:inputType="text"
                 />
 
             <TextView
@@ -170,10 +192,12 @@
                 />
 
             <EditText
-                android:id="@+id/edtPhotoP"
+                android:id="@+id/edtPhoto"
                 android:layout_below = "@+id/edtPhotoT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="http://www.images.com/image"
+                android:inputType="textUri"
                 />
 
             <TextView
@@ -183,7 +207,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@id/edtPhotoP"
+                android:layout_below="@id/edtPhoto"
                 android:text="-- Place --"
                 />
 
@@ -200,6 +224,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtTownT"
+                android:hint="Madrid"
+                android:inputType="text"
                 />
 
             <TextView
@@ -215,6 +241,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtCountryT"
+                android:hint="Spain"
+                android:inputType="text"
                 />
 
             <TextView
@@ -230,6 +258,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtAddressT"
+                android:hint="Avda. Cruz del Campo, 35B, 3A"
+                android:inputType="text"
                 />
 
             <TextView
@@ -245,6 +275,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtPostalCodeT"
+                android:hint="42590"
+                android:inputType="number"
                 />
 
             <TextView
@@ -260,6 +292,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtDetailsT"
+                android:hint="Near the center"
+                android:inputType="text"
                 />
 
             <Button
@@ -274,4 +308,4 @@
         </RelativeLayout>
     </ScrollView>
 
-</android.support.v4.widget.DrawerLayout>
+</android.support.constraint.ConstraintLayout>

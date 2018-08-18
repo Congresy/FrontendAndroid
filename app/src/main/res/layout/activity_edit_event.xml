@@ -53,6 +53,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtNameT"
+                android:hint="Name example"
+                android:inputType="text"
                 />
 
             <TextView
@@ -68,6 +70,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtTypeT"
+                android:hint="Talk with real examples"
+                android:inputType="text"
                 />
 
             <TextView
@@ -83,6 +87,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtRequirementsT"
+                android:hint="Short talk about animals"
+                android:inputType="text"
                 />
 
             <TextView
@@ -98,6 +104,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtStartT"
+                android:hint="10/10/2019 12:00"
+                android:inputType="datetime"
                 />
 
             <TextView
@@ -113,6 +121,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtEndT"
+                android:hint="10/10/2019 13:00"
+                android:inputType="datetime"
                 />
 
             <TextView
@@ -155,6 +165,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtTownT"
+                android:hint="Madrid"
+                android:inputType="text"
                 />
 
             <TextView
@@ -170,6 +182,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtCountryT"
+                android:hint="Spain"
+                android:inputType="text"
                 />
 
             <TextView
@@ -185,6 +199,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtAddressT"
+                android:hint="Avda. Cruz del Campo, 35B, 3A"
+                android:inputType="text"
                 />
 
             <TextView
@@ -200,6 +216,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtPostalCodeT"
+                android:hint="41590"
+                android:inputType="number"
                 />
 
             <TextView
@@ -215,6 +233,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtDetailsT"
+                android:hint="Near the center"
+                android:inputType="text"
                 />
 
             <Button

@@ -54,6 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
+                android:hint="pas17@kaAKPIaia1"
                 />
 
             <TextView
@@ -85,6 +86,8 @@
                 android:layout_below = "@+id/edtNameT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Name example"
+                android:inputType="text"
                 />
 
             <TextView
@@ -100,6 +103,8 @@
                 android:layout_below = "@+id/edtSurnameT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Surname/s example"
+                android:inputType="text"
                 />
 
             <TextView
@@ -115,6 +120,8 @@
                 android:layout_below = "@+id/edtEmailT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="email@gmail.com"
+                android:inputType="textEmailAddress"
                 />
 
             <TextView
@@ -130,6 +137,8 @@
                 android:layout_below = "@+id/edtPhoneT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="+34 617128123"
+                android:inputType="phone"
                 />
 
             <TextView
@@ -145,6 +154,8 @@
                 android:layout_below = "@+id/edtNickT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="nick101"
+                android:inputType="text"
                 />
 
             <TextView
@@ -160,6 +171,8 @@
                 android:layout_below = "@+id/edtPhotoT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="http//www.images.com/image.png"
+                android:inputType="textUri"
                 />
 
             <TextView
@@ -186,6 +199,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtTownT"
+                android:hint="Madrid"
+                android:inputType="text"
                 />
 
             <TextView
@@ -201,6 +216,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtCountryT"
+                android:hint="Spain"
+                android:inputType="text"
                 />
 
             <TextView
@@ -216,6 +233,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtAddressT"
+                android:hint="Avda. Cruz del Campo, 45B, 3A"
+                android:inputType="text"
                 />
 
             <TextView
@@ -231,6 +250,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtPostalCodeT"
+                android:hint="42590"
+                android:inputType="number"
                 />
 
             <TextView
@@ -246,6 +267,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtDetailsT"
+                android:hint="Near the center"
+                android:inputType="text"
                 />
 
             <TextView

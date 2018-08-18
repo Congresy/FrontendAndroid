@@ -68,6 +68,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtUrlT"
+                android:hint="https://twitter.com/name"
+                android:inputType="textUri"
                 />
 
             <Button

@@ -61,6 +61,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/picture"
+                android:hint="http://www.images.com/image1.png"
+                android:inputType="textUri"
                 />
 
             <TextView
@@ -76,6 +78,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/name"
+                android:hint="Example title"
+                android:inputType="text"
                 />
 
             <TextView
@@ -91,6 +95,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/description"
+                android:hint="This is a description example"
+                android:inputType="text"
                 />
 
             <Button

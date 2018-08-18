@@ -83,10 +83,6 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position == 0) {
-                        Intent intent = new Intent(BaseActivity.this, IndexActivity.class);
-                        intent.putExtra("logged", 1);
-                        startActivity(intent);
-                    } else if (position == 1) {
                         Intent intent = new Intent(BaseActivity.this, ShowAllAnnouncementsActivity.class);
                         startActivity(intent);
                     }
