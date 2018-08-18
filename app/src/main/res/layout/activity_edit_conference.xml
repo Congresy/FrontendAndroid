@@ -89,24 +89,7 @@
                 android:hint="20.99"
                 android:inputType="numberDecimal"
                 />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Allowed participants: "
-                android:layout_below = "@+id/edtPrice"
-                android:id="@+id/edtParticT"
-                />
-
-            <EditText
-                android:id="@+id/edtPartic"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below = "@+id/edtParticT"
-                android:hint="100"
-                android:inputType="number"
-                />
-
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

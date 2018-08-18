@@ -16,6 +16,7 @@ import com.congresy.congresy.JoiningConferenceActivity;
 import com.congresy.congresy.ProfileActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowAllConferencesActivity;
+import com.congresy.congresy.ShowConferenceActivity;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
 import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
@@ -81,9 +82,25 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
             holder = (ViewHolder) convertView.getTag();
         }
 
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ShowConferenceActivity.class);
+                intent.putExtra("idConference", items.get(position).getId());
+                context.startActivity(intent);
+            }
+        });
+
         conference_ = items.get(position);
 
         holder.name.setText(items.get(position).getName());
+
+        try {
+            holder.join.setText("(" + items.get(position).getSeatsLeft() + ") Join");
+        } catch (NullPointerException e){
+            holder.join.setText("(0) Join");
+            holder.join.setClickable(false);
+        }
 
         holder.join.setOnClickListener(new View.OnClickListener(){
             @Override

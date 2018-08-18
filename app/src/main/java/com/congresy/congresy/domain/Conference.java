@@ -12,6 +12,9 @@ public class Conference {
     @SerializedName("allowedParticipants")
     @Expose
     private Integer allowedParticipants;
+    @SerializedName("seatsLeft")
+    @Expose
+    private Integer seatsLeft;
     @SerializedName("comments")
     @Expose
     private List<String> comments = null;
@@ -61,6 +64,14 @@ public class Conference {
 
     public void setAllowedParticipants(Integer allowedParticipants) {
         this.allowedParticipants = allowedParticipants;
+    }
+
+    public Integer getSeatsLeft() {
+        return seatsLeft;
+    }
+
+    public void setSeatsLeft(Integer seatsLeft) {
+        this.seatsLeft = seatsLeft;
     }
 
     public List<String> getComments() {

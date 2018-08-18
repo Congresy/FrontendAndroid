@@ -34,7 +34,6 @@ public class EditConferenceActivity extends BaseActivity {
     EditText edtEnd;
     EditText edtSpeakers;
     EditText edtDescription;
-    EditText edtPartic;
     Spinner spinner;
 
     // Place attributes
@@ -58,7 +57,6 @@ public class EditConferenceActivity extends BaseActivity {
         edtEnd = findViewById(R.id.edtEnd);
         edtSpeakers = findViewById(R.id.edtSpeakers);
         edtDescription = findViewById(R.id.edtDescriptionP);
-        edtPartic = findViewById(R.id.edtPartic);
 
         btnEdit = findViewById(R.id.btnEdit);
 
@@ -98,7 +96,6 @@ public class EditConferenceActivity extends BaseActivity {
                 String end = edtEnd.getText().toString();
                 String speakers = edtSpeakers.getText().toString();
                 String description = edtDescription.getText().toString();
-                String allowedParticipants = edtPartic.getText().toString();
 
                 // Place attributes
                 String town = edtTown.getText().toString();
@@ -117,7 +114,6 @@ public class EditConferenceActivity extends BaseActivity {
                 json.addProperty("end", end);
                 json.addProperty("speakersNames", speakers);
                 json.addProperty("description", description);
-                json.addProperty("allowedParticipants", Integer.valueOf(allowedParticipants));
                 json.addProperty("organizator", idUserAccount);
 
                 JsonObject jsonPlace = new JsonObject();
@@ -227,7 +223,6 @@ public class EditConferenceActivity extends BaseActivity {
                 edtEnd.setText(conference.getEnd());
                 edtSpeakers.setText(conference.getSpeakersNames());
                 edtDescription.setText(conference.getDescription());
-                edtPartic.setText(String.valueOf(conference.getAllowedParticipants()));
 
                 getPlace(conference.getPlace());
             }

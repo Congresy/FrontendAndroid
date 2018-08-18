@@ -20,8 +20,7 @@
         android:layout_width = "match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
-        android:layout_toRightOf="@id/title"
-        android:text="cabesa"/>
+        android:layout_toRightOf="@id/title" />
 
     <TextView
         android:id="@+id/text"

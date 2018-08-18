@@ -77,15 +77,6 @@ public class ShowMyConferencesActivity extends BaseActivity {
 
                     final ListView lv = findViewById(R.id.listView);
 
-                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent intent = new Intent(ShowMyConferencesActivity.this, ShowConferenceActivity.class);
-                            intent.putExtra("idConference", conferencesList.get(position).getId());
-                            startActivity(intent);
-                        }
-                    });
-
                     if(role.equals("Organizator")) {
                         lv.setAdapter(adapter);
                     } else {

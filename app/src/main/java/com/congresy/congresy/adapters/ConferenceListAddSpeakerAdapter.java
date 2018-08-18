@@ -1,6 +1,8 @@
 package com.congresy.congresy.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +80,18 @@ public class ConferenceListAddSpeakerAdapter extends BaseAdapter implements List
             holder = (ViewHolder) convertView.getTag();
         }
 
+        SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        String aux1 = sp.getString("Speaker deleted " + itemsAux.get(position).getId(), "not found");
+        String aux2 = sp.getString("Speaker added " + itemsAux.get(position).getId(), "not found");
+
+        if (!aux1.equals("not found") && aux2.equals("not found")){
+            holder.add.setVisibility(View.VISIBLE);
+            holder.remove.setVisibility(View.INVISIBLE);
+        } else if (!aux2.equals("not found") && aux1.equals("not found")){
+            holder.add.setVisibility(View.INVISIBLE);
+            holder.remove.setVisibility(View.VISIBLE);
+        }
+
         holder.name.setText(itemsAux.get(position).getSurname()  + ", " + itemsAux.get(position).getName());
 
         holder.add.setOnClickListener(new View.OnClickListener(){
@@ -120,14 +134,21 @@ public class ConferenceListAddSpeakerAdapter extends BaseAdapter implements List
         });
     }
 
-    private void execute(String idEvent, String idActor, final ViewHolder holder){
+    private void execute(String idEvent, final String idActor, final ViewHolder holder){
         Call call = userService.addSpeaker(idEvent, idActor);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()){
                     holder.add.setVisibility(View.INVISIBLE);
-                    holder.remove.setVisibility(View.VISIBLE   );
+                    holder.remove.setVisibility(View.VISIBLE);
+
+                    SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("Speaker added " + idActor, "found");
+                    editor.remove("Speaker deleted " + idActor);
+                    editor.apply();
+
                     Toast.makeText(context.getApplicationContext(), "Added speaker successfully!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context.getApplicationContext(), "There are no speakers", Toast.LENGTH_SHORT).show();
@@ -163,7 +184,7 @@ public class ConferenceListAddSpeakerAdapter extends BaseAdapter implements List
         });
     }
 
-    private void executeDelete(String idEvent, String idActor, final ViewHolder holder){
+    private void executeDelete(String idEvent, final String idActor, final ViewHolder holder){
         Call call = userService.addSpeaker(idEvent, idActor);
         call.enqueue(new Callback() {
             @Override
@@ -171,6 +192,13 @@ public class ConferenceListAddSpeakerAdapter extends BaseAdapter implements List
                 if(response.isSuccessful()){
                     holder.add.setVisibility(View.VISIBLE);
                     holder.remove.setVisibility(View.INVISIBLE);
+
+                    SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("Speaker deleted " + idActor, "found");
+                    editor.remove("Speaker added " + idActor);
+                    editor.apply();
+
                     Toast.makeText(context.getApplicationContext(), "Removed speaker successfully!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context.getApplicationContext(), "There are no speakers", Toast.LENGTH_SHORT).show();

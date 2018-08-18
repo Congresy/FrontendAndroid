@@ -1,7 +1,9 @@
 package com.congresy.congresy.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,7 +90,7 @@ public class SpeakersOfEventListAdapter extends BaseAdapter implements ListAdapt
     }
 
 
-    private void delete(final String idEvent, String idSpeaker){
+    private void delete(final String idEvent, final String idSpeaker){
         Call call = userService.deleteSpeaker(idEvent, idSpeaker);
         call.enqueue(new Callback() {
             @Override
@@ -97,6 +99,13 @@ public class SpeakersOfEventListAdapter extends BaseAdapter implements ListAdapt
                     Toast.makeText(context.getApplicationContext(), "Deleted from event successfully!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(context.getApplicationContext(), ShowSpeakersOfEventActivity.class);
                     intent.putExtra("idEvent", idEvent);
+
+                    SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.remove("Speaker deleted " + idSpeaker);
+                    editor.remove("Speaker added " + idSpeaker);
+                    editor.apply();
+
                     context.getApplicationContext().startActivity(intent);
                 } else {
                     Toast.makeText(context.getApplicationContext(), "Error! Please try again!", Toast.LENGTH_SHORT).show();

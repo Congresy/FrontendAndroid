@@ -9,6 +9,9 @@ public class Event {
     @SerializedName("allowedParticipants")
     @Expose
     private Integer allowedParticipants;
+    @SerializedName("seatsLeft")
+    @Expose
+    private Integer seatsLeft;
     @SerializedName("conference")
     @Expose
     private String conference;
@@ -42,6 +45,14 @@ public class Event {
     @SerializedName("type")
     @Expose
     private String type;
+
+    public Integer getSeatsLeft() {
+        return seatsLeft;
+    }
+
+    public void setSeatsLeft(Integer seatsLeft) {
+        this.seatsLeft = seatsLeft;
+    }
 
     public Integer getAllowedParticipants() {
         return allowedParticipants;

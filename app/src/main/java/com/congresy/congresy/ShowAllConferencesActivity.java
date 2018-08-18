@@ -270,15 +270,6 @@ public class ShowAllConferencesActivity extends BaseActivity {
                         }
                     });
 
-                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent intent = new Intent(ShowAllConferencesActivity.this, ShowConferenceActivity.class);
-                            intent.putExtra("idConference", conferencesListAll_.get(position).getId());
-                            startActivity(intent);
-                        }
-                    });
-
                 } else {
                     Toast.makeText(ShowAllConferencesActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
                 }

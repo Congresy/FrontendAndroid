@@ -15,6 +15,7 @@ import com.congresy.congresy.CreateMessageActivity;
 import com.congresy.congresy.EditConferenceActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.SearchSpeakersActivity;
+import com.congresy.congresy.ShowConferenceActivity;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
 import com.congresy.congresy.ShowMyConferencesActivity;
 import com.congresy.congresy.domain.Actor;
@@ -78,6 +79,16 @@ public class ConferenceListOrganizatorAdapter extends BaseAdapter implements Lis
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ShowConferenceActivity.class);
+                intent.putExtra("idConference", items.get(position).getId());
+                intent.putExtra("comeFrom", "organizator");
+                context.startActivity(intent);
+            }
+        });
 
         holder.name.setText(items.get(position).getName());
 

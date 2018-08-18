@@ -62,12 +62,20 @@
                 android:layout_below="@id/edtPrice"
                 />
 
+        <TextView
+            android:id="@+id/seats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@id/edtPartic"
+            />
+
             <TextView
                 android:id="@+id/edtStart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_below="@id/edtPartic"
+                android:layout_below="@id/seats"
                 />
 
             <TextView

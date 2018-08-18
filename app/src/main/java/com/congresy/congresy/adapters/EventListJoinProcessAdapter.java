@@ -85,6 +85,18 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
             holder = (ViewHolder) convertView.getTag();
         }
 
+        SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        String aux1 = sp.getString("Event deleted " + items.get(position).getId(), "not found");
+        String aux2 = sp.getString("Event added " + items.get(position).getId(), "not found");
+
+        if (!aux1.equals("not found") && aux2.equals("not found")){
+            holder.join.setVisibility(View.VISIBLE);
+            holder.dismiss.setVisibility(View.INVISIBLE);
+        } else if (!aux2.equals("not found") && aux1.equals("not found")){
+            holder.join.setVisibility(View.INVISIBLE);
+            holder.dismiss.setVisibility(View.VISIBLE);
+        }
+
         holder.name.setText(items.get(position).getName() + "\n" +  items.get(position).getStart() + " - " + items.get(position).getEnd());
 
         holder.join.setOnClickListener(new View.OnClickListener(){
@@ -130,14 +142,21 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
         });
     }
 
-    private void execute(String idEvent, String idActor, final ViewHolder holder){
+    private void execute(final String idEvent, String idActor, final ViewHolder holder){
         Call call = userService.addParticipantToEvent(idEvent, idActor);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()){
                     holder.join.setVisibility(View.INVISIBLE);
-                    holder.dismiss.setVisibility(View.VISIBLE   );
+                    holder.dismiss.setVisibility(View.VISIBLE);
+
+                    SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("Speaker added " + idEvent, "found");
+                    editor.remove("Speaker deleted " + idEvent);
+                    editor.apply();
+
                     Toast.makeText(context.getApplicationContext(), "Joined to event successfully!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context.getApplicationContext(), "Error! Please try again!", Toast.LENGTH_SHORT).show();
@@ -176,7 +195,7 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
         });
     }
 
-    private void executeDelete(String idEvent, String idActor, final ViewHolder holder){
+    private void executeDelete(final String idEvent, String idActor, final ViewHolder holder){
         Call call = userService.deleteParticipant(idEvent, idActor);
         call.enqueue(new Callback() {
             @Override
@@ -184,6 +203,13 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
                 if(response.isSuccessful()){
                     holder.join.setVisibility(View.VISIBLE);
                     holder.dismiss.setVisibility(View.INVISIBLE);
+
+                    SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("Speaker deleted " + idEvent, "found");
+                    editor.remove("Speaker added " + idEvent);
+                    editor.apply();
+
                     Toast.makeText(context.getApplicationContext(), "Deleted from event successfully!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context.getApplicationContext(), "Error! Please try again!", Toast.LENGTH_SHORT).show();

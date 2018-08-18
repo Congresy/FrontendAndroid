@@ -116,6 +116,7 @@ public class CreateConferenceActivity extends BaseActivity {
                 json.addProperty("speakersNames", speakers);
                 json.addProperty("description", description);
                 json.addProperty("allowedParticipants", Integer.valueOf(allowedParticipants));
+                json.addProperty("seatsLeft", Integer.valueOf(allowedParticipants));
                 json.addProperty("organizator", userAccountId);
 
                 JsonObject jsonPlace = new JsonObject();

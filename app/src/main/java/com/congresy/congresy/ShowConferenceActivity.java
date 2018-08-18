@@ -39,6 +39,7 @@ public class ShowConferenceActivity extends BaseActivity {
     TextView edtSpeakers;
     TextView edtDescription;
     TextView edtPartic;
+    TextView seats;
 
     TextView ePlace;
     TextView eAddress;
@@ -66,6 +67,7 @@ public class ShowConferenceActivity extends BaseActivity {
         edtSpeakers = findViewById(R.id.edtSpeakers);
         edtDescription = findViewById(R.id.edtDescription);
         edtPartic = findViewById(R.id.edtPartic);
+        seats = findViewById(R.id.seats);
 
         ePlace = findViewById(R.id.edtPlace);
         eAddress = findViewById(R.id.edtAddress);
@@ -107,6 +109,7 @@ public class ShowConferenceActivity extends BaseActivity {
                 edtSpeakers.setText("Speakers attending: " + con.getSpeakersNames());
                 edtDescription.setText("Description: " + con.getDescription());
                 edtPartic.setText("Actual allowed participants: " + String.valueOf(con.getAllowedParticipants()));
+                seats.setText("Seats left: " + String.valueOf(con.getSeatsLeft()));
 
                 loadComments(idConference, con.getPlace());
 
