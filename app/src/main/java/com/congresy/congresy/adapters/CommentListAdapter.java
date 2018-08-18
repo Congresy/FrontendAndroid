@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.congresy.congresy.CreateCommentActivity;
-import com.congresy.congresy.EditCommentActivity;
 import com.congresy.congresy.ProfileActivity;
 import com.congresy.congresy.R;
-import com.congresy.congresy.ShowPostActivity;
 import com.congresy.congresy.ShowResponsesOfComment;
-import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Comment;
-import com.congresy.congresy.domain.Post;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
@@ -79,6 +74,7 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
             holder.reply = convertView.findViewById(R.id.reply);
             holder.replies = convertView.findViewById(R.id.replies);
             holder.author= convertView.findViewById(R.id.author);
+            holder.aux = convertView.findViewById(R.id.aux);
 
             convertView.setTag(holder);
         } else {
@@ -104,10 +100,13 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
         } catch (Exception e){
 
             holder.replies.setText("Replies (0)");
+            holder.replies.setClickable(false);
         }
 
         holder.title.setText(items.get(position).getTitle());
         holder.text.setText(items.get(position).getText());
+
+        holder.aux.setText(items.get(position).getThumbsUp() + " - " + items.get(position).getThumbsDown());
 
         holder.up.setVisibility(View.GONE);
         holder.down.setVisibility(View.GONE);
@@ -226,6 +225,7 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
         Button reply;
         Button replies;
         Button author;
+        TextView aux;
     }
 
 }

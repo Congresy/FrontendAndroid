@@ -73,6 +73,7 @@ public class CommentListForResponsesAdapter extends BaseAdapter implements ListA
             holder.reply = convertView.findViewById(R.id.reply);
             holder.replies = convertView.findViewById(R.id.replies);
             holder.author = convertView.findViewById(R.id.author);
+            holder.aux = convertView.findViewById(R.id.aux);
 
             convertView.setTag(holder);
         } else {
@@ -83,6 +84,9 @@ public class CommentListForResponsesAdapter extends BaseAdapter implements ListA
 
         holder.title.setText(items.get(position).getTitle());
         holder.text.setText(items.get(position).getText());
+
+        holder.aux.setText(items.get(position).getThumbsUp() + " - " + items.get(position).getThumbsDown());
+
 
         SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         String aux = sp.getString("AlreadyVoted " + items.get(position).getId(), "not found");
@@ -190,6 +194,7 @@ public class CommentListForResponsesAdapter extends BaseAdapter implements ListA
         Button reply;
         Button replies;
         Button author;
+        TextView aux;
     }
 
 }

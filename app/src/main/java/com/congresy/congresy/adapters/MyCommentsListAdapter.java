@@ -74,6 +74,7 @@ public class MyCommentsListAdapter extends BaseAdapter implements ListAdapter {
             holder.replies = convertView.findViewById(R.id.replies);
             holder.toC = convertView.findViewById(R.id.commentable);
             holder.delete = convertView.findViewById(R.id.delete);
+            holder.aux = convertView.findViewById(R.id.aux);
 
             convertView.setTag(holder);
         } else {
@@ -82,6 +83,7 @@ public class MyCommentsListAdapter extends BaseAdapter implements ListAdapter {
 
         holder.title.setText(items.get(position).getTitle());
         holder.text.setText(items.get(position).getText());
+        holder.aux.setText(items.get(position).getThumbsUp() + " - " + items.get(position).getThumbsDown());
 
         holder.delete.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -109,6 +111,7 @@ public class MyCommentsListAdapter extends BaseAdapter implements ListAdapter {
         } catch (Exception e){
 
             holder.replies.setText("Replies (0)");
+            holder.replies.setClickable(false);
         }
 
 
@@ -166,6 +169,7 @@ public class MyCommentsListAdapter extends BaseAdapter implements ListAdapter {
         Button replies;
         Button toC;
         Button delete;
+        TextView aux;
     }
 
 }
