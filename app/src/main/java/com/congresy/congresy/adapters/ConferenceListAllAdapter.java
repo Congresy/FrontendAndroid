@@ -1,5 +1,6 @@
 package com.congresy.congresy.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -9,27 +10,39 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.congresy.congresy.JoiningConferenceActivity;
 import com.congresy.congresy.ProfileActivity;
 import com.congresy.congresy.R;
+import com.congresy.congresy.ShowAllConferencesActivity;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
+import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
+import com.congresy.congresy.domain.Place;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
 import java.util.List;
+import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter {
 
     public static Conference conference_;
+    private Place res = null;
 
     private List<Conference> items;
+    private List<Conference> itemsAux;
     private Context context;
 
-    public ConferenceListAllAdapter(Context context, List<Conference> items) {
+    public ConferenceListAllAdapter(Context context, List<Conference> items, List<Conference> itemsAux) {
         this.context = context;
         this.items = items;
+        this.itemsAux = itemsAux;
     }
 
     @Override
@@ -101,6 +114,81 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
         });
 
         return convertView;
+    }
+
+    // Filter Class
+    public void filter(String charText) {
+        charText = charText.toLowerCase();
+        items.clear();
+
+        if (charText.length() == 0) {
+            items.addAll(itemsAux);
+        } else {
+            for (Conference c : itemsAux) {
+                if (c.getName().toLowerCase().contains(charText) || c.getDescription().toLowerCase().contains(charText) || c.getSpeakersNames().toLowerCase().contains(charText) || c.getStart().contains(charText)) {
+                    items.add(c);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void filterTheme(String charText, String theme) {
+        charText = charText.toLowerCase();
+        items.clear();
+
+        if (charText.length() == 0) {
+            items.addAll(itemsAux);
+        } else {
+            for (Conference c : itemsAux) {
+                if (c.getTheme().toLowerCase().equals(theme.toLowerCase())){
+                    if (c.getName().toLowerCase().contains(charText) || c.getDescription().toLowerCase().contains(charText) || c.getSpeakersNames().toLowerCase().contains(charText) || c.getStart().contains(charText)) {
+                        items.add(c);
+                    }
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void filterPlace(String charText) {
+        int index = 0;
+        charText = charText.toLowerCase();
+        items.clear();
+
+        if (charText.length() == 0) {
+            items.addAll(itemsAux);
+        } else {
+            for (Conference c : itemsAux) {
+                if (loadPlace(c.getPlace()).getDetails().toLowerCase().contains(charText) || loadPlace(c.getPlace()).getPostalCode().contains(charText) || loadPlace(c.getPlace()).getAddress().toLowerCase().contains(charText) || loadPlace(c.getPlace()).getCountry().toLowerCase().contains(charText) || loadPlace(c.getPlace()).getTown().toLowerCase().contains(charText)) {
+                    items.add(itemsAux.get(index));
+                }
+                index++;
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    private Place loadPlace(String idPlace){
+
+        Call<Place> call = ApiUtils.getUserService().getPlace(idPlace);
+        call.enqueue(new Callback<Place>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(Call<Place> call, Response<Place> response) {
+
+                res = response.body();
+
+            }
+
+            @Override
+            public void onFailure(Call<Place> call, Throwable t) {
+                Toast.makeText(context, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return res;
+
     }
 
     static class ViewHolder {

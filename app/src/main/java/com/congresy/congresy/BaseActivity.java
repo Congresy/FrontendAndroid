@@ -99,24 +99,27 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position == 0) {
-                        Intent intent = new Intent(BaseActivity.this, ProfileActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, HomeActivity.class);
                         startActivity(intent);
                     } else if (position == 1) {
-                        Intent intent = new Intent(BaseActivity.this, SocialActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, ProfileActivity.class);
                         startActivity(intent);
                     } else if (position == 2) {
-                        Intent intent = new Intent(BaseActivity.this, ShowAllConferencesActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, SocialActivity.class);
                         startActivity(intent);
                     } else if (position == 3) {
-                        Intent intent = new Intent(BaseActivity.this, ShowMyConferencesActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, ShowAllConferencesActivity.class);
                         startActivity(intent);
                     } else if (position == 4) {
-                        Intent intent = new Intent(BaseActivity.this, ShowMyEventsActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, ShowMyConferencesActivity.class);
                         startActivity(intent);
                     } else if (position == 5) {
-                        Intent intent = new Intent(BaseActivity.this, ShowAllPostsActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, ShowMyEventsActivity.class);
                         startActivity(intent);
                     } else if (position == 6) {
+                        Intent intent = new Intent(BaseActivity.this, ShowAllPostsActivity.class);
+                        startActivity(intent);
+                    } else if (position == 7) {
                         Intent intent = new Intent(BaseActivity.this, ShowMyFoldersActivity.class);
                         startActivity(intent);
                     }

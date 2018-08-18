@@ -27,14 +27,33 @@
             android:text="- All conferences -"
             android:textAppearance="?android:attr/textAppearanceLarge"/>
 
+        <SearchView
+            android:id="@+id/search"
+            android:layout_below = "@+id/myConferences"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:iconifiedByDefault="false"
+            android:layout_marginBottom="10dp">
+            <requestFocus />
+        </SearchView>
+
+        <Button
+            android:id="@+id/filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Add filter"
+            android:layout_below="@+id/search"
+            />
+
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/myConferences"
-            android:layout_marginTop="5dp">
+            android:layout_below="@id/filter">
         </ListView>
+
 
     </RelativeLayout>
 

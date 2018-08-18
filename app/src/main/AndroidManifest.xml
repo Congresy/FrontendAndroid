@@ -62,7 +62,7 @@
         <activity android:name=".ShowAnnouncementActivity" />
         <activity android:name=".ShowMyFriendsActivity" />
         <activity android:name=".SocialActivity" />
-        <activity android:name=".FollowersActivity"></activity>
+        <activity android:name=".FollowersActivity" />
     </application>
 
 </manifest>
