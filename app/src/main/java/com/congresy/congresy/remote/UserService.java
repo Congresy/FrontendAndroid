@@ -58,7 +58,7 @@ public interface UserService {
     Call<Actor> getActorById(@Path("id") String id);
 
     @GET("conferences/own/{idActor}")
-    Call<List<Conference>> getMyConferences(@Path("idActor") String idActor);
+    Call<List<Conference>> getMyConferences(@Path("idActor") String idActor, @Query("value") String value);
 
     @GET("events/all/conferences/{idConference}")
     Call<List<Event>> getConferenceEventsAllAndOrganizator(@Path("idConference") String idConference);

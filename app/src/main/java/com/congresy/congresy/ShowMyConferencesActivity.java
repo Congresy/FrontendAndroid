@@ -30,7 +30,7 @@ public class ShowMyConferencesActivity extends BaseActivity {
     private String role;
 
     Button myComments;
-    Button loadMore;
+    Button pastConferences;
     ListView lv;
 
     ConferenceListOrganizatorAdapter adapter1;
@@ -48,10 +48,9 @@ public class ShowMyConferencesActivity extends BaseActivity {
 
         myComments = findViewById(R.id.myComments);
         lv = findViewById(R.id.listView);
+        pastConferences = findViewById(R.id.pastConferences);
 
         userService = ApiUtils.getUserService();
-
-        loadMyConferences();
 
         myComments.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,16 +60,45 @@ public class ShowMyConferencesActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
+        Intent myIntent = getIntent();
+        String past;
+
+        try {
+            past = myIntent.getExtras().get("past").toString();
+        } catch (Exception e){
+            past = "not found";
+        }
+
+        if (past.equals("past")){
+            pastConferences.setVisibility(View.GONE);
+            loadMyConferencesPast();
+        } else {
+            loadMyConferences();
+        }
+
+        pastConferences.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShowMyConferencesActivity.this, ShowMyConferencesActivity.class);
+                intent.putExtra("past", "past");
+                startActivity(intent);
+            }
+        });
     }
 
     private void loadMyConferences(){
-        Call<List<Conference>> call = userService.getMyConferences(idActor);
+        Call<List<Conference>> call = userService.getMyConferences(idActor, "upcoming");
         call.enqueue(new Callback<List<Conference>>() {
             @Override
             public void onResponse(Call<List<Conference>> call, final Response<List<Conference>> response) {
                 if(response.isSuccessful()){
 
                     conferencesList = response.body();
+
+                    if (response.body().isEmpty()){
+                        Toast.makeText(ShowMyConferencesActivity.this, "There are no past conferences!", Toast.LENGTH_SHORT).show();
+                    }
 
                     if(role.equals("Organizator")) {
                         adapter1 = new ConferenceListOrganizatorAdapter(getApplicationContext(), response.body());
@@ -81,13 +109,46 @@ public class ShowMyConferencesActivity extends BaseActivity {
                     }
 
                 } else {
-                    Toast.makeText(ShowMyConferencesActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShowMyConferencesActivity.this, "There are no upcoming conferences!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Conference>> call, Throwable t) {
-                Toast.makeText(ShowMyConferencesActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ShowMyConferencesActivity.this, "There are no upcoming conferences!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void loadMyConferencesPast(){
+        Call<List<Conference>> call = userService.getMyConferences(idActor, "past");
+        call.enqueue(new Callback<List<Conference>>() {
+            @Override
+            public void onResponse(Call<List<Conference>> call, final Response<List<Conference>> response) {
+                if(response.isSuccessful()){
+
+                    conferencesList = response.body();
+
+                    if (response.body().isEmpty()){
+                        Toast.makeText(ShowMyConferencesActivity.this, "There are no past conferences!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    if(role.equals("Organizator")) {
+                        adapter1 = new ConferenceListOrganizatorAdapter(getApplicationContext(), response.body());
+                        lv.setAdapter(adapter1);
+                    } else {
+                        adapter2 = new ConferenceListUserAdapter(getApplicationContext(), response.body());
+                        lv.setAdapter(adapter2);
+                    }
+
+                } else {
+                    Toast.makeText(ShowMyConferencesActivity.this, "There are no past conferences!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Conference>> call, Throwable t) {
+                Toast.makeText(ShowMyConferencesActivity.this, "There are no past conferences!", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -33,16 +33,25 @@
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/myConferences"
-            android:layout_marginBottom="10dp"
             android:text="My comments"
+            />
+
+        <Button
+            android:id="@+id/pastConferences"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/myComments"
+            android:layout_marginBottom="10dp"
+            android:text="Past conferences"
             />
 
         <ListView
             android:id="@+id/listView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/myComments">
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/pastConferences">
         </ListView>
 
     </RelativeLayout>

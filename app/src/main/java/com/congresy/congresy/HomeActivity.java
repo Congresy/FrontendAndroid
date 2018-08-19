@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.congresy.congresy.adapters.ConferenceListOrganizatorAdapter;
 import com.congresy.congresy.adapters.ConferenceListUserAdapter;
 import com.congresy.congresy.domain.Conference;
-import com.congresy.congresy.domain.Post;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
@@ -24,20 +23,15 @@ import retrofit2.Response;
 
 public class HomeActivity extends BaseActivity {
 
-    public static List<Post> posts_;
-
     private UserService userService;
-    private String username;
     private String role;
 
     Button myComments;
-    Button loadMore;
+    Button pastConferences;
     ListView lv;
 
     ConferenceListOrganizatorAdapter adapter;
     ConferenceListUserAdapter adapter1;
-
-    private static List<Conference> conferencesList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,8 +46,7 @@ public class HomeActivity extends BaseActivity {
 
         myComments = findViewById(R.id.myComments);
         lv = findViewById(R.id.listView);
-
-        loadMyConferences();
+        pastConferences = findViewById(R.id.pastConferences);
 
         myComments.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,19 +57,48 @@ public class HomeActivity extends BaseActivity {
             }
         });
 
+        Intent myIntent = getIntent();
+        String past;
+
+        try {
+            past = myIntent.getExtras().get("past").toString();
+        } catch (Exception e){
+            past = "not found";
+        }
+
+        if (past.equals("past")){
+            pastConferences.setVisibility(View.GONE);
+            loadMyConferencesPast();
+        } else {
+            loadMyConferences();
+        }
+
+        pastConferences.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
+                intent.putExtra("past", "past");
+                startActivity(intent);
+            }
+        });
+
     }
-    
-    private void loadMyConferences(){
+
+    private void loadMyConferencesPast(){
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         String idActor = sp.getString("Id", "not found");
 
-        Call<List<Conference>> call = userService.getMyConferences(idActor);
+        Call<List<Conference>> call = userService.getMyConferences(idActor, "past");
         call.enqueue(new Callback<List<Conference>>() {
             @Override
             public void onResponse(Call<List<Conference>> call, Response<List<Conference>> response) {
                 if(response.isSuccessful()){
 
-                    conferencesList = response.body();
+                    List<Conference> conferencesList = response.body();
+
+                    if (response.body().isEmpty()){
+                        Toast.makeText(HomeActivity.this, "There are no past conferences!", Toast.LENGTH_SHORT).show();
+                    }
 
                     if(role.equals("Organizator")) {
                         adapter = new ConferenceListOrganizatorAdapter(getApplicationContext(), conferencesList);
@@ -87,13 +109,49 @@ public class HomeActivity extends BaseActivity {
                     }
 
                 } else {
-                    Toast.makeText(HomeActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeActivity.this, "There are no past conferences!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Conference>> call, Throwable t) {
-                Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeActivity.this, "There are no past conferences!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    
+    private void loadMyConferences(){
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        String idActor = sp.getString("Id", "not found");
+
+        Call<List<Conference>> call = userService.getMyConferences(idActor, "upcoming");
+        call.enqueue(new Callback<List<Conference>>() {
+            @Override
+            public void onResponse(Call<List<Conference>> call, Response<List<Conference>> response) {
+                if(response.isSuccessful()){
+
+                    List<Conference> conferencesList = response.body();
+
+                    if (response.body().isEmpty()){
+                        Toast.makeText(HomeActivity.this, "There are no upcoming conferences!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    if(role.equals("Organizator")) {
+                        adapter = new ConferenceListOrganizatorAdapter(getApplicationContext(), conferencesList);
+                        lv.setAdapter(adapter);
+                    } else {
+                        adapter1 = new ConferenceListUserAdapter(getApplicationContext(), conferencesList);
+                        lv.setAdapter(adapter1);
+                    }
+
+                } else {
+                    Toast.makeText(HomeActivity.this, "There are no upcoming conferences!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Conference>> call, Throwable t) {
+                Toast.makeText(HomeActivity.this, "There are no upcoming conferences!", Toast.LENGTH_SHORT).show();
             }
         });
     }
