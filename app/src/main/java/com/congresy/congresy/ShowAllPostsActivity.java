@@ -27,7 +27,6 @@ import retrofit2.Response;
 public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQueryTextListener{
 
     private PostListSearchAdapter adapter;
-    public static List<Post> posts = new ArrayList<>(HomeActivity.posts_);
 
     UserService userService;
 
@@ -52,53 +51,12 @@ public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQ
         myPosts = findViewById(R.id.myPosts);
         filter = findViewById(R.id.filter);
         myComments = findViewById(R.id.myComments);
+        lv = findViewById(R.id.listViewAll);
 
         loadMostVotedPosts();
-
-        try {
-            Intent myIntent = getIntent();
-            String theme_filter = myIntent.getExtras().get("theme_filter").toString();
-
-            List<Post> filteredPosts = new ArrayList<>();
-
-            if (!theme_filter.equals("None")){
-                for(Post p : posts){
-                    if(p.getCategory().equals(theme_filter)){
-                        filteredPosts.add(p);
-                    }
-                }
-
-                List<Post> aux = new ArrayList<>(filteredPosts);
-
-                lv = findViewById(R.id.listViewAll);
-                adapter = new PostListSearchAdapter(this, filteredPosts, aux);
-
-            } else {
-                List<Post> aux = new ArrayList<>(posts);
-
-                lv = findViewById(R.id.listViewAll);
-                adapter = new PostListSearchAdapter(this, posts, aux);
-            }
-        } catch (NullPointerException e){
-            List<Post> aux = new ArrayList<>(posts);
-
-            lv = findViewById(R.id.listViewAll);
-            adapter = new PostListSearchAdapter(this, posts, aux);
-        }
-
-
-        lv.setAdapter(adapter);
+        loadAllPosts();
 
         search.setOnQueryTextListener(this);
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(ShowAllPostsActivity.this, ShowPostActivity.class);
-                intent.putExtra("idPost", posts.get(position).getId());
-                startActivity(intent);
-            }
-        });
 
         myPosts.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,6 +113,7 @@ public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQ
                     }
 
                 });
+
                 dialog.setContentView(view1);
                 dialog.show();
             }
@@ -173,10 +132,21 @@ public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQ
                     final List<Post> posts = response.body();
                     List<Post> res = new ArrayList<>();
 
-                    res.add(posts.get(0));
-                    res.add(posts.get(1));
-                    res.add(posts.get(2));
-                    res.add(posts.get(3));
+                    List<Post> toRemove = new ArrayList<>();
+
+                    for (Post p : posts){
+                        if (p.getDraft()){
+                            toRemove.add(p);
+                        }
+                    }
+
+                    posts.removeAll(toRemove);
+
+                    for (int i=0;i < posts.size(); i++){
+                        if (i <= 3){
+                            res.add(posts.get(i));
+                        }
+                    }
 
                     ListView lv = findViewById(R.id.listViewMostVoted);
                     ArrayAdapter adapter = new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1, res);
@@ -194,6 +164,79 @@ public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQ
 
                 } else {
                     Toast.makeText(ShowAllPostsActivity.this, "You have no social networks", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                Toast.makeText(ShowAllPostsActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void loadAllPosts(){
+        Call<List<Post>> call = userService.getAllPosts();
+        call.enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                if(response.isSuccessful()){
+
+                    List<Post> toRemove = new ArrayList<>();
+
+                    final List<Post> posts = response.body();
+
+                    for (Post p : posts){
+                        if (p.getDraft()){
+                            toRemove.add(p);
+                        }
+                    }
+
+                    posts.removeAll(toRemove);
+
+                    try {
+                        Intent myIntent = getIntent();
+                        String theme_filter = myIntent.getExtras().get("theme_filter").toString();
+
+                        List<Post> filteredPosts = new ArrayList<>();
+
+                        if (!theme_filter.equals("None")){
+                            for(Post p : posts){
+                                if(p.getCategory().equals(theme_filter)){
+                                    filteredPosts.add(p);
+                                }
+                            }
+
+                            List<Post> aux = new ArrayList<>(filteredPosts);
+
+                            lv = findViewById(R.id.listViewAll);
+                            adapter = new PostListSearchAdapter(getApplicationContext(), filteredPosts, aux);
+
+                        } else {
+                            List<Post> aux = new ArrayList<>(posts);
+
+                            lv = findViewById(R.id.listViewAll);
+                            adapter = new PostListSearchAdapter(getApplicationContext(), posts, aux);
+                        }
+                    } catch (NullPointerException e){
+                        List<Post> aux = new ArrayList<>(posts);
+
+                        lv = findViewById(R.id.listViewAll);
+                        adapter = new PostListSearchAdapter(getApplicationContext(), posts, aux);
+                    }
+
+                    lv.setAdapter(adapter);
+
+                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(ShowAllPostsActivity.this, ShowPostActivity.class);
+                            intent.putExtra("idPost", posts.get(position).getId());
+                            startActivity(intent);
+                        }
+                    });
+
+                } else {
+                    Toast.makeText(ShowAllPostsActivity.this, "There are no posts!", Toast.LENGTH_SHORT).show();
                 }
             }
 

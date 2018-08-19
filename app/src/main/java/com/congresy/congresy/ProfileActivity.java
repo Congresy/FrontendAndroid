@@ -201,6 +201,7 @@ public class ProfileActivity extends BaseActivity {
 
     private void loadActor(){
         final SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        final String role = sp.getString("Role", "not found");
         final Intent myIntent = getIntent();
 
         Call<Actor> call = userService.getActorById(getIntent().getExtras().getString("idAuthor"));
@@ -234,7 +235,11 @@ public class ProfileActivity extends BaseActivity {
                     if (!aux.equals("not found")) {
                         friend.setVisibility(View.GONE);
                     } else {
-                        friend.setVisibility(View.VISIBLE);
+                        if (role.equals("Organizator")) {
+                            friend.setVisibility(View.GONE);
+                        } else {
+                            friend.setVisibility(View.VISIBLE);
+                        }
 
                         friend.setOnClickListener(new View.OnClickListener() {
                             @Override

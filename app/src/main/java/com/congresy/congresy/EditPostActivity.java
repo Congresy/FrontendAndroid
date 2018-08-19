@@ -182,7 +182,6 @@ public class EditPostActivity extends BaseActivity {
                 if(response.isSuccessful()){
 
                     Intent intent = new Intent(EditPostActivity.this, ShowAllPostsActivity.class);
-                    ShowAllPostsActivity.posts.add(response.body());
                     startActivity(intent);
 
                 } else {

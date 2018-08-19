@@ -1,21 +1,16 @@
 package com.congresy.congresy;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.congresy.congresy.adapters.ConferenceListOrganizatorAdapter;
-import com.congresy.congresy.adapters.EventListOrganizatorAdapter;
 import com.congresy.congresy.adapters.SpeakersOfEventListAdapter;
 import com.congresy.congresy.adapters.SpeakersOfEventListUserAdapter;
 import com.congresy.congresy.domain.Actor;
-import com.congresy.congresy.domain.Event;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
@@ -32,8 +27,6 @@ public class ShowSpeakersOfEventActivity extends BaseActivity {
     Button btnAddSpeakers;
 
     ListView listView;
-
-    private String comeFrom;
 
     public static String event_;
 
@@ -87,7 +80,7 @@ public class ShowSpeakersOfEventActivity extends BaseActivity {
                     Intent myIntent = getIntent();
                     String comeFrom = myIntent.getExtras().get("comeFrom").toString();
 
-                    List<Actor> speakers = response.body();
+                    final List<Actor> speakers = response.body();
 
                     ListView lv = findViewById(R.id.listView);
 
@@ -99,7 +92,15 @@ public class ShowSpeakersOfEventActivity extends BaseActivity {
                         lv.setAdapter(adapter);
                     }
 
-                    //TODO show details of speakers
+                   lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                       @Override
+                       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                           Intent myIntent = new Intent(getApplicationContext(), ProfileActivity.class);
+                           myIntent.putExtra("goingTo", "Speaker");
+                           myIntent.putExtra("idAuthor", speakers.get(position).getId());
+                           getApplication().startActivity(myIntent);
+                       }
+                   });
 
 
                 } else {

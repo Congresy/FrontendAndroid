@@ -13,97 +13,91 @@
         android:layout_gravity="left|start"
         android:background="#ffeeeeee"/>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:fillViewport="true">
+
+        <LinearLayout android:id="@+id/GlobalLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
         <TextView
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
             android:id="@+id/title"
             android:textAppearance="?android:attr/textAppearanceLarge"
             />
 
         <TextView
             android:id="@+id/author"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_below="@id/title"
+            android:layout_gravity="center"
             />
 
         <TextView
             android:id="@+id/posted"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_below="@id/author"
+            android:layout_gravity="center"
             />
 
         <TextView
             android:id="@+id/body"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_below="@id/posted"
+            android:layout_gravity="center"
             />
 
         <TextView
             android:id="@+id/category"
-            android:gravity="center"
-            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/body"
             />
 
         <TextView
             android:id="@+id/views"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_below="@id/category"
+            android:layout_gravity="center"
             />
 
         <TextView
             android:id="@+id/votes"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_below="@id/views"
+            android:layout_gravity="center"
             />
 
         <Button
             android:layout_marginTop="15dp"
-            android:layout_below = "@+id/votes"
             android:id="@+id/voteUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:text="Vote positive"
+            android:layout_gravity="center"
             />
 
         <Button
             android:id="@+id/down"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Create new event" />
+            android:text="Vote negative"
+            android:layout_gravity="center"/>
 
         <TextView
             android:id="@+id/text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp"
-            android:layout_below="@id/down"
+            android:layout_gravity="center"
             android:text="Comments"
             />
 
@@ -111,21 +105,20 @@
             android:id="@+id/create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_below="@id/text1"
+            android:layout_gravity="center"
             android:layout_marginBottom="10dp"
             android:text="Create" />
+
 
         <ListView
             android:id="@+id/listView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/create"
             android:layout_marginTop="5dp">
         </ListView>
 
+        </LinearLayout>
 
-    </RelativeLayout>
+    </ScrollView>
 
 </android.support.v4.widget.DrawerLayout>

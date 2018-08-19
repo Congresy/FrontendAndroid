@@ -9,29 +9,20 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.congresy.congresy.HomeActivity;
 import com.congresy.congresy.ProfileActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowConferenceActivity;
-import com.congresy.congresy.ShowEventsOfConferenceActivity;
 import com.congresy.congresy.ShowEventsOfConferenceAuxActivity;
-import com.congresy.congresy.ShowMyConferencesActivity;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapter {
 
     private UserService userService;
-    public static Conference conference_;
 
     private List<Conference> items;
     private Context context;
@@ -88,8 +79,6 @@ public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapte
             }
         });
 
-        conference_ = items.get(position);
-
         holder.name.setText(items.get(position).getName());
 
         holder.join.setVisibility(View.GONE);
@@ -112,7 +101,7 @@ public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapte
             }
         });
 
-    return convertView;
+        return convertView;
 
     }
 

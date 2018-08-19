@@ -11,20 +11,17 @@
         android:layout_gravity="left|start"
         android:background="#ffeeeeee"/>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout android:id="@+id/GlobalLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:orientation="vertical" >
 
         <TextView
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
             android:id="@+id/title"
             android:text="-- Conference details --"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -32,74 +29,65 @@
 
             <TextView
                 android:id="@+id/edtName"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_below="@id/title"
+                android:layout_gravity="center"
                 />
 
             <TextView
                 android:id="@+id/edtTheme"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_below="@id/edtName"
+                android:layout_gravity="center"
                 />
 
             <TextView
                 android:id="@+id/edtPrice"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_below="@id/edtTheme"
+                android:layout_gravity="center"
                 />
 
             <TextView
                 android:id="@+id/edtPartic"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_below="@id/edtPrice"
+                android:layout_gravity="center"
                 />
 
         <TextView
             android:id="@+id/seats"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_below="@id/edtPartic"
+            android:layout_gravity="center"
             />
 
             <TextView
                 android:id="@+id/edtStart"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_below="@id/seats"
+                android:layout_gravity="center"
                 />
 
             <TextView
                 android:id="@+id/edtEnd"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_below="@id/edtStart"
+                android:layout_gravity="center"
                 />
 
             <TextView
                 android:id="@+id/edtSpeakers"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_below="@id/edtEnd"
+                android:layout_gravity="center"
                 />
 
             <TextView
                 android:id="@+id/edtDescription"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_below="@id/edtSpeakers"
+                android:layout_gravity="center"
                 />
 
         <TextView
@@ -108,32 +96,28 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="5dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/edtDescription"
+            android:layout_gravity="center"
             android:text="-- Place --"
             />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_below = "@+id/text2"
+            android:layout_gravity="center"
             android:id="@+id/edtPlace"
             />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_below = "@+id/edtPlace"
+            android:layout_gravity="center"
             android:id="@+id/edtAddress"
             />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_below = "@+id/edtAddress"
+            android:layout_gravity="center"
             android:id="@+id/edtDetailsT"
             />
 
@@ -141,10 +125,9 @@
             android:id="@+id/text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp"
-            android:layout_below="@id/edtDetailsT"
+            android:layout_gravity="center"
             android:text="Comments"
             />
 
@@ -152,8 +135,7 @@
             android:id="@+id/create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_below="@id/text1"
+            android:layout_gravity="center"
             android:layout_marginBottom="10dp"
             android:text="Create" />
 
@@ -161,10 +143,9 @@
             android:id="@+id/listView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/create"
             android:layout_marginTop="5dp">
         </ListView>
 
-    </RelativeLayout>
+    </LinearLayout>
+
 </android.support.v4.widget.DrawerLayout>

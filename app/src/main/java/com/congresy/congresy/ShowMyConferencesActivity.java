@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -27,10 +26,15 @@ public class ShowMyConferencesActivity extends BaseActivity {
     UserService userService;
     private static List<Conference> conferencesList;
 
-    private String username;
+    private String idActor;
     private String role;
 
     Button myComments;
+    Button loadMore;
+    ListView lv;
+
+    ConferenceListOrganizatorAdapter adapter1;
+    ConferenceListUserAdapter adapter2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +43,15 @@ public class ShowMyConferencesActivity extends BaseActivity {
         loadDrawer(R.layout.activity_show_my_conferences);
 
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-        username = sp.getString("Username", "not found");
+        idActor = sp.getString("Id", "not found");
         role = sp.getString("Role", "not found");
 
         myComments = findViewById(R.id.myComments);
+        lv = findViewById(R.id.listView);
 
         userService = ApiUtils.getUserService();
 
-        LoadMyConferences();
+        loadMyConferences();
 
         myComments.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,31 +63,22 @@ public class ShowMyConferencesActivity extends BaseActivity {
         });
     }
 
-    private void LoadMyConferences(){
-        Call<List<Conference>> call = userService.getMyConferences(username);
+    private void loadMyConferences(){
+        Call<List<Conference>> call = userService.getMyConferences(idActor);
         call.enqueue(new Callback<List<Conference>>() {
             @Override
-            public void onResponse(Call<List<Conference>> call, Response<List<Conference>> response) {
+            public void onResponse(Call<List<Conference>> call, final Response<List<Conference>> response) {
                 if(response.isSuccessful()){
 
-                    ConferenceListOrganizatorAdapter adapter = null;
-                    ConferenceListUserAdapter adapter1 = null;
                     conferencesList = response.body();
 
                     if(role.equals("Organizator")) {
-                        adapter = new ConferenceListOrganizatorAdapter(getApplicationContext(), conferencesList);
-                    } else {
-                        adapter1 = new ConferenceListUserAdapter(getApplicationContext(), conferencesList);
-                    }
-
-                    final ListView lv = findViewById(R.id.listView);
-
-                    if(role.equals("Organizator")) {
-                        lv.setAdapter(adapter);
-                    } else {
+                        adapter1 = new ConferenceListOrganizatorAdapter(getApplicationContext(), response.body());
                         lv.setAdapter(adapter1);
+                    } else {
+                        adapter2 = new ConferenceListUserAdapter(getApplicationContext(), response.body());
+                        lv.setAdapter(adapter2);
                     }
-
 
                 } else {
                     Toast.makeText(ShowMyConferencesActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();

@@ -38,11 +38,11 @@ public class FollowersActivity extends BaseActivity {
         userService = ApiUtils.getUserService();
 
         Intent intent = getIntent();
-        String idActor = intent.getExtras().getString("idActor");
 
-        if (idActor != null){
-            loadFollowersAll(idActor);
-        } else {
+        try {
+            intent.getExtras().getString("idActor");
+            loadFollowersAll(intent.getExtras().getString("idActor"));
+        } catch (NullPointerException e){
             loadFollowers();
         }
     }

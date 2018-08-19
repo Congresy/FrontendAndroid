@@ -138,7 +138,6 @@ public class CreatePostActivity extends BaseActivity {
                 if(response.isSuccessful()){
 
                     Intent intent = new Intent(CreatePostActivity.this, ShowMyPostsActivity.class);
-                    ShowAllPostsActivity.posts.add(response.body());
                     startActivity(intent);
 
                 } else {

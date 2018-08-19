@@ -16,7 +16,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.congresy.congresy.remote.ApiUtils;
-import com.congresy.congresy.remote.RetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;

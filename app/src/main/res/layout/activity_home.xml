@@ -22,10 +22,11 @@ android:layout_height="match_parent">
             android:id="@+id/mySocialNetworks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:text="- My conferences -"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:textAppearance="?android:attr/textAppearanceLarge"/>
 
         <Button
@@ -34,8 +35,8 @@ android:layout_height="match_parent">
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/mySocialNetworks"
             android:layout_marginBottom="10dp"
+            android:layout_below="@id/mySocialNetworks"
             android:text="My comments"
             />
 
@@ -43,11 +44,10 @@ android:layout_height="match_parent">
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/myComments"
-            android:layout_marginTop="5dp">
+            android:layout_below="@id/myComments">
         </ListView>
 
     </RelativeLayout>
+
 
 </android.support.v4.widget.DrawerLayout>
