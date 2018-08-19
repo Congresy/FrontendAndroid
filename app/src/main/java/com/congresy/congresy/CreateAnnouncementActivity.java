@@ -141,7 +141,7 @@ public class CreateAnnouncementActivity extends BaseActivity {
     }
 
     private void getAllConferences(final ListView listView, final SearchView searchView, final View view1, final Dialog dialog){
-        Call<List<Conference>> call = userService.getAllConferencesDetailedOrderByDate();
+        Call<List<Conference>> call = userService.getAllConferencesDetailedOrderBy("date");
         call.enqueue(new Callback<List<Conference>>() {
             @Override
             public void onResponse(Call<List<Conference>> call, Response<List<Conference>> response) {

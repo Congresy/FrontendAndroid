@@ -232,7 +232,7 @@ public class IndexActivity extends AppCompatActivity {
     }
 
     private void loadData(){
-        Call<List<Conference>> call = userService.getAllConferencesDetailedOrderByDate();
+        Call<List<Conference>> call = userService.getAllConferencesDetailedOrderBy("date");
         call.enqueue(new Callback<List<Conference>>() {
             @Override
             public void onResponse(Call<List<Conference>> call, Response<List<Conference>> response) {

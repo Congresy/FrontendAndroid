@@ -46,12 +46,21 @@
             android:layout_below="@+id/search"
             />
 
+        <Button
+            android:id="@+id/order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Change order"
+            android:layout_below="@+id/filter"
+            />
+
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/filter">
+            android:layout_below="@id/order">
         </ListView>
 
 

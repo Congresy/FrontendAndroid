@@ -1,6 +1,5 @@
 package com.congresy.congresy;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -17,10 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.congresy.congresy.adapters.ConferenceListAllAdapter;
-import com.congresy.congresy.adapters.PostListSearchAdapter;
 import com.congresy.congresy.domain.Conference;
-import com.congresy.congresy.domain.Place;
-import com.congresy.congresy.domain.Post;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
@@ -42,6 +38,7 @@ public class ShowAllConferencesActivity extends BaseActivity {
     SearchView search;
 
     Button filter;
+    Button order;
 
     private String actorId;
 
@@ -54,7 +51,7 @@ public class ShowAllConferencesActivity extends BaseActivity {
         title = findViewById(R.id.myConferences);
         search = findViewById(R.id.search);
         filter = findViewById(R.id.filter);
-        // search.setSubmitButtonEnabled(true);
+        order = findViewById(R.id.order);
 
         Intent myIntent = getIntent();
 
@@ -68,7 +65,12 @@ public class ShowAllConferencesActivity extends BaseActivity {
             title.setText("Upcoming conferences");
             loadUpcomingConferences();
             } catch (Exception e){{
-                loadAllConferences();
+                try {
+                    String order = myIntent.getExtras().get("order").toString();
+                    loadAllConferences(order);
+                } catch (Exception e1){
+                    loadAllConferences("date");
+                }
             }
         }
 
@@ -162,10 +164,57 @@ public class ShowAllConferencesActivity extends BaseActivity {
                 dialog.show();
             }
         });
+
+        order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(ShowAllConferencesActivity.this);
+                final LayoutInflater inflater = LayoutInflater.from(ShowAllConferencesActivity.this);
+                final View view1 = inflater.inflate(R.layout.conference_filter, null);
+                final ListView listView = view1.findViewById(R.id.listView);
+
+                final String[] arraySpinner = new String[] {
+                        "Price", "Popularity", "Date"
+                };
+
+                final ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(ShowAllConferencesActivity.this, android.R.layout.simple_list_item_1, arraySpinner);
+                listView.setAdapter(stringArrayAdapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        if (arraySpinner[position].equals("Price")){
+
+                            Intent intent = new Intent(ShowAllConferencesActivity.this, ShowAllConferencesActivity.class);
+                            intent.putExtra("order", "price");
+                            startActivity(intent);
+
+                        } else if (arraySpinner[position].equals("Popularity")){
+
+                            Intent intent = new Intent(ShowAllConferencesActivity.this, ShowAllConferencesActivity.class);
+                            intent.putExtra("order", "popularity");
+                            startActivity(intent);
+
+                        } else if (arraySpinner[position].equals("Date")){
+
+                            Intent intent = new Intent(ShowAllConferencesActivity.this, ShowAllConferencesActivity.class);
+                            intent.putExtra("order", "date");
+                            startActivity(intent);
+
+                        }
+
+                    }
+                });
+
+                dialog.setContentView(view1);
+                dialog.show();
+            }
+        });
     }
 
-    private void loadAllConferences(){
-        Call<List<Conference>> call = userService.getAllConferencesDetailedOrderByDate();
+    private void loadAllConferences(String order){
+        Call<List<Conference>> call = userService.getAllConferencesDetailedOrderBy(order);
         call.enqueue(new Callback<List<Conference>>() {
             @Override
             public void onResponse(Call<List<Conference>> call, Response<List<Conference>> response) {

@@ -42,8 +42,8 @@ public interface UserService {
     @GET("actors/userAccount/{username}")
     Call<UserAccount> getUserAccount(@Path("username") String username);
 
-    @GET("conferences/detailed?order=date")
-    Call<List<Conference>> getAllConferencesDetailedOrderByDate();
+    @GET("conferences/detailed")
+    Call<List<Conference>> getAllConferencesDetailedOrderBy(@Query("order") String order);
 
     @GET("actors/role/User")
     Call<List<Actor>> getAllUsers();
