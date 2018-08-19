@@ -119,7 +119,7 @@ public class ShowSpeakersOfEventActivity extends BaseActivity {
         Intent myIntent = getIntent();
         final String id = myIntent.getExtras().get("idEvent").toString();
 
-        Call<List<Actor>> call = userService.getAllActorsByRole("Speaker");
+        Call<List<Actor>> call = userService.getSpeakersNotInEvent(id);
         call.enqueue(new Callback<List<Actor>>() {
             @Override
             public void onResponse(Call<List<Actor>> call, Response<List<Actor>> response) {

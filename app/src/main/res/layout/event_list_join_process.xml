@@ -21,12 +21,4 @@
         android:focusable="false"
         />
 
-    <Button
-        android:id="@+id/dismiss"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dismiss"
-        android:focusable="false"
-        />
-
 </LinearLayout>

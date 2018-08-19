@@ -99,13 +99,7 @@ public class SpeakersOfEventListAdapter extends BaseAdapter implements ListAdapt
                     Toast.makeText(context.getApplicationContext(), "Deleted from event successfully!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(context.getApplicationContext(), ShowSpeakersOfEventActivity.class);
                     intent.putExtra("idEvent", idEvent);
-
-                    SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.remove("Speaker deleted " + idSpeaker);
-                    editor.remove("Speaker added " + idSpeaker);
-                    editor.apply();
-
+                    intent.putExtra("comeFrom", "organizator");
                     context.getApplicationContext().startActivity(intent);
                 } else {
                     Toast.makeText(context.getApplicationContext(), "Error! Please try again!", Toast.LENGTH_SHORT).show();

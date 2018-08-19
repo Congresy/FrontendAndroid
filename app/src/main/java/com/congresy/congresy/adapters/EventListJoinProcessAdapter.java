@@ -32,17 +32,18 @@ import retrofit2.Response;
 
 public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdapter {
 
-    public static Event event_;
     private UserService userService = ApiUtils.getUserService();
 
     private String username;
 
     private List<Event> items;
     private Context context;
+    private List<String> state;
 
     public EventListJoinProcessAdapter(Context context, List<Event> items) {
         this.context = context;
         this.items = items;
+        this.state = new ArrayList<>();
     }
 
     @Override
@@ -63,8 +64,6 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        event_ = items.get(position);
-
         View view = convertView;
         final ViewHolder holder;
 
@@ -76,42 +75,26 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
             convertView = inflater.inflate(R.layout.event_list_join_process, null);
             holder.name = convertView.findViewById(R.id.name);
             holder.join = convertView.findViewById(R.id.join);
-            holder.dismiss = convertView.findViewById(R.id.dismiss);
-
-            holder.dismiss.setVisibility(View.INVISIBLE);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-        String aux1 = sp.getString("Event deleted " + items.get(position).getId(), "not found");
-        String aux2 = sp.getString("Event added " + items.get(position).getId(), "not found");
-
-        if (!aux1.equals("not found") && aux2.equals("not found")){
-            holder.join.setVisibility(View.VISIBLE);
-            holder.dismiss.setVisibility(View.INVISIBLE);
-        } else if (!aux2.equals("not found") && aux1.equals("not found")){
-            holder.join.setVisibility(View.INVISIBLE);
-            holder.dismiss.setVisibility(View.VISIBLE);
-        }
-
-        holder.name.setText(items.get(position).getName() + "\n" +  items.get(position).getStart() + " - " + items.get(position).getEnd());
-
         holder.join.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                join(items.get(position).getId(), holder);
+                Button b = (Button) v;
+
+                if (b.getText().toString().equals("Dismiss")){
+                    delete(items.get(position).getId(), holder);
+                } else {
+                    join(items.get(position).getId(), holder);
+                }
             }
         });
 
-        holder.dismiss.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                delete(items.get(position).getId(), holder);
-            }
-        });
+        holder.name.setText(items.get(position).getName() + "\n" +  items.get(position).getStart() + " - " + items.get(position).getEnd());
 
         return convertView;
     }
@@ -148,14 +131,9 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()){
-                    holder.join.setVisibility(View.INVISIBLE);
-                    holder.dismiss.setVisibility(View.VISIBLE);
-
-                    SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("Speaker added " + idEvent, "found");
-                    editor.remove("Speaker deleted " + idEvent);
-                    editor.apply();
+                    holder.join.setText("Dismiss");
+                    state.add("Dismiss " + idEvent);
+                    notifyDataSetChanged();
 
                     Toast.makeText(context.getApplicationContext(), "Joined to event successfully!", Toast.LENGTH_SHORT).show();
                 } else {
@@ -201,14 +179,9 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()){
-                    holder.join.setVisibility(View.VISIBLE);
-                    holder.dismiss.setVisibility(View.INVISIBLE);
-
-                    SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("Speaker deleted " + idEvent, "found");
-                    editor.remove("Speaker added " + idEvent);
-                    editor.apply();
+                    holder.join.setText("Join");
+                    state.add("Join " + idEvent);
+                    notifyDataSetChanged();
 
                     Toast.makeText(context.getApplicationContext(), "Deleted from event successfully!", Toast.LENGTH_SHORT).show();
                 } else {
@@ -223,34 +196,8 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
     }
 
 
-    private boolean checkDates(List<Event> eventsList){
-        boolean res = false;
-
-        List<Event> eventsJoin = new ArrayList<>();
-
-        DateTimeFormatter f = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm");
-
-        for (int i=0; i<eventsList.size(); i++) {
-
-            LocalDateTime startTime1 = f.parseLocalDateTime(eventsList.get(i).getStart());
-            LocalDateTime endTime1 = f.parseLocalDateTime(eventsList.get(i).getEnd());
-            LocalDateTime startTime2 = f.parseLocalDateTime(eventsList.get(i+1).getStart());
-            LocalDateTime endTime2 = f.parseLocalDateTime(eventsList.get(i+1).getEnd());
-
-            Interval interval1 = new Interval(startTime1.toDateTime(), endTime1.toDateTime());
-            Interval interval2 = new Interval(startTime2.toDateTime(), endTime2.toDateTime());
-
-            if(interval1.overlaps(interval2)){
-                res = true;
-            }
-        }
-
-        return res;
-    }
-
     static class ViewHolder {
         TextView name;
         Button join;
-        Button dismiss;
     }
 }

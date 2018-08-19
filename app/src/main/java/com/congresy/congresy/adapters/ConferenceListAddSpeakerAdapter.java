@@ -19,6 +19,7 @@ import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -34,12 +35,14 @@ public class ConferenceListAddSpeakerAdapter extends BaseAdapter implements List
     private final List<Actor> itemsAux;
     private Context context;
     private String idEvent;
+    private List<String> state;
 
     public ConferenceListAddSpeakerAdapter(Context context, List<Actor> items, List<Actor> itemsAux, String idEvent) {
         this.context = context;
         this.items = items;
         this.itemsAux = itemsAux;
         this.idEvent = idEvent;
+        this.state = new ArrayList<>();
     }
 
     @Override
@@ -71,42 +74,37 @@ public class ConferenceListAddSpeakerAdapter extends BaseAdapter implements List
             convertView = inflater.inflate(R.layout.conference_list_add_speaker, null);
             holder.name = convertView.findViewById(R.id.name);
             holder.add = convertView.findViewById(R.id.add);
-            holder.remove = convertView.findViewById(R.id.remove);
-
-            holder.remove.setVisibility(View.INVISIBLE);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-        String aux1 = sp.getString("Speaker deleted " + itemsAux.get(position).getId(), "not found");
-        String aux2 = sp.getString("Speaker added " + itemsAux.get(position).getId(), "not found");
+        if (state.contains("Dismiss " + items.get(position).getId())){
+            holder.add.setText("Dismiss");
+        } else if (state.contains("Add " + items.get(position).getId())) {
+            holder.add.setText("Add");
+        } else {
+            holder.add.setText("Add");
+        }
 
-        if (!aux1.equals("not found") && aux2.equals("not found")){
-            holder.add.setVisibility(View.VISIBLE);
-            holder.remove.setVisibility(View.INVISIBLE);
-        } else if (!aux2.equals("not found") && aux1.equals("not found")){
-            holder.add.setVisibility(View.INVISIBLE);
-            holder.remove.setVisibility(View.VISIBLE);
+        if (holder.add.getText().equals("Add")) {
+            holder.add.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    join(idEvent, holder, position);
+                }
+            });
+        } else if (holder.add.getText().equals("Dismiss")) {
+            holder.add.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    delete(idEvent, holder, position);
+                }
+            });
         }
 
         holder.name.setText(itemsAux.get(position).getSurname()  + ", " + itemsAux.get(position).getName());
-
-        holder.add.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                join(idEvent, holder, position);
-            }
-        });
-
-        holder.remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                delete(idEvent, holder, position);
-            }
-        });
 
         return convertView;
     }
@@ -140,14 +138,10 @@ public class ConferenceListAddSpeakerAdapter extends BaseAdapter implements List
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()){
-                    holder.add.setVisibility(View.INVISIBLE);
-                    holder.remove.setVisibility(View.VISIBLE);
-
-                    SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("Speaker added " + idActor, "found");
-                    editor.remove("Speaker deleted " + idActor);
-                    editor.apply();
+                    holder.add.setText("Dismiss");
+                    state.add("Dismiss " + idActor);
+                    state.remove("Add " + idActor);
+                    notifyDataSetChanged();
 
                     Toast.makeText(context.getApplicationContext(), "Added speaker successfully!", Toast.LENGTH_SHORT).show();
                 } else {
@@ -190,14 +184,10 @@ public class ConferenceListAddSpeakerAdapter extends BaseAdapter implements List
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()){
-                    holder.add.setVisibility(View.VISIBLE);
-                    holder.remove.setVisibility(View.INVISIBLE);
-
-                    SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("Speaker deleted " + idActor, "found");
-                    editor.remove("Speaker added " + idActor);
-                    editor.apply();
+                    holder.add.setText("Add");
+                    state.add("Add " + idActor);
+                    state.remove("Dismiss " + idActor);
+                    notifyDataSetChanged();
 
                     Toast.makeText(context.getApplicationContext(), "Removed speaker successfully!", Toast.LENGTH_SHORT).show();
                 } else {
@@ -231,6 +221,5 @@ public class ConferenceListAddSpeakerAdapter extends BaseAdapter implements List
     static class ViewHolder {
         TextView name;
         Button add;
-        Button remove;
     }
 }

@@ -117,6 +117,9 @@ public interface UserService {
     @GET("actors/role/{role}")
     Call<List<Actor>> getAllActorsByRole(@Path("role") String role);
 
+    @GET("actors/speakers/notIn/{idEvent}")
+    Call<List<Actor>> getSpeakersNotInEvent(@Path("idEvent") String idEvent);
+
     @GET("actors/speakers/event/{idEvent}")
     Call<List<Actor>> getSpeakers(@Path("idEvent") String idEvent);
 
