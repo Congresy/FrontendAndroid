@@ -174,7 +174,7 @@ public class ShowAllConferencesActivity extends BaseActivity {
                 final ListView listView = view1.findViewById(R.id.listView);
 
                 final String[] arraySpinner = new String[] {
-                        "Price", "Popularity", "Date"
+                        "Price", "Date"
                 };
 
                 final ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(ShowAllConferencesActivity.this, android.R.layout.simple_list_item_1, arraySpinner);
@@ -188,12 +188,6 @@ public class ShowAllConferencesActivity extends BaseActivity {
 
                             Intent intent = new Intent(ShowAllConferencesActivity.this, ShowAllConferencesActivity.class);
                             intent.putExtra("order", "price");
-                            startActivity(intent);
-
-                        } else if (arraySpinner[position].equals("Popularity")){
-
-                            Intent intent = new Intent(ShowAllConferencesActivity.this, ShowAllConferencesActivity.class);
-                            intent.putExtra("order", "popularity");
                             startActivity(intent);
 
                         } else if (arraySpinner[position].equals("Date")){

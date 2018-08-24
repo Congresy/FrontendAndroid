@@ -62,11 +62,21 @@
         />
 
     <Button
+        android:id="@+id/ban"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ban"
+        android:layout_toRightOf="@id/author"
+        android:layout_below="@id/text"
+        android:focusable="false"
+        />
+
+    <Button
         android:id="@+id/voteUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="UP"
-        android:layout_toRightOf="@id/author"
+        android:layout_toRightOf="@id/ban"
         android:layout_below="@id/text"
         android:focusable="false"/>
 

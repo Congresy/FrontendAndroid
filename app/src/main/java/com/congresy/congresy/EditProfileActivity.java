@@ -230,7 +230,6 @@ public class EditProfileActivity extends BaseActivity {
                 edtEmail.setText(a.getEmail());
                 edtPhone.setText(a.getPhone());
                 edtPhoto.setText(a.getPhoto());
-                edtNick.setText(a.getNick());
 
                 private_.setChecked(a.getPrivate());
 

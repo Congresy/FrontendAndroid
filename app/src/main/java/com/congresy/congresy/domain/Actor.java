@@ -36,15 +36,9 @@ public class Actor {
     @SerializedName("id")
     @Expose
     private String id;
-    @SerializedName("interests")
-    @Expose
-    private List<String> interests = null;
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("nick")
-    @Expose
-    private String nick;
     @SerializedName("phone")
     @Expose
     private String phone;
@@ -150,28 +144,12 @@ public class Actor {
         this.id = id;
     }
 
-    public List<String> getInterests() {
-        return interests;
-    }
-
-    public void setInterests(List<String> interests) {
-        this.interests = interests;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getNick() {
-        return nick;
-    }
-
-    public void setNick(String nick) {
-        this.nick = nick;
     }
 
     public String getPhone() {

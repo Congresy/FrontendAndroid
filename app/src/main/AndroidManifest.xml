@@ -63,6 +63,10 @@
         <activity android:name=".ShowMyFriendsActivity" />
         <activity android:name=".SocialActivity" />
         <activity android:name=".FollowersActivity" />
+        <activity android:name=".AdministrationConferencesActivity" />
+        <activity android:name=".AdministrationPostsActivity" />
+        <activity android:name=".AdministrationCommentsActivity" />
+        <activity android:name=".AdministrationActorsActivity"></activity>
     </application>
 
 </manifest>

@@ -179,6 +179,7 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
         return convertView;
     }
 
+
     private void voteUp(final ViewHolder holder, String idComment, final int position){
         Call<Comment> call = userService.voteComment(idComment, "Up");
         call.enqueue(new Callback<Comment>() {

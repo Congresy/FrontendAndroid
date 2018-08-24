@@ -51,6 +51,10 @@ public class BaseActivity extends AppCompatActivity {
 
         if(role.equals("Administrator")){
             osArray.add("Announcements");
+            osArray.add("Actors");
+            osArray.add("Conferences");
+            osArray.add("Posts");
+            osArray.add("Comments");
         }
 
         if(role.equals("User")){
@@ -83,6 +87,18 @@ public class BaseActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position == 0) {
                         Intent intent = new Intent(BaseActivity.this, ShowAllAnnouncementsActivity.class);
+                        startActivity(intent);
+                    } else if (position == 1) {
+                        Intent intent = new Intent(BaseActivity.this, AdministrationActorsActivity.class);
+                        startActivity(intent);
+                    } else if (position == 2) {
+                        Intent intent = new Intent(BaseActivity.this, AdministrationConferencesActivity.class);
+                        startActivity(intent);
+                    } else if (position == 3) {
+                        Intent intent = new Intent(BaseActivity.this, AdministrationPostsActivity.class);
+                        startActivity(intent);
+                    }  else if (position == 4) {
+                        Intent intent = new Intent(BaseActivity.this, AdministrationCommentsActivity.class);
                         startActivity(intent);
                     }
                 }

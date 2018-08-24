@@ -138,6 +138,9 @@ public interface UserService {
     @GET("posts")
     Call<List<Post>> getAllPosts();
 
+    @GET("comments")
+    Call<List<Comment>> getAllComments();
+
     @GET("posts/{idPost}")
     Call<Post> getPost(@Path("idPost") String idPost);
 

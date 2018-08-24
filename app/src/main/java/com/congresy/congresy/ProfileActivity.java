@@ -235,7 +235,7 @@ public class ProfileActivity extends BaseActivity {
                     if (!aux.equals("not found")) {
                         friend.setVisibility(View.GONE);
                     } else {
-                        if (role.equals("Organizator")) {
+                        if (role.equals("Organizator") || role.equals("Administrator")) {
                             friend.setVisibility(View.GONE);
                         } else {
                             friend.setVisibility(View.VISIBLE);
@@ -256,27 +256,10 @@ public class ProfileActivity extends BaseActivity {
 
                     executeRest(myIntent.getExtras().get("idAuthor").toString());
 
-                } else if (actor.getRole().equals("Organizator")) {
+                } else if (actor.getRole().equals("Organizator") || actor.getRole().equals("Administrator")) {
 
-                    String aux = sp.getString("followed " + myIntent.getExtras().get("idAuthor").toString(), "not found");
-
-                    if (!aux.equals("not found")) {
-                        follow.setVisibility(View.GONE);
-                    } else {
-                        follow.setVisibility(View.VISIBLE);
-
-                        follow.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sp.edit();
-                                editor.putString("followed " + myIntent.getExtras().get("idAuthor").toString(), "1");
-                                editor.apply();
-
-                                follow(myIntent.getExtras().get("idAuthor").toString());
-                            }
-                        });
-                    }
+                    follow.setVisibility(View.GONE);
+                    friend.setVisibility(View.GONE);
 
                     executeRest(myIntent.getExtras().get("idAuthor").toString());
 
@@ -393,7 +376,6 @@ public class ProfileActivity extends BaseActivity {
                     tSurname.setText("Surname: " + body.getSurname());
                     tEmail.setText("Email: " + body.getEmail());
                     tPhone.setText("Phone: " + body.getPhone());
-                    tNick.setText("Nick: " + body.getNick());
                     tRole.setText("Role: " + body.getRole());
 
                     if(socialNetworksS != null){
@@ -542,7 +524,6 @@ public class ProfileActivity extends BaseActivity {
                         tSurname.setText("Surname: " + body.getSurname());
                         tEmail.setText("Email: " + body.getEmail());
                         tPhone.setText("Phone: " + body.getPhone());
-                        tNick.setText("Nick: " + body.getNick());
                         tRole.setText("Role: " + body.getRole());
 
                         if(socialNetworksS != null){
