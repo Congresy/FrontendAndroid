@@ -6,9 +6,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class Post {
 
-    @SerializedName("author")
+    @SerializedName("authorName")
     @Expose
-    private String author;
+    private String authorName;
+    @SerializedName("authorId")
+    @Expose
+    private String authorId;
     @SerializedName("body")
     @Expose
     private String body;
@@ -37,12 +40,20 @@ public class Post {
     @Expose
     private Integer votes;
 
-    public String getAuthor() {
-        return author;
+    public String getAuthorName() {
+        return authorName;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+
+    public String getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
     }
 
     public String getBody() {

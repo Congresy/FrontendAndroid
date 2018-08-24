@@ -1,7 +1,9 @@
 package com.congresy.congresy.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +13,18 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.congresy.congresy.AdministrationCommentsActivity;
 import com.congresy.congresy.AdministrationConferencesActivity;
 import com.congresy.congresy.ProfileActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
 import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
+import com.congresy.congresy.domain.Message;
 import com.congresy.congresy.remote.ApiUtils;
+import com.google.gson.JsonObject;
+
+import org.joda.time.LocalDateTime;
 
 import java.util.List;
 
@@ -97,18 +104,47 @@ public class ConferenceListAllAdministratorAdapter extends BaseAdapter implement
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteConference(items.get(position).getId());
+                deleteConference(items.get(position).getId(), items.get(position).getOrganizator(), items.get(position));
             }
         });
 
         return convertView;
     }
 
-    private void deleteConference(String idConference){
+    private void deleteConference(String idConference, final String idReceiver, final Conference conference){
         Call call = ApiUtils.getUserService().deleteConference(idConference);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
+
+                // adding properties to json for POST
+                JsonObject json = new JsonObject();
+
+                json.addProperty("body", "The conference with title " + conference.getName() + " has been deleted by and administrator. For further information contact congresy@gmail.com");
+                json.addProperty("subject", "An element of yours has been deleted");
+                json.addProperty("sentMoment", LocalDateTime.now().toString("dd/MM/yyyy HH:mm"));
+                json.addProperty("senderId", "default");
+                json.addProperty("receiverId", "default");
+
+                createMessage(json, idReceiver);
+
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void createMessage(JsonObject json, String idReceiver){
+        SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        String id = sp.getString("Id", "not found");
+
+        Call<Message> call = ApiUtils.getUserService().createMessage(json, id, idReceiver);
+        call.enqueue(new Callback<Message>() {
+            @Override
+            public void onResponse(Call<Message> call, Response<Message> response) {
 
                 Intent intent = new Intent(context, AdministrationConferencesActivity.class);
                 context.startActivity(intent);
@@ -116,7 +152,7 @@ public class ConferenceListAllAdministratorAdapter extends BaseAdapter implement
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
+            public void onFailure(Call<Message> call, Throwable t) {
                 Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

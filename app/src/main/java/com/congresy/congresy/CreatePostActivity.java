@@ -72,7 +72,8 @@ public class CreatePostActivity extends BaseActivity {
                 SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
                 String id = sp.getString("Id", "not found");
 
-                json.addProperty("author", id);
+                json.addProperty("authorName", "default");
+                json.addProperty("authorId", id);
                 json.addProperty("title", title);
                 json.addProperty("body", body);
                 json.addProperty("category", category);

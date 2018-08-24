@@ -1,7 +1,9 @@
 package com.congresy.congresy.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +16,14 @@ import android.widget.Toast;
 import com.congresy.congresy.AdministrationCommentsActivity;
 import com.congresy.congresy.ProfileActivity;
 import com.congresy.congresy.R;
+import com.congresy.congresy.ShowMyFoldersActivity;
 import com.congresy.congresy.domain.Comment;
+import com.congresy.congresy.domain.Message;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 import com.google.gson.JsonObject;
+
+import org.joda.time.LocalDateTime;
 
 import java.util.List;
 
@@ -102,21 +108,29 @@ public class CommentListAdministratorAdapter extends BaseAdapter implements List
                 json.addProperty("title", items.get(position).getTitle());
                 json.addProperty("text", "** Comment deleted **");
 
-                ban(items.get(position).getId(), json);
+                ban(items.get(position).getId(), json, items.get(position).getAuthor());
             }
         });
 
         return convertView;
     }
 
-    private void ban(String idComment, JsonObject json){
+    private void ban(String idComment, JsonObject json, final String idReceiver){
         Call<Comment> call = userService.editComment(idComment, json);
         call.enqueue(new Callback<Comment>() {
             @Override
             public void onResponse(Call<Comment> call, Response<Comment> response) {
 
-                Intent myIntent = new Intent(context, AdministrationCommentsActivity.class);
-                context.startActivity(myIntent);
+                // adding properties to json for POST
+                JsonObject json = new JsonObject();
+
+                json.addProperty("body", "The comment with title " + response.body().getTitle() + " has been deleted by and administrator. For further information contact congresy@gmail.com");
+                json.addProperty("subject", "An element of yours has been deleted");
+                json.addProperty("sentMoment", LocalDateTime.now().toString("dd/MM/yyyy HH:mm"));
+                json.addProperty("senderId", "default");
+                json.addProperty("receiverId", "default");
+
+                createMessage(json, idReceiver);
 
             }
 
@@ -126,6 +140,29 @@ public class CommentListAdministratorAdapter extends BaseAdapter implements List
             }
         });
     }
+
+    private void createMessage(JsonObject json, String idReceiver){
+        SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        String id = sp.getString("Id", "not found");
+
+        Call<Message> call = userService.createMessage(json, id, idReceiver);
+        call.enqueue(new Callback<Message>() {
+            @Override
+            public void onResponse(Call<Message> call, Response<Message> response) {
+
+                Intent myIntent = new Intent(context, AdministrationCommentsActivity.class);
+                context.startActivity(myIntent);
+
+
+            }
+
+            @Override
+            public void onFailure(Call<Message> call, Throwable t) {
+                Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     public void filter(String charText) {
         charText = charText.toLowerCase();

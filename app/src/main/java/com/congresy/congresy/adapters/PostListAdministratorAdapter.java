@@ -1,7 +1,9 @@
 package com.congresy.congresy.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +16,12 @@ import android.widget.Toast;
 import com.congresy.congresy.AdministrationPostsActivity;
 import com.congresy.congresy.ProfileActivity;
 import com.congresy.congresy.R;
+import com.congresy.congresy.domain.Message;
 import com.congresy.congresy.domain.Post;
 import com.congresy.congresy.remote.ApiUtils;
+import com.google.gson.JsonObject;
+
+import org.joda.time.LocalDateTime;
 
 import java.util.List;
 
@@ -77,7 +83,7 @@ public class PostListAdministratorAdapter extends BaseAdapter implements ListAda
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deletePost(items.get(position).getId());
+                deletePost(items.get(position).getId(), items.get(position).getAuthorId(), items.get(position));
             }
         });
 
@@ -86,7 +92,7 @@ public class PostListAdministratorAdapter extends BaseAdapter implements ListAda
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, ProfileActivity.class);
                 myIntent.putExtra("goingTo", "Unknown");
-                myIntent.putExtra("idAuthor", items.get(position).getAuthor());
+                myIntent.putExtra("idAuthor", items.get(position).getAuthorId());
                 context.startActivity(myIntent);
             }
         });
@@ -94,15 +100,25 @@ public class PostListAdministratorAdapter extends BaseAdapter implements ListAda
         return convertView;
     }
 
-    private void deletePost(String idPost){
+    private void deletePost(String idPost, final String idReceiver, final Post post){
         Call call = ApiUtils.getUserService().deletePost(idPost);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()){
 
-                    Intent intent = new Intent(context, AdministrationPostsActivity.class);
-                    context.startActivity(intent);
+                    // adding properties to json for POST
+                    JsonObject json = new JsonObject();
+
+                    json.addProperty("body", "The conference with title " + post.getTitle() + " has been deleted by and administrator. For further information contact congresy@gmail.com");
+                    json.addProperty("subject", "An element of yours has been deleted");
+                    json.addProperty("sentMoment", LocalDateTime.now().toString("dd/MM/yyyy HH:mm"));
+                    json.addProperty("senderId", "default");
+                    json.addProperty("receiverId", "default");
+
+                    createMessage(json, idReceiver);
+
+
 
                 } else {
                     Toast.makeText(context.getApplicationContext(), "Error! Please try again!", Toast.LENGTH_SHORT).show();
@@ -111,6 +127,27 @@ public class PostListAdministratorAdapter extends BaseAdapter implements ListAda
 
             @Override
             public void onFailure(Call call, Throwable t) {
+                Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void createMessage(JsonObject json, String idReceiver){
+        SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        String id = sp.getString("Id", "not found");
+
+        Call<Message> call = ApiUtils.getUserService().createMessage(json, id, idReceiver);
+        call.enqueue(new Callback<Message>() {
+            @Override
+            public void onResponse(Call<Message> call, Response<Message> response) {
+
+                Intent intent = new Intent(context, AdministrationPostsActivity.class);
+                context.startActivity(intent);
+
+            }
+
+            @Override
+            public void onFailure(Call<Message> call, Throwable t) {
                 Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

@@ -119,7 +119,7 @@ public class ShowPostActivity extends BaseActivity {
                 Post Post = response.body();
 
                 title.setText(Post.getTitle());
-                author.setText(Post.getAuthor() + ", " + Post.getPosted());
+                author.setText(Post.getAuthorName() + ", " + Post.getPosted());
                 posted.setText("\n");
                 body.setText(Post.getBody());
                 category.setText("\n");

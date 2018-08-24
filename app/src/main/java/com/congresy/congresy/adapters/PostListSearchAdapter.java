@@ -62,7 +62,7 @@ public class PostListSearchAdapter extends BaseAdapter implements ListAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.title.setText(itemsAux.get(position).getTitle()  + ", " + itemsAux.get(position).getAuthor());
+        holder.title.setText(itemsAux.get(position).getTitle()  + ", " + itemsAux.get(position).getAuthorName());
 
         return convertView;
     }
@@ -76,7 +76,7 @@ public class PostListSearchAdapter extends BaseAdapter implements ListAdapter{
             items.addAll(itemsAux);
         } else {
             for (Post p : itemsAux) {
-                if (p.getTitle().contains(charText) || p.getAuthor().contains(charText)) {
+                if (p.getTitle().contains(charText) || p.getAuthorName().contains(charText)) {
                     items.add(p);
                 }
             }
