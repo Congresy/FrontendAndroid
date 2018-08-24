@@ -29,6 +29,8 @@ public class EditSocialNetworkActivity extends BaseActivity {
 
     Button btnEdit;
 
+    private Integer aux = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,9 +79,20 @@ public class EditSocialNetworkActivity extends BaseActivity {
                 json.addProperty("name", nameS);
                 json.addProperty("url", url);
 
-                editSocialNetwork(json);
+                if (validate(url))
+                    editSocialNetwork(json);
             }
         });
+    }
+
+    private boolean validate(String url){
+        if(checkString("blank", url, edtUrl, null) || checkUrl(url, edtUrl))
+            aux++;
+
+        if (aux != 0)
+            edtUrl.requestFocus();
+
+        return aux == 0;
     }
 
     private void editSocialNetwork(final JsonObject json){

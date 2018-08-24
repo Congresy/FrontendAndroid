@@ -36,7 +36,6 @@ public class EditProfileActivity extends BaseActivity {
     EditText edtEmail;
     EditText edtPhone;
     EditText edtPhoto;
-    EditText edtNick;
 
     // Place attributes
     EditText edtTown;
@@ -49,6 +48,7 @@ public class EditProfileActivity extends BaseActivity {
     CheckBox private_;
 
     private Boolean privateAux;
+    private Integer aux = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,6 @@ public class EditProfileActivity extends BaseActivity {
         edtEmail = findViewById(R.id.edtEmail);
         edtPhone = findViewById(R.id.edtPhone);
         edtPhoto = findViewById(R.id.edtPhoto);
-        edtNick = findViewById(R.id.edtNick);
 
         // Pace attributes
         edtTown = findViewById(R.id.edtTown);
@@ -88,7 +87,6 @@ public class EditProfileActivity extends BaseActivity {
                 String email = edtEmail.getText().toString();
                 String phone = edtPhone.getText().toString();
                 String photo = edtPhoto.getText().toString();
-                String nick = edtNick.getText().toString();
 
                 // Place attributes
                 String town = edtTown.getText().toString();
@@ -117,7 +115,6 @@ public class EditProfileActivity extends BaseActivity {
                 if(!photo.equals("null")){
                     jsonActor.addProperty("photo", photo);
                 }
-                jsonActor.addProperty("nick", nick);
 
                 json.add("actor", jsonActor);
                 json.add("userAccount", jsonAuth);
@@ -129,16 +126,73 @@ public class EditProfileActivity extends BaseActivity {
                 jsonPlace.addProperty("postalCode", postalCode);
                 jsonPlace.addProperty("details", details);
 
-                // Check confirmations
-                if (!password.equals(passwordConfirm)) {
-                    showAlertDialogButtonClicked("password");
+                if (!passwordConfirm.equals("") || !password.equals("")){
+                    if (!password.equals(passwordConfirm)) {
+                        showAlertDialogButtonClicked("password");
+                    }
                 } else {
-                    editProfile(json, jsonPlace);
+                    if (validate(name, surname, email, phone, photo, town, country, address, postalCode, details, password, passwordConfirm))
+                        editProfile(json, jsonPlace);
                 }
+
 
 
             }
         });
+    }
+
+    private boolean validate(String name, String surname, String email, String phone, String photo, String town, String country, String address, String postalCode, String details, String pas1, String pas2){
+
+        if (checkString("both", name, edtName, 20))
+            aux++;
+
+        if (checkString("both", surname, edtSurname, 40))
+            aux++;
+
+        if (checkString("blank", email, edtEmail, null) || checkEmail(email, edtEmail))
+            aux++;
+
+        if (checkString("blank", phone, edtPhone, null) || checkPhone(phone, edtPhone))
+            aux++;
+
+        if (checkString("both", town, edtTown, 20))
+            aux++;
+
+        if (checkString("both", country, edtCountry, 20))
+            aux++;
+
+        if (checkString("both", address, edtAddress, 30))
+            aux++;
+
+        if (checkString("both", postalCode, edtPostalCode, 15))
+            aux++;
+
+        if (checkString("both", details, edtDetails, 20))
+            aux++;
+
+        if (checkString("blank", pas1, edtPassword, null))
+            aux++;
+
+        if (checkString("blank", pas2, edtPasswordConfirm, null))
+            aux++;
+
+        if (!photo.equals(""))
+            if(checkUrl(photo, edtPhoto) && checkString("blank", photo, edtPhoto, null))
+                aux++;
+
+        if (aux == 0){
+            if (!pas1.equals(pas2)) {
+                edtPasswordConfirm.setError("Both passwords must be the same");
+                edtPassword.setError("Both passwords must be the same");
+                aux++;
+            }
+        }
+
+        if (aux != 0)
+            edtPassword.requestFocus();
+
+        return aux == 0;
+
     }
 
     public void showAlertDialogButtonClicked(String action) {

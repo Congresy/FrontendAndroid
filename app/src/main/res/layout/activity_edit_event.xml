@@ -104,7 +104,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtStartT"
-                android:hint="10/10/2019 12:00"
+                android:hint="10/10/2019"
+                android:inputType="datetime"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start time: "
+                android:layout_below = "@+id/edtStart"
+                android:id="@+id/edtStartTimeT"
+                />
+
+            <EditText
+                android:id="@+id/edtStartTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtStartTimeT"
+                android:hint="12:00"
                 android:inputType="datetime"
                 />
 
@@ -112,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="End date: "
-                android:layout_below = "@+id/edtStart"
+                android:layout_below = "@+id/edtStartTime"
                 android:id="@+id/edtEndT"
                 />
 
@@ -121,7 +138,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtEndT"
-                android:hint="10/10/2019 13:00"
+                android:hint="10/10/2019"
+                android:inputType="datetime"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="End time: "
+                android:layout_below = "@+id/edtEnd"
+                android:id="@+id/edtEndTimeT"
+                />
+
+            <EditText
+                android:id="@+id/edtEndTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below = "@+id/edtEndTimeT"
+                android:hint="13:00"
                 android:inputType="datetime"
                 />
 
@@ -129,7 +163,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Role: "
-                android:layout_below = "@+id/edtEnd"
+                android:layout_below = "@+id/edtEndTime"
                 android:id="@+id/edtRoleT"
                 />
 

@@ -43,6 +43,8 @@ public class CreateAnnouncementActivity extends BaseActivity {
     Button save;
     Button choose;
 
+    private Integer aux = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +103,9 @@ public class CreateAnnouncementActivity extends BaseActivity {
                 json.addProperty("idConference", intent.getExtras().get("idConference").toString());
                 json.addProperty("description", description);
 
-                createAnnouncement(json);
+                if (validate(picture, title, description)){
+                    createAnnouncement(json);
+                }
 
             }
         });
@@ -120,6 +124,23 @@ public class CreateAnnouncementActivity extends BaseActivity {
             }
         });
 
+    }
+
+    private boolean validate(String picture, String url, String description){
+
+        if(checkString("blank", picture, pictureE, null) || checkUrl(picture, pictureE))
+            aux++;
+
+        if (checkString("both", description, descriptionE, 150))
+            aux++;
+
+        if(checkString("both", url, titleE, 20))
+            aux++;
+
+        if (aux != 0)
+            pictureE.requestFocus();
+
+        return aux == 0;
     }
 
     private void createAnnouncement(JsonObject json){

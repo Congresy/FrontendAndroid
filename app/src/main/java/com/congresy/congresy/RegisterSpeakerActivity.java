@@ -1,10 +1,7 @@
 package com.congresy.congresy;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -47,6 +44,8 @@ public class RegisterSpeakerActivity extends BaseActivity {
     EditText edtDetails;
 
     Button btnRegister;
+
+    private Integer aux = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,42 +124,64 @@ public class RegisterSpeakerActivity extends BaseActivity {
                 jsonPlace.addProperty("postalCode", postalCode);
                 jsonPlace.addProperty("details", details);
 
-                // Check confirmations
-                if (!password.equals(passwordConfirm) && !email.equals(emailConfirm)){
-                    showAlertDialogButtonClicked("both");
-                } else if (!email.equals(emailConfirm)){
-                    showAlertDialogButtonClicked("email");
-                } else if (!password.equals(passwordConfirm)) {
-                    showAlertDialogButtonClicked("password");
-                } else {
+                if (validate(name, surname, email, emailConfirm, phone, photo, town, country, address, postalCode, details, password, passwordConfirm))
                     doRegister(json, jsonPlace);
-                }
             }
         });
     }
 
-    public void showAlertDialogButtonClicked(String action) {
+    private boolean validate(String name, String surname, String email, String email2, String phone, String photo, String town, String country, String address, String postalCode, String details, String pas1, String pas2){
 
-        // setup the alert builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Attention!");
+        if (checkString("both", name, edtName, 20))
+            aux++;
 
-        if (action.equals("email")){
-            builder.setMessage("Your email don't match the confirmation");
-        } else if (action.equals("password")){
-            builder.setMessage("Your password don't match the confirmation");
+        if (checkString("both", surname, edtSurname, 40))
+            aux++;
+
+        if (checkString("blank", email, edtEmail, null) || checkEmail(email, edtEmail))
+            aux++;
+
+        if (checkString("blank", email2, edtEmailConfirm, null))
+            aux++;
+
+        if (checkString("blank", phone, edtPhone, null) || checkPhone(phone, edtPhone))
+            aux++;
+
+        if (checkString("both", town, edtTown, 20))
+            aux++;
+
+        if (checkString("both", country, edtCountry, 20))
+            aux++;
+
+        if (checkString("both", address, edtAddress, 30))
+            aux++;
+
+        if (checkString("both", postalCode, edtPostalCode, 15))
+            aux++;
+
+        if (checkString("both", details, edtDetails, 20))
+            aux++;
+
+        if (checkString("blank", pas1, edtPassword, null))
+            aux++;
+
+        if (checkString("blank", pas2, edtPasswordConfirm, null))
+            aux++;
+
+        if (!photo.equals(""))
+            if(checkUrl(photo, edtPhoto) && checkString("blank", photo, edtPhoto, null))
+                aux++;
+
+        if (aux == 0){
+            if (checkPasswordsAndEmails(pas1, pas2, edtPassword, edtPasswordConfirm, email, email2, edtEmail, edtEmailConfirm)){
+                aux++;
+            }
         }
 
-        // add a button
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
+        if (aux != 0)
+            edtUsername.requestFocus();
 
-        // create and show the alert dialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        return aux == 0;
     }
 
     @Override

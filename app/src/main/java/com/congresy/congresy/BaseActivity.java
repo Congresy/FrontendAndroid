@@ -1,6 +1,8 @@
 package com.congresy.congresy;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.widget.DrawerLayout;
@@ -10,15 +12,28 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.congresy.congresy.remote.ApiUtils;
 
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -165,6 +180,252 @@ public class BaseActivity extends AppCompatActivity {
             });
         }
     }
+
+    public DatePickerDialog.OnDateSetListener setDatePicker(final EditText editText, final Calendar myCalendar){
+
+        return new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                String myFormat = "dd/MM/yyyy";
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, new Locale("es", "ES"));
+
+                editText.setText(sdf.format(myCalendar.getTime()));
+            }
+
+        };
+    }
+
+    public TimePickerDialog.OnTimeSetListener setTimePicker(final EditText editText, final Calendar myCalendar){
+
+        return new TimePickerDialog.OnTimeSetListener() {
+
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                myCalendar.set(Calendar.HOUR, hourOfDay);
+                myCalendar.set(Calendar.MINUTE, minute);
+
+                String myFormat = "HH:mm";
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, new Locale("es", "ES"));
+
+                editText.setText(sdf.format(myCalendar.getTime()));
+            }
+
+        };
+    }
+
+    public static Boolean checkString(String action, String string, EditText editText, Integer length){
+
+        switch (action) {
+            case "length":
+                if (string.trim().length() > 20) {
+                    editText.setError("The maximum length of this field is " + String.valueOf(length));
+                    return true;
+                }
+                break;
+            case "blank":
+                if (string == null || string.trim().length() == 0) {
+                    editText.setError("This field can not be blank");
+                    return true;
+                }
+                break;
+            case "both":
+                if (string == null || string.trim().length() == 0) {
+                    editText.setError("This field can not be blank");
+                    return true;
+                } else if (string.trim().length() > 20) {
+                    editText.setError("The maximum length of this field is " + String.valueOf(length));
+                    return true;
+                }
+                break;
+        }
+
+        return false;
+    }
+
+    public static Boolean checkPasswordsAndEmails(String pas1, String pas2, EditText e1, EditText e2, String em1, String em2, EditText e3, EditText e4){
+
+        if (!pas1.equals(pas2) && !em1.equals(em2)) {
+            e1.setError("Both passwords must be the same");
+            e2.setError("Both passwords must be the same");
+            e3.setError("Both emails must be the same");
+            e4.setError("Both emails must be the same");
+            return false;
+        }else if (!pas1.equals(pas2)){
+           e1.setError("Both passwords must be the same");
+           e2.setError("Both passwords must be the same");
+           return false;
+       } else if (!em1.equals(em2)) {
+            e3.setError("Both emails must be the same");
+            e4.setError("Both emails must be the same");
+            return false;
+        }
+
+        return true;
+    }
+
+    public Boolean checkInteger(String action, String string, EditText editText){
+
+        if (string.trim().length() != 0) {
+            switch (action) {
+                case "length":
+                    if (Integer.valueOf(string) <= 0) {
+                        editText.setError("The minimum length of this field is 1");
+                        return true;
+                    }
+                    break;
+                case "blank":
+                    if (String.valueOf(string).trim().length() == 0) {
+                        editText.setError("This field can not be blank");
+                        return true;
+                    }
+                    break;
+                case "both":
+                    if (String.valueOf(string).trim().length() == 0) {
+                        editText.setError("This field can not be blank");
+                        return true;
+                    } else if (Integer.valueOf(string) <= 0) {
+                        editText.setError("The minimum length of this field is 1");
+                        return true;
+                    }
+                    break;
+            }
+        } else {
+            editText.setError("This field can not be blank");
+            return true;
+        }
+
+
+        return false;
+    }
+
+    public Boolean checkDouble(String action, String string, EditText editText){
+
+        if (string.trim().length() != 0) {
+            switch (action) {
+                case "length":
+                    if (Double.valueOf(string) < 0) {
+                        editText.setError("The minimum length of this field is 0.0");
+                        return true;
+                    }
+                    break;
+                case "blank":
+                    if (String.valueOf(string).trim().length() == 0) {
+                        editText.setError("This field can not be blank");
+                        return true;
+                    }
+                    break;
+                case "both":
+                    if (String.valueOf(string).trim().length() == 0) {
+                        editText.setError("This field can not be blank");
+                        return true;
+                    } else if (Double.valueOf(string) < 0) {
+                        editText.setError("The minimum length of this field is 0.0");
+                        return true;
+                    }
+                    break;
+            }
+        } else {
+            editText.setError("This field can not be blank");
+            return true;
+        }
+
+        return false;
+    }
+
+    private Date parseDate(String date){
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "ES"));
+        try {
+            Date res = format.parse(date);
+            System.out.println(date);
+            return res;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return new Date();
+        }
+    }
+
+    private Date parseTime(String date){
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm", new Locale("es", "ES"));
+        try {
+            Date res = format.parse(date);
+            System.out.println(date);
+            return res;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return new Date();
+        }
+    }
+
+    public Boolean checkTime(String string, String string1, EditText editText1, EditText editText2){
+
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm", new Locale("es", "ES"));
+        String currDateString = dateFormat.format(new Date());
+
+        if (parseTime(string).before(parseTime(currDateString))){
+            editText1.setError("The start date must be before the actual date");
+            return true;
+        } else if (parseTime(string).after(parseTime(string1))) {
+            editText2.setError("The end date must be before the end date");
+            return true;
+        }
+
+        return false;
+    }
+
+    public Boolean checkDate(String string, String string1, EditText editText1, EditText editText2){
+
+        if (parseDate(string).before(new Date())){
+            editText1.setError("The start date must be before the actual date");
+            return true;
+        } else if (parseDate(string).after(parseDate(string1))) {
+            editText2.setError("The end date must be before the end date");
+            return true;
+        }
+
+        return false;
+    }
+
+
+    public static Boolean checkUrl(String string, EditText editText){
+
+        if (!URLUtil.isValidUrl(string)){
+            editText.setError("This field must be an url");
+            return true;
+        }
+
+        return false;
+    }
+
+    public static Boolean checkEmail(String string, EditText editText){
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(string).matches()){
+            editText.setError("This field must be a valid email");
+            return true;
+        }
+
+        return false;
+    }
+
+    public static Boolean checkPhone(String string, EditText editText){
+        String expression = "^(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))\\\\s*[)]?[-\\\\s\\\\.]?[(]?[0-9]{1,3}[)]?([-\\\\s\\\\.]?[0-9]{3})([-\\\\s\\\\.]?[0-9]{3,4})$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(string);
+
+        if (!matcher.matches()){
+            editText.setError("This field must be a valid phone with the corresponding country prefix");
+            return true;
+        }
+
+        return false;
+    }
+
 
 
     public void setupDrawer() {

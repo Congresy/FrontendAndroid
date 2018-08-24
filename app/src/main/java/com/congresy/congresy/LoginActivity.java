@@ -24,6 +24,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.congresy.congresy.BaseActivity.checkString;
+
 public class LoginActivity extends AppCompatActivity {
 
     private boolean auxOk = false;
@@ -39,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
     Button btnRegisterAux;
 
     UserService userService;
+
+    private Integer aux = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,15 +103,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean validateLogin(String username, String password){
-        if(username == null || username.trim().length() == 0){
-            Toast.makeText(this, "Username is required", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if(password == null || password.trim().length() == 0){
-            Toast.makeText(this, "Password is required", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
+
+        if (checkString("blank", username, edtUsername, null))
+            aux++;
+
+        if (checkString("blank", password, edtPassword, null))
+            aux++;
+
+        if (aux != 0)
+            edtUsername.requestFocus();
+
+        return aux == 0;
     }
 
     private void loadActor(final String username, final String password){

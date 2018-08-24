@@ -33,6 +33,8 @@ public class CreateCommentActivity extends BaseActivity {
 
     String comeFrom;
 
+    private Integer aux = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,15 +66,32 @@ public class CreateCommentActivity extends BaseActivity {
                 json.addProperty("thumbsDown", 0);
                 json.addProperty("sentMoment", LocalDateTime.now().toString("dd/MM/yyyy HH:mm"));
 
-                if (comeFrom.equals("reply parent") || comeFrom.equals("reply child")){
-                    createResponse(json);
-                } else {
-                    createComment(json);
+
+                if (validate(title, body)){
+                    if (comeFrom.equals("reply parent") || comeFrom.equals("reply child")){
+                        createResponse(json);
+                    } else {
+                        createComment(json);
+                    }
                 }
 
             }
         });
 
+    }
+
+    private boolean validate(String title, String body){
+
+        if(checkString("both", title, titleE, 20))
+            aux++;
+
+        if(checkString("both", body, bodyE, 100))
+            aux++;
+
+        if (aux != 0)
+            titleE.requestFocus();
+
+        return aux == 0;
     }
 
     private void createComment(JsonObject json){

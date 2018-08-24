@@ -1,6 +1,7 @@
 package com.congresy.congresy;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import com.congresy.congresy.domain.Place;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 import com.google.gson.JsonObject;
+
+import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,6 +44,8 @@ public class EditConferenceActivity extends BaseActivity {
     EditText edtDetails;
 
     Button btnEdit;
+
+    private Integer aux = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +83,35 @@ public class EditConferenceActivity extends BaseActivity {
 
         getConference();
 
+        final Calendar myCalendar = Calendar.getInstance();
+
+        final DatePickerDialog.OnDateSetListener date1 = setDatePicker(edtStart, myCalendar);
+        final DatePickerDialog.OnDateSetListener date2 = setDatePicker(edtEnd, myCalendar);
+        edtStart.setFocusable(false);
+        edtEnd.setFocusable(false);
+
+        edtStart.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                new DatePickerDialog(EditConferenceActivity.this, date1, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        edtEnd.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                new DatePickerDialog(EditConferenceActivity.this, date2, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +140,10 @@ public class EditConferenceActivity extends BaseActivity {
 
                 json.addProperty("name", name);
                 json.addProperty("theme", theme);
-                json.addProperty("price", Double.valueOf(price));
+
+                if (!price.equals(""))
+                    json.addProperty("price", Double.valueOf(price));
+
                 json.addProperty("start", start);
                 json.addProperty("end", end);
                 json.addProperty("speakersNames", speakers);
@@ -120,9 +157,49 @@ public class EditConferenceActivity extends BaseActivity {
                 jsonPlace.addProperty("postalCode", postalCode);
                 jsonPlace.addProperty("details", details);
 
-                editConference(json, jsonPlace);
+                if (validate(name, price, start, end, description, town, country, address, postalCode, details)){
+                    editConference(json, jsonPlace);
+
+                }
             }
         });
+    }
+
+    private boolean validate(String name, String price, String start, String end, String description, String town, String country, String address, String postalCode, String details){
+        if(checkString("both", name, edtName, 20))
+            aux++;
+
+        if(checkDouble("both", price, edtPrice))
+            aux++;
+
+        if(checkString("blank", start, edtStart, null) || checkDate(start, end, edtStart, edtEnd))
+            aux++;
+
+        if(checkString("blank", end, edtEnd, null))
+            aux++;
+
+        if(checkString("both", description, edtDescription, 80))
+            aux++;
+
+        if(checkString("both", town, edtTown, 20))
+            aux++;
+
+        if(checkString("both", country, edtCountry, 20))
+            aux++;
+
+        if(checkString("both", address, edtAddress, 30))
+            aux++;
+
+        if(checkString("both", postalCode, edtPostalCode, 15))
+            aux++;
+
+        if(checkString("both", details, edtDetails, 20))
+            aux++;
+
+        if (aux != 0)
+            edtName.requestFocus();
+
+        return aux == 0;
     }
 
     private void editPlace(final JsonObject jsonPlace, String id){

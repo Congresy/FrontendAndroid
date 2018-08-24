@@ -35,6 +35,8 @@ public class EditPostActivity extends BaseActivity {
 
     Button save;
 
+    private Integer aux = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +127,19 @@ public class EditPostActivity extends BaseActivity {
 
     }
 
+    private boolean validate(String title, String body){
+        if(checkString("both", title, titleE, 20))
+            aux++;
+
+        if(checkString("both", body, bodyE, 200))
+            aux++;
+
+        if (aux != 0)
+            titleE.requestFocus();
+
+        return aux == 0;
+    }
+
     private void savePost(final JsonObject json){
         Intent myIntent = getIntent();
         String idPost = myIntent.getExtras().get("idPost").toString();
@@ -204,20 +219,24 @@ public class EditPostActivity extends BaseActivity {
         builder.setTitle("Attention!");
         builder.setMessage("You can choose between make the post public or save it as a draft. Note that if you make it public you won't be able to edit it afterwards.");
 
-        // add a button
         builder.setPositiveButton("Publish", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                publishPost(json);
+                if (validate(json.get("title").getAsString(), json.get("body").getAsString())){
+                    publishPost(json);
+                }
             }
         });
 
         builder.setNegativeButton("Save as draft", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                savePost(json);
+                if (validate(json.get("title").getAsString(), json.get("body").getAsString())){
+                    savePost(json);
+                }
             }
         });
+
 
         // create and show the alert dialog
         AlertDialog dialog = builder.create();

@@ -41,6 +41,8 @@ public class CreateMessageActivity extends BaseActivity {
 
     Button btnCreate;
 
+    private Integer aux = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,17 +102,31 @@ public class CreateMessageActivity extends BaseActivity {
                     Intent myIntent = getIntent();
                     String comeFrom = myIntent.getExtras().get("comeFrom").toString();
 
-                    if (comeFrom.equals("create")){
-                        createMessage(json);
-                    } else if (comeFrom.equals("reply")) {
-                        reply(json);
+                    if (validate(subject, body)){
+                        if (comeFrom.equals("create")){
+                            createMessage(json);
+                        } else if (comeFrom.equals("reply")) {
+                            reply(json);
+                        }
                     }
-
                 }
             });
 
         }
 
+    }
+
+    private boolean validate(String subject, String body){
+        if(checkString("both", subject, subjectT, 20))
+            aux++;
+
+        if(checkString("both", body, bodyT, 80))
+            aux++;
+
+        if (aux != 0)
+            subjectT.requestFocus();
+
+        return aux == 0;
     }
 
     private void sendMessageToParticipants(JsonObject json, String idConference){

@@ -1,5 +1,7 @@
 package com.congresy.congresy;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,8 @@ import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 import com.google.gson.JsonObject;
 
+import java.util.Calendar;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,7 +33,8 @@ public class CreateEventActivity extends BaseActivity {
     EditText edtDescription;
     EditText edtStart;
     EditText edtEnd;
-    EditText edtPlace;
+    EditText edtStartTime;
+    EditText edtEndTime;
     EditText edtAllw;
     Spinner s;
 
@@ -41,6 +46,8 @@ public class CreateEventActivity extends BaseActivity {
     EditText edtDetails;
 
     Button btnCreate;
+
+    private Integer aux = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +61,8 @@ public class CreateEventActivity extends BaseActivity {
         s = findViewById(R.id.spinner);
         edtStart = findViewById(R.id.edtStart);
         edtEnd = findViewById(R.id.edtEnd);
-        edtPlace = findViewById(R.id.edtPlace);
+        edtStartTime = findViewById(R.id.edtStartTime);
+        edtEndTime = findViewById(R.id.edtEndTime);
         edtDescription = findViewById(R.id.edtRequirements);
         edtAllw = findViewById(R.id.edtAllw);
 
@@ -77,6 +85,63 @@ public class CreateEventActivity extends BaseActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         s.setAdapter(adapter);
 
+        final Calendar myCalendar = Calendar.getInstance();
+
+        final DatePickerDialog.OnDateSetListener date1 = setDatePicker(edtStart, myCalendar);
+        final DatePickerDialog.OnDateSetListener date2 = setDatePicker(edtEnd, myCalendar);
+        final TimePickerDialog.OnTimeSetListener time1 = setTimePicker(edtStartTime, myCalendar);
+        final TimePickerDialog.OnTimeSetListener time2 = setTimePicker(edtEndTime, myCalendar);
+
+        edtStart.setFocusable(false);
+        edtEnd.setFocusable(false);
+        edtStartTime.setFocusable(false);
+        edtEndTime.setFocusable(false);
+
+        edtStart.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                new DatePickerDialog(CreateEventActivity.this, date1, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        edtEnd.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                new DatePickerDialog(CreateEventActivity.this, date2, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        edtStartTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new TimePickerDialog(CreateEventActivity.this, time1,
+                        myCalendar.get(Calendar.HOUR_OF_DAY), myCalendar.get(Calendar.MINUTE),
+                        true).show();
+
+            }
+        });
+
+        edtEndTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new TimePickerDialog(CreateEventActivity.this, time2,
+                        myCalendar.get(Calendar.HOUR_OF_DAY), myCalendar.get(Calendar.MINUTE),
+                        true).show();
+
+            }
+        });
+
+
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,6 +149,8 @@ public class CreateEventActivity extends BaseActivity {
                 String type = edtType.getText().toString();
                 String start = edtStart.getText().toString();
                 String end = edtEnd.getText().toString();
+                String startTime = edtStartTime.getText().toString();
+                String endTime = edtEndTime.getText().toString();
                 String description = edtDescription.getText().toString();
                 String allw = edtAllw.getText().toString();
 
@@ -101,11 +168,13 @@ public class CreateEventActivity extends BaseActivity {
 
                 json.addProperty("name", name);
                 json.addProperty("type", type);
-                json.addProperty("start", start);
-                json.addProperty("end", end);
+                json.addProperty("start", start + " " + startTime);
+                json.addProperty("end", end + " " + endTime);
                 json.addProperty("role", role);
                 json.addProperty("requirements", description);
-                json.addProperty("allowedParticipants", Integer.valueOf(allw));
+
+                if (!allw.equals(""))
+                    json.addProperty("allowedParticipants", Integer.valueOf(allw));
 
                 JsonObject jsonPlace = new JsonObject();
                 jsonPlace.addProperty("town", town);
@@ -119,9 +188,54 @@ public class CreateEventActivity extends BaseActivity {
 
                 json.addProperty("conference", idConference);
 
-                createEvent(json, jsonPlace);
+                if (validate(name, type, start, end, startTime, endTime, description, allw, town, country, address, postalCode, details)){
+                    createEvent(json, jsonPlace);
+                }
             }
         });
+    }
+
+    private boolean validate(String name, String type, String start, String end, String startTime, String endTime, String description, String allowedParticipants, String town, String country, String address, String postalCode, String details){
+        if(checkString("both", name, edtName, 20))
+            aux++;
+
+        if (checkString("blank", start, edtStart, null) || checkDate(start, end, edtStart, edtEnd))
+            aux++;
+
+        if (checkString("blank", startTime, edtStartTime, null) || checkTime(startTime, endTime, edtStartTime, edtEndTime))
+            aux++;
+
+        if(checkString("blank", end, edtEnd, null))
+            aux++;
+
+        if(checkString("both", description, edtDescription, 80))
+            aux++;
+
+        if(checkInteger("both", allowedParticipants, edtAllw))
+            aux++;
+
+        if(checkString("both", town, edtTown, 20))
+            aux++;
+
+        if(checkString("both", country, edtCountry, 20))
+            aux++;
+
+        if(checkString("both", address, edtAddress, 30))
+            aux++;
+
+        if(checkString("both", postalCode, edtPostalCode, 15))
+            aux++;
+
+        if(checkString("both", details, edtDetails, 20))
+            aux++;
+
+        if(checkString("both", type, edtType, 20))
+            aux++;
+
+        if (aux != 0)
+            edtName.requestFocus();
+
+        return aux == 0;
     }
 
     private void createPlace(final JsonObject jsonPlace, String idPlace, final String idConference){

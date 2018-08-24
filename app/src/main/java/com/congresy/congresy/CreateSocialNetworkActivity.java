@@ -2,7 +2,6 @@ package com.congresy.congresy;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,6 +27,8 @@ public class CreateSocialNetworkActivity extends BaseActivity {
     Spinner s;
 
     Button btnCreate;
+
+    private Integer aux = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +70,21 @@ public class CreateSocialNetworkActivity extends BaseActivity {
 
                 json.addProperty("actor", idActor);
 
-
-                createSocialNetwork(json);
+                if (validate(url)){
+                    createSocialNetwork(json);
+                }
             }
         });
+    }
+
+    private boolean validate(String url){
+        if(checkString("blank", url, edtUrl, null) || checkUrl(url, edtUrl))
+            aux++;
+
+        if (aux != 0)
+            edtUrl.requestFocus();
+
+        return aux == 0;
     }
 
     private void createSocialNetwork(final JsonObject json){

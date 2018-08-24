@@ -25,6 +25,8 @@ public class EditCommentActivity extends BaseActivity {
 
     Button save;
 
+    private Integer aux = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,10 +54,26 @@ public class EditCommentActivity extends BaseActivity {
                 json.addProperty("title", title);
                 json.addProperty("text", body);
 
-                editComment(json);
+                if (validate(title, body)){
+                    editComment(json);
+                }
             }
         });
 
+    }
+
+    private boolean validate(String title, String body){
+
+        if(checkString("both", title, titleE, 20))
+            aux++;
+
+        if(checkString("both", body, bodyE, 100))
+            aux++;
+
+        if (aux != 0)
+            titleE.requestFocus();
+
+        return aux == 0;
     }
 
     private void getComment(){

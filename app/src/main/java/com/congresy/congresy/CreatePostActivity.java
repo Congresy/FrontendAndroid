@@ -34,6 +34,8 @@ public class CreatePostActivity extends BaseActivity {
 
     Button create;
 
+    private Integer aux = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +88,19 @@ public class CreatePostActivity extends BaseActivity {
             }
         });
 
+    }
+
+    private boolean validate(String title, String body){
+        if(checkString("both", title, titleE, 20))
+            aux++;
+
+        if(checkString("both", body, bodyE, 200))
+            aux++;
+
+        if (aux != 0)
+            titleE.requestFocus();
+
+        return aux == 0;
     }
 
     private void savePost(final JsonObject json){
@@ -165,14 +180,18 @@ public class CreatePostActivity extends BaseActivity {
         builder.setPositiveButton("Publish", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                publishPost(json);
+                if (validate(json.get("title").getAsString(), json.get("body").getAsString())){
+                    publishPost(json);
+                }
             }
         });
 
         builder.setNegativeButton("Save as draft", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                savePost(json);
+                if (validate(json.get("title").getAsString(), json.get("body").getAsString())){
+                    savePost(json);
+                }
             }
         });
 
