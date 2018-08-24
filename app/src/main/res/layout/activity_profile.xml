@@ -48,11 +48,18 @@
         android:layout_below="@id/btnEdit"
         android:contentDescription="Profile's image" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@id/image"
+            android:id="@+id/aux" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_below="@id/image"
+        android:layout_below="@id/aux"
         android:id="@+id/name" />
 
     <TextView

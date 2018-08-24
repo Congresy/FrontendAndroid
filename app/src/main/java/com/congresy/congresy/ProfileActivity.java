@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -38,6 +39,7 @@ public class ProfileActivity extends BaseActivity {
     TextView tRole;
     TextView socialNetworks;
     ImageView image;
+    TextView aux;
 
     TextView ePlace;
     TextView eAddress;
@@ -49,6 +51,7 @@ public class ProfileActivity extends BaseActivity {
     Button followers;
 
     private String username;
+    private String role__;
 
     List<SocialNetwork> socialNetworkList;
 
@@ -59,6 +62,7 @@ public class ProfileActivity extends BaseActivity {
 
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         username = sp.getString("Username", "not found");
+        role__ = sp.getString("Role", "not found");
 
         tName = findViewById(R.id.name);
         tSurname = findViewById(R.id.surname);
@@ -72,6 +76,9 @@ public class ProfileActivity extends BaseActivity {
         follow = findViewById(R.id.follow);
         friend = findViewById(R.id.friend);
         followers = findViewById(R.id.followers);
+        aux = findViewById(R.id.aux);
+
+        aux.setVisibility(View.GONE);
 
         ePlace = findViewById(R.id.edtPlace);
         eAddress = findViewById(R.id.edtAddress);
@@ -94,6 +101,8 @@ public class ProfileActivity extends BaseActivity {
                     String aux = sp.getString("followed " + myIntent.getExtras().get("idOrganizator").toString(), "not found");
 
                     if (!aux.equals("not found")) {
+                        follow.setVisibility(View.GONE);
+                    } else if (role__.equals("Organizator") || role__.equals("Administrator")) {
                         follow.setVisibility(View.GONE);
                     } else {
                         follow.setVisibility(View.VISIBLE);
@@ -121,6 +130,8 @@ public class ProfileActivity extends BaseActivity {
                     String aux = sp.getString("followed " + myIntent.getExtras().get("idSpeaker").toString(), "not found");
 
                     if (!aux.equals("not found")) {
+                        follow.setVisibility(View.GONE);
+                    } else if (role__.equals("Organizator") || role__.equals("Administrator")) {
                         follow.setVisibility(View.GONE);
                     } else {
                         follow.setVisibility(View.VISIBLE);
@@ -167,6 +178,12 @@ public class ProfileActivity extends BaseActivity {
 
                 final Actor actor = response.body();
 
+                if (actor.getBanned()){
+                    aux.setVisibility(View.VISIBLE);
+                    aux.setText("ACTOR BANNED");
+                    aux.setTextColor(Color.RED);
+                }
+
                 try {
                     followers.setText(MessageFormat.format("Followers ({0})", actor.getFollowers().size()));
 
@@ -210,6 +227,12 @@ public class ProfileActivity extends BaseActivity {
             public void onResponse(Call<Actor> call, Response<Actor> response) {
 
                 final Actor actor = response.body();
+
+                if (actor.getBanned()){
+                    aux.setVisibility(View.VISIBLE);
+                    aux.setText("ACTOR BANNED");
+                    aux.setTextColor(Color.RED);
+                }
 
                 try {
                     followers.setText(MessageFormat.format("Followers ({0})", actor.getFollowers().size()));
@@ -258,8 +281,27 @@ public class ProfileActivity extends BaseActivity {
 
                 } else if (actor.getRole().equals("Organizator") || actor.getRole().equals("Administrator")) {
 
-                    follow.setVisibility(View.GONE);
-                    friend.setVisibility(View.GONE);
+                    String aux = sp.getString("followed " + myIntent.getExtras().get("idAuthor").toString(), "not found");
+
+                    if (!aux.equals("not found")) {
+                        follow.setVisibility(View.GONE);
+                    } if (role.equals("Organizator") || role.equals("Administrator")) {
+                        follow.setVisibility(View.GONE);
+                    } else {
+                        follow.setVisibility(View.VISIBLE);
+
+                        follow.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sp.edit();
+                                editor.putString("followed " + myIntent.getExtras().get("idAuthor").toString(), "1");
+                                editor.apply();
+
+                                follow(myIntent.getExtras().get("idAuthor").toString());
+                            }
+                        });
+                    }
 
                     executeRest(myIntent.getExtras().get("idAuthor").toString());
 
@@ -269,7 +311,10 @@ public class ProfileActivity extends BaseActivity {
 
                     if (!aux.equals("not found")) {
                         follow.setVisibility(View.GONE);
+                    }  if (role.equals("Organizator") || role.equals("Administrator")) {
+                    follow.setVisibility(View.GONE);
                     } else {
+
                         follow.setVisibility(View.VISIBLE);
 
                         follow.setOnClickListener(new View.OnClickListener() {

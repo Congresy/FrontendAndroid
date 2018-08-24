@@ -144,6 +144,12 @@ public interface UserService {
     @GET("posts/{idPost}")
     Call<Post> getPost(@Path("idPost") String idPost);
 
+    @PUT("actors/ban/{idActor}")
+    Call<Actor> banActor(@Path("idActor") String idActor, @Query("action") String action);
+
+    @GET("actors/banned")
+    Call<List<Actor>> getBannedActors();
+
     @GET("posts/own/{idActor}")
     Call<List<Post>> getOwnPosts(@Path("idActor") String idPost);
 

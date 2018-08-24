@@ -119,53 +119,65 @@ public class LoginActivity extends AppCompatActivity {
 
                     final Actor actor = response.body();
 
-                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    if (actor.getBanned()){
+                        showAlertDialogButtonClicked2();
+                    } else {
 
-                    SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putString("Role", actor.getRole());
-                    editor.putString("Name", actor.getName() + " " + actor.getSurname());
-                    editor.putString("Id", actor.getId());
-                    editor.putString("UserAccountId", actor.getUserAccount());
-                    editor.putInt("logged", 1);
-                    editor.putString("Username", username);
-                    editor.putString("Password", password);
-                    editor.apply();
+                        Intent intent;
 
-                    SharedPreferences sp1 = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-                    String role_ = sp1.getString("Role", "not found");
+                        if (actor.getRole().equals("Administrator")){
+                            intent = new Intent(LoginActivity.this, AdministrationConferencesActivity.class);
+                        } else {
+                            intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        }
 
-                    try {
 
-                        Intent intentAux = getIntent();
-                        intentAux.getExtras().get("fromLogin").toString();
-                        startActivity(intent);
+                        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putString("Role", actor.getRole());
+                        editor.putString("Name", actor.getName() + " " + actor.getSurname());
+                        editor.putString("Id", actor.getId());
+                        editor.putString("UserAccountId", actor.getUserAccount());
+                        editor.putInt("logged", 1);
+                        editor.putString("Username", username);
+                        editor.putString("Password", password);
+                        editor.apply();
 
-                    } catch (NullPointerException n){
+                        SharedPreferences sp1 = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                        String role_ = sp1.getString("Role", "not found");
 
-                        if(auxOk || auxOk1) {
+                        try {
+
+                            Intent intentAux = getIntent();
+                            intentAux.getExtras().get("fromLogin").toString();
                             startActivity(intent);
 
-                        } else {
-                            try {
-                                if (!role_.equals("User")){
-                                    showAlertDialogButtonClicked();
-                                } else {
+                        } catch (NullPointerException n){
 
-                                    Intent intentN = getIntent();
-                                    String id = intentN.getExtras().get("idConference").toString();
-
-                                    if (actor.getConferences().contains(id)){
-                                        showAlertDialogButtonClicked1();
-                                    } else {
-                                        Intent intentConference = new Intent(LoginActivity.this, JoiningConferenceActivity.class);
-                                        intentConference.putExtra("idConference", id);
-                                        startActivity(intentConference);
-                                    }
-                                }
-
-                            } catch (Exception e) {
+                            if(auxOk || auxOk1) {
                                 startActivity(intent);
+
+                            } else {
+                                try {
+                                    if (!role_.equals("User") && !role_.equals("Administrator")){
+                                        showAlertDialogButtonClicked();
+                                    } else {
+
+                                        Intent intentN = getIntent();
+                                        String id = intentN.getExtras().get("idConference").toString();
+
+                                        if (actor.getConferences().contains(id)){
+                                            showAlertDialogButtonClicked1();
+                                        } else {
+                                            Intent intentConference = new Intent(LoginActivity.this, JoiningConferenceActivity.class);
+                                            intentConference.putExtra("idConference", id);
+                                            startActivity(intentConference);
+                                        }
+                                    }
+
+                                } catch (Exception e) {
+                                    startActivity(intent);
+                                }
                             }
                         }
                     }
@@ -215,6 +227,26 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 auxOk1 = true;
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void showAlertDialogButtonClicked2() {
+
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Attention!");
+        builder.setMessage("Your account has been banned. For more information contact congresy@gmail.com giving your account details.");
+
+        // add a button
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                auxOk = true;
             }
         });
 

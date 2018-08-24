@@ -73,8 +73,16 @@ public class IndexActivity extends AppCompatActivity {
 
             } catch (NullPointerException e){
 
-                Intent intent = new Intent(IndexActivity.this, HomeActivity.class);
-                startActivity(intent);
+                SharedPreferences sp1 = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                String role_ = sp1.getString("Role", "not found");
+
+                if (role_.equals("Administrator")) {
+                    Intent intent = new Intent(IndexActivity.this, AdministrationConferencesActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(IndexActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                }
 
             }
         }

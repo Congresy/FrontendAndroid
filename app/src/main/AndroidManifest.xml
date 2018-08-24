@@ -66,7 +66,9 @@
         <activity android:name=".AdministrationConferencesActivity" />
         <activity android:name=".AdministrationPostsActivity" />
         <activity android:name=".AdministrationCommentsActivity" />
-        <activity android:name=".AdministrationActorsActivity"></activity>
+        <activity android:name=".AdministrationActorsActivity" />
+        <activity android:name=".AdministrationBannedActorsActivity" />
+        <activity android:name=".AdministrationEventsActivity"></activity>
     </application>
 
 </manifest>
