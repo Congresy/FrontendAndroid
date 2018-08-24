@@ -30,11 +30,13 @@ public class CommentListAdministratorAdapter extends BaseAdapter implements List
     private UserService userService = ApiUtils.getUserService();
 
     private List<Comment> items;
+    private List<Comment> itemsAux;
     private Context context;
 
-    public CommentListAdministratorAdapter(Context context, List<Comment> items) {
+    public CommentListAdministratorAdapter(Context context, List<Comment> items, List<Comment> itemsAux) {
         this.context = context;
         this.items = items;
+        this.itemsAux = itemsAux;
     }
 
     @Override
@@ -123,6 +125,22 @@ public class CommentListAdministratorAdapter extends BaseAdapter implements List
                 Toast.makeText(context.getApplicationContext(), "Error! Please try again!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void filter(String charText) {
+        charText = charText.toLowerCase();
+        items.clear();
+
+        if (charText.length() == 0) {
+            items.addAll(itemsAux);
+        } else {
+            for (Comment c : itemsAux) {
+                if (c.getText().toLowerCase().contains(charText) || c.getTitle().toLowerCase().contains(charText)) {
+                    items.add(c);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     static class ViewHolder {

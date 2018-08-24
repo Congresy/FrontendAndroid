@@ -26,11 +26,13 @@ import retrofit2.Response;
 public class PostListAdministratorAdapter extends BaseAdapter implements ListAdapter{
 
     private List<Post> items;
+    private List<Post> itemsAux;
     private Context context;
 
-    public PostListAdministratorAdapter(Context context, List<Post> items) {
+    public PostListAdministratorAdapter(Context context, List<Post> items, List<Post> itemsAux) {
         this.context = context;
         this.items = items;
+        this.itemsAux = itemsAux;
     }
 
     @Override
@@ -112,6 +114,22 @@ public class PostListAdministratorAdapter extends BaseAdapter implements ListAda
                 Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void filter(String charText) {
+        charText = charText.toLowerCase();
+        items.clear();
+
+        if (charText.length() == 0) {
+            items.addAll(itemsAux);
+        } else {
+            for (Post p : itemsAux) {
+                if (p.getTitle().toLowerCase().contains(charText) || p.getBody().toLowerCase().contains(charText)) {
+                    items.add(p);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     static class ViewHolder {

@@ -15,6 +15,7 @@ import com.congresy.congresy.AdministrationConferencesActivity;
 import com.congresy.congresy.ProfileActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
+import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
 
@@ -27,11 +28,13 @@ import retrofit2.Response;
 public class ConferenceListAllAdministratorAdapter extends BaseAdapter implements ListAdapter {
 
     private List<Conference> items;
+    private List<Conference> itemsAux;
     private Context context;
 
-    public ConferenceListAllAdministratorAdapter(Context context, List<Conference> items) {
+    public ConferenceListAllAdministratorAdapter(Context context, List<Conference> items, List<Conference> itemsAux) {
         this.context = context;
         this.items = items;
+        this.itemsAux = itemsAux;
     }
 
     @Override
@@ -117,6 +120,22 @@ public class ConferenceListAllAdministratorAdapter extends BaseAdapter implement
                 Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void filter(String charText) {
+        charText = charText.toLowerCase();
+        items.clear();
+
+        if (charText.length() == 0) {
+            items.addAll(itemsAux);
+        } else {
+            for (Conference c : itemsAux) {
+                if (c.getName().toLowerCase().contains(charText) || c.getDescription().toLowerCase().contains(charText) || c.getSpeakersNames().toLowerCase().contains(charText) || c.getStart().contains(charText)) {
+                    items.add(c);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     static class ViewHolder {

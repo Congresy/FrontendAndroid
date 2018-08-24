@@ -29,12 +29,14 @@ public class ActorListBannedAdministratorAdapter extends BaseAdapter implements 
 
     private List<Actor> items;
     private Context context;
+    private List<Actor> itemsAux;
 
     public static List<Actor> speakers;
 
-    public ActorListBannedAdministratorAdapter(Context context, List<Actor> items) {
+    public ActorListBannedAdministratorAdapter(Context context, List<Actor> items, List<Actor> itemsAux) {
         this.context = context;
         this.items = items;
+        this.itemsAux = itemsAux;
     }
 
     @Override
@@ -86,7 +88,6 @@ public class ActorListBannedAdministratorAdapter extends BaseAdapter implements 
         return convertView;
     }
 
-
     private void unban(String idActor){
         Call call = userService.banActor(idActor, "unban");
         call.enqueue(new Callback() {
@@ -108,6 +109,21 @@ public class ActorListBannedAdministratorAdapter extends BaseAdapter implements 
         });
     }
 
+    public void filter(String charText) {
+        charText = charText.toLowerCase();
+        items.clear();
+
+        if (charText.length() == 0) {
+            items.addAll(itemsAux);
+        } else {
+            for (Actor a : itemsAux) {
+                if (a.getName().toLowerCase().contains(charText) || a.getSurname().toLowerCase().contains(charText) || a.getEmail().toLowerCase().contains(charText)) {
+                    items.add(a);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
 
     static class ViewHolder {
         TextView name;

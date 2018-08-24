@@ -26,12 +26,21 @@
             android:text="- Actors -"
             android:textAppearance="?android:attr/textAppearanceLarge"/>
 
+        <SearchView
+            android:id="@+id/search"
+            android:layout_below = "@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:iconifiedByDefault="false">
+        </SearchView>
+
+
         <ListView
             android:id="@+id/listView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_below="@id/title">
+            android:layout_below="@id/search">
         </ListView>
 
     </RelativeLayout>

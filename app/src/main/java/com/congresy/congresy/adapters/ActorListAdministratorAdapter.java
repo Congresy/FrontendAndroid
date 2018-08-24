@@ -29,12 +29,14 @@ public class ActorListAdministratorAdapter extends BaseAdapter implements ListAd
 
     private List<Actor> items;
     private Context context;
+    private List<Actor> itemsAux;
 
     public static List<Actor> speakers;
 
-    public ActorListAdministratorAdapter(Context context, List<Actor> items) {
+    public ActorListAdministratorAdapter(Context context, List<Actor> items, List<Actor> itemsAux) {
         this.context = context;
         this.items = items;
+        this.itemsAux = itemsAux;
     }
 
     @Override
@@ -106,6 +108,22 @@ public class ActorListAdministratorAdapter extends BaseAdapter implements ListAd
                 Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void filter(String charText) {
+        charText = charText.toLowerCase();
+        items.clear();
+
+        if (charText.length() == 0) {
+            items.addAll(itemsAux);
+        } else {
+            for (Actor a : itemsAux) {
+                if (a.getName().toLowerCase().contains(charText) || a.getSurname().toLowerCase().contains(charText) || a.getEmail().toLowerCase().contains(charText)) {
+                    items.add(a);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
 

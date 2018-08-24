@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.congresy.congresy.adapters.ConferenceListAllAdministratorAdapter;
@@ -12,19 +13,21 @@ import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AdministrationConferencesActivity extends BaseActivity {
+public class AdministrationConferencesActivity extends BaseActivity implements SearchView.OnQueryTextListener {
 
     private ConferenceListAllAdministratorAdapter adapter;
 
     UserService userService;
 
     ListView lv;
+    SearchView search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +38,11 @@ public class AdministrationConferencesActivity extends BaseActivity {
         userService = ApiUtils.getUserService();
 
         lv = findViewById(R.id.listView);
+        search = findViewById(R.id.search);
 
         loadAllConferences("date");
+
+        search.setOnQueryTextListener(this);
     }
 
     private void loadAllConferences(String order){
@@ -47,8 +53,9 @@ public class AdministrationConferencesActivity extends BaseActivity {
                 if(response.isSuccessful()){
 
                     final List<Conference> conferences = response.body();
+                    final List<Conference> aux = new ArrayList<>(conferences);
 
-                    adapter = new ConferenceListAllAdministratorAdapter(AdministrationConferencesActivity.this, conferences);
+                    adapter = new ConferenceListAllAdministratorAdapter(AdministrationConferencesActivity.this, conferences, aux);
 
                     final ListView lv = findViewById(R.id.listView);
                     lv.setAdapter(adapter);
@@ -74,5 +81,17 @@ public class AdministrationConferencesActivity extends BaseActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        adapter.filter(newText);
+        return false;
     }
 }
