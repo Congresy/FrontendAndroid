@@ -63,10 +63,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = edtUsername.getText().toString();
                 String password = edtPassword.getText().toString();
-                //validate form
+
                 if(validateLogin(username, password)){
-                    //do login
                     doLogin(username, password);
+                } else {
+                    edtUsername.requestFocus();
                 }
             }
         });
@@ -109,9 +110,6 @@ public class LoginActivity extends AppCompatActivity {
 
         if (checkString("blank", password, edtPassword, null))
             aux++;
-
-        if (aux != 0)
-            edtUsername.requestFocus();
 
         return aux == 0;
     }

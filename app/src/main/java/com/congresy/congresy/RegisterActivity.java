@@ -145,8 +145,11 @@ public class RegisterActivity extends AppCompatActivity {
                 jsonPlace.addProperty("postalCode", postalCode);
                 jsonPlace.addProperty("details", details);
 
-                if (validate(name, surname, email, emailConfirm, phone, photo, town, country, address, postalCode, details, password, passwordConfirm))
-                        doRegister(json, jsonPlace);
+                if (validate(name, surname, email, emailConfirm, phone, photo, town, country, address, postalCode, details, password, passwordConfirm)) {
+                    doRegister(json, jsonPlace);
+                } else {
+                    edtUsername.requestFocus();
+                }
 
             }
         });
@@ -199,9 +202,6 @@ public class RegisterActivity extends AppCompatActivity {
                 aux++;
             }
         }
-
-        if (aux != 0)
-            edtUsername.requestFocus();
 
         return aux == 0;
     }

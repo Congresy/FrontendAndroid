@@ -45,6 +45,9 @@ public interface UserService {
     @GET("conferences/detailed")
     Call<List<Conference>> getAllConferencesDetailedOrderBy(@Query("order") String order);
 
+    @GET("conferences")
+    Call<List<Conference>> getAllConferences();
+
     @GET("actors/role/User")
     Call<List<Actor>> getAllUsers();
 

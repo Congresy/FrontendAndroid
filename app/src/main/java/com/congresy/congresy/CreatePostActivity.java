@@ -97,9 +97,6 @@ public class CreatePostActivity extends BaseActivity {
         if(checkString("both", body, bodyE, 200))
             aux++;
 
-        if (aux != 0)
-            titleE.requestFocus();
-
         return aux == 0;
     }
 
@@ -182,6 +179,8 @@ public class CreatePostActivity extends BaseActivity {
             public void onClick(DialogInterface dialog, int which) {
                 if (validate(json.get("title").getAsString(), json.get("body").getAsString())){
                     publishPost(json);
+                } else {
+                    titleE.requestFocus();
                 }
             }
         });
@@ -191,6 +190,8 @@ public class CreatePostActivity extends BaseActivity {
             public void onClick(DialogInterface dialog, int which) {
                 if (validate(json.get("title").getAsString(), json.get("body").getAsString())){
                     savePost(json);
+                } else {
+                    titleE.requestFocus();
                 }
             }
         });

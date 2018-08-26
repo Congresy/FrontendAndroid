@@ -105,6 +105,8 @@ public class CreateAnnouncementActivity extends BaseActivity {
 
                 if (validate(picture, title, description)){
                     createAnnouncement(json);
+                } else {
+                    pictureE.requestFocus();
                 }
 
             }
@@ -136,9 +138,6 @@ public class CreateAnnouncementActivity extends BaseActivity {
 
         if(checkString("both", url, titleE, 20))
             aux++;
-
-        if (aux != 0)
-            pictureE.requestFocus();
 
         return aux == 0;
     }

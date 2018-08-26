@@ -108,6 +108,8 @@ public class CreateMessageActivity extends BaseActivity {
                         } else if (comeFrom.equals("reply")) {
                             reply(json);
                         }
+                    } else {
+                        subjectT.requestFocus();
                     }
                 }
             });
@@ -122,9 +124,6 @@ public class CreateMessageActivity extends BaseActivity {
 
         if(checkString("both", body, bodyT, 80))
             aux++;
-
-        if (aux != 0)
-            subjectT.requestFocus();
 
         return aux == 0;
     }

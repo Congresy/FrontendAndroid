@@ -184,6 +184,8 @@ public class CreateConferenceActivity extends BaseActivity {
                         } else {
                             if(validate(name, price, start, end, description, allowedParticipants, town, country, address, postalCode, details)){
                                 doConference(json, jsonPlace);
+                            } else {
+                                edtName.requestFocus();
                             }
                         }
                     } catch (Exception e){
@@ -222,9 +224,6 @@ public class CreateConferenceActivity extends BaseActivity {
 
         if(checkString("both", details, edtDetails, 20))
             aux++;
-
-        if (aux != 0)
-            edtName.requestFocus();
 
         return aux == 0;
     }

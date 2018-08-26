@@ -79,8 +79,11 @@ public class EditSocialNetworkActivity extends BaseActivity {
                 json.addProperty("name", nameS);
                 json.addProperty("url", url);
 
-                if (validate(url))
+                if (validate(url)) {
                     editSocialNetwork(json);
+                } else {
+                    edtUrl.requestFocus();
+                }
             }
         });
     }
@@ -88,9 +91,6 @@ public class EditSocialNetworkActivity extends BaseActivity {
     private boolean validate(String url){
         if(checkString("blank", url, edtUrl, null) || checkUrl(url, edtUrl))
             aux++;
-
-        if (aux != 0)
-            edtUrl.requestFocus();
 
         return aux == 0;
     }

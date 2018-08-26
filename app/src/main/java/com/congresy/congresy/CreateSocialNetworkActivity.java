@@ -72,6 +72,8 @@ public class CreateSocialNetworkActivity extends BaseActivity {
 
                 if (validate(url)){
                     createSocialNetwork(json);
+                } else {
+                    edtUrl.requestFocus();
                 }
             }
         });
@@ -80,9 +82,6 @@ public class CreateSocialNetworkActivity extends BaseActivity {
     private boolean validate(String url){
         if(checkString("blank", url, edtUrl, null) || checkUrl(url, edtUrl))
             aux++;
-
-        if (aux != 0)
-            edtUrl.requestFocus();
 
         return aux == 0;
     }

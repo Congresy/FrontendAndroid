@@ -91,6 +91,9 @@ public class JoiningConferenceActivity extends BaseActivity {
 
         llHolder = findViewById(R.id.llHolder);
         btnPay = findViewById(R.id.btnPay);
+
+        btnPay.setText("Pay and Join - " + amount + " euros");
+
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,40 +153,19 @@ public class JoiningConferenceActivity extends BaseActivity {
         return res;
     }
 
+
     private void loadEvents(){
-        Call<Actor> call = userService.getActorByUsername(username);
-        call.enqueue(new Callback<Actor>() {
-            @Override
-            public void onResponse(Call<Actor> call, Response<Actor> response) {
-                if(response.isSuccessful()){
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
 
-                    Actor actor = response.body();
-
-                    executeEvents(actor.getId());
-
-                } else {
-                    Toast.makeText(JoiningConferenceActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Actor> call, Throwable t) {
-                Toast.makeText(JoiningConferenceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void executeEvents(String idActor){
         Intent myIntent = getIntent();
         final String idConference = myIntent.getExtras().get("idConference").toString();
 
-        Call<List<Event>> call = userService.getConferenceEventsUser(idConference, idActor);
+        Call<List<Event>> call = userService.getConferenceEventsUser(idConference, sp.getString("Id", "not found"));
         call.enqueue(new Callback<List<Event>>() {
             @Override
             public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
                 if(response.isSuccessful()){
 
-                    List<Event> aux = new ArrayList<>();
                     eventsList = response.body();
 
                     if(checkDates(eventsList) && !auxOK){
@@ -195,6 +177,8 @@ public class JoiningConferenceActivity extends BaseActivity {
                                 join();
                             }
                         });
+                    } else if (!checkDates(eventsList) && !auxOK){
+                        join();
                     } else if (auxOK){
                         join();
                     }
@@ -250,34 +234,13 @@ public class JoiningConferenceActivity extends BaseActivity {
     }
 
     private void join(){
-        Call<Actor> call = userService.getActorByUsername(username);
-        call.enqueue(new Callback<Actor>() {
-            @Override
-            public void onResponse(Call<Actor> call, Response<Actor> response) {
-                if(response.isSuccessful()){
 
-                    Actor actor = response.body();
-
-                    execute(actor.getId());
-
-                } else {
-                    Toast.makeText(JoiningConferenceActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Actor> call, Throwable t) {
-                Toast.makeText(JoiningConferenceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void execute(String idActor){
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
 
         Intent myIntent = getIntent();
         final String idConference = myIntent.getExtras().get("idConference").toString();
         
-        Call call = userService.addParticipant(idConference, idActor);
+        Call call = userService.addParticipant(idConference, sp.getString("Id", "not found"));
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {

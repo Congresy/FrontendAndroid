@@ -240,7 +240,7 @@ public class IndexActivity extends AppCompatActivity {
     }
 
     private void loadData(){
-        Call<List<Conference>> call = userService.getAllConferencesDetailedOrderBy("date");
+        Call<List<Conference>> call = userService.getAllConferences();
         call.enqueue(new Callback<List<Conference>>() {
             @Override
             public void onResponse(Call<List<Conference>> call, Response<List<Conference>> response) {

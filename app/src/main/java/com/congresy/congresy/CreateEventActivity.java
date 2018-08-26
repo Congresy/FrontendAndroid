@@ -189,6 +189,8 @@ public class CreateEventActivity extends BaseActivity {
                 if (name.equals("") || allw.equals("") || description.equals("") || town.equals("") || country.equals("") || address.equals("") || postalCode.equals("") || details.equals("")){
                     if (validate(name, description, allw, town, country, address, postalCode, details)){
                         createEvent(json, jsonPlace);
+                    } else {
+                        edtName.requestFocus();
                     }
                 } else {
                     try {
@@ -197,6 +199,8 @@ public class CreateEventActivity extends BaseActivity {
                         } else {
                             if (validate(name, description, allw, town, country, address, postalCode, details)){
                                 createEvent(json, jsonPlace);
+                            } else {
+                                edtName.requestFocus();
                             }
                         }
                     } catch (Exception e){
@@ -231,9 +235,6 @@ public class CreateEventActivity extends BaseActivity {
 
         if(checkString("both", details, edtDetails, 20))
             aux++;
-
-        if (aux != 0)
-            edtName.requestFocus();
 
         return aux == 0;
     }

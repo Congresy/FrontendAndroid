@@ -131,8 +131,11 @@ public class EditProfileActivity extends BaseActivity {
                         showAlertDialogButtonClicked("password");
                     }
                 } else {
-                    if (validate(name, surname, email, phone, photo, town, country, address, postalCode, details, password, passwordConfirm))
+                    if (validate(name, surname, email, phone, photo, town, country, address, postalCode, details, password, passwordConfirm)) {
                         editProfile(json, jsonPlace);
+                    } else {
+                        edtPassword.requestFocus();
+                    }
                 }
 
 
@@ -187,9 +190,6 @@ public class EditProfileActivity extends BaseActivity {
                 aux++;
             }
         }
-
-        if (aux != 0)
-            edtPassword.requestFocus();
 
         return aux == 0;
 

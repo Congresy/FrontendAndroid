@@ -94,7 +94,7 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
             }
         });
 
-        holder.name.setText(items.get(position).getName() + "\n" +  items.get(position).getStart() + " - " + items.get(position).getEnd());
+        holder.name.setText(items.get(position).getName() + " - " + String.valueOf(items.get(position).getSeatsLeft()) + "\n" +  items.get(position).getStart() + " - " + items.get(position).getEnd());
 
         return convertView;
     }

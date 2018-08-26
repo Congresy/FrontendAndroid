@@ -73,6 +73,8 @@ public class CreateCommentActivity extends BaseActivity {
                     } else {
                         createComment(json);
                     }
+                } else {
+                    titleE.requestFocus();
                 }
 
             }
@@ -87,9 +89,6 @@ public class CreateCommentActivity extends BaseActivity {
 
         if(checkString("both", body, bodyE, 100))
             aux++;
-
-        if (aux != 0)
-            titleE.requestFocus();
 
         return aux == 0;
     }

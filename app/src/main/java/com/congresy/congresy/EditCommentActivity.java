@@ -56,6 +56,8 @@ public class EditCommentActivity extends BaseActivity {
 
                 if (validate(title, body)){
                     editComment(json);
+                } else {
+                    titleE.requestFocus();
                 }
             }
         });
@@ -69,9 +71,6 @@ public class EditCommentActivity extends BaseActivity {
 
         if(checkString("both", body, bodyE, 100))
             aux++;
-
-        if (aux != 0)
-            titleE.requestFocus();
 
         return aux == 0;
     }

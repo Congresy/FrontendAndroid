@@ -163,6 +163,8 @@ public class EditConferenceActivity extends BaseActivity {
                 if (name.equals("") || price.equals("") || description.equals("") || town.equals("") || country.equals("") || address.equals("") || postalCode.equals("") || details.equals("")){
                     if(validate(name, price, start, end, description, town, country, address, postalCode, details)){
                         editConference(json, jsonPlace);
+                    } else {
+                        edtName.requestFocus();
                     }
                 } else {
                     try {
@@ -171,6 +173,8 @@ public class EditConferenceActivity extends BaseActivity {
                         } else {
                             if(validate(name, price, start, end, description, town, country, address, postalCode, details)){
                                 editConference(json, jsonPlace);
+                            } else {
+                                edtName.requestFocus();
                             }
                         }
                     } catch (Exception e){
@@ -227,9 +231,6 @@ public class EditConferenceActivity extends BaseActivity {
 
         if(checkString("both", details, edtDetails, 20))
             aux++;
-
-        if (aux != 0)
-            edtName.requestFocus();
 
         return aux == 0;
     }
