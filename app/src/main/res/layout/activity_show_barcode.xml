@@ -11,42 +11,107 @@
         android:layout_gravity="left|start"
         android:background="#ffeeeeee"/>
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <com.santalu.ticketview.TicketView
+        android:id="@+id/ticket_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        tools:context="com.example.theseus.qrcode.MainActivityFragment">
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@color/white"
+        android:padding="16dp"
+        tv_anchor="@+id/conferenceName"
+        tv_holeRadius="60"
+        tv_orientation="vertical">
+
+        <TextView
+            android:id="@+id/nameActor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textAppearance="?android:textAppearanceLarge"/>
+
+        <TextView
+            android:id="@+id/dateAndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nameActor"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:textAppearance="?android:textAppearanceMedium"/>
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dateAndTime"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:textAppearance="?android:textAppearanceMedium"/>
+
+        <TextView
+            android:id="@+id/countryAndCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/price"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:textAppearance="?android:textAppearanceMedium"/>
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/countryAndCity"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:textAppearance="?android:textAppearanceMedium"/>
+
+        <TextView
+            android:id="@+id/details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/address"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:textAppearance="?android:textAppearanceMedium"/>
+
+        <TextView
+            android:id="@+id/conferenceName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/details"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:textAppearance="?android:textAppearanceLarge" />
+
+        <View style="@style/Divider"
+            android:id="@+id/divider"
+            android:layout_below="@id/conferenceName"
+            android:layout_marginTop="22dp"/>
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="QR Code" />
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:layout_below="@+id/divider"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="QR Code"
+            android:textAppearance="?android:textAppearanceLarge"/>
+
+        <View style="@style/Divider"
+            android:id="@+id/divider1"
+            android:layout_below="@id/image"/>
 
         <TextView
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/title"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="This is your conference's unique QR code"
-            />
+            android:layout_below="@+id/divider1"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_marginTop="22dp"
+            android:text="Congresy Ticket - Valid for the conference and only for those events that you are in"
+            android:textAppearance="?android:textAppearanceSmall" />
 
-        <TextView
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/title2"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Don't forget to bring it with you!"
-            />
+    </com.santalu.ticketview.TicketView>
 
-    </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

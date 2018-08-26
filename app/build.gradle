@@ -10,7 +10,7 @@ android {
     useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.congresy.congresy"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -68,4 +68,8 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
 
     implementation 'com.github.prolificinteractive:material-calendarview:1.6.0'
+
+    implementation 'com.github.mreram:ticketview:1.0.0'
+
+    implementation 'com.github.santalu:ticket-view:1.0.2'
 }

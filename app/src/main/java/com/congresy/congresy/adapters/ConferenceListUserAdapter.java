@@ -1,5 +1,6 @@
 package com.congresy.congresy.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -9,17 +10,24 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.congresy.congresy.ProfileActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowBarcodeActivity;
 import com.congresy.congresy.ShowConferenceActivity;
 import com.congresy.congresy.ShowEventsOfConferenceAuxActivity;
+import com.congresy.congresy.domain.Comment;
 import com.congresy.congresy.domain.Conference;
+import com.congresy.congresy.domain.Place;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapter {
 
@@ -106,13 +114,61 @@ public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapte
         holder.ticket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(context, ShowBarcodeActivity.class);
-                myIntent.putExtra("idConference", items.get(position).getId());
-                context.startActivity(myIntent);
+                loadData(items.get(position).getId());
             }
         });
 
         return convertView;
+
+    }
+
+    private void loadData(final String idConference){
+        Call<Conference> call = userService.getConference(idConference);
+        call.enqueue(new Callback<Conference>() {
+            @Override
+            public void onResponse(Call<Conference> call, Response<Conference> response) {
+
+                Conference con = response.body();
+
+                loadPlace(con.getPlace(),con.getName(),con.getStart(), con.getEnd(),String.valueOf(con.getPrice()), idConference);
+
+            }
+
+            @Override
+            public void onFailure(Call<Conference> call, Throwable t) {
+                Toast.makeText(context, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+
+    private void loadPlace(String idPlace, final String name, final String start, final String end, final String price, final String idConference){
+        Call<Place> call = userService.getPlace(idPlace);
+        call.enqueue(new Callback<Place>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(Call<Place> call, Response<Place> response) {
+
+                Place p = response.body();
+
+                Intent myIntent = new Intent(context, ShowBarcodeActivity.class);
+                myIntent.putExtra("idConference", idConference);
+                myIntent.putExtra("nameConference", name);
+                myIntent.putExtra("date", start + " - " + end);
+                myIntent.putExtra("price", price);
+                myIntent.putExtra("countryAndCity", p.getPostalCode() + " - " + p.getTown()  + ", " + p.getCountry());
+                myIntent.putExtra("address",  p.getAddress());
+                myIntent.putExtra("details",  p.getDetails());
+                context.startActivity(myIntent);
+
+            }
+
+            @Override
+            public void onFailure(Call<Place> call, Throwable t) {
+                Toast.makeText(context, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
