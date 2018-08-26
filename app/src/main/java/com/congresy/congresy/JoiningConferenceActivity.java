@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -34,6 +35,11 @@ import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Event;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import org.joda.time.Interval;
 import org.joda.time.LocalDateTime;
@@ -383,7 +389,6 @@ public class JoiningConferenceActivity extends BaseActivity {
             client.get(get_token, new HttpResponseCallback() {
                 @Override
                 public void success(final String responseBody) {
-                    Log.d("mylog", responseBody);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

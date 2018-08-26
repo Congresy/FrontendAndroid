@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.congresy.congresy.ProfileActivity;
 import com.congresy.congresy.R;
+import com.congresy.congresy.ShowBarcodeActivity;
 import com.congresy.congresy.ShowConferenceActivity;
 import com.congresy.congresy.ShowEventsOfConferenceAuxActivity;
 import com.congresy.congresy.domain.Conference;
@@ -59,11 +60,12 @@ public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapte
 
             holder = new ViewHolder();
 
-            convertView = inflater.inflate(R.layout.conference_list_user, null);
+            convertView = inflater.inflate(R.layout.conference_list_user_own, null);
             holder.name = convertView.findViewById(R.id.name);
             holder.events = convertView.findViewById(R.id.btnShowEvents);
             holder.join = convertView.findViewById(R.id.btnJoin);
             holder.organizator = convertView.findViewById(R.id.organizator);
+            holder.ticket = convertView.findViewById(R.id.ticket);
 
             convertView.setTag(holder);
         } else {
@@ -101,6 +103,15 @@ public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapte
             }
         });
 
+        holder.ticket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(context, ShowBarcodeActivity.class);
+                myIntent.putExtra("idConference", items.get(position).getId());
+                context.startActivity(myIntent);
+            }
+        });
+
         return convertView;
 
     }
@@ -110,5 +121,6 @@ public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapte
         Button events;
         Button join;
         Button organizator;
+        Button ticket;
     }
 }

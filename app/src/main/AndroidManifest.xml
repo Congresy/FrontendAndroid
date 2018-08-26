@@ -14,6 +14,7 @@
         <activity android:name=".IndexActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -67,18 +68,19 @@
         <activity android:name=".AdministrationCommentsActivity" />
         <activity android:name=".AdministrationActorsActivity" />
         <activity android:name=".AdministrationBannedActorsActivity" />
-
-        <activity android:name="com.braintreepayments.api.BraintreeBrowserSwitchActivity"
+        <activity
+            android:name="com.braintreepayments.api.BraintreeBrowserSwitchActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="com.congresy.congresy.braintree" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".ShowBarcodeActivity"></activity>
     </application>
-
 
 </manifest>

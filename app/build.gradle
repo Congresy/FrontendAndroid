@@ -63,4 +63,7 @@ dependencies {
 
     implementation 'com.braintreepayments.api:drop-in:3.5.1'
     implementation 'com.android.volley:volley:1.1.0'
+
+    implementation 'com.google.zxing:core:3.2.1'
+    implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
 }
