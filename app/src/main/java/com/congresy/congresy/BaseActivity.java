@@ -70,6 +70,7 @@ public class BaseActivity extends AppCompatActivity {
             osArray.add("Conferences");
             osArray.add("Posts");
             osArray.add("Comments");
+            osArray.add("My calendar");
         }
 
         if(role.equals("User")){
@@ -81,6 +82,7 @@ public class BaseActivity extends AppCompatActivity {
             osArray.add("My events");
             osArray.add("Forum");
             osArray.add("Folders");
+            osArray.add("My calendar");
         }
 
         if(role.equals("Organizator")){
@@ -90,6 +92,7 @@ public class BaseActivity extends AppCompatActivity {
             osArray.add("Create conference");
             osArray.add("Forum");
             osArray.add("Folders");
+            osArray.add("My calendar");
         }
 
         ArrayAdapter<String> mAdapter = new ArrayAdapter<>(BaseActivity.this, android.R.layout.simple_list_item_1, osArray);
@@ -114,6 +117,9 @@ public class BaseActivity extends AppCompatActivity {
                         startActivity(intent);
                     }  else if (position == 4) {
                         Intent intent = new Intent(BaseActivity.this, AdministrationCommentsActivity.class);
+                        startActivity(intent);
+                    } else if (position == 5) {
+                        Intent intent = new Intent(BaseActivity.this, ShowCalendarActivity.class);
                         startActivity(intent);
                     }
                 }
@@ -148,6 +154,9 @@ public class BaseActivity extends AppCompatActivity {
                     } else if (position == 7) {
                         Intent intent = new Intent(BaseActivity.this, ShowMyFoldersActivity.class);
                         startActivity(intent);
+                    } else if (position == 8) {
+                        Intent intent = new Intent(BaseActivity.this, ShowCalendarActivity.class);
+                        startActivity(intent);
                     }
                 }
             });
@@ -174,6 +183,9 @@ public class BaseActivity extends AppCompatActivity {
                         startActivity(intent);
                     } else if (position == 5) {
                         Intent intent = new Intent(BaseActivity.this, ShowMyFoldersActivity.class);
+                        startActivity(intent);
+                    } else if (position == 6) {
+                        Intent intent = new Intent(BaseActivity.this, ShowCalendarActivity.class);
                         startActivity(intent);
                     }
                 }
@@ -361,7 +373,7 @@ public class BaseActivity extends AppCompatActivity {
         return false;
     }
 
-    private Date parseDate(String date){
+    public Date parseDate(String date){
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "ES"));
         try {
             Date res = format.parse(date);
@@ -373,7 +385,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    private Date parseTime(String date){
+    public Date parseTime(String date){
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm", new Locale("es", "ES"));
         try {
             Date res = format.parse(date);

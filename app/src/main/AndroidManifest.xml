@@ -80,7 +80,8 @@
                 <data android:scheme="com.congresy.congresy.braintree" />
             </intent-filter>
         </activity>
-        <activity android:name=".ShowBarcodeActivity"></activity>
+        <activity android:name=".ShowBarcodeActivity" />
+        <activity android:name=".ShowCalendarActivity"/>
     </application>
 
 </manifest>
