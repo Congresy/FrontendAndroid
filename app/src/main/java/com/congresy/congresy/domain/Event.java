@@ -42,9 +42,6 @@ public class Event {
     @SerializedName("start")
     @Expose
     private String start;
-    @SerializedName("type")
-    @Expose
-    private String type;
 
     public Integer getSeatsLeft() {
         return seatsLeft;
@@ -140,14 +137,6 @@ public class Event {
 
     public void setStart(String start) {
         this.start = start;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     @Override

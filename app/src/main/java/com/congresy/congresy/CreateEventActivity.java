@@ -2,8 +2,10 @@ package com.congresy.congresy;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -29,7 +31,6 @@ public class CreateEventActivity extends BaseActivity {
     UserService userService;
 
     EditText edtName;
-    EditText edtType;
     EditText edtDescription;
     EditText edtStart;
     EditText edtEnd;
@@ -57,7 +58,6 @@ public class CreateEventActivity extends BaseActivity {
         btnCreate = findViewById(R.id.btnCreate);
 
         edtName = findViewById(R.id.edtName);
-        edtType = findViewById(R.id.edtType);
         s = findViewById(R.id.spinner);
         edtStart = findViewById(R.id.edtStart);
         edtEnd = findViewById(R.id.edtEnd);
@@ -80,7 +80,7 @@ public class CreateEventActivity extends BaseActivity {
                 "Social Event", "Workshop", "Ordinary", "Invitation"
         };
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, arraySpinner);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         s.setAdapter(adapter);
@@ -146,7 +146,6 @@ public class CreateEventActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 String name = edtName.getText().toString();
-                String type = edtType.getText().toString();
                 String start = edtStart.getText().toString();
                 String end = edtEnd.getText().toString();
                 String startTime = edtStartTime.getText().toString();
@@ -167,7 +166,6 @@ public class CreateEventActivity extends BaseActivity {
                 String role = s.getSelectedItem().toString();
 
                 json.addProperty("name", name);
-                json.addProperty("type", type);
                 json.addProperty("start", start + " " + startTime);
                 json.addProperty("end", end + " " + endTime);
                 json.addProperty("role", role);
@@ -188,24 +186,29 @@ public class CreateEventActivity extends BaseActivity {
 
                 json.addProperty("conference", idConference);
 
-                if (validate(name, type, start, end, startTime, endTime, description, allw, town, country, address, postalCode, details)){
-                    createEvent(json, jsonPlace);
+                if (name.equals("") || allw.equals("") || description.equals("") || town.equals("") || country.equals("") || address.equals("") || postalCode.equals("") || details.equals("")){
+                    if (validate(name, description, allw, town, country, address, postalCode, details)){
+                        createEvent(json, jsonPlace);
+                    }
+                } else {
+                    try {
+                        if (checkDateTime(start + " " + startTime, end + " " + endTime)) {
+                            showAlertDialogButtonClicked();
+                        } else {
+                            if (validate(name, description, allw, town, country, address, postalCode, details)){
+                                createEvent(json, jsonPlace);
+                            }
+                        }
+                    } catch (Exception e){
+                        showAlertDialogButtonClicked();
+                    }
                 }
             }
         });
     }
 
-    private boolean validate(String name, String type, String start, String end, String startTime, String endTime, String description, String allowedParticipants, String town, String country, String address, String postalCode, String details){
+    private boolean validate(String name, String description, String allowedParticipants, String town, String country, String address, String postalCode, String details){
         if(checkString("both", name, edtName, 20))
-            aux++;
-
-        if (checkString("blank", start, edtStart, null) || checkDate(start, end, edtStart, edtEnd))
-            aux++;
-
-        if (checkString("blank", startTime, edtStartTime, null) || checkTime(startTime, endTime, edtStartTime, edtEndTime))
-            aux++;
-
-        if(checkString("blank", end, edtEnd, null))
             aux++;
 
         if(checkString("both", description, edtDescription, 80))
@@ -229,13 +232,29 @@ public class CreateEventActivity extends BaseActivity {
         if(checkString("both", details, edtDetails, 20))
             aux++;
 
-        if(checkString("both", type, edtType, 20))
-            aux++;
-
         if (aux != 0)
             edtName.requestFocus();
 
         return aux == 0;
+    }
+
+    public void showAlertDialogButtonClicked() {
+
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Attention!");
+        builder.setMessage("Dates are incorrect or are blank. Re-enter them and check that the start date is not today and that the start date and time are not after (and are not the same) that the end date and time.");
+
+        // add a button
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void createPlace(final JsonObject jsonPlace, String idPlace, final String idConference){

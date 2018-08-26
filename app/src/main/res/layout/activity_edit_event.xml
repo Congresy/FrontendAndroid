@@ -60,25 +60,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Type: "
-                android:layout_below = "@+id/edtName"
-                android:id="@+id/edtTypeT"
-                />
-
-            <EditText
-                android:id="@+id/edtType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below = "@+id/edtTypeT"
-                android:hint="Talk with real examples"
-                android:inputType="text"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="Description: "
-                android:layout_below = "@+id/edtType"
+                android:layout_below = "@+id/edtName"
                 android:id="@+id/edtRequirementsT"
                 />
 
@@ -251,7 +234,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtPostalCodeT"
                 android:hint="41590"
-                android:inputType="number"
+                android:inputType="text"
                 />
 
             <TextView

@@ -249,7 +249,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtPostalCodeT"
                 android:hint="41590"
-                android:inputType="number"
+                android:inputType="text"
                 />
 
             <TextView

@@ -107,6 +107,7 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
             public void onClick(View v) {
                 Intent intent = new Intent(context, JoiningConferenceActivity.class);
                 intent.putExtra("idConference", items.get(position).getId());
+                intent.putExtra("price", items.get(position).getPrice());
                 context.startActivity(intent);
             }
         });

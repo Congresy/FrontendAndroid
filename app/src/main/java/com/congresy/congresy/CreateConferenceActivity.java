@@ -2,9 +2,11 @@ package com.congresy.congresy;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -171,10 +173,24 @@ public class CreateConferenceActivity extends BaseActivity {
                 jsonPlace.addProperty("postalCode", postalCode);
                 jsonPlace.addProperty("details", details);
 
-                //validate form
-                if(validate(name, price, start, end, description, allowedParticipants, town, country, address, postalCode, details)){
-                    doConference(json, jsonPlace);
+                if (name.equals("") || price.equals("") || description.equals("") || town.equals("") || country.equals("") || address.equals("") || postalCode.equals("") || details.equals("")){
+                    if(validate(name, price, start, end, description, allowedParticipants, town, country, address, postalCode, details)){
+                        doConference(json, jsonPlace);
+                    }
+                } else {
+                    try {
+                        if (checkDate(start, end)) {
+                            showAlertDialogButtonClicked();
+                        } else {
+                            if(validate(name, price, start, end, description, allowedParticipants, town, country, address, postalCode, details)){
+                                doConference(json, jsonPlace);
+                            }
+                        }
+                    } catch (Exception e){
+                        showAlertDialogButtonClicked();
+                    }
                 }
+
             }
         });
     }
@@ -184,12 +200,6 @@ public class CreateConferenceActivity extends BaseActivity {
             aux++;
 
         if(checkDouble("both", price, edtPrice))
-            aux++;
-
-        if(checkString("blank", start, edtStart, null) || checkDate(start, end, edtStart, edtEnd))
-            aux++;
-
-        if(checkString("blank", end, edtEnd, null))
             aux++;
 
         if(checkString("both", description, edtDescription, 80))
@@ -218,6 +228,26 @@ public class CreateConferenceActivity extends BaseActivity {
 
         return aux == 0;
     }
+
+    public void showAlertDialogButtonClicked() {
+
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Attention!");
+        builder.setMessage("Dates are incorrect or are blank. Re-enter them and check that the start date is not today and that the start date and time are not after (and are not the same) that the end date and time.");
+
+        // add a button
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 
     private void doConference(final JsonObject json, final JsonObject jsonPlace){
         Call<Conference> call = userService.createConference(json);

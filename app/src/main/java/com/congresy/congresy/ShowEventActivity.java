@@ -90,7 +90,6 @@ public class ShowEventActivity extends BaseActivity {
                 Event event = response.body();
 
                 edtName.setText("Name: " + event.getName());
-                edtType.setText("Type: " + event.getType());
                 edtRole.setText("Role: " + event.getRole());
                 edtStart.setText("Start time: " + event.getStart());
                 edtEnd.setText("End time: " + event.getEnd());

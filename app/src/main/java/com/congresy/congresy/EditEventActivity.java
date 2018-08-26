@@ -2,8 +2,10 @@ package com.congresy.congresy;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,7 +31,6 @@ public class EditEventActivity extends BaseActivity {
     UserService userService;
 
     EditText edtName;
-    EditText edtType;
     EditText edtDescription;
     EditText edtStart;
     EditText edtEnd;
@@ -56,7 +57,6 @@ public class EditEventActivity extends BaseActivity {
         btnEdit = findViewById(R.id.btnEdit);
 
         edtName = findViewById(R.id.edtName);
-        edtType = findViewById(R.id.edtType);
         edtRole = findViewById(R.id.spinner);
         edtStart = findViewById(R.id.edtStart);
         edtEnd = findViewById(R.id.edtEnd);
@@ -157,7 +157,6 @@ public class EditEventActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 String name = edtName.getText().toString();
-                String type = edtType.getText().toString();
                 String role = edtRole.getSelectedItem().toString();
                 String start = edtStart.getText().toString();
                 String end = edtEnd.getText().toString();
@@ -176,7 +175,6 @@ public class EditEventActivity extends BaseActivity {
                 JsonObject json = new JsonObject();
 
                 json.addProperty("name", name);
-                json.addProperty("type", type);
                 json.addProperty("start", start);
                 json.addProperty("end", end);
                 json.addProperty("start", start + " " + startTime);
@@ -191,24 +189,30 @@ public class EditEventActivity extends BaseActivity {
                 jsonPlace.addProperty("postalCode", postalCode);
                 jsonPlace.addProperty("details", details);
 
-                if (validate(name, type, start, end, startTime, endTime, description, town, country, address, postalCode, details))
-                    editEvent(json, jsonPlace);
+                if (name.equals("") || description.equals("") || town.equals("") || country.equals("") || address.equals("") || postalCode.equals("") || details.equals("")){
+                    if (validate(name, description, town, country, address, postalCode, details)){
+                        editEvent(json, jsonPlace);
+                    }
+                } else {
+                    try {
+                        if (checkDateTime(start + " " + startTime, end + " " + endTime)) {
+                            showAlertDialogButtonClicked();
+                        } else {
+                            if (validate(name, description, town, country, address, postalCode, details)){
+                                editEvent(json, jsonPlace);
+                            }
+                        }
+                    } catch (Exception e){
+                        showAlertDialogButtonClicked();
+                    }
+                }
 
             }
         });
     }
 
-    private boolean validate(String name, String type, String start, String end, String startTime, String endTime, String description, String town, String country, String address, String postalCode, String details){
+    private boolean validate(String name, String description, String town, String country, String address, String postalCode, String details){
         if(checkString("both", name, edtName, 20))
-            aux++;
-
-        if (checkString("blank", start, edtStart, null) || checkDate(start, end, edtStart, edtEnd))
-            aux++;
-
-        if (checkString("blank", startTime, edtStartTime, null) || checkTime(startTime, endTime, edtStartTime, edtEndTime))
-            aux++;
-
-        if(checkString("blank", end, edtEnd, null))
             aux++;
 
         if(checkString("both", description, edtDescription, 80))
@@ -229,13 +233,29 @@ public class EditEventActivity extends BaseActivity {
         if(checkString("both", details, edtDetails, 20))
             aux++;
 
-        if(checkString("both", type, edtType, 20))
-            aux++;
-
         if (aux != 0)
             edtName.requestFocus();
 
         return aux == 0;
+    }
+
+    public void showAlertDialogButtonClicked() {
+
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Attention!");
+        builder.setMessage("Dates are incorrect or are blank. Re-enter them and check that the start date is not today and that the start date and time are not after (and are not the same) that the end date and time.");
+
+        // add a button
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void editPlace(final JsonObject jsonPlace, String id, final String idConference){
@@ -318,10 +338,11 @@ public class EditEventActivity extends BaseActivity {
                 Event event = response.body();
 
                 edtName.setText(event.getName());
-                edtType.setText(event.getType());
-                edtStart.setText(event.getStart());
-                edtEnd.setText(event.getEnd());
+                edtStart.setText(event.getStart().substring(0, 10));
+                edtEnd.setText(event.getEnd().substring(0, 10));
                 edtDescription.setText(event.getRequirements());
+                edtStartTime.setText(event.getStart().substring(11,16));
+                edtEndTime.setText(event.getEnd().substring(11,16));
 
                 getPlace(event.getPlace());
             }

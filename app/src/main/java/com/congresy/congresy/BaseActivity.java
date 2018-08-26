@@ -208,7 +208,7 @@ public class BaseActivity extends AppCompatActivity {
 
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                myCalendar.set(Calendar.HOUR, hourOfDay);
+                myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 myCalendar.set(Calendar.MINUTE, minute);
 
                 String myFormat = "HH:mm";
@@ -224,22 +224,22 @@ public class BaseActivity extends AppCompatActivity {
 
         switch (action) {
             case "length":
-                if (string.trim().length() > 20) {
+                if (string.length() > length) {
                     editText.setError("The maximum length of this field is " + String.valueOf(length));
                     return true;
                 }
                 break;
             case "blank":
-                if (string == null || string.trim().length() == 0) {
+                if (string == null || string.codePointCount(0, string.length()) == 0) {
                     editText.setError("This field can not be blank");
                     return true;
                 }
                 break;
             case "both":
-                if (string == null || string.trim().length() == 0) {
+                if (string == null || string.codePointCount(0, string.length()) == 0) {
                     editText.setError("This field can not be blank");
                     return true;
-                } else if (string.trim().length() > 20) {
+                } else if (string.codePointCount(0, string.length()) > length) {
                     editText.setError("The maximum length of this field is " + String.valueOf(length));
                     return true;
                 }
@@ -270,9 +270,31 @@ public class BaseActivity extends AppCompatActivity {
         return true;
     }
 
+    public Boolean checkDateTime(String string, String string1){
+
+        if (parseDate(string.substring(0,10)).compareTo(new Date()) <= 0){
+            return true;
+        } else if (parseTime(string).compareTo( parseTime(string1)) >= 0){
+            return true;
+        }
+
+        return false;
+    }
+
+    public Boolean checkDate(String string, String string1){
+
+        if (parseDate(string.substring(0,10)).compareTo(new Date()) <= 0){
+            return true;
+        } else if (parseDate(string).compareTo(parseDate(string1)) > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
     public Boolean checkInteger(String action, String string, EditText editText){
 
-        if (string.trim().length() != 0) {
+        if (string.codePointCount(0, string.length()) != 0) {
             switch (action) {
                 case "length":
                     if (Integer.valueOf(string) <= 0) {
@@ -281,13 +303,13 @@ public class BaseActivity extends AppCompatActivity {
                     }
                     break;
                 case "blank":
-                    if (String.valueOf(string).trim().length() == 0) {
+                    if (String.valueOf(string).codePointCount(0, string.length()) == 0) {
                         editText.setError("This field can not be blank");
                         return true;
                     }
                     break;
                 case "both":
-                    if (String.valueOf(string).trim().length() == 0) {
+                    if (String.valueOf(string).codePointCount(0, string.length()) == 0) {
                         editText.setError("This field can not be blank");
                         return true;
                     } else if (Integer.valueOf(string) <= 0) {
@@ -307,7 +329,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public Boolean checkDouble(String action, String string, EditText editText){
 
-        if (string.trim().length() != 0) {
+        if (string.codePointCount(0, string.length()) != 0) {
             switch (action) {
                 case "length":
                     if (Double.valueOf(string) < 0) {
@@ -316,13 +338,13 @@ public class BaseActivity extends AppCompatActivity {
                     }
                     break;
                 case "blank":
-                    if (String.valueOf(string).trim().length() == 0) {
+                    if (String.valueOf(string).codePointCount(0, string.length()) == 0) {
                         editText.setError("This field can not be blank");
                         return true;
                     }
                     break;
                 case "both":
-                    if (String.valueOf(string).trim().length() == 0) {
+                    if (String.valueOf(string).codePointCount(0, string.length()) == 0) {
                         editText.setError("This field can not be blank");
                         return true;
                     } else if (Double.valueOf(string) < 0) {
@@ -352,7 +374,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private Date parseTime(String date){
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm", new Locale("es", "ES"));
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm", new Locale("es", "ES"));
         try {
             Date res = format.parse(date);
             System.out.println(date);
@@ -372,19 +394,6 @@ public class BaseActivity extends AppCompatActivity {
             editText1.setError("The start date must be before the actual date");
             return true;
         } else if (parseTime(string).after(parseTime(string1))) {
-            editText2.setError("The end date must be before the end date");
-            return true;
-        }
-
-        return false;
-    }
-
-    public Boolean checkDate(String string, String string1, EditText editText1, EditText editText2){
-
-        if (parseDate(string).before(new Date())){
-            editText1.setError("The start date must be before the actual date");
-            return true;
-        } else if (parseDate(string).after(parseDate(string1))) {
             editText2.setError("The end date must be before the end date");
             return true;
         }
