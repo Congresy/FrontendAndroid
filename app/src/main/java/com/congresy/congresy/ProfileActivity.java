@@ -205,6 +205,7 @@ public class ProfileActivity extends BaseActivity {
                     followers.setVisibility(View.GONE);
                 }
 
+                
 
             }
 
@@ -395,6 +396,7 @@ public class ProfileActivity extends BaseActivity {
                 eAddress.setText(p.getAddress() + ", " + p.getPostalCode());
                 eAddress.setText("Details: " + p.getDetails());
 
+                findViewById(R.id.loadingPanel).setVisibility(View.GONE);
             }
 
             @Override
@@ -407,7 +409,7 @@ public class ProfileActivity extends BaseActivity {
 
 
 
-    private void LoadProfile(final List<SocialNetwork> socialNetworksS) {
+    private void loadProfile(final List<SocialNetwork> socialNetworksS) {
         Call<Actor> call = userService.getActorByUsername(username);
         call.enqueue(new Callback<Actor>() {
             @SuppressLint("SetTextI18n")
@@ -477,7 +479,7 @@ public class ProfileActivity extends BaseActivity {
             public void onResponse(Call<Actor> call, Response<Actor> response) {
 
                 final Actor actor = response.body();
-                LoadData(actor);
+                loadData(actor);
 
             }
 
@@ -488,14 +490,14 @@ public class ProfileActivity extends BaseActivity {
         });
     }
 
-    private void LoadData(Actor actor){
+    private void loadData(Actor actor){
         Call<List<SocialNetwork>> call = userService.getSocialNetworksByActor(actor.getId());
         call.enqueue(new Callback<List<SocialNetwork>>() {
             @Override
             public void onResponse(Call<List<SocialNetwork>> call, Response<List<SocialNetwork>> response) {
 
                 socialNetworkList = response.body();
-                LoadProfile(socialNetworkList);
+                loadProfile(socialNetworkList);
 
             }
 
@@ -514,7 +516,7 @@ public class ProfileActivity extends BaseActivity {
 
                 final Actor actor = response.body();
 
-                LoadDataRest(actor);
+                loadDataRest(actor);
 
             }
 
@@ -525,14 +527,14 @@ public class ProfileActivity extends BaseActivity {
         });
     }
 
-    private void LoadDataRest(final Actor actor){
+    private void loadDataRest(final Actor actor){
         Call<List<SocialNetwork>> call = userService.getSocialNetworksByActor(actor.getId());
         call.enqueue(new Callback<List<SocialNetwork>>() {
             @Override
             public void onResponse(Call<List<SocialNetwork>> call, Response<List<SocialNetwork>> response) {
 
                 socialNetworkList = response.body();
-                LoadProfileRest(socialNetworkList, actor.getId());
+                loadProfileRest(socialNetworkList, actor.getId());
 
             }
 
@@ -544,7 +546,7 @@ public class ProfileActivity extends BaseActivity {
     }
 
 
-    private void LoadProfileRest(final List<SocialNetwork> socialNetworksS, String id) {
+    private void loadProfileRest(final List<SocialNetwork> socialNetworksS, String id) {
         Call<Actor> call = userService.getActorById(id);
         call.enqueue(new Callback<Actor>() {
             @SuppressLint("SetTextI18n")

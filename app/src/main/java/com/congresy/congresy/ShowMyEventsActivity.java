@@ -47,33 +47,13 @@ public class ShowMyEventsActivity extends BaseActivity {
         btnEvents = findViewById(R.id.btnCreateEvent);
         btnEvents.setVisibility(View.GONE);
 
-        loadEventsUser();
+        loadMyEvents();
     }
 
-    private void loadEventsUser(){
-        Call<Actor> call = userService.getActorByUsername(username);
-        call.enqueue(new Callback<Actor>() {
-            @Override
-            public void onResponse(Call<Actor> call, Response<Actor> response) {
-                if(response.isSuccessful()){
+    private void loadMyEvents(){
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        String idActor = sp.getString("Id", "not found");
 
-                    final Actor actor = response.body();
-
-                    loadData(actor.getId());
-
-                } else {
-                    Toast.makeText(ShowMyEventsActivity.this, "You have no social networks", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Actor> call, Throwable t) {
-                Toast.makeText(ShowMyEventsActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void loadData(String idActor){
         Call<List<Event>> call = userService.getOwnEvents(idActor);
         call.enqueue(new Callback<List<Event>>() {
             @Override
