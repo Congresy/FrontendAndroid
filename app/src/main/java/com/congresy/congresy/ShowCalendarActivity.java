@@ -1,12 +1,12 @@
 package com.congresy.congresy;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,21 +15,28 @@ import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.braintreepayments.api.interfaces.HttpResponseCallback;
+import com.braintreepayments.api.internal.HttpClient;
 import com.congresy.congresy.adapters.EventListOrganizatorAdapter;
-import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Event;
 import com.congresy.congresy.remote.ApiUtils;
+import com.congresy.congresy.remote.DayViewDecorator;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.CalendarMode;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShowCalendarActivity extends BaseActivity {
+public class ShowCalendarActivity extends BaseActivity  implements OnDateSelectedListener {
 
-    CalendarView calendar;
+    MaterialCalendarView calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,38 +45,27 @@ public class ShowCalendarActivity extends BaseActivity {
         //sets the main layout of the activity
         setContentView(R.layout.activity_show_calendar);
 
-        loadData();
+        calendar = findViewById(R.id.calendarView);
 
-        //initializes the calendarview
-        initializeCalendar();
+        calendar.setOnDateChangedListener(this);
+        calendar.setShowOtherDates(MaterialCalendarView.SHOW_ALL);
+
+        Calendar instance = Calendar.getInstance();
+        calendar.setSelectedDate(instance);
+
+        calendar.state().edit()
+                .setMinimumDate(CalendarDay.from(1990, 1, 1))
+                .setMaximumDate(CalendarDay.from(2100, 12, 31))
+                .setFirstDayOfWeek(Calendar.MONDAY)
+                .setCalendarDisplayMode(CalendarMode.MONTHS)
+                .commit();
+
+        loadEventsOfDate();
     }
 
-    public void initializeCalendar() {
-        calendar = (CalendarView) findViewById(R.id.calendar);
-
-        // sets whether to show the week number.
-        calendar.setShowWeekNumber(false);
-
-        // sets the first day of week according to Calendar.
-        // here we set Monday as the first day of the Calendar
-        calendar.setFirstDayOfWeek(2);
-
-        //The background color for the selected week.
-        calendar.setSelectedWeekBackgroundColor(getResources().getColor(R.color.green));
-
-        //sets the color for the dates of an unfocused month.
-        calendar.setUnfocusedMonthDateColor(getResources().getColor(R.color.transparent));
-
-        //sets the color for the separator line between weeks.
-        calendar.setWeekSeparatorLineColor(getResources().getColor(R.color.transparent));
-
-        //sets the color for the vertical bar shown at the beginning and at the end of the selected date.
-        calendar.setSelectedDateVerticalBar(R.color.darkgreen);
-    }
 
     public void showAlertDialogButtonClicked(String clicked, List<Event> events) {
 
-        // setup the alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(clicked);
 
@@ -92,46 +88,63 @@ public class ShowCalendarActivity extends BaseActivity {
             }
         });
 
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
         // create and show the alert dialog
         AlertDialog dialog = builder.create();
         dialog.show();
     }
 
-    private void loadData(){
+    private void loadEventsOfDate(){
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-        String idActor = sp.getString("Id", "not found");
+        final String idActor = sp.getString("Id", "not found");
 
-        Call<List<Event>> call = ApiUtils.getUserService().getOwnEvents(idActor);
-        call.enqueue(new Callback<List<Event>>() {
-            @Override
-            public void onResponse(Call<List<Event>> call, final Response<List<Event>> response) {
+        calendar.setOnDateChangedListener(new OnDateSelectedListener() {
+           @Override
+            public void onDateSelected(@NonNull final MaterialCalendarView materialCalendarView, @NonNull final CalendarDay calendarDay, boolean b) {
 
-                final List<Event> res = new ArrayList<>();
+                final int month = calendarDay.getMonth() + 1;
+                final String date = String.valueOf(calendarDay.getDay() + "/" + month + "/" + calendarDay.getYear());
 
-                //sets the listener to be notified upon selected date change.
-                calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-                    //show the selected date as a toast
+                Call<List<Event>> call = ApiUtils.getUserService().getOwnEvents(idActor, date);
+                call.enqueue(new Callback<List<Event>>() {
                     @Override
-                    public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
+                    public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
 
-                        for (Event e : response.body()){
-                            if (e.getStart().substring(0, 10).equals(day + "/" + month + "/" + year)
-                                    ||  e.getEnd().substring(0, 10).equals(day + "/" + month + "/" + year)){
+                        List<Event> res = response.body();
+                        List<Event> aux = new ArrayList<>(response.body());
+
+                        for (Event e : aux){
+                            if (e.getStart().substring(0, 10).equals(date) ||  e.getEnd().substring(0, 10).equals(date)){
                                 res.add(e);
                             }
                         }
 
-                        showAlertDialogButtonClicked(String.valueOf(day + "/" + month + "/" + year), res);
+                        if (!res.isEmpty()){
+                            materialCalendarView.setDateTextAppearance(Color.RED);
+                            showAlertDialogButtonClicked(date, res);
+                        }
 
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Event>> call, Throwable t) {
+                        Toast.makeText(ShowCalendarActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
             }
-
-            @Override
-            public void onFailure(Call<List<Event>> call, Throwable t) {
-                Toast.makeText(ShowCalendarActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
         });
     }
+
+    @Override
+    public void onDateSelected(@NonNull MaterialCalendarView materialCalendarView, @NonNull CalendarDay calendarDay, boolean b) {
+
+    }
+
 }

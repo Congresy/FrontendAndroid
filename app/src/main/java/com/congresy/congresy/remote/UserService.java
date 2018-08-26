@@ -72,6 +72,9 @@ public interface UserService {
     @GET("events/own/{idActor}")
     Call<List<Event>> getOwnEvents(@Path("idActor") String idActor);
 
+    @GET("events/own/date/{idActor}")
+    Call<List<Event>> getOwnEvents(@Path("idActor") String idActor, @Query("date") String date);
+
     @POST("events")
     Call<Event> createEvent(@Body JsonObject jsonObject);
 
