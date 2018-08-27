@@ -277,6 +277,25 @@ public class CreateEventActivity extends BaseActivity {
         });
     }
 
+    public void showAlertDialogButtonClickedCustom(String text) {
+
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Attention!");
+        builder.setMessage(text);
+
+        // add a button
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     private void createEvent(final JsonObject json, final JsonObject jsonPlace){
         Call<Event> call = userService.createEvent(json);
         call.enqueue(new Callback<Event>() {
@@ -289,7 +308,13 @@ public class CreateEventActivity extends BaseActivity {
                     createPlace(jsonPlace, event.getId(), event.getConference());
 
                 } else {
-                    Toast.makeText(CreateEventActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                    if (response.code() == 409) {
+                        showAlertDialogButtonClickedCustom("Start and end dates must be placed in the period of time of the conference of this event");
+                    } else if (response.code() == 406){
+                        showAlertDialogButtonClickedCustom("Participants number (in addition of the rest of the events) can not be greater than conferences one");
+                    } else {
+                        Toast.makeText(CreateEventActivity.this, "An error has occurred", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 

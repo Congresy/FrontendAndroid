@@ -46,11 +46,11 @@ public class ShowEventsOfConferenceActivity extends BaseActivity {
         btnEvents = findViewById(R.id.btnCreateEvent);
         btnEvents.setVisibility(View.GONE);
 
-        LoadEventsAllAndOrganizator();
+        loadEventsAllAndOrganizator();
     }
 
-    private void LoadEventsAllAndOrganizator(){
-        Intent myIntent = getIntent();
+    private void loadEventsAllAndOrganizator(){
+        final Intent myIntent = getIntent();
         String idConference = myIntent.getExtras().get("idConference").toString();
 
         Call<List<Event>> call = userService.getConferenceEventsAllAndOrganizator(idConference);
@@ -67,8 +67,12 @@ public class ShowEventsOfConferenceActivity extends BaseActivity {
                     EventListUserAdapter adapter1 = null;
                     eventsList = response.body();
 
+                    String start = myIntent.getStringExtra("start");
+                    String end = myIntent.getStringExtra("end");
+                    String allw = myIntent.getStringExtra("allowed");
+
                     if(role.equals("Organizator")) {
-                        adapter = new EventListOrganizatorAdapter(getApplicationContext(), eventsList);
+                        adapter = new EventListOrganizatorAdapter(getApplicationContext(), eventsList, start, end, allw);
                     } else {
                         adapter1 =  new EventListUserAdapter(getApplicationContext(), eventsList);
                     }

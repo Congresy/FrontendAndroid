@@ -83,7 +83,7 @@ public class EditEventActivity extends BaseActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         edtRole.setAdapter(adapter);
 
-        Intent myIntent = getIntent();
+        final Intent myIntent = getIntent();
         String nameAux = myIntent.getExtras().get("role").toString();
 
         int index = 0;
@@ -189,6 +189,9 @@ public class EditEventActivity extends BaseActivity {
                 jsonPlace.addProperty("postalCode", postalCode);
                 jsonPlace.addProperty("details", details);
 
+                String start_ = myIntent.getStringExtra("start");
+                String end_ = myIntent.getStringExtra("end");
+
                 if (name.equals("") || description.equals("") || town.equals("") || country.equals("") || address.equals("") || postalCode.equals("") || details.equals("")){
                     if (validate(name, description, town, country, address, postalCode, details)){
                         editEvent(json, jsonPlace);
@@ -259,6 +262,25 @@ public class EditEventActivity extends BaseActivity {
         dialog.show();
     }
 
+    public void showAlertDialogButtonClickedCustom(String text) {
+
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Attention!");
+        builder.setMessage(text);
+
+        // add a button
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     private void editPlace(final JsonObject jsonPlace, String id, final String idConference){
         Call<Place> call = userService.editPlace(jsonPlace, id);
         call.enqueue(new Callback<Place>() {
@@ -293,7 +315,11 @@ public class EditEventActivity extends BaseActivity {
                     editPlace(jsonPlace, event.getPlace(), event.getConference());
 
                 } else {
-                    Toast.makeText(EditEventActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                    if (response.code() == 409) {
+                        showAlertDialogButtonClickedCustom("Start and end dates must be placed in the period of time of the conference of this event");
+                    } else {
+                        Toast.makeText(EditEventActivity.this, "An error has occurred", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 

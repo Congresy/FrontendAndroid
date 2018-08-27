@@ -70,7 +70,6 @@ public class BaseActivity extends AppCompatActivity {
             osArray.add("Conferences");
             osArray.add("Posts");
             osArray.add("Comments");
-            osArray.add("My calendar");
         }
 
         if(role.equals("User")){
@@ -117,9 +116,6 @@ public class BaseActivity extends AppCompatActivity {
                         startActivity(intent);
                     }  else if (position == 4) {
                         Intent intent = new Intent(BaseActivity.this, AdministrationCommentsActivity.class);
-                        startActivity(intent);
-                    } else if (position == 5) {
-                        Intent intent = new Intent(BaseActivity.this, ShowCalendarActivity.class);
                         startActivity(intent);
                     }
                 }
