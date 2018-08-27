@@ -167,25 +167,8 @@
                 />
 
             <TextView
-                android:id="@+id/edtNickT"
-                android:layout_below = "@+id/edtPhone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nick: "
-                />
-
-            <EditText
-                android:id="@+id/edtNick"
-                android:layout_below = "@+id/edtNickT"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="nick101"
-                android:inputType="text"
-                />
-
-            <TextView
                 android:id="@+id/edtPhotoT"
-                android:layout_below = "@+id/edtNick"
+                android:layout_below = "@+id/edtPhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Photo: "

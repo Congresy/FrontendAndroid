@@ -268,18 +268,18 @@ public class BaseActivity extends AppCompatActivity {
             e2.setError("Both passwords must be the same");
             e3.setError("Both emails must be the same");
             e4.setError("Both emails must be the same");
-            return false;
+            return true;
         }else if (!pas1.equals(pas2)){
            e1.setError("Both passwords must be the same");
            e2.setError("Both passwords must be the same");
-           return false;
+           return true;
        } else if (!em1.equals(em2)) {
             e3.setError("Both emails must be the same");
             e4.setError("Both emails must be the same");
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     public Boolean checkDateTime(String string, String string1){
@@ -397,22 +397,6 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public Boolean checkTime(String string, String string1, EditText editText1, EditText editText2){
-
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm", new Locale("es", "ES"));
-        String currDateString = dateFormat.format(new Date());
-
-        if (parseTime(string).before(parseTime(currDateString))){
-            editText1.setError("The start date must be before the actual date");
-            return true;
-        } else if (parseTime(string).after(parseTime(string1))) {
-            editText2.setError("The end date must be before the end date");
-            return true;
-        }
-
-        return false;
-    }
-
 
     public static Boolean checkUrl(String string, EditText editText){
 
@@ -435,11 +419,9 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public static Boolean checkPhone(String string, EditText editText){
-        String expression = "^(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))\\\\s*[)]?[-\\\\s\\\\.]?[(]?[0-9]{1,3}[)]?([-\\\\s\\\\.]?[0-9]{3})([-\\\\s\\\\.]?[0-9]{3,4})$";
-        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(string);
+        String expression = "^(?:(?:00|\\+)\\d{2}|0)[1-9](?:\\d{8})$";
 
-        if (!matcher.matches()){
+        if (!string.matches(expression)){
             editText.setError("This field must be a valid phone with the corresponding country prefix");
             return true;
         }

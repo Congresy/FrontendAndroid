@@ -35,7 +35,6 @@ public class ProfileActivity extends BaseActivity {
     TextView tSurname;
     TextView tEmail;
     TextView tPhone;
-    TextView tNick;
     TextView tRole;
     TextView socialNetworks;
     ImageView image;
@@ -68,7 +67,6 @@ public class ProfileActivity extends BaseActivity {
         tSurname = findViewById(R.id.surname);
         tEmail = findViewById(R.id.email);
         tPhone = findViewById(R.id.phone);
-        tNick = findViewById(R.id.nick);
         tRole = findViewById(R.id.role);
         image = findViewById(R.id.image);
         socialNetworks = findViewById(R.id.socialNetworks);
@@ -473,25 +471,10 @@ public class ProfileActivity extends BaseActivity {
     // Charge social networks
 
     private void execute(){
-        Call<Actor> call = userService.getActorByUsername(username);
-        call.enqueue(new Callback<Actor>() {
-            @Override
-            public void onResponse(Call<Actor> call, Response<Actor> response) {
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        String id = sp.getString("Id", "not found");
 
-                final Actor actor = response.body();
-                loadData(actor);
-
-            }
-
-            @Override
-            public void onFailure(Call<Actor> call, Throwable t) {
-                Toast.makeText(ProfileActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void loadData(Actor actor){
-        Call<List<SocialNetwork>> call = userService.getSocialNetworksByActor(actor.getId());
+        Call<List<SocialNetwork>> call = userService.getSocialNetworksByActor(id);
         call.enqueue(new Callback<List<SocialNetwork>>() {
             @Override
             public void onResponse(Call<List<SocialNetwork>> call, Response<List<SocialNetwork>> response) {
@@ -508,33 +491,15 @@ public class ProfileActivity extends BaseActivity {
         });
     }
 
-    private void executeRest(String id){
-        Call<Actor> call = userService.getActorById(id);
-        call.enqueue(new Callback<Actor>() {
-            @Override
-            public void onResponse(Call<Actor> call, Response<Actor> response) {
 
-                final Actor actor = response.body();
-
-                loadDataRest(actor);
-
-            }
-
-            @Override
-            public void onFailure(Call<Actor> call, Throwable t) {
-                Toast.makeText(ProfileActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void loadDataRest(final Actor actor){
-        Call<List<SocialNetwork>> call = userService.getSocialNetworksByActor(actor.getId());
+    private void executeRest(final String id){
+        Call<List<SocialNetwork>> call = userService.getSocialNetworksByActor(id);
         call.enqueue(new Callback<List<SocialNetwork>>() {
             @Override
             public void onResponse(Call<List<SocialNetwork>> call, Response<List<SocialNetwork>> response) {
 
                 socialNetworkList = response.body();
-                loadProfileRest(socialNetworkList, actor.getId());
+                loadProfileRest(socialNetworkList, id);
 
             }
 
@@ -565,6 +530,24 @@ public class ProfileActivity extends BaseActivity {
                         sN.setText("");
 
                         follow.setVisibility(View.GONE);
+                        friend.setVisibility(View.GONE);
+
+                        tSurname.setVisibility(View.GONE);
+                        tEmail.setVisibility(View.GONE);
+                        tPhone.setVisibility(View.GONE);
+                        tRole.setVisibility(View.GONE);
+                        socialNetworks.setVisibility(View.GONE);
+                        image.setVisibility(View.GONE);
+                        aux.setVisibility(View.GONE);
+
+                        ePlace.setVisibility(View.GONE);
+                        eAddress.setVisibility(View.GONE);
+                        eDetails.setVisibility(View.GONE);
+
+                        btnEdit.setVisibility(View.GONE);
+                        follow.setVisibility(View.GONE);
+                        friend.setVisibility(View.GONE);
+                        followers.setVisibility(View.GONE);
 
                     } else {
                         tName.setText("Name: "  + body.getName());

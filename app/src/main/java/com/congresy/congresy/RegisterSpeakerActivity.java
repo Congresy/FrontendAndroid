@@ -34,7 +34,6 @@ public class RegisterSpeakerActivity extends BaseActivity {
     EditText edtEmailConfirm;
     EditText edtPhone;
     EditText edtPhoto;
-    EditText edtNick;
 
     // Place attributes
     EditText edtTown;
@@ -62,7 +61,6 @@ public class RegisterSpeakerActivity extends BaseActivity {
         edtEmailConfirm = findViewById(R.id.edtEmailConfirm);
         edtPhone = findViewById(R.id.edtPhone);
         edtPhoto = findViewById(R.id.edtPhoto);
-        edtNick = findViewById(R.id.edtNick);
 
         // Pace attributes
         edtTown = findViewById(R.id.edtTown);
@@ -85,7 +83,6 @@ public class RegisterSpeakerActivity extends BaseActivity {
                 String emailConfirm = edtEmailConfirm.getText().toString();
                 String phone = edtPhone.getText().toString();
                 String photo = edtPhoto.getText().toString();
-                String nick = edtNick.getText().toString();
 
                 // Place attributes
                 String town = edtTown.getText().toString();
@@ -110,7 +107,6 @@ public class RegisterSpeakerActivity extends BaseActivity {
                 if(!photo.equals("null")){
                     jsonActor.addProperty("photo", photo);
                 }
-                jsonActor.addProperty("nick", nick);
 
                 jsonActor.addProperty("role", "Speaker");
 
@@ -238,7 +234,13 @@ public class RegisterSpeakerActivity extends BaseActivity {
                     addSpeaker(actor.getId(), jsonPlace);
 
                 } else {
-                    Toast.makeText(RegisterSpeakerActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                    if (response.code() == 409) {
+                        Toast.makeText(RegisterSpeakerActivity.this, "Username is already taken", Toast.LENGTH_SHORT).show();
+                    } else if (response.code() == 406){
+                        Toast.makeText(RegisterSpeakerActivity.this, "Email is already taken", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(RegisterSpeakerActivity.this, "An error has occurred", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 

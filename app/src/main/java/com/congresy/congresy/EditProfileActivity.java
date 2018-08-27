@@ -240,7 +240,17 @@ public class EditProfileActivity extends BaseActivity {
             @Override
             public void onResponse(Call<Actor> call, Response<Actor> response) {
 
-                editPlace(jsonPlace, response.body().getPlace());
+                if (response.isSuccessful()){
+                    editPlace(jsonPlace, response.body().getPlace());
+                }  else {
+                    if (response.code() == 409) {
+                        Toast.makeText(EditProfileActivity.this, "Username is already taken", Toast.LENGTH_SHORT).show();
+                    } else if (response.code() == 406){
+                        Toast.makeText(EditProfileActivity.this, "Email is already taken", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(EditProfileActivity.this, "An error has occurred", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
 
             @Override

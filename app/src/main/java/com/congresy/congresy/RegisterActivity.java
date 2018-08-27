@@ -19,6 +19,8 @@ import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 import com.google.gson.JsonObject;
 
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,7 +44,6 @@ public class RegisterActivity extends AppCompatActivity {
     EditText edtEmailConfirm;
     EditText edtPhone;
     EditText edtPhoto;
-    EditText edtNick;
 
     // Place attributes
     EditText edtTown;
@@ -81,7 +82,6 @@ public class RegisterActivity extends AppCompatActivity {
         edtEmailConfirm = findViewById(R.id.edtEmailConfirm);
         edtPhone = findViewById(R.id.edtPhone);
         edtPhoto = findViewById(R.id.edtPhoto);
-        edtNick = findViewById(R.id.edtNick);
 
         // Pace attributes
         edtTown = findViewById(R.id.edtTown);
@@ -104,7 +104,6 @@ public class RegisterActivity extends AppCompatActivity {
                 String emailConfirm = edtEmailConfirm.getText().toString();
                 String phone = edtPhone.getText().toString();
                 String photo = edtPhoto.getText().toString();
-                String nick = edtNick.getText().toString();
 
                 // Place attributes
                 String town = edtTown.getText().toString();
@@ -129,7 +128,6 @@ public class RegisterActivity extends AppCompatActivity {
                 if(!photo.equals("null")){
                     jsonActor.addProperty("photo", photo);
                 }
-                jsonActor.addProperty("nick", nick);
 
                 String role = s.getSelectedItem().toString();
 
@@ -259,7 +257,13 @@ public class RegisterActivity extends AppCompatActivity {
                     createPlace(jsonPlace, actor.getId());
 
                 } else {
-                    Toast.makeText(RegisterActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                    if (response.code() == 409) {
+                        Toast.makeText(RegisterActivity.this, "Username is already taken", Toast.LENGTH_SHORT).show();
+                    } else if (response.code() == 406){
+                        Toast.makeText(RegisterActivity.this, "Email is already taken", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(RegisterActivity.this, "An error has occurred", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
