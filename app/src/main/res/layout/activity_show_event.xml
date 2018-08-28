@@ -20,21 +20,9 @@
         android:focusableInTouchMode="true">
 
         <TextView
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="150dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="- Event details -"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/title"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            />
-
-        <TextView
             android:id="@+id/edtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/title"
             android:gravity="center"
             />
         

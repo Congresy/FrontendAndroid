@@ -32,6 +32,7 @@ public class ShowBarcodeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Ticket");
         loadDrawer(R.layout.activity_show_barcode);
 
         Intent myIntent = getIntent();

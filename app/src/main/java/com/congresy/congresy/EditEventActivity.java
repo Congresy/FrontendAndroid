@@ -52,6 +52,9 @@ public class EditEventActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTitle("Event edition");
+
         loadDrawer(R.layout.activity_edit_event);
 
         btnEdit = findViewById(R.id.btnEdit);

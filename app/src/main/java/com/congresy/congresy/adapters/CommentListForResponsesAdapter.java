@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -189,11 +190,11 @@ public class CommentListForResponsesAdapter extends BaseAdapter implements ListA
     static class ViewHolder {
         TextView title;
         TextView text;
-        Button up;
-        Button down;
-        Button reply;
-        Button replies;
-        Button author;
+        ImageButton up;
+        ImageButton down;
+        ImageButton reply;
+        ImageButton replies;
+        ImageButton author;
         TextView aux;
     }
 

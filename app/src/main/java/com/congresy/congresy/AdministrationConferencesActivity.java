@@ -33,6 +33,8 @@ public class AdministrationConferencesActivity extends BaseActivity implements S
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle("Conferences");
+
         loadDrawer(R.layout.activity_administration_conferences);
 
         userService = ApiUtils.getUserService();

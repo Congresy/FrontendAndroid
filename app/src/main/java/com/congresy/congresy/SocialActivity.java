@@ -22,6 +22,7 @@ public class SocialActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Social");
         loadDrawer(R.layout.activity_social);
 
         userService = ApiUtils.getUserService();

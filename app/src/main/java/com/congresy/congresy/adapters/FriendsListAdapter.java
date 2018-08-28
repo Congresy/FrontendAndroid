@@ -8,13 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.congresy.congresy.CreateMessageActivity;
-import com.congresy.congresy.FollowingActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowAllConferencesActivity;
 import com.congresy.congresy.ShowMyFriendsActivity;
@@ -100,7 +99,7 @@ public class FriendsListAdapter extends BaseAdapter implements ListAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(context, CreateMessageActivity.class);
                 intent.putExtra("idReceiver", items.get(position).getId());
-                intent.putExtra("comeFrom", "create");
+                intent.putExtra("comeFrom", "create1");
                 context.startActivity(intent);
             }
         });
@@ -135,9 +134,9 @@ public class FriendsListAdapter extends BaseAdapter implements ListAdapter {
 
     static class ViewHolder {
         TextView name;
-        Button unfriend;
-        Button upcoming;
-        Button message;
+        ImageButton unfriend;
+        ImageButton upcoming;
+        ImageButton message;
     }
 
 }

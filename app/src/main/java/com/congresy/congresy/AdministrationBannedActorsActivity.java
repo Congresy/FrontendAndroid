@@ -33,6 +33,8 @@ public class AdministrationBannedActorsActivity extends BaseActivity implements 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle("Banned actors");
+
         loadDrawer(R.layout.activity_administration_banned_actors);
 
         userService = ApiUtils.getUserService();

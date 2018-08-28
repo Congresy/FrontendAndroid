@@ -32,7 +32,7 @@ public class ShowMyFoldersActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setTitle("Folders");
         loadDrawer(R.layout.activity_show_my_folders);
 
         userService = ApiUtils.getUserService();
@@ -42,7 +42,7 @@ public class ShowMyFoldersActivity extends BaseActivity {
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ShowMyFoldersActivity.this, ChooseActorActivity.class);
+                Intent intent = new Intent(ShowMyFoldersActivity.this, CreateMessageActivity.class);
                 intent.putExtra("comeFrom", "create");
                 intent.putExtra("received", "0");
                 startActivity(intent);

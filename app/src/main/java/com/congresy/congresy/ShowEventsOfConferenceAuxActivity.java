@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,10 +34,13 @@ public class ShowEventsOfConferenceAuxActivity extends BaseActivity {
     private String role;
 
     Button btnEvents;
+    
+    LinearLayout ll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Conference events");
         loadDrawer(R.layout.activity_show_events_of_conference);
 
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
@@ -46,36 +50,15 @@ public class ShowEventsOfConferenceAuxActivity extends BaseActivity {
         userService = ApiUtils.getUserService();
 
         btnEvents = findViewById(R.id.btnCreateEvent);
-        btnEvents.setVisibility(View.GONE);
+        ll.setVisibility(View.GONE);
 
         loadEventsUser();
     }
 
     private void loadEventsUser(){
-        Call<Actor> call = userService.getActorByUsername(username);
-        call.enqueue(new Callback<Actor>() {
-            @Override
-            public void onResponse(Call<Actor> call, Response<Actor> response) {
-                if(response.isSuccessful()){
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        String idActor = sp.getString("Id", "not found");
 
-                    final Actor actor = response.body();
-
-
-                    loadData(actor.getId());
-
-                } else {
-                    Toast.makeText(ShowEventsOfConferenceAuxActivity.this, "You have no social networks", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Actor> call, Throwable t) {
-                Toast.makeText(ShowEventsOfConferenceAuxActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void loadData(String idActor){
         Intent myIntent = getIntent();
         String idConference = myIntent.getExtras().get("idConference").toString();
 
@@ -86,7 +69,7 @@ public class ShowEventsOfConferenceAuxActivity extends BaseActivity {
                 if(response.isSuccessful()){
 
                     if(role.equals("Organizator")){
-                        btnEvents.setVisibility(View.VISIBLE);
+                        ll.setVisibility(View.VISIBLE);
                     }
 
                     EventListOrganizatorAdapter adapter = null;
@@ -131,7 +114,7 @@ public class ShowEventsOfConferenceAuxActivity extends BaseActivity {
                 } else {
                     Toast.makeText(ShowEventsOfConferenceAuxActivity.this, "This conference have no events!", Toast.LENGTH_SHORT).show();
                     if(role.equals("Organizator")) {
-                        btnEvents.setVisibility(View.VISIBLE);
+                        ll.setVisibility(View.VISIBLE);
 
                         btnEvents.setOnClickListener(new View.OnClickListener() {
                             @Override

@@ -28,6 +28,7 @@ public class ShowMyCommentsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("My comments");
         loadDrawer(R.layout.activity_show_my_comments);
 
         lv = findViewById(R.id.listView);

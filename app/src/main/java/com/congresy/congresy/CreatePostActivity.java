@@ -40,6 +40,8 @@ public class CreatePostActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle("Post creation");
+
         loadDrawer(R.layout.activity_create_post);
 
         create = findViewById(R.id.create);

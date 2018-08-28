@@ -27,25 +27,11 @@
             android:focusable="true"
             android:focusableInTouchMode="true">
 
-
-
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="- Edition of profile -"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/title"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Password: "
                 android:id="@+id/edtPasswordT"
-                android:layout_below = "@+id/title"
                 />
 
             <EditText
@@ -137,30 +123,13 @@
                 android:layout_below = "@+id/edtPhoneT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="+34 617128123"
+                android:hint="+34617128123"
                 android:inputType="phone"
                 />
 
             <TextView
-                android:id="@+id/edtNickT"
-                android:layout_below = "@+id/edtPhone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nick: "
-                />
-
-            <EditText
-                android:id="@+id/edtNick"
-                android:layout_below = "@+id/edtNickT"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="nick101"
-                android:inputType="text"
-                />
-
-            <TextView
                 android:id="@+id/edtPhotoT"
-                android:layout_below = "@+id/edtNick"
+                android:layout_below = "@+id/edtPhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Photo: "

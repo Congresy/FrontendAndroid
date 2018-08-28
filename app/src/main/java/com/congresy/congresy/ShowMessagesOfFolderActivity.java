@@ -32,6 +32,7 @@ public class ShowMessagesOfFolderActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Messages");
         loadDrawer(R.layout.activity_show_messages_of_folder);
 
         userService = ApiUtils.getUserService();

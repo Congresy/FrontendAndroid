@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:focusable="false">
 
@@ -10,23 +10,28 @@
         android:layout_width="0sp"
         android:layout_height="fill_parent"
         android:layout_weight="2"
+        android:paddingStart="10dp"
         android:gravity="center_vertical"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <Button
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/baseline_edit_black_18dp"
+        android:scaleType="centerInside"
         android:id="@+id/edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit"
-        android:focusable="false"
+        android:background="#00000000"
+        android:paddingEnd="10dp"
         />
 
-    <Button
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/baseline_delete_forever_black_18dp"
+        android:scaleType="centerInside"
         android:id="@+id/deleteSN"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        android:focusable="false"
+        android:background="#00000000"
+        android:paddingEnd="10dp"
         />
 
 </LinearLayout>

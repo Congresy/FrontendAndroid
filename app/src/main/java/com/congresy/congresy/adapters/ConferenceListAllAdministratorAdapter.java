@@ -8,17 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.congresy.congresy.AdministrationCommentsActivity;
 import com.congresy.congresy.AdministrationConferencesActivity;
 import com.congresy.congresy.ProfileActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
-import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.Message;
 import com.congresy.congresy.remote.ApiUtils;
@@ -176,9 +174,9 @@ public class ConferenceListAllAdministratorAdapter extends BaseAdapter implement
 
     static class ViewHolder {
         TextView name;
-        Button events;
-        Button author;
-        Button delete;
+        ImageButton events;
+        ImageButton author;
+        ImageButton delete;
     }
 
 }

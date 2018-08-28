@@ -1,19 +1,16 @@
 package com.congresy.congresy.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.congresy.congresy.HomeActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowSpeakersOfEventActivity;
 import com.congresy.congresy.domain.Actor;
@@ -115,6 +112,6 @@ public class SpeakersOfEventListAdapter extends BaseAdapter implements ListAdapt
 
     static class ViewHolder {
         TextView name;
-        Button delete;
+        ImageButton delete;
     }
 }

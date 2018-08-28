@@ -43,12 +43,15 @@ public class CreateAnnouncementActivity extends BaseActivity {
     Button save;
     Button choose;
 
+    String idConference_;
+
     private Integer aux = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle("Announcement creation");
 
         loadDrawer(R.layout.activity_create_announcement);
         save = findViewById(R.id.save);
@@ -180,9 +183,8 @@ public class CreateAnnouncementActivity extends BaseActivity {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent intent = new Intent(CreateAnnouncementActivity.this, CreateAnnouncementActivity.class);
-                        intent.putExtra("idConference", conferences.get(position).getId());
-                        startActivity(intent);
+                        idConference_ = conferences.get(position).getId();
+                        dialog.dismiss();
                     }
                 });
 

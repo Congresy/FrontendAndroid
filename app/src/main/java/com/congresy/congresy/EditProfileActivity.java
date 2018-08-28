@@ -53,6 +53,9 @@ public class EditProfileActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTitle("Profile edition");
+
         loadDrawer(R.layout.activity_edit_profile);
 
         private_ = findViewById(R.id.private_);
@@ -173,17 +176,11 @@ public class EditProfileActivity extends BaseActivity {
         if (checkString("both", details, edtDetails, 20))
             aux++;
 
-        if (checkString("blank", pas1, edtPassword, null))
-            aux++;
-
-        if (checkString("blank", pas2, edtPasswordConfirm, null))
-            aux++;
-
         if (!photo.equals(""))
             if(checkUrl(photo, edtPhoto) && checkString("blank", photo, edtPhoto, null))
                 aux++;
 
-        if (aux == 0){
+        if (aux == 0 && !pas1.equals("") && !pas2.equals("")){
             if (!pas1.equals(pas2)) {
                 edtPasswordConfirm.setError("Both passwords must be the same");
                 edtPassword.setError("Both passwords must be the same");

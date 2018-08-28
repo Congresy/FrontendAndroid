@@ -8,20 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.congresy.congresy.CreateMessageActivity;
-import com.congresy.congresy.EditEventActivity;
 import com.congresy.congresy.R;
-import com.congresy.congresy.ShowEventsOfConferenceActivity;
-import com.congresy.congresy.ShowMessagesOfFolderActivity;
 import com.congresy.congresy.ShowMyFoldersActivity;
-import com.congresy.congresy.ShowSpeakersOfEventActivity;
 import com.congresy.congresy.domain.Actor;
-import com.congresy.congresy.domain.Event;
 import com.congresy.congresy.domain.Message;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
@@ -177,8 +172,8 @@ public class MessagesListAdapter extends BaseAdapter implements ListAdapter {
     static class ViewHolder {
         TextView subject;
         TextView body;
-        Button reply;
-        Button toTrash;
-        Button delete;
+        ImageButton reply;
+        ImageButton toTrash;
+        ImageButton delete;
     }
 }

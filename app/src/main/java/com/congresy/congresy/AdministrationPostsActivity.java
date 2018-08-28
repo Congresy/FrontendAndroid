@@ -33,6 +33,8 @@ public class AdministrationPostsActivity extends BaseActivity implements SearchV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle("Posts");
+
         loadDrawer(R.layout.activity_administration_posts);
 
         userService = ApiUtils.getUserService();

@@ -37,6 +37,8 @@ public class HomeActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle("My conferences");
+
         loadDrawer(R.layout.activity_home);
 
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);

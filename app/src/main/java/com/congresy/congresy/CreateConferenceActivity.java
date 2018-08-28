@@ -60,6 +60,9 @@ public class CreateConferenceActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTitle("Conference creation");
+
         loadDrawer(R.layout.activity_create_conference);
 
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
@@ -74,7 +77,7 @@ public class CreateConferenceActivity extends BaseActivity {
         edtStart = findViewById(R.id.edtStart);
         edtEnd = findViewById(R.id.edtEnd);
         edtSpeakers = findViewById(R.id.edtSpeakers);
-        edtDescription = findViewById(R.id.edtDescription);
+        edtDescription = findViewById(R.id.edtDescription1);
         edtPartic = findViewById(R.id.edtPartic);
 
         // Pace attributes

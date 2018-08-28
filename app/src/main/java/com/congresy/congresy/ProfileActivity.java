@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,12 +52,17 @@ public class ProfileActivity extends BaseActivity {
 
     private String username;
     private String role__;
+    
+    LinearLayout ll;
 
     List<SocialNetwork> socialNetworkList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTitle("Profile");
+
         loadDrawer(R.layout.activity_profile);
 
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
@@ -75,6 +81,7 @@ public class ProfileActivity extends BaseActivity {
         friend = findViewById(R.id.friend);
         followers = findViewById(R.id.followers);
         aux = findViewById(R.id.aux);
+        ll = findViewById(R.id.header);
 
         aux.setVisibility(View.GONE);
 
@@ -86,7 +93,7 @@ public class ProfileActivity extends BaseActivity {
 
         final Intent myIntent = getIntent();
 
-        btnEdit.setVisibility(View.GONE);
+        ll.setVisibility(View.GONE);
         follow.setVisibility(View.GONE);
         friend.setVisibility(View.GONE);
         followers.setVisibility(View.GONE);
@@ -155,7 +162,7 @@ public class ProfileActivity extends BaseActivity {
             }
 
         } catch (Exception e){
-            btnEdit.setVisibility(View.VISIBLE);
+            ll.setVisibility(View.VISIBLE);
             execute();
         }
 
@@ -544,7 +551,7 @@ public class ProfileActivity extends BaseActivity {
                         eAddress.setVisibility(View.GONE);
                         eDetails.setVisibility(View.GONE);
 
-                        btnEdit.setVisibility(View.GONE);
+                        ll.setVisibility(View.GONE);
                         follow.setVisibility(View.GONE);
                         friend.setVisibility(View.GONE);
                         followers.setVisibility(View.GONE);

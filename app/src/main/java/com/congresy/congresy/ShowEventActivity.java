@@ -35,6 +35,7 @@ public class ShowEventActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Event");
         loadDrawer(R.layout.activity_show_event);
 
         Intent myIntent = getIntent();

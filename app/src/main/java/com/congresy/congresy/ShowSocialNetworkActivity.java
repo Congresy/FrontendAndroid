@@ -25,6 +25,7 @@ public class ShowSocialNetworkActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Social network");
         loadDrawer(R.layout.activity_show_social_network);
 
         Intent myIntent = getIntent();

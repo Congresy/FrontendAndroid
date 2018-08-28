@@ -16,22 +16,10 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="- Speakers of event -"
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
-
         <ListView
             android:id="@+id/listView"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@+id/text" />
+            android:layout_height="fill_parent" />
 
 
     </RelativeLayout>

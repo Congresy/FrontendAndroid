@@ -1,20 +1,16 @@
 package com.congresy.congresy.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.congresy.congresy.HomeActivity;
 import com.congresy.congresy.R;
-import com.congresy.congresy.ShowMyConferencesActivity;
 import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
@@ -81,21 +77,24 @@ public class ConferenceListAddSpeakerAdapter extends BaseAdapter implements List
         }
 
         if (state.contains("Dismiss " + items.get(position).getId())){
-            holder.add.setText("Dismiss");
+            holder.add.setImageResource(R.drawable.baseline_remove_black_18dp);
+            holder.add.setTag("Dismiss");
         } else if (state.contains("Add " + items.get(position).getId())) {
-            holder.add.setText("Add");
+            holder.add.setImageResource(R.drawable.baseline_add_black_18dp);
+            holder.add.setTag("Add");
         } else {
-            holder.add.setText("Add");
+            holder.add.setImageResource(R.drawable.baseline_add_black_18dp);
+            holder.add.setTag("Add");
         }
 
-        if (holder.add.getText().equals("Add")) {
+        if (holder.add.getTag().equals("Add")) {
             holder.add.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
                     join(idEvent, holder, position);
                 }
             });
-        } else if (holder.add.getText().equals("Dismiss")) {
+        } else if (holder.add.getTag().equals("Dismiss")) {
             holder.add.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -138,7 +137,8 @@ public class ConferenceListAddSpeakerAdapter extends BaseAdapter implements List
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()){
-                    holder.add.setText("Dismiss");
+                    holder.add.setImageResource(R.drawable.baseline_remove_black_18dp);
+                    holder.add.setTag("Dismiss");
                     state.add("Dismiss " + idActor);
                     state.remove("Add " + idActor);
                     notifyDataSetChanged();
@@ -184,7 +184,8 @@ public class ConferenceListAddSpeakerAdapter extends BaseAdapter implements List
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()){
-                    holder.add.setText("Add");
+                    holder.add.setImageResource(R.drawable.baseline_add_black_18dp);
+                    holder.add.setTag("Add");
                     state.add("Add " + idActor);
                     state.remove("Dismiss " + idActor);
                     notifyDataSetChanged();
@@ -220,6 +221,6 @@ public class ConferenceListAddSpeakerAdapter extends BaseAdapter implements List
 
     static class ViewHolder {
         TextView name;
-        Button add;
+        ImageButton add;
     }
 }

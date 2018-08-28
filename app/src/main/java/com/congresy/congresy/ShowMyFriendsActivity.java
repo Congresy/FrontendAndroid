@@ -29,7 +29,7 @@ public class ShowMyFriendsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setTitle("My friends");
         loadDrawer(R.layout.activity_show_my_friends);
 
         lv = findViewById(R.id.friends);

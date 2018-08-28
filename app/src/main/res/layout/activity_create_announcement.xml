@@ -27,33 +27,35 @@
             android:focusable="true"
             android:focusableInTouchMode="true">
 
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="- Creation of announcement -"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/title"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                />
 
-            <Button
-                android:layout_marginTop="15dp"
-                android:layout_below = "@+id/title"
-                android:id="@+id/chooseConference"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="Choose conference"
-                />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:background="@android:drawable/bottom_bar"
+                android:paddingLeft="100.0dip"
+                android:paddingTop="5.0dip"
+                android:paddingRight="100.0dip"
+                android:id="@+id/header"
+                android:paddingBottom="5.0dip"
+                android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/chooseConference"
+                    android:layout_width="0.0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0"
+                    android:text="Choose conference"
+                    />
+
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/picture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Picture"
-                android:layout_below="@id/chooseConference"
+                android:layout_below="@id/header"
                 />
 
             <EditText

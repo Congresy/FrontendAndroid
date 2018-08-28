@@ -59,6 +59,9 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTitle("Sing up");
+
         setContentView(R.layout.activity_register);
 
         // set spinner values

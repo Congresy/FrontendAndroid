@@ -2,11 +2,13 @@ package com.congresy.congresy.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -115,18 +117,17 @@ public class ConferenceListOrganizatorAdapter extends BaseAdapter implements Lis
             }
         });
 
-        holder.message.setVisibility(View.GONE);
-
-        if (items.get(position).getParticipants() != null){
-            holder.message.setVisibility(View.VISIBLE);
-        }
 
         holder.message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(context, CreateMessageActivity.class);
-                myIntent.putExtra("fromConference", items.get(position).getId());
-                context.startActivity(myIntent);
+                if (items.get(position).getParticipants() != null){
+                    Toast.makeText(context.getApplicationContext(), "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent myIntent = new Intent(context, CreateMessageActivity.class);
+                    myIntent.putExtra("fromConference", items.get(position).getId());
+                    context.startActivity(myIntent);
+                }
             }
         });
 
@@ -157,9 +158,9 @@ public class ConferenceListOrganizatorAdapter extends BaseAdapter implements Lis
 
     static class ViewHolder {
         TextView name;
-        Button events;
-        Button edit;
-        Button delete;
-        Button message;
+        ImageButton events;
+        ImageButton edit;
+        ImageButton delete;
+        ImageButton message;
     }
 }

@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -171,7 +171,7 @@ public class PostListAdministratorAdapter extends BaseAdapter implements ListAda
 
     static class ViewHolder {
         TextView title;
-        Button delete;
-        Button author;
+        ImageButton delete;
+        ImageButton author;
     }
 }

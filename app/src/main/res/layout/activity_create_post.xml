@@ -27,23 +27,12 @@
             android:focusable="true"
             android:focusableInTouchMode="true">
 
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="- Creation of post -"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/creationPost"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                />
 
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Title"
-                android:layout_below="@id/creationPost"
                 />
 
             <EditText

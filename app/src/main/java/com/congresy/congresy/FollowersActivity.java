@@ -31,6 +31,8 @@ public class FollowersActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle("Followers");
+
         loadDrawer(R.layout.activity_followers);
 
         lv = findViewById(R.id.listView);

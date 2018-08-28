@@ -20,18 +20,7 @@
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true">
-
-        <TextView
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/title"
-            android:text="-- Replies --"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            />
-
+        
         <ListView
             android:id="@+id/listView"
             android:layout_width="wrap_content"

@@ -49,7 +49,7 @@ public class ShowPostActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setTitle("Post");
         loadDrawer(R.layout.activity_show_post);
 
         Intent myIntent = getIntent();

@@ -35,9 +35,9 @@ public class ShowCalendarActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setTitle("Calendar");
         //sets the main layout of the activity
-        setContentView(R.layout.activity_show_calendar);
+        loadDrawer(R.layout.activity_show_calendar);
 
         findViewById(R.id.loadingPanel).setVisibility(View.GONE);
 
@@ -120,8 +120,6 @@ public class ShowCalendarActivity extends BaseActivity {
     }
 
     private void loadEventsOfDate(){
-        Toast.makeText(ShowCalendarActivity.this, "Loading events of selected date", Toast.LENGTH_SHORT).show();
-
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         final String idActor = sp.getString("Id", "not found");
 
@@ -129,6 +127,8 @@ public class ShowCalendarActivity extends BaseActivity {
 
            @Override
             public void onDateSelected(@NonNull final MaterialCalendarView materialCalendarView, @NonNull final CalendarDay calendarDay, boolean b) {
+
+               Toast.makeText(ShowCalendarActivity.this, "Loading events of selected date", Toast.LENGTH_SHORT).show();
 
                findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
 

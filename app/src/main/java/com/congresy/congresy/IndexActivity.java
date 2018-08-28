@@ -60,6 +60,8 @@ public class IndexActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle("Home");
+
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         int logged = sp.getInt("logged", 0);
 

@@ -28,23 +28,10 @@
             android:focusableInTouchMode="true">
 
 
-
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="- Editing conference -"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/creationConference"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name: "
-                android:layout_below = "@+id/creationConference"
                 android:id="@+id/edtNameT"
                 />
 

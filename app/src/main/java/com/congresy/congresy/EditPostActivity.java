@@ -41,6 +41,8 @@ public class EditPostActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle("Post edition");
+
         loadDrawer(R.layout.activity_edit_post);
 
         save = findViewById(R.id.save);

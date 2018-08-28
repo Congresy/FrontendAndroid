@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -84,9 +86,9 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
         holder.join.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Button b = (Button) v;
+                ImageButton b = (ImageButton) v;
 
-                if (b.getText().toString().equals("Dismiss")){
+                if (b.getTag().toString().equals("Dismiss")){
                     delete(items.get(position).getId(), holder);
                 } else {
                     join(items.get(position).getId(), holder);
@@ -131,7 +133,8 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()){
-                    holder.join.setText("Dismiss");
+                    holder.join.setTag("Dismiss");
+                    holder.join.setImageResource(R.drawable.baseline_remove_black_18dp);
                     state.add("Dismiss " + idEvent);
                     notifyDataSetChanged();
 
@@ -179,7 +182,8 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()){
-                    holder.join.setText("Join");
+                    holder.join.setTag("Join");
+                    holder.join.setImageResource(R.drawable.baseline_remove_black_18dp);
                     state.add("Join " + idEvent);
                     notifyDataSetChanged();
 
@@ -198,6 +202,6 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
 
     static class ViewHolder {
         TextView name;
-        Button join;
+        ImageButton join;
     }
 }

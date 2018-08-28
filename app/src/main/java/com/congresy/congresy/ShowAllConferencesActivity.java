@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.congresy.congresy.adapters.ConferenceListAllAdapter;
@@ -33,8 +32,6 @@ public class ShowAllConferencesActivity extends BaseActivity {
 
     UserService userService;
 
-    TextView title;
-
     SearchView search;
 
     Button filter;
@@ -46,33 +43,34 @@ public class ShowAllConferencesActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Intent myIntent = getIntent();
+
+        try {
+            myIntent.getExtras().get("comeFrom").toString();
+            loadUpcomingConferences();
+            setTitle("Upcoming conferences");
+        } catch (Exception e){{
+            try {
+                String order = myIntent.getExtras().get("order").toString();
+                loadAllConferences(order);
+            } catch (Exception e1){
+                loadAllConferences("date");
+            }
+            setTitle("Conferences");
+        }
+        }
+
         loadDrawer(R.layout.activity_show_all_conferences);
 
-        title = findViewById(R.id.myConferences);
         search = findViewById(R.id.search);
         filter = findViewById(R.id.filter);
         order = findViewById(R.id.order);
 
-        Intent myIntent = getIntent();
 
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         actorId = sp.getString("Id", "not found");
 
         userService = ApiUtils.getUserService();
-
-        try {
-            myIntent.getExtras().get("comeFrom").toString();
-            title.setText("Upcoming conferences");
-            loadUpcomingConferences();
-            } catch (Exception e){{
-                try {
-                    String order = myIntent.getExtras().get("order").toString();
-                    loadAllConferences(order);
-                } catch (Exception e1){
-                    loadAllConferences("date");
-                }
-            }
-        }
 
         filter.setOnClickListener(new View.OnClickListener() {
             @Override

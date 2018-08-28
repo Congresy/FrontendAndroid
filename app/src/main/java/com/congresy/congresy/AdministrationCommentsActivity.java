@@ -29,6 +29,9 @@ public class AdministrationCommentsActivity extends BaseActivity implements Sear
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTitle("Comments");
+
         loadDrawer(R.layout.activity_administration_comments);
 
         lv = findViewById(R.id.listView);

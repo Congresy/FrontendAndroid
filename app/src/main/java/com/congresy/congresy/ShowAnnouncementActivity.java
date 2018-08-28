@@ -30,6 +30,9 @@ public class ShowAnnouncementActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTitle("Announcement");
+
         loadDrawer(R.layout.activity_show_announcement);
 
         image = findViewById(R.id.image);

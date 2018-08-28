@@ -37,6 +37,8 @@ public class FollowingActivity extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle("Following");
+
         loadDrawer(R.layout.activity_following);
 
         lv1 = findViewById(R.id.organizators);

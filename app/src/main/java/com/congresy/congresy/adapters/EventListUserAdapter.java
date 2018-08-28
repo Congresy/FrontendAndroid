@@ -6,14 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.congresy.congresy.EditEventActivity;
 import com.congresy.congresy.R;
-import com.congresy.congresy.ShowEventsOfConferenceActivity;
 import com.congresy.congresy.ShowSpeakersOfEventActivity;
 import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Event;
@@ -21,10 +18,6 @@ import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class EventListUserAdapter extends BaseAdapter implements ListAdapter {
 
@@ -97,6 +90,6 @@ public class EventListUserAdapter extends BaseAdapter implements ListAdapter {
 
     static class ViewHolder {
         TextView name;
-        Button speakers;
+        ImageButton speakers;
     }
 }

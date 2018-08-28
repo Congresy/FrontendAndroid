@@ -39,6 +39,7 @@ public class CreateCommentActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle("Comment creation");
 
         loadDrawer(R.layout.activity_create_comment);
         save = findViewById(R.id.save);

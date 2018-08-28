@@ -9,16 +9,19 @@
         android:layout_width="0sp"
         android:layout_height="fill_parent"
         android:layout_weight="2"
-        android:gravity="center_vertical"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:focusable="false"/>
-
-    <Button
-        android:id="@+id/add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add"
         android:focusable="false"
+        android:paddingStart="10dp"
+        android:gravity="center_vertical"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/baseline_add_black_18dp"
+        android:scaleType="centerInside"
+        android:id="@+id/add"
+        android:background="#00000000"
+        android:paddingEnd="10dp"
         />
 
 </LinearLayout>

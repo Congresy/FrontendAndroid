@@ -55,6 +55,8 @@ public class EditConferenceActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         loadDrawer(R.layout.activity_edit_conference);
 
+        setTitle("Conference edition");
+
         edtName = findViewById(R.id.edtName);
         spinner = findViewById(R.id.spinner);
         edtPrice = findViewById(R.id.edtPrice);

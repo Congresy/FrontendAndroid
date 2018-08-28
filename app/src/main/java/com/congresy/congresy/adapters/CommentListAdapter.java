@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,7 +87,7 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
 
             if (!items.get(position).getResponses().isEmpty()){
                 String str = String.valueOf(items.get(position).getResponses().size());
-                holder.replies.setText(String.format("Replies (%s)", str));
+                //holder.replies.setText(String.format("Replies (%s)", str));
 
                 holder.replies.setOnClickListener(new View.OnClickListener(){
                     @Override
@@ -99,7 +101,7 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
 
         } catch (Exception e){
 
-            holder.replies.setText("Replies (0)");
+            holder.replies.setImageResource(R.drawable.baseline_label_off_black_18dp);
             holder.replies.setClickable(false);
         }
 
@@ -221,11 +223,11 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
     static class ViewHolder {
         TextView title;
         TextView text;
-        Button up;
-        Button down;
-        Button reply;
-        Button replies;
-        Button author;
+        ImageButton up;
+        ImageButton down;
+        ImageButton reply;
+        ImageButton replies;
+        ImageButton author;
         TextView aux;
     }
 

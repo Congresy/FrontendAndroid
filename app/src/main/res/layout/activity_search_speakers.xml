@@ -16,29 +16,29 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <TextView
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Can't find your speaker? Create it!"
-        android:layout_gravity="center"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/text"
-        />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:background="@android:drawable/bottom_bar"
+        android:paddingLeft="100.0dip"
+        android:paddingTop="5.0dip"
+        android:paddingRight="100.0dip"
+        android:id="@+id/header"
+        android:paddingBottom="5.0dip"
+        android:layout_width="fill_parent" android:layout_height="wrap_content">
 
-    <Button
-        android:layout_below = "@+id/text"
-        android:id="@+id/btnRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Create Speaker"
-        />
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="0.0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:text="Create Speaker"
+            />
+
+    </LinearLayout>
 
     <SearchView
         android:id="@+id/search"
-        android:layout_below = "@+id/btnRegister"
+        android:layout_below = "@+id/header"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:iconifiedByDefault="false">

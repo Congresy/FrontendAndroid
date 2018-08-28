@@ -53,6 +53,9 @@ public class CreateEventActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTitle("Event creation");
+
         loadDrawer(R.layout.activity_create_event);
 
         btnCreate = findViewById(R.id.btnCreate);

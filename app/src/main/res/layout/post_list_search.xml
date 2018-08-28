@@ -11,6 +11,7 @@
         android:layout_height="fill_parent"
         android:layout_weight="2"
         android:gravity="center_vertical"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:paddingStart="10dp"/>
 
 </LinearLayout>

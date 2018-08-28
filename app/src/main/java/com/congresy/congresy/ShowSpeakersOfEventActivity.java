@@ -36,6 +36,8 @@ public class ShowSpeakersOfEventActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle("Event speakers");
+
         Intent myIntent = getIntent();
         String comeFrom = myIntent.getExtras().get("comeFrom").toString();
 

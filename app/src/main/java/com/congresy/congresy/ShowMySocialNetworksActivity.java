@@ -34,7 +34,7 @@ public class ShowMySocialNetworksActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setTitle("My social networks");
         loadDrawer(R.layout.activity_my_social_networks);
 
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);

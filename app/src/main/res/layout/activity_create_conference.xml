@@ -28,21 +28,9 @@
             android:focusableInTouchMode="true">
 
             <TextView
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="- Creation of conference -"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/creationConference"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                />
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name: "
-                android:layout_below = "@+id/creationConference"
                 android:id="@+id/edtNameT"
                 />
 
@@ -165,7 +153,7 @@
                 />
 
             <EditText
-                android:id="@+id/edtDescription"
+                android:id="@+id/edtDescription1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtDescriptionT"
@@ -180,7 +168,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@id/edtDescription"
+                android:layout_below="@id/edtDescription1"
                 android:text="-- Place --"
                 />
 

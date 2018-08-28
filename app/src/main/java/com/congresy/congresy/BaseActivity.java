@@ -23,8 +23,6 @@ import android.widget.Toast;
 
 import com.congresy.congresy.remote.ApiUtils;
 
-import java.sql.Time;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,8 +30,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -70,6 +66,7 @@ public class BaseActivity extends AppCompatActivity {
             osArray.add("Conferences");
             osArray.add("Posts");
             osArray.add("Comments");
+            osArray.add("Messages");
         }
 
         if(role.equals("User")){
@@ -80,7 +77,7 @@ public class BaseActivity extends AppCompatActivity {
             osArray.add("My conferences");
             osArray.add("My events");
             osArray.add("Forum");
-            osArray.add("Folders");
+            osArray.add("Messages");
             osArray.add("My calendar");
         }
 
@@ -90,7 +87,7 @@ public class BaseActivity extends AppCompatActivity {
             osArray.add("My conferences");
             osArray.add("Create conference");
             osArray.add("Forum");
-            osArray.add("Folders");
+            osArray.add("Messages");
             osArray.add("My calendar");
         }
 
@@ -116,6 +113,9 @@ public class BaseActivity extends AppCompatActivity {
                         startActivity(intent);
                     }  else if (position == 4) {
                         Intent intent = new Intent(BaseActivity.this, AdministrationCommentsActivity.class);
+                        startActivity(intent);
+                    } else if (position == 5) {
+                        Intent intent = new Intent(BaseActivity.this, ShowMyFoldersActivity.class);
                         startActivity(intent);
                     }
                 }

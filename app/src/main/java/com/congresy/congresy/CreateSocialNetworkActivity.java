@@ -33,6 +33,9 @@ public class CreateSocialNetworkActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTitle("Social network creation");
+
         loadDrawer(R.layout.activity_create_social_network);
 
         btnCreate = findViewById(R.id.btnCreate);

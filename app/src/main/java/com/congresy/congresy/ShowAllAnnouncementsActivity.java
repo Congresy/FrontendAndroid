@@ -32,6 +32,7 @@ public class ShowAllAnnouncementsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Announcements");
         loadDrawer(R.layout.activity_show_all_announcements);
 
         userService = ApiUtils.getUserService();

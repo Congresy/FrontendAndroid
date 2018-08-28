@@ -34,6 +34,9 @@ public class EditSocialNetworkActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTitle("Social network edition");
+
         loadDrawer(R.layout.activity_edit_social_network);
 
         btnEdit = findViewById(R.id.btnEdit);

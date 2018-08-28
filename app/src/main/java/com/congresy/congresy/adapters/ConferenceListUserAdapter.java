@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,7 +17,6 @@ import com.congresy.congresy.R;
 import com.congresy.congresy.ShowBarcodeActivity;
 import com.congresy.congresy.ShowConferenceActivity;
 import com.congresy.congresy.ShowEventsOfConferenceAuxActivity;
-import com.congresy.congresy.domain.Comment;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.Place;
 import com.congresy.congresy.remote.ApiUtils;
@@ -174,9 +173,9 @@ public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapte
 
     static class ViewHolder {
         TextView name;
-        Button events;
-        Button join;
-        Button organizator;
-        Button ticket;
+        ImageButton events;
+        ImageButton join;
+        ImageButton organizator;
+        ImageButton ticket;
     }
 }

@@ -49,6 +49,7 @@ public class RegisterSpeakerActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Sign up");
         setContentView(R.layout.activity_register_speaker);
 
         btnRegister = findViewById(R.id.btnRegister);

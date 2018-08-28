@@ -76,6 +76,9 @@ public class JoiningConferenceActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTitle("Choosing events");
+
         loadDrawer(R.layout.activity_joining_conference);
 
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);

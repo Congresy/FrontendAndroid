@@ -58,6 +58,7 @@ public class ShowConferenceActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Conference");
         loadDrawer(R.layout.activity_show_conference);
 
         Intent myIntent = getIntent();

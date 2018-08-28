@@ -42,6 +42,8 @@ public class ShowAllPostsActivity extends BaseActivity implements SearchView.OnQ
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTitle("Forum");
         
         loadDrawer(R.layout.activity_show_all_posts);
 

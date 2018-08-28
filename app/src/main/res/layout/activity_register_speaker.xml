@@ -21,24 +21,10 @@
             android:focusable="true"
             android:focusableInTouchMode="true">
 
-
-
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="- Registration -"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/registrarion"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Username: "
-                android:layout_below = "@+id/registrarion"
                 android:id="@+id/edtUsernameT"
                 />
 
@@ -162,7 +148,7 @@
                 android:layout_below = "@+id/edtPhoneT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="+34 612718233"
+                android:hint="+34612718233"
                 android:inputType="phone"
                 />
 

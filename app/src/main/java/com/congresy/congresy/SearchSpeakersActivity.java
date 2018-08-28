@@ -35,6 +35,8 @@ public class SearchSpeakersActivity extends BaseActivity implements SearchView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle("Speakers search");
+
         Intent myIntent = getIntent();
         final String idEvent = myIntent.getExtras().get("idEvent").toString();
 

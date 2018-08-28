@@ -22,16 +22,6 @@
         android:orientation="vertical" >
 
         <TextView
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="150dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="- Social network details -"
-            android:layout_gravity="center"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            />
-
-        <TextView
             android:id="@+id/edtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

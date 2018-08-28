@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,17 +16,13 @@ import android.widget.Toast;
 import com.congresy.congresy.JoiningConferenceActivity;
 import com.congresy.congresy.ProfileActivity;
 import com.congresy.congresy.R;
-import com.congresy.congresy.ShowAllConferencesActivity;
 import com.congresy.congresy.ShowConferenceActivity;
 import com.congresy.congresy.ShowEventsOfConferenceActivity;
-import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.Place;
 import com.congresy.congresy.remote.ApiUtils;
-import com.congresy.congresy.remote.UserService;
 
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -76,6 +73,7 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
             holder.events = convertView.findViewById(R.id.btnShowEvents);
             holder.join = convertView.findViewById(R.id.btnJoin);
             holder.organizator = convertView.findViewById(R.id.organizator);
+            holder.aux = convertView.findViewById(R.id.text);
 
             convertView.setTag(holder);
         } else {
@@ -96,9 +94,9 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
         holder.name.setText(items.get(position).getName());
 
         try {
-            holder.join.setText("(" + items.get(position).getSeatsLeft() + ") Join");
+            holder.aux.setText("(" + items.get(position).getSeatsLeft() + ") Join");
         } catch (NullPointerException e){
-            holder.join.setText("(0) Join");
+            holder.aux.setText("(0) Join");
             holder.join.setClickable(false);
         }
 
@@ -211,9 +209,10 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
 
     static class ViewHolder {
         TextView name;
-        Button events;
-        Button join;
-        Button organizator;
+        TextView aux;
+        ImageButton events;
+        ImageButton join;
+        ImageButton organizator;
     }
 
 }

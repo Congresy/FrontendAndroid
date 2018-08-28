@@ -33,7 +33,7 @@ public class ShowMyPostsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setTitle("My posts");
         loadDrawer(R.layout.activity_show_my_posts);
 
         userService = ApiUtils.getUserService();

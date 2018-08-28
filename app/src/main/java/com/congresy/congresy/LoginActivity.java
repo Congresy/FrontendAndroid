@@ -48,6 +48,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle("Sign in");
+
         setContentView(R.layout.activity_login);
 
         edtUsername = findViewById(R.id.edtUsername);

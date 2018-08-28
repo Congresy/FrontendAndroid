@@ -30,6 +30,7 @@ public class ShowResponsesOfComment extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Comment responses");
         loadDrawer(R.layout.activity_show_responses_of_comment);
 
         respones = findViewById(R.id.listView);

@@ -36,6 +36,8 @@ public class AdministrationActorsActivity extends BaseActivity  implements Searc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle("Actors");
+
         loadDrawer(R.layout.activity_administration_actors);
 
         userService = ApiUtils.getUserService();
