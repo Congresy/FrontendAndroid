@@ -104,11 +104,15 @@ public class ShowCalendarActivity extends BaseActivity {
 
                 List<Event> events  = response.body();
 
-                calendar.addDecorator(new DayViewDecorator(getApplicationContext(), events));
+                if (events != null){
+                    calendar.addDecorator(new DayViewDecorator(getApplicationContext(), events));
+                    Toast.makeText(ShowCalendarActivity.this, "Loading done!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ShowCalendarActivity.this, "You have no events!", Toast.LENGTH_SHORT).show();
+                }
 
                 findViewById(R.id.loadingPanel).setVisibility(View.GONE);
 
-                Toast.makeText(ShowCalendarActivity.this, "Loading done!", Toast.LENGTH_SHORT).show();
 
             }
 

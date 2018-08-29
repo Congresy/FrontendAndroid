@@ -22,7 +22,9 @@ import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
 
 import java.text.MessageFormat;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -276,6 +278,11 @@ public class ProfileActivity extends BaseActivity {
                                 SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sp.edit();
                                 editor.putString("friend " + myIntent.getExtras().get("idAuthor").toString(), "1");
+
+                                Set<String> values = new HashSet<>();
+                                values.add(myIntent.getExtras().get("idAuthor").toString());
+                                values.add(sp.getString("Id", "not found"));
+                                editor.putStringSet("statusFriendWhoDontKnow1 " + myIntent.getExtras().get("idAuthor").toString() + ", " + sp.getString("Id", "not found"), values);
                                 editor.apply();
 
                                 friend(myIntent.getExtras().get("idAuthor").toString());

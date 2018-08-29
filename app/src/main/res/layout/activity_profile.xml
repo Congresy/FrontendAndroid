@@ -39,6 +39,11 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/aux1" />
 
     <ImageView
         android:id="@+id/image"
@@ -46,7 +51,7 @@
         android:layout_height="250dp"
         android:layout_centerInParent="true"
         android:layout_margin="15dp"
-        android:layout_below="@id/header"
+        android:layout_below="@id/aux1"
         android:contentDescription="Profile's image" />
 
         <TextView
