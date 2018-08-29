@@ -279,8 +279,8 @@ public class IndexActivity extends AppCompatActivity {
         boolean res = true;
 
         Date today = new Date();
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
-        Date dateFormated = format.parse(date);
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        Date dateFormated = format.parse(date.substring(0,10));
 
         if (dateFormated.before(today)){
             res = false;

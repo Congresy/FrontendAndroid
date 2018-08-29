@@ -41,11 +41,7 @@ public class ShowConferenceActivity extends BaseActivity {
     TextView edtTheme;
     TextView edtPrice;
     TextView edtStart;
-    TextView edtEnd;
-    TextView edtSpeakers;
     TextView edtDescription;
-    TextView edtPartic;
-    TextView seats;
 
     TextView ePlace;
     TextView eAddress;
@@ -69,12 +65,8 @@ public class ShowConferenceActivity extends BaseActivity {
         edtName = findViewById(R.id.edtName);
         edtTheme = findViewById(R.id.edtTheme);
         edtPrice = findViewById(R.id.edtPrice);
-        edtStart = findViewById(R.id.edtStart);
-        edtEnd = findViewById(R.id.edtEnd);
-        edtSpeakers = findViewById(R.id.edtSpeakers);
+        edtStart = findViewById(R.id.startAndEnd);
         edtDescription = findViewById(R.id.edtDescription);
-        edtPartic = findViewById(R.id.edtPartic);
-        seats = findViewById(R.id.seats);
 
         ePlace = findViewById(R.id.edtPlace);
         eAddress = findViewById(R.id.edtAddress);
@@ -108,15 +100,11 @@ public class ShowConferenceActivity extends BaseActivity {
 
                 Conference con = response.body();
 
-                edtName.setText("Name: " + con.getName());
-                edtTheme.setText("Theme: " + con.getTheme());
-                edtPrice.setText("Price: " + String.valueOf(con.getPrice()));
-                edtStart.setText("Start date: " + con.getStart());
-                edtEnd.setText("End date: " + con.getEnd());
-                edtSpeakers.setText("Speakers attending: " + con.getSpeakersNames());
-                edtDescription.setText("Description: " + con.getDescription());
-                edtPartic.setText("Actual allowed participants: " + String.valueOf(con.getAllowedParticipants()));
-                seats.setText("Seats left: " + String.valueOf(con.getSeatsLeft()));
+                edtName.setText(con.getName());
+                edtTheme.setText("Content categorized as " + con.getTheme() + ", has " + con.getAllowedParticipants() + " maximum participants");
+                edtPrice.setText("Price: " + String.valueOf(con.getPrice()) + ", right now with " + String.valueOf(con.getSeatsLeft()) + " seats left");
+                edtStart.setText(con.getStart() + " - " + con.getEnd());
+                edtDescription.setText(con.getDescription() + "\n\n Main speakers attending this conference: " + con.getSpeakersNames());
 
                 loadComments(idConference, con.getPlace());
 
@@ -168,8 +156,8 @@ public class ShowConferenceActivity extends BaseActivity {
                 Place p = response.body();
 
                 ePlace.setText(p.getTown() + ", " + p.getCountry());
-                eAddress.setText(p.getAddress() + ", " + p.getPostalCode());
-                eAddress.setText("Details: " + p.getDetails());
+                eAddress.setText(p.getPostalCode() + " " + p.getAddress());
+                eDetails.setText(p.getDetails());
 
             }
 

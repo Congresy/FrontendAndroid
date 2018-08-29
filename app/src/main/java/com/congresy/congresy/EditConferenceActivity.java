@@ -216,7 +216,7 @@ public class EditConferenceActivity extends BaseActivity {
         if(checkString("blank", end, edtEnd, null))
             aux++;
 
-        if(checkString("both", description, edtDescription, 80))
+        if(checkString("both", description, edtDescription, 200))
             aux++;
 
         if(checkString("both", town, edtTown, 20))
@@ -231,7 +231,7 @@ public class EditConferenceActivity extends BaseActivity {
         if(checkString("both", postalCode, edtPostalCode, 15))
             aux++;
 
-        if(checkString("both", details, edtDetails, 20))
+        if(checkString("both", details, edtDetails, 50))
             aux++;
 
         return aux == 0;

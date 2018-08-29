@@ -207,7 +207,7 @@ public class CreateConferenceActivity extends BaseActivity {
         if(checkDouble("both", price, edtPrice))
             aux++;
 
-        if(checkString("both", description, edtDescription, 80))
+        if(checkString("both", description, edtDescription, 300))
             aux++;
 
         if(checkInteger("both", allowedParticipants, edtPartic))
@@ -225,7 +225,7 @@ public class CreateConferenceActivity extends BaseActivity {
         if(checkString("both", postalCode, edtPostalCode, 15))
             aux++;
 
-        if(checkString("both", details, edtDetails, 20))
+        if(checkString("both", details, edtDetails, 50))
             aux++;
 
         return aux == 0;
