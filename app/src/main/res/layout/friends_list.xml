@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:focusable="false">
+    android:descendantFocusability="blocksDescendants">
 
     <TextView
         android:id="@+id/name"
@@ -12,7 +12,8 @@
         android:layout_weight="2"
         android:paddingStart="10dp"
         android:gravity="center_vertical"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:focusable="false"/>
 
     <ImageButton
         android:layout_width="50dp"

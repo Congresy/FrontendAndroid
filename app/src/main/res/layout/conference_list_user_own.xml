@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:focusable="false">
+    android:descendantFocusability="blocksDescendants">
 
     <TextView
         android:id="@+id/name"
@@ -21,7 +21,6 @@
         android:scaleType="centerInside"
         android:id="@+id/ticket"
         android:background="#00000000"
-        android:focusable="false"
         />
 
     <ImageButton
@@ -31,7 +30,6 @@
         android:scaleType="centerInside"
         android:id="@+id/btnShowEvents"
         android:background="#00000000"
-        android:focusable="false"
         />
 
     <ImageButton
@@ -41,7 +39,6 @@
         android:scaleType="centerInside"
         android:id="@+id/btnJoin"
         android:background="#00000000"
-        android:focusable="false"
         />
 
     <TextView
@@ -49,8 +46,7 @@
         android:layout_width="20dp"
         android:layout_height="fill_parent"
         android:gravity="center_vertical"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:focusable="false"/>
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ImageButton
         android:layout_width="50dp"
@@ -59,7 +55,6 @@
         android:scaleType="centerInside"
         android:id="@+id/organizator"
         android:background="#00000000"
-        android:focusable="false"
         android:paddingEnd="10dp"
         />
 

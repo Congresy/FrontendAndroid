@@ -47,17 +47,9 @@ public class ShowAllConferencesActivity extends BaseActivity {
 
         try {
             myIntent.getExtras().get("comeFrom").toString();
-            loadUpcomingConferences();
             setTitle("Upcoming conferences");
-        } catch (Exception e){{
-            try {
-                String order = myIntent.getExtras().get("order").toString();
-                loadAllConferences(order);
-            } catch (Exception e1){
-                loadAllConferences("date");
-            }
+        } catch (Exception e){
             setTitle("Conferences");
-        }
         }
 
         loadDrawer(R.layout.activity_show_all_conferences);
@@ -71,6 +63,20 @@ public class ShowAllConferencesActivity extends BaseActivity {
         actorId = sp.getString("Id", "not found");
 
         userService = ApiUtils.getUserService();
+
+        try {
+            myIntent.getExtras().get("comeFrom").toString();
+            loadUpcomingConferences();
+            setTitle("Upcoming conferences");
+        } catch (Exception e){
+            try {
+                String order = myIntent.getExtras().get("order").toString();
+                loadAllConferences(order);
+            } catch (Exception e1){
+                loadAllConferences("date");
+            }
+            setTitle("Conferences");
+        }
 
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
