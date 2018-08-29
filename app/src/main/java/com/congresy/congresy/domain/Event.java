@@ -30,7 +30,7 @@ public class Event {
     @SerializedName("place")
     @Expose
     private String place;
-    @SerializedName("requirements")
+    @SerializedName("description")
     @Expose
     private String requirements;
     @SerializedName("role")

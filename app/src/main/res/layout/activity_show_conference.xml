@@ -72,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
+                android:layout_gravity="center"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 />
@@ -98,23 +99,28 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
-        <TextView
-            android:id="@+id/text1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="center"
-            android:text="Comments"
-            />
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:padding="10dp"
+                android:paddingTop="20dp">
 
-        <Button
-            android:id="@+id/create"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:text="Create" />
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_add_comment_black_18dp"
+                android:scaleType="centerInside"
+                android:id="@+id/create"
+                android:background="#00000000"
+                android:focusable="false"
+                android:layout_alignParentEnd="true"
+                />
+
+            </RelativeLayout>
 
         <ListView
             android:id="@+id/listView"

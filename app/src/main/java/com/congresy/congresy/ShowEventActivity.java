@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +23,6 @@ public class ShowEventActivity extends BaseActivity {
     private UserService userService;
 
     TextView edtName;
-    TextView edtType;
     TextView edtDescription;
     TextView edtStart;
     TextView edtEnd;
@@ -32,6 +33,8 @@ public class ShowEventActivity extends BaseActivity {
     TextView eAddress;
     TextView eDetails;
 
+    ImageButton speakers;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,20 +42,30 @@ public class ShowEventActivity extends BaseActivity {
         loadDrawer(R.layout.activity_show_event);
 
         Intent myIntent = getIntent();
-        String idEvent = myIntent.getExtras().get("idEvent").toString();
+        final String idEvent = myIntent.getExtras().get("idEvent").toString();
 
         userService = ApiUtils.getUserService();
 
         edtName = findViewById(R.id.edtName);
-        edtType = findViewById(R.id.edtType);
         edtRole = findViewById(R.id.edtRole);
         edtStart = findViewById(R.id.edtStart);
         edtEnd = findViewById(R.id.edtEnd);
         edtDescription = findViewById(R.id.edtRequirements);
+        speakers = findViewById(R.id.speakers);
 
         ePlace = findViewById(R.id.edtPlace);
         eAddress = findViewById(R.id.edtAddress);
         eDetails = findViewById(R.id.edtDetailsT);
+
+        speakers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShowEventActivity.this, ShowSpeakersOfEventActivity.class);
+                intent.putExtra("idEvent", idEvent);
+                intent.putExtra("comeFrom", "user");
+                startActivity(intent);
+            }
+        });
 
         showConference(idEvent);
 
@@ -68,8 +81,8 @@ public class ShowEventActivity extends BaseActivity {
                 Place p = response.body();
 
                 ePlace.setText(p.getTown() + ", " + p.getCountry());
-                eAddress.setText(p.getAddress() + ", " + p.getPostalCode());
-                eAddress.setText("Details: " + p.getDetails());
+                eAddress.setText(p.getPostalCode() + " " + p.getAddress());
+                eDetails.setText(p.getDetails());
 
             }
 
@@ -90,12 +103,11 @@ public class ShowEventActivity extends BaseActivity {
 
                 Event event = response.body();
 
-                edtName.setText("Name: " + event.getName());
-                edtRole.setText("Role: " + event.getRole());
-                edtStart.setText("Start time: " + event.getStart());
-                edtEnd.setText("End time: " + event.getEnd());
-                edtDescription.setText("Description: " + event.getRequirements());
-                edtDescription.setText("AllowedParticipants: " + event.getAllowedParticipants());
+                edtName.setText(event.getName());
+                edtStart.setText(event.getStart() + " - " + event.getEnd());
+                edtDescription.setText(event.getRequirements());
+                edtRole.setText("Event categorized as " + event.getRole() + ", has " + event.getAllowedParticipants() + " maximum participants");
+                edtEnd.setText("Right now with " + String.valueOf(event.getSeatsLeft()) + " seats left");
 
                 loadPlace(event.getPlace());
 

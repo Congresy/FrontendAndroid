@@ -11,103 +11,120 @@
         android:layout_gravity="left|start"
         android:background="#ffeeeeee"/>
 
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:fillViewport="true">
+
+<LinearLayout android:id="@+id/GlobalLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/edtName"
+        android:paddingTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingBottom="20dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        />
+
+    <TextView
+        android:id="@+id/edtStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingBottom="10dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/edtPlace"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/edtAddress"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/edtDetailsT"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        />
+
+    <TextView
+        android:id="@+id/edtRequirements"
+        android:paddingTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        />
+
+    <TextView
+        android:id="@+id/edtRole"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="40dp"
+        android:layout_gravity="center"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        />
+
+    <TextView
+        android:id="@+id/edtEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="40dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        />
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:clickable="true"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:padding="10dp"
+        android:paddingTop="20dp">
 
-        <TextView
-            android:id="@+id/edtName"
-            android:layout_width="match_parent"
+        <ImageButton
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            />
-        
-        <TextView
-            android:id="@+id/edtType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/edtName"
-            android:gravity="center"
-            />
-    
-        <TextView
-            android:id="@+id/edtRequirements"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/edtType"
-            android:gravity="center"
-            />
-        
-        <TextView
-            android:id="@+id/edtStart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/edtRequirements"
-            android:gravity="center"
-            />
- 
-        <TextView
-            android:id="@+id/edtEnd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/edtStart"
-            android:gravity="center"
-            />
-
-        <TextView
-            android:id="@+id/edtAllw"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/edtEnd"
-            android:gravity="center"
-            />
-    
-        <TextView
-            android:id="@+id/edtRole"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/edtAllw"
-            android:gravity="center"
-            />
-
-        <TextView
-            android:id="@+id/text2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="5dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/edtRole"
-            android:text="-- Place --"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_below = "@+id/text2"
-            android:id="@+id/edtPlace"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_below = "@+id/edtPlace"
-            android:id="@+id/edtAddress"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_below = "@+id/edtAddress"
-            android:id="@+id/edtDetailsT"
+            android:src="@drawable/baseline_people_black_18dp"
+            android:scaleType="centerInside"
+            android:id="@+id/speakers"
+            android:background="#00000000"
+            android:focusable="false"
+            android:layout_alignParentEnd="true"
             />
 
     </RelativeLayout>
+
+
+</LinearLayout>
+
+</ScrollView>
+
 </android.support.v4.widget.DrawerLayout>
