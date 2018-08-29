@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -29,8 +30,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name: "
+                android:text="Name"
                 android:id="@+id/edtNameT"
+                android:paddingTop="10dp"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <Spinner xmlns:android="http://schemas.android.com/apk/res/android"
@@ -39,14 +43,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:gravity="center_vertical" />
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="URL: "
+                android:text="URL"
                 android:layout_below = "@+id/spinner"
                 android:id="@+id/edtUrlT"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -54,8 +63,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtUrlT"
-                android:hint="https://twitter.com/name"
+                android:hint="https://twitter.com/example"
                 android:inputType="textUri"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <Button
@@ -64,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="Edit"
+                android:text="Create"
                 />
 
         </RelativeLayout>

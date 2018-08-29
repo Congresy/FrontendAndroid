@@ -30,8 +30,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Password: "
+                android:text="Password"
                 android:id="@+id/edtPasswordT"
+                android:layout_below = "@+id/edtUsername"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -41,14 +44,19 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:hint="pas17@kaAKPIaia1"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Confirm password: "
+                android:text="Confirm password"
                 android:id="@+id/edtPasswordConfirmT"
                 android:layout_below = "@+id/edtPassword"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -57,14 +65,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name: "
+                android:text="Name"
                 android:layout_below = "@+id/edtPasswordConfirm"
                 android:id="@+id/edtNameT"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -74,6 +87,9 @@
                 android:layout_height="wrap_content"
                 android:hint="Name example"
                 android:inputType="text"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <TextView
@@ -81,7 +97,9 @@
                 android:layout_below = "@+id/edtName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Surname: "
+                android:text="Surname"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -89,8 +107,11 @@
                 android:layout_below = "@+id/edtSurnameT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Surname/s example"
+                android:hint="Surname example"
                 android:inputType="text"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <TextView
@@ -98,7 +119,9 @@
                 android:layout_below = "@+id/edtSurname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email: "
+                android:text="Email"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -108,14 +131,19 @@
                 android:layout_height="wrap_content"
                 android:hint="email@gmail.com"
                 android:inputType="textEmailAddress"
-                />
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+
 
             <TextView
                 android:id="@+id/edtPhoneT"
                 android:layout_below = "@+id/edtEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Phone: "
+                android:text="Phone"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -123,8 +151,11 @@
                 android:layout_below = "@+id/edtPhoneT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="+34617128123"
+                android:hint="+34612718233"
                 android:inputType="phone"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <TextView
@@ -132,7 +163,9 @@
                 android:layout_below = "@+id/edtPhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Photo: "
+                android:text="Photo"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -140,9 +173,13 @@
                 android:layout_below = "@+id/edtPhotoT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="http//www.images.com/image.png"
+                android:hint="http://www.images.com/image"
                 android:inputType="textUri"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
+
 
             <TextView
                 android:id="@+id/text1"
@@ -152,15 +189,18 @@
                 android:layout_marginBottom="10dp"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/edtPhoto"
-                android:text="-- Place --"
+                android:text="- Place -"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Town: "
+                android:text="Town"
                 android:layout_below = "@+id/text1"
                 android:id="@+id/edtTownT"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -170,14 +210,19 @@
                 android:layout_below = "@+id/edtTownT"
                 android:hint="Madrid"
                 android:inputType="text"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Country: "
+                android:text="Country"
                 android:layout_below = "@+id/edtTown"
                 android:id="@+id/edtCountryT"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -187,14 +232,19 @@
                 android:layout_below = "@+id/edtCountryT"
                 android:hint="Spain"
                 android:inputType="text"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Address: "
+                android:text="Address"
                 android:layout_below = "@+id/edtCountry"
                 android:id="@+id/edtAddressT"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -202,16 +252,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below = "@+id/edtAddressT"
-                android:hint="Avda. Cruz del Campo, 45B, 3A"
+                android:hint="Avda. Cruz del Campo, 35B, 3A"
                 android:inputType="text"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Postal code: "
+                android:text="Postal code"
                 android:layout_below = "@+id/edtAddress"
                 android:id="@+id/edtPostalCodeT"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -221,14 +276,19 @@
                 android:layout_below = "@+id/edtPostalCodeT"
                 android:hint="42590"
                 android:inputType="text"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Details: "
+                android:text="Details"
                 android:layout_below = "@+id/edtPostalCode"
                 android:id="@+id/edtDetailsT"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -238,6 +298,9 @@
                 android:layout_below = "@+id/edtDetailsT"
                 android:hint="Near the center"
                 android:inputType="text"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <TextView
@@ -251,7 +314,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Private profile"
-                android:onClick="onCheckboxClicked"
                 android:layout_below="@id/aux"/>
 
             <Button
@@ -260,7 +322,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="Continue"
+                android:text="Edit"
                 />
 
         </RelativeLayout>

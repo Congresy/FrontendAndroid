@@ -33,6 +33,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Title"
+                android:paddingTop="10dp"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -42,6 +45,9 @@
                 android:layout_below = "@+id/title"
                 android:hint="Example title"
                 android:inputType="text"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <TextView
@@ -50,6 +56,8 @@
                 android:layout_height="wrap_content"
                 android:text="Body"
                 android:layout_below="@id/titleE"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -65,6 +73,9 @@
                 android:gravity="top|left"
                 android:scrollbars="vertical"
                 android:hint="This is a body example \n\n It may have more than one line \n\n End."
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <TextView
@@ -73,6 +84,8 @@
                 android:layout_height="wrap_content"
                 android:text="Category"
                 android:layout_below="@id/bodyE"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
 
@@ -82,7 +95,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:gravity="center_vertical" />
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
 
 
             <Button

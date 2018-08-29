@@ -32,6 +32,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Title"
+                android:paddingTop="10dp"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -41,6 +44,9 @@
                 android:layout_below = "@+id/title"
                 android:hint="Title example"
                 android:inputType="text"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <TextView
@@ -49,6 +55,8 @@
                 android:layout_height="wrap_content"
                 android:text="Body"
                 android:layout_below="@id/titleE"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -64,6 +72,9 @@
                 android:gravity="top|left"
                 android:scrollbars="vertical"
                 android:hint="This is a body example \n\n It may have more than one line \n\n End."
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <Button

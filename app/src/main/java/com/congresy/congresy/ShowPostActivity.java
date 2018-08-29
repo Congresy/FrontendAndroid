@@ -121,7 +121,7 @@ public class ShowPostActivity extends BaseActivity {
                 body.setText(post.getBody());
                 category.setText("Post categorized as " + post.getCategory().toLowerCase());
 
-                votes.setText(String.valueOf(Math.signum(post.getVotes())) + String.valueOf(post.getVotes()) + " points" + ", " + post.getViews() + " views");
+                votes.setText(String.valueOf(post.getVotes()) + " points" + ", " + post.getViews() + " views");
 
                 loadComments(idPost);
 

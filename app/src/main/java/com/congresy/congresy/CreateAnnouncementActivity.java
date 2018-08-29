@@ -67,19 +67,7 @@ public class CreateAnnouncementActivity extends BaseActivity {
 
         userService = ApiUtils.getUserService();
 
-        final Intent intent = getIntent();
-
-        save.setVisibility(View.GONE);
-        choose.setVisibility(View.GONE);
-        pictureE.setVisibility(View.GONE);
-        pictureT.setVisibility(View.GONE);
-        descriptionE.setVisibility(View.GONE);
-        descriptionT.setVisibility(View.GONE);
-        titleE.setVisibility(View.GONE);
-        titleT.setVisibility(View.GONE);
-
         try {
-            intent.getExtras().get("idConference").toString();
             save.setVisibility(View.VISIBLE);
             pictureE.setVisibility(View.VISIBLE);
             pictureT.setVisibility(View.VISIBLE);
@@ -103,7 +91,7 @@ public class CreateAnnouncementActivity extends BaseActivity {
 
                 json.addProperty("picture", picture);
                 json.addProperty("url", title);
-                json.addProperty("idConference", intent.getExtras().get("idConference").toString());
+                json.addProperty("idConference", idConference_);
                 json.addProperty("description", description);
 
                 if (validate(picture, title, description)){
@@ -139,7 +127,7 @@ public class CreateAnnouncementActivity extends BaseActivity {
         if (checkString("both", description, descriptionE, 150))
             aux++;
 
-        if(checkString("both", url, titleE, 20))
+        if(checkString("both", url, titleE, 50))
             aux++;
 
         return aux == 0;

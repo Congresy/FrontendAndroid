@@ -172,7 +172,7 @@ public class CreateEventActivity extends BaseActivity {
                 json.addProperty("start", start + " " + startTime);
                 json.addProperty("end", end + " " + endTime);
                 json.addProperty("role", role);
-                json.addProperty("requirements", description);
+                json.addProperty("description", description);
 
                 if (!allw.equals(""))
                     json.addProperty("allowedParticipants", Integer.valueOf(allw));

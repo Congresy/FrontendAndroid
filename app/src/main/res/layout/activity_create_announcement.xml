@@ -54,8 +54,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Picture"
+                android:text="Picture url"
                 android:layout_below="@id/header"
+                android:paddingTop="10dp"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -65,6 +68,8 @@
                 android:layout_below = "@+id/picture"
                 android:hint="http://www.images.com/image1.png"
                 android:inputType="textUri"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <TextView
@@ -73,6 +78,8 @@
                 android:layout_height="wrap_content"
                 android:text="Title"
                 android:layout_below="@id/pictureE"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -82,6 +89,8 @@
                 android:layout_below = "@+id/name"
                 android:hint="Example title"
                 android:inputType="text"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <TextView
@@ -90,6 +99,8 @@
                 android:layout_height="wrap_content"
                 android:text="Description"
                 android:layout_below="@id/nameE"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -99,6 +110,8 @@
                 android:layout_below = "@+id/description"
                 android:hint="This is a description example"
                 android:inputType="text"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <Button
@@ -108,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="Continue"
+                android:text="Create"
                 />
 
 

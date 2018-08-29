@@ -13,15 +13,26 @@
         >
 
         <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_gravity="center"
+            android:text="Welcome to Congresy!"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             android:layout_gravity="center"
             android:id="@+id/data"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             />
 
         <Button
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="40dp"
             android:id="@+id/btnLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,14 +46,37 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Sign up"
+            android:paddingBottom="20dp"
             />
 
-        <ImageView
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:background="@android:drawable/bottom_bar"
+            android:paddingLeft="100.0dip"
+            android:paddingRight="100.0dip"
+            android:id="@+id/header"
+            android:paddingBottom="5.0dip"
+            android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+    <ImageView
             android:id="@+id/image"
             android:layout_width="250dp"
             android:layout_height="250dp"
             android:layout_gravity="center"
-            android:layout_margin="1dp"
             android:contentDescription="Conference's image" />
 
 
@@ -60,6 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:id="@+id/conference"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             />
 
         <Button
@@ -70,6 +105,10 @@
             android:layout_gravity="center"
             android:text="Go!"
             />
+
+            </LinearLayout>
+
+    </LinearLayout>
 
     </LinearLayout>
 

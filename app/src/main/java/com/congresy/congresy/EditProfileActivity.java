@@ -79,6 +79,13 @@ public class EditProfileActivity extends BaseActivity {
 
         getProfile();
 
+        private_.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                privateAux = isChecked;
+            }
+        });
+
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +120,6 @@ public class EditProfileActivity extends BaseActivity {
                 jsonActor.addProperty("surname", surname);
                 jsonActor.addProperty("email", email);
                 jsonActor.addProperty("phone", phone);
-                jsonActor.addProperty("role", "User");
 
                 if(!photo.equals("null")){
                     jsonActor.addProperty("photo", photo);
@@ -214,18 +220,6 @@ public class EditProfileActivity extends BaseActivity {
         // create and show the alert dialog
         AlertDialog dialog = builder.create();
         dialog.show();
-    }
-
-    public void onCheckboxClicked(View view) {
-        // Is the view now checked?
-        boolean checked = ((CheckBox) view).isChecked();
-
-        // Check which checkbox was clicked
-        switch(view.getId()) {
-            case R.id.private_:
-                privateAux = checked;
-                break;
-        }
     }
 
     private void editProfile(JsonObject json, final JsonObject jsonPlace){

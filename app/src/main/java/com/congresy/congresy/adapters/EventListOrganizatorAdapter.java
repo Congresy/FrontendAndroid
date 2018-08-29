@@ -94,6 +94,7 @@ public class EventListOrganizatorAdapter extends BaseAdapter implements ListAdap
                 Intent myIntent = new Intent(context, EditEventActivity.class);
                 myIntent.putExtra("role", items.get(position).getRole());
                 myIntent.putExtra("idEvent", items.get(position).getId());
+                myIntent.putExtra("idConference", items.get(position).getConference());
                 context.startActivity(myIntent);
             }
         });

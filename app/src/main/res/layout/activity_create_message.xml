@@ -50,10 +50,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Subject: "
+                android:text="Subject"
                 android:layout_marginTop="15dp"
                 android:layout_below="@id/header"
                 android:id="@+id/subjectT"
+                android:paddingTop="10dp"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -63,6 +66,9 @@
                 android:layout_below = "@+id/subjectT"
                 android:hint="Subject example"
                 android:inputType="text"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <TextView
@@ -71,6 +77,8 @@
                 android:layout_height="wrap_content"
                 android:text="Body"
                 android:layout_below="@id/subject"
+                android:paddingStart="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
             <EditText
@@ -86,6 +94,9 @@
                 android:gravity="top|left"
                 android:scrollbars="vertical"
                 android:hint="This is a body example \n\n It may have more than one line \n\n End."
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
             <Button
