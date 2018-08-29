@@ -76,7 +76,8 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
             holder.reply = convertView.findViewById(R.id.reply);
             holder.replies = convertView.findViewById(R.id.replies);
             holder.author= convertView.findViewById(R.id.author);
-            holder.aux = convertView.findViewById(R.id.aux);
+            holder.text1 = convertView.findViewById(R.id.text1);
+            holder.text2 = convertView.findViewById(R.id.text2);
 
             convertView.setTag(holder);
         } else {
@@ -101,14 +102,14 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
 
         } catch (Exception e){
 
-            holder.replies.setImageResource(R.drawable.baseline_label_off_black_18dp);
-            holder.replies.setClickable(false);
+            holder.replies.setVisibility(View.GONE);
         }
 
         holder.title.setText(items.get(position).getTitle());
         holder.text.setText(items.get(position).getText());
 
-        holder.aux.setText(items.get(position).getThumbsUp() + " - " + items.get(position).getThumbsDown());
+        holder.text1.setText(String.valueOf(items.get(position).getThumbsUp()));
+        holder.text2.setText(String.valueOf(items.get(position).getThumbsDown()));
 
         holder.up.setVisibility(View.GONE);
         holder.down.setVisibility(View.GONE);
@@ -228,7 +229,8 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
         ImageButton reply;
         ImageButton replies;
         ImageButton author;
-        TextView aux;
+        TextView text1;
+        TextView text2;
     }
 
 }

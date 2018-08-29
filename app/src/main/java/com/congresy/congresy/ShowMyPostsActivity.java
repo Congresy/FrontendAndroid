@@ -66,13 +66,16 @@ public class ShowMyPostsActivity extends BaseActivity {
                     List<Post> drafts = new ArrayList<>();
                     List<Post> published = new ArrayList<>();
 
-                    for (Post p : posts){
-                        if (p.getDraft()){
-                            drafts.add(p);
-                         } else {
-                            published.add(p);
+                    for (Post p : posts) {
+                        if (p != null) {
+                            if (p.getDraft()) {
+                                drafts.add(p);
+                            } else {
+                                published.add(p);
+                            }
                         }
                     }
+
 
                     ListView lv1 = findViewById(R.id.drafts);
                     ListView lv2 = findViewById(R.id.published);

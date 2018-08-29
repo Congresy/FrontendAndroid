@@ -76,8 +76,9 @@ public class CommentListAdministratorAdapter extends BaseAdapter implements List
             holder.title = convertView.findViewById(R.id.title);
             holder.delete = convertView.findViewById(R.id.delete);
             holder.author = convertView.findViewById(R.id.author);
-            holder.aux = convertView.findViewById(R.id.aux);
             holder.text = convertView.findViewById(R.id.text);
+            holder.text1 = convertView.findViewById(R.id.text1);
+            holder.text2 = convertView.findViewById(R.id.text2);
 
             convertView.setTag(holder);
         } else {
@@ -86,8 +87,9 @@ public class CommentListAdministratorAdapter extends BaseAdapter implements List
 
         holder.title.setText(items.get(position).getTitle());
         holder.text.setText(items.get(position).getText());
-        holder.aux.setText(items.get(position).getThumbsUp() + " - " + items.get(position).getThumbsDown());
 
+        holder.text1.setText(items.get(position).getThumbsUp());
+        holder.text2.setText(items.get(position).getThumbsDown());
 
         holder.author.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -184,7 +186,8 @@ public class CommentListAdministratorAdapter extends BaseAdapter implements List
     static class ViewHolder {
         TextView title;
         TextView text;
-        TextView aux;
+        TextView text1;
+        TextView text2;
         ImageButton delete;
         ImageButton author;
     }

@@ -94,7 +94,7 @@ public class ShowConferenceActivity extends BaseActivity {
                 Conference con = response.body();
 
                 edtName.setText(con.getName());
-                edtTheme.setText("Content categorized as " + con.getTheme() + ", has " + con.getAllowedParticipants() + " maximum participants");
+                edtTheme.setText("Content categorized as " + con.getTheme().toLowerCase() + ", has " + con.getAllowedParticipants() + " maximum participants");
                 edtPrice.setText("Price: " + String.valueOf(con.getPrice()) + ", right now with " + String.valueOf(con.getSeatsLeft()) + " seats left");
                 edtStart.setText(con.getStart() + " - " + con.getEnd());
                 edtDescription.setText(con.getDescription() + "\n\n Main speakers attending this conference: " + con.getSpeakersNames());

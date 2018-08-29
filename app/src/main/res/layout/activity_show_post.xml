@@ -38,34 +38,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             />
 
-        <TextView
-            android:id="@+id/posted"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            />
-
-        <TextView
-            android:id="@+id/body"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            />
+            <TextView
+                android:id="@+id/body"
+                android:paddingTop="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                />
 
         <TextView
             android:id="@+id/category"
             android:layout_gravity="center"
+            android:paddingTop="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
-
-        <TextView
-            android:id="@+id/views"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             />
 
         <TextView
@@ -73,41 +67,72 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             />
 
-        <Button
-            android:layout_marginTop="15dp"
-            android:id="@+id/voteUp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Vote positive"
-            android:layout_gravity="center"
-            />
 
-        <Button
-            android:id="@+id/down"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Vote negative"
-            android:layout_gravity="center"/>
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:padding="10dp"
+                android:paddingTop="20dp">
 
-        <TextView
-            android:id="@+id/text1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="center"
-            android:text="Comments"
-            />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/button1"
+                    android:layout_toStartOf="@+id/button2">
 
-        <Button
-            android:id="@+id/create"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:text="Create" />
+                    <ImageButton
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_thumb_up_black_18dp"
+                        android:scaleType="centerInside"
+                        android:id="@+id/voteUp"
+                        android:background="#00000000"
+                        android:focusable="false"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/button2"
+                    android:layout_toStartOf="@id/create">
+
+                    <ImageButton
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_thumb_down_black_18dp"
+                        android:scaleType="centerInside"
+                        android:id="@+id/down"
+                        android:background="#00000000"
+                        android:focusable="false"
+                        android:layout_toLeftOf="@id/create"
+                        />
+
+                </LinearLayout>
+
+
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_add_comment_black_18dp"
+                    android:scaleType="centerInside"
+                    android:id="@+id/create"
+                    android:background="#00000000"
+                    android:focusable="false"
+                    android:layout_alignParentEnd="true"
+                    />
+
+            </RelativeLayout>
 
 
         <ListView

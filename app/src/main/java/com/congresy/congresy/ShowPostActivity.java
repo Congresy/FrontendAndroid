@@ -4,11 +4,13 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,15 +34,13 @@ public class ShowPostActivity extends BaseActivity {
 
     TextView title;
     TextView author;
-    TextView posted;
     TextView body;
     TextView category;
-    TextView views;
     TextView votes;
 
-    Button voteUp;
-    Button voteDown;
-    Button create;
+    ImageButton voteUp;
+    ImageButton voteDown;
+    ImageButton create;
 
     ListView comments;
 
@@ -65,10 +65,8 @@ public class ShowPostActivity extends BaseActivity {
 
         title = findViewById(R.id.title);
         author = findViewById(R.id.author);
-        posted = findViewById(R.id.posted);
         body = findViewById(R.id.body);
         category = findViewById(R.id.category);
-        views = findViewById(R.id.views);
         votes = findViewById(R.id.votes);
 
         comments = findViewById(R.id.listView);
@@ -116,15 +114,14 @@ public class ShowPostActivity extends BaseActivity {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
 
-                Post Post = response.body();
+                Post post = response.body();
 
-                title.setText(Post.getTitle());
-                author.setText(Post.getAuthorName() + ", " + Post.getPosted());
-                posted.setText("\n");
-                body.setText(Post.getBody());
-                category.setText("\n");
-                views.setText("Category:" +  Post.getCategory());
-                votes.setText(Post.getVotes() + " votes and " + Post.getViews() + " views");
+                title.setText(post.getTitle());
+                author.setText("Posted on " + post.getPosted() + ", by " + post.getAuthorName());
+                body.setText(post.getBody());
+                category.setText("Post categorized as " + post.getCategory().toLowerCase());
+
+                votes.setText(String.valueOf(Math.signum(post.getVotes())) + String.valueOf(post.getVotes()) + " points" + ", " + post.getViews() + " views");
 
                 loadComments(idPost);
 

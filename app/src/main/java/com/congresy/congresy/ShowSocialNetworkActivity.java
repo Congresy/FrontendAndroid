@@ -49,8 +49,8 @@ public class ShowSocialNetworkActivity extends BaseActivity {
 
                 SocialNetwork socialNetwork = response.body();
 
-                edtName.setText("Name: " + socialNetwork.getName());
-                edtUrl.setText("URL: " + socialNetwork.getUrl());
+                edtName.setText(socialNetwork.getName());
+                edtUrl.setText(socialNetwork.getUrl());
 
             }
 
