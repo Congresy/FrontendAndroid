@@ -35,14 +35,12 @@ public class ProfileActivity extends BaseActivity {
     UserService userService;
 
     TextView tName;
-    TextView tSurname;
     TextView tEmail;
-    TextView tPhone;
     TextView tRole;
     TextView socialNetworks;
     ImageView image;
     TextView aux;
-
+    TextView aux1;
     TextView ePlace;
     TextView eAddress;
     TextView eDetails;
@@ -73,9 +71,7 @@ public class ProfileActivity extends BaseActivity {
         role__ = sp.getString("Role", "not found");
 
         tName = findViewById(R.id.name);
-        tSurname = findViewById(R.id.surname);
         tEmail = findViewById(R.id.email);
-        tPhone = findViewById(R.id.phone);
         tRole = findViewById(R.id.role);
         image = findViewById(R.id.image);
         socialNetworks = findViewById(R.id.socialNetworks);
@@ -86,6 +82,7 @@ public class ProfileActivity extends BaseActivity {
         aux = findViewById(R.id.aux);
         ll = findViewById(R.id.header);
         ll1 = findViewById(R.id.header1);
+        aux1 = findViewById(R.id.aux1);
 
         aux.setVisibility(View.GONE);
 
@@ -416,8 +413,8 @@ public class ProfileActivity extends BaseActivity {
                 Place p = response.body();
 
                 ePlace.setText(p.getTown() + ", " + p.getCountry());
-                eAddress.setText(p.getAddress() + ", " + p.getPostalCode());
-                eAddress.setText("Details: " + p.getDetails());
+                eAddress.setText(p.getPostalCode() + " " + p.getAddress());
+                eDetails.setText(p.getDetails());
 
                 findViewById(R.id.loadingPanel).setVisibility(View.GONE);
             }
@@ -442,11 +439,10 @@ public class ProfileActivity extends BaseActivity {
 
                     Actor body = response.body();
 
-                    tName.setText("Name: "  + body.getName());
-                    tSurname.setText("Surname: " + body.getSurname());
-                    tEmail.setText("Email: " + body.getEmail());
-                    tPhone.setText("Phone: " + body.getPhone());
-                    tRole.setText("Role: " + body.getRole());
+                    tName.setText(body.getName() + " " + body.getSurname());
+                    tEmail.setText(body.getEmail() + "\n" + body.getPhone());
+                    tRole.setText(body.getRole());
+                    aux1.setText("Contact");
 
                     if(socialNetworksS != null){
                         String auxSN = "";
@@ -456,7 +452,7 @@ public class ProfileActivity extends BaseActivity {
                             if (index != 0) {
                                 auxSN = auxSN + "\n";
                             }
-                            auxSN = auxSN + sn.getName() + ": " + sn.getUrl();
+                            auxSN = auxSN + sn.getName() + ", " + sn.getUrl();
                             index++;
                         }
 
@@ -557,9 +553,7 @@ public class ProfileActivity extends BaseActivity {
                         follow.setVisibility(View.GONE);
                         friend.setVisibility(View.GONE);
 
-                        tSurname.setVisibility(View.GONE);
                         tEmail.setVisibility(View.GONE);
-                        tPhone.setVisibility(View.GONE);
                         tRole.setVisibility(View.GONE);
                         socialNetworks.setVisibility(View.GONE);
                         image.setVisibility(View.GONE);
@@ -575,11 +569,10 @@ public class ProfileActivity extends BaseActivity {
                         followers.setVisibility(View.GONE);
 
                     } else {
-                        tName.setText("Name: "  + body.getName());
-                        tSurname.setText("Surname: " + body.getSurname());
-                        tEmail.setText("Email: " + body.getEmail());
-                        tPhone.setText("Phone: " + body.getPhone());
-                        tRole.setText("Role: " + body.getRole());
+                        tName.setText(body.getName() + " " + body.getSurname());
+                        tEmail.setText(body.getEmail() + "\n" + body.getPhone());
+                        tRole.setText(body.getRole());
+                        aux1.setText("Contact");
 
                         if(socialNetworksS != null){
                             String auxSN = "";
@@ -589,7 +582,7 @@ public class ProfileActivity extends BaseActivity {
                                 if (index != 0) {
                                     auxSN = auxSN + "\n";
                                 }
-                                auxSN = auxSN + sn.getName() + ": " + sn.getUrl();
+                                auxSN = auxSN + sn.getName() + ", " + sn.getUrl();
                                 index++;
                             }
 

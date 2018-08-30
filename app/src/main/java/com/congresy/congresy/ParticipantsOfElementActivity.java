@@ -73,7 +73,7 @@ public class ParticipantsOfElementActivity extends BaseActivity {
                     });
                     
                 } else {
-                    Toast.makeText(ParticipantsOfElementActivity.this, "This conference have no events!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ParticipantsOfElementActivity.this, "This conference have no participants!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -106,7 +106,7 @@ public class ParticipantsOfElementActivity extends BaseActivity {
                     });
 
                 } else {
-                    Toast.makeText(ParticipantsOfElementActivity.this, "This conference have no events!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ParticipantsOfElementActivity.this, "This conference have no participants!", Toast.LENGTH_SHORT).show();
                 }
             }
 
