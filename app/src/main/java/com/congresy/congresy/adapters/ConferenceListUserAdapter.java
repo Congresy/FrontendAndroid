@@ -28,6 +28,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.view.View.GONE;
+
 public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapter {
 
     private UserService userService;
@@ -73,11 +75,14 @@ public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapte
             holder.join = convertView.findViewById(R.id.btnJoin);
             holder.organizator = convertView.findViewById(R.id.organizator);
             holder.ticket = convertView.findViewById(R.id.ticket);
+            holder.aux = convertView.findViewById(R.id.text);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
+        holder.aux.setVisibility(GONE);
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +95,7 @@ public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapte
 
         holder.name.setText(items.get(position).getName());
 
-        holder.join.setVisibility(View.GONE);
+        holder.join.setVisibility(GONE);
 
         holder.events.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +111,7 @@ public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapte
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, ProfileActivity.class);
                 myIntent.putExtra("idOrganizator", items.get(position).getOrganizator());
+                myIntent.putExtra("goingTo", "Organizator");
                 context.startActivity(myIntent);
             }
         });
@@ -177,5 +183,6 @@ public class ConferenceListUserAdapter extends BaseAdapter implements ListAdapte
         ImageButton join;
         ImageButton organizator;
         ImageButton ticket;
+        TextView aux;
     }
 }

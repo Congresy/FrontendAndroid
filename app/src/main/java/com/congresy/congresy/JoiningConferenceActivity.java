@@ -2,10 +2,10 @@ package com.congresy.congresy;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -31,22 +30,15 @@ import com.braintreepayments.api.interfaces.HttpResponseCallback;
 import com.braintreepayments.api.internal.HttpClient;
 import com.braintreepayments.api.models.PaymentMethodNonce;
 import com.congresy.congresy.adapters.EventListJoinProcessAdapter;
-import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Event;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import org.joda.time.Interval;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,8 +97,22 @@ public class JoiningConferenceActivity extends BaseActivity {
         });
 
         new HttpRequest().execute();
+        }
+
+    public static boolean getStatus(Context context, List<Event> events){
+        boolean status = false;
+        SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+
+        for (Event e : events){
+            if (sp.getBoolean("Join " + e.getId() + ", " + sp.getString("Id", "not found"), false)){
+                status = true;
+                break;
+            }
+        }
+
+        return status;
     }
-    
+
     public void showAlertDialogButtonClicked() {
 
         // setup the alert builder
@@ -209,6 +215,10 @@ public class JoiningConferenceActivity extends BaseActivity {
                 if(response.isSuccessful()){
 
                     eventsList = response.body();
+
+                    if (getStatus(getApplicationContext(), eventsList)){
+
+                    }
 
                     EventListJoinProcessAdapter adapter = new EventListJoinProcessAdapter(getApplicationContext(), eventsList);
                     final ListView lv = findViewById(R.id.listView);

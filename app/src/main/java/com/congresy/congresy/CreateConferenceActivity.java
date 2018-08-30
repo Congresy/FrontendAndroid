@@ -65,7 +65,7 @@ public class CreateConferenceActivity extends BaseActivity {
 
         loadDrawer(R.layout.activity_create_conference);
 
-        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        final SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         username = sp.getString("Username", "not found");
         userAccountId = sp.getString("UserAccountId", "not found");
 
@@ -167,7 +167,7 @@ public class CreateConferenceActivity extends BaseActivity {
                 if (!allowedParticipants.equals(""))
                     json.addProperty("seatsLeft", Integer.valueOf(allowedParticipants));
 
-                json.addProperty("organizator", userAccountId);
+                json.addProperty("organizator", sp.getString("Id", "not found"));
 
                 JsonObject jsonPlace = new JsonObject();
                 jsonPlace.addProperty("town", town);

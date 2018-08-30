@@ -1,11 +1,15 @@
 package com.congresy.congresy;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,6 +48,9 @@ public class ShowConferenceActivity extends BaseActivity {
 
     ListView comments;
 
+    LinearLayout ll;
+    Button participants;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +67,10 @@ public class ShowConferenceActivity extends BaseActivity {
         edtPrice = findViewById(R.id.edtPrice);
         edtStart = findViewById(R.id.startAndEnd);
         edtDescription = findViewById(R.id.edtDescription);
+        ll = findViewById(R.id.header);
+        participants = findViewById(R.id.participants);
+
+        ll.setVisibility(View.GONE);
 
         ePlace = findViewById(R.id.edtPlace);
         eAddress = findViewById(R.id.edtAddress);
@@ -86,12 +97,29 @@ public class ShowConferenceActivity extends BaseActivity {
 
     @SuppressLint("SetTextI18n")
     private void showConference(final String idConference){
+        final SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+
         Call<Conference> call = userService.getConference(idConference);
         call.enqueue(new Callback<Conference>() {
             @Override
             public void onResponse(Call<Conference> call, Response<Conference> response) {
 
                 Conference con = response.body();
+
+                if (con.getOrganizator().equals(sp.getString("UserAccountId", "not found"))){
+                    ll.setVisibility(View.VISIBLE);
+
+                    participants.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent myIntent = new Intent(getApplicationContext(), ParticipantsOfElementActivity.class);
+                            myIntent.putExtra("comeFrom", "conference");
+                            myIntent.putExtra("idConference", idConference);
+                            getApplication().startActivity(myIntent);
+                        }
+                    });
+
+                }
 
                 edtName.setText(con.getName());
                 edtTheme.setText("Content categorized as " + con.getTheme().toLowerCase() + ", has " + con.getAllowedParticipants() + " maximum participants");

@@ -81,7 +81,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ShowBarcodeActivity" />
-        <activity android:name=".ShowCalendarActivity"/>
+        <activity android:name=".ShowCalendarActivity" />
+        <activity android:name=".ParticipantsOfElementActivity"></activity>
     </application>
 
 </manifest>

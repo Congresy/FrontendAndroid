@@ -56,6 +56,7 @@ public class ProfileActivity extends BaseActivity {
     private String role__;
     
     LinearLayout ll;
+    LinearLayout ll1;
 
     List<SocialNetwork> socialNetworkList;
 
@@ -84,6 +85,7 @@ public class ProfileActivity extends BaseActivity {
         followers = findViewById(R.id.followers);
         aux = findViewById(R.id.aux);
         ll = findViewById(R.id.header);
+        ll1 = findViewById(R.id.header1);
 
         aux.setVisibility(View.GONE);
 
@@ -96,6 +98,7 @@ public class ProfileActivity extends BaseActivity {
         final Intent myIntent = getIntent();
 
         ll.setVisibility(View.GONE);
+        ll1.setVisibility(View.GONE);
         follow.setVisibility(View.GONE);
         friend.setVisibility(View.GONE);
         followers.setVisibility(View.GONE);
@@ -104,6 +107,7 @@ public class ProfileActivity extends BaseActivity {
             if (myIntent.getExtras().get("goingTo").equals("Organizator")){
 
                 if (myIntent.getExtras().get("idOrganizator").toString() != null){
+                    ll1.setVisibility(View.VISIBLE);
 
                     String aux = sp.getString("followed " + myIntent.getExtras().get("idOrganizator").toString(), "not found");
 
@@ -131,6 +135,7 @@ public class ProfileActivity extends BaseActivity {
                     aux(myIntent.getExtras().get("idOrganizator").toString());
                 }
             } else if (myIntent.getExtras().get("goingTo").equals("Speaker")){
+                ll1.setVisibility(View.VISIBLE);
 
                 if (myIntent.getExtras().get("idSpeaker").toString() != null){
 
@@ -160,6 +165,8 @@ public class ProfileActivity extends BaseActivity {
                     aux(myIntent.getExtras().get("Speaker").toString());
                 }
             }  else if (myIntent.getExtras().get("goingTo").equals("Unknown")){
+                ll1.setVisibility(View.VISIBLE);
+
                 loadActor();
             }
 
@@ -185,10 +192,14 @@ public class ProfileActivity extends BaseActivity {
 
                 final Actor actor = response.body();
 
-                if (actor.getBanned()){
-                    aux.setVisibility(View.VISIBLE);
-                    aux.setText("ACTOR BANNED");
-                    aux.setTextColor(Color.RED);
+                try {
+                    if (actor.getBanned()){
+                        aux.setVisibility(View.VISIBLE);
+                        aux.setText("ACTOR BANNED");
+                        aux.setTextColor(Color.RED);
+                    }
+                } catch (NullPointerException e){
+
                 }
 
                 try {

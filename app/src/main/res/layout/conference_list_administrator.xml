@@ -36,7 +36,7 @@
     <ImageButton
         android:layout_width="50dp"
         android:layout_height="match_parent"
-        android:src="@drawable/baseline_person_black_18dp"
+        android:src="@drawable/baseline_person_pin_black_18dp"
         android:scaleType="centerInside"
         android:id="@+id/author"
         android:background="#00000000"

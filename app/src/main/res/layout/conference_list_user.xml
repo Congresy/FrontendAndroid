@@ -24,21 +24,6 @@
         android:background="#00000000"
         />
 
-    <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="match_parent"
-        android:src="@drawable/baseline_group_add_black_18dp"
-        android:scaleType="centerInside"
-        android:id="@+id/btnJoin"
-        android:background="#00000000"
-        />
-
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="20dp"
-        android:layout_height="fill_parent"
-        android:gravity="center_vertical"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ImageButton
         android:layout_width="50dp"
@@ -47,7 +32,26 @@
         android:scaleType="centerInside"
         android:id="@+id/organizator"
         android:background="#00000000"
+        />
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/baseline_group_add_black_18dp"
+        android:scaleType="centerInside"
+        android:id="@+id/btnJoin"
+        android:background="#00000000"
         android:paddingEnd="10dp"
         />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="50dp"
+        android:layout_height="fill_parent"
+        android:gravity="center_vertical"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:paddingEnd="10dp"
+        />
+
 
 </LinearLayout>

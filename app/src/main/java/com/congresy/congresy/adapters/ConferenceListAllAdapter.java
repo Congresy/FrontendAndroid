@@ -94,9 +94,9 @@ public class ConferenceListAllAdapter extends BaseAdapter implements ListAdapter
         holder.name.setText(items.get(position).getName());
 
         try {
-            holder.aux.setText("(" + items.get(position).getSeatsLeft() + ") Join");
+            holder.aux.setText("(" + items.get(position).getSeatsLeft() + ")");
         } catch (NullPointerException e){
-            holder.aux.setText("(0) Join");
+            holder.aux.setText("(0)");
             holder.join.setClickable(false);
         }
 

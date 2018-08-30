@@ -95,6 +95,9 @@ public class ShowEventsOfConferenceActivity extends BaseActivity {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Intent intent = new Intent(ShowEventsOfConferenceActivity.this, ShowEventActivity.class);
                             intent.putExtra("idEvent", eventsList.get(position).getId());
+                            if(role.equals("Organizator")) {
+                                intent.putExtra("comeFrom", "owner");
+                            }
                             startActivity(intent);
                         }
                     });

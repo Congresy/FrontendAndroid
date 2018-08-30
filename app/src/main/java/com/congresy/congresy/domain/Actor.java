@@ -218,6 +218,6 @@ public class Actor {
 
     @Override
     public String toString() {
-        return getName();
+        return getName() + " " + getSurname();
     }
 }

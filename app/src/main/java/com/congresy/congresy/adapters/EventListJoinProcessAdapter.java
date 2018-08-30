@@ -42,6 +42,8 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
     private Context context;
     private List<String> state;
 
+    private boolean status;
+
     public EventListJoinProcessAdapter(Context context, List<Event> items) {
         this.context = context;
         this.items = items;
@@ -83,26 +85,42 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
             holder = (ViewHolder) convertView.getTag();
         }
 
+        SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+
+        if (sp.getBoolean("Join " + items.get(position).getId() + ", " + sp.getString("Id", "not found"), false)) {
+            holder.join.setTag("Dismiss");
+            holder.join.setImageResource(R.drawable.baseline_remove_black_18dp);
+            state.add("Dismiss " + items.get(position).getId());
+            notifyDataSetChanged();
+        } else if (sp.getBoolean("Dismiss " + items.get(position).getId() + ", " + sp.getString("Id", "not found"), false)) {
+            holder.join.setTag("Join");
+            holder.join.setImageResource(R.drawable.baseline_add_black_18dp);
+            state.add("Join " + items.get(position));
+            notifyDataSetChanged();
+        }
+
         holder.join.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                ImageButton b = (ImageButton) v;
-
-                if (b.getTag().toString().equals("Dismiss")){
-                    delete(items.get(position).getId(), holder);
+                if (holder.join.getTag() != null){
+                    if (holder.join.getTag().toString().equals("Dismiss")){
+                        delete(items.get(position).getId(), holder);
+                    } else {
+                        join(items.get(position).getId(), holder);
+                    }
                 } else {
-                    join(items.get(position).getId(), holder);
+                    holder.join.setTag("Join");
                 }
             }
         });
 
-        holder.name.setText(items.get(position).getName() + " - " + String.valueOf(items.get(position).getSeatsLeft()) + "\n" +  items.get(position).getStart() + " - " + items.get(position).getEnd());
+        holder.name.setText(items.get(position).getName() + "\n" + String.valueOf(items.get(position).getSeatsLeft()) + " seats left" + "\n" +  items.get(position).getStart() + " - " + items.get(position).getEnd());
 
         return convertView;
     }
 
     private void join(final String idEvent, final ViewHolder holder){
-        SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        final SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         username = sp.getString("Username", "not found");
 
         Call<Actor> call = userService.getActorByUsername(username);
@@ -116,7 +134,7 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
                     execute(idEvent, actor.getId(), holder);
 
                 } else {
-                    Toast.makeText(context.getApplicationContext(), "You have no social networks", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context.getApplicationContext(), "An error has occurred", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -136,6 +154,13 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
                     holder.join.setTag("Dismiss");
                     holder.join.setImageResource(R.drawable.baseline_remove_black_18dp);
                     state.add("Dismiss " + idEvent);
+
+                    SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putBoolean("Join " + idEvent + ", " + sp.getString("Id", "not found"), true);
+                    editor.putBoolean("Dismiss " + idEvent + ", " + sp.getString("Id", "not found"), false);
+                    editor.apply();
+
                     notifyDataSetChanged();
 
                     Toast.makeText(context.getApplicationContext(), "Joined to event successfully!", Toast.LENGTH_SHORT).show();
@@ -151,7 +176,7 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
     }
 
     private void delete(final String idEvent, final ViewHolder holder){
-        SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        final SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         username = sp.getString("Username", "not found");
 
         Call<Actor> call = userService.getActorByUsername(username);
@@ -165,7 +190,7 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
                     executeDelete(idEvent, actor.getId(), holder);
 
                 } else {
-                    Toast.makeText(context.getApplicationContext(), "You have no social networks", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context.getApplicationContext(), "An error has occurred", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -183,8 +208,15 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()){
                     holder.join.setTag("Join");
-                    holder.join.setImageResource(R.drawable.baseline_remove_black_18dp);
+                    holder.join.setImageResource(R.drawable.baseline_add_black_18dp);
                     state.add("Join " + idEvent);
+
+                    SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putBoolean("Join " + idEvent + ", " + sp.getString("Id", "not found"), false);
+                    editor.putBoolean("Dismiss " + idEvent + ", " + sp.getString("Id", "not found"), true);
+                    editor.apply();
+
                     notifyDataSetChanged();
 
                     Toast.makeText(context.getApplicationContext(), "Deleted from event successfully!", Toast.LENGTH_SHORT).show();
@@ -198,7 +230,6 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
             }
         });
     }
-
 
     static class ViewHolder {
         TextView name;

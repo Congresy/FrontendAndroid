@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +37,9 @@ public class ShowEventActivity extends BaseActivity {
 
     ImageButton speakers;
 
+    LinearLayout ll;
+    Button participants;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,20 +57,25 @@ public class ShowEventActivity extends BaseActivity {
         edtEnd = findViewById(R.id.edtEnd);
         edtDescription = findViewById(R.id.edtRequirements);
         speakers = findViewById(R.id.speakers);
+        ll = findViewById(R.id.header);
+        participants = findViewById(R.id.participants);
+
+        ll.setVisibility(View.GONE);
 
         ePlace = findViewById(R.id.edtPlace);
         eAddress = findViewById(R.id.edtAddress);
         eDetails = findViewById(R.id.edtDetailsT);
 
+
         speakers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ShowEventActivity.this, ShowSpeakersOfEventActivity.class);
-                intent.putExtra("idEvent", idEvent);
-                intent.putExtra("comeFrom", "user");
-                startActivity(intent);
-            }
-        });
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(ShowEventActivity.this, ShowSpeakersOfEventActivity.class);
+                        intent.putExtra("idEvent", idEvent);
+                        intent.putExtra("comeFrom", "user");
+                        startActivity(intent);
+                    }
+                });
 
         showConference(idEvent);
 
@@ -95,13 +105,31 @@ public class ShowEventActivity extends BaseActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    private void showConference(String idEvent){
+    private void showConference(final String idEvent){
         Call<Event> call = userService.getEvent(idEvent);
         call.enqueue(new Callback<Event>() {
             @Override
             public void onResponse(Call<Event> call, Response<Event> response) {
 
                 Event event = response.body();
+
+                try {
+                    if (getIntent().getStringExtra("comeFrom").equals("owner")) {
+                        ll.setVisibility(View.VISIBLE);
+
+                        participants.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent myIntent = new Intent(getApplicationContext(), ParticipantsOfElementActivity.class);
+                                myIntent.putExtra("comeFrom", "event");
+                                myIntent.putExtra("idEvent", idEvent);
+                                getApplication().startActivity(myIntent);
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                    ll.setVisibility(View.GONE);
+                }
 
                 edtName.setText(event.getName());
                 edtStart.setText(event.getStart() + " - " + event.getEnd());
