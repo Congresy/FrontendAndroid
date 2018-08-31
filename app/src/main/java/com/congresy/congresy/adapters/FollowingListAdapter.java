@@ -106,7 +106,8 @@ public class FollowingListAdapter extends BaseAdapter implements ListAdapter {
 
                 SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sp.edit();
-                editor.remove("followed " + idActorToFollow);
+                editor.remove("followed " + idActorToFollow + ", " + sp.getString("Id", "not found"));
+                editor.remove("followed " + sp.getString("Id", "not found") + ", " + idActorToFollow);
                 editor.apply();
 
                 Intent intent = new Intent(context, FollowingActivity.class);

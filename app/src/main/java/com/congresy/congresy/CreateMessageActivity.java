@@ -177,10 +177,10 @@ public class CreateMessageActivity extends BaseActivity {
     }
 
     private boolean validate(String subject, String body){
-        if(checkString("both", subject, subjectT, 20))
+        if(checkString("both", subject, subjectT, 45))
             aux++;
 
-        if(checkString("both", body, bodyT, 80))
+        if(checkString("both", body, bodyT, 300))
             aux++;
 
         return aux == 0;

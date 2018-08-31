@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -37,6 +38,8 @@ public class ShowAllConferencesActivity extends BaseActivity {
     Button filter;
     Button order;
 
+    LinearLayout ll;
+
     private String actorId;
 
     @Override
@@ -57,7 +60,7 @@ public class ShowAllConferencesActivity extends BaseActivity {
         search = findViewById(R.id.search);
         filter = findViewById(R.id.filter);
         order = findViewById(R.id.order);
-
+        ll = findViewById(R.id.header);
 
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         actorId = sp.getString("Id", "not found");
@@ -67,7 +70,7 @@ public class ShowAllConferencesActivity extends BaseActivity {
         try {
             myIntent.getExtras().get("comeFrom").toString();
             loadUpcomingConferences();
-            setTitle("Upcoming conferences");
+            ll.setVisibility(View.GONE);
         } catch (Exception e){
             try {
                 String order = myIntent.getExtras().get("order").toString();
@@ -75,7 +78,6 @@ public class ShowAllConferencesActivity extends BaseActivity {
             } catch (Exception e1){
                 loadAllConferences("date");
             }
-            setTitle("Conferences");
         }
 
         filter.setOnClickListener(new View.OnClickListener() {

@@ -42,7 +42,7 @@
     <ImageButton
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/baseline_label_black_18dp"
+        android:src="@drawable/comment_text_multiple"
         android:scaleType="centerInside"
         android:id="@+id/replies"
         android:layout_below="@id/text"

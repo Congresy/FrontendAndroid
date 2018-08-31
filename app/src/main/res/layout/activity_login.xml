@@ -18,7 +18,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Username: "
-
+            android:paddingTop="10dp"
+            android:paddingStart="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             />
 
         <EditText
@@ -26,12 +28,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Password: "
+            android:paddingStart="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             />
 
         <EditText
@@ -39,6 +46,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             />
 
         <Button

@@ -76,8 +76,7 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
             holder.reply = convertView.findViewById(R.id.reply);
             holder.replies = convertView.findViewById(R.id.replies);
             holder.author= convertView.findViewById(R.id.author);
-            holder.text1 = convertView.findViewById(R.id.text1);
-            holder.text2 = convertView.findViewById(R.id.text2);
+            holder.aux = convertView.findViewById(R.id.aux);
 
             convertView.setTag(holder);
         } else {
@@ -108,8 +107,7 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
         holder.title.setText(items.get(position).getTitle());
         holder.text.setText(items.get(position).getText());
 
-        holder.text1.setText(String.valueOf(items.get(position).getThumbsUp()));
-        holder.text2.setText(String.valueOf(items.get(position).getThumbsDown()));
+        holder.aux.setText(String.valueOf(items.get(position).getThumbsUp()) + " - " + String.valueOf(items.get(position).getThumbsDown()));
 
         holder.up.setVisibility(View.GONE);
         holder.down.setVisibility(View.GONE);
@@ -229,8 +227,7 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
         ImageButton reply;
         ImageButton replies;
         ImageButton author;
-        TextView text1;
-        TextView text2;
+        TextView aux;
     }
 
 }

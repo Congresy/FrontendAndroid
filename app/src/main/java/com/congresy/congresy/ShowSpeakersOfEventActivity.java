@@ -58,7 +58,9 @@ public class ShowSpeakersOfEventActivity extends BaseActivity {
             btnAddSpeakers.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getSpeakers();
+                    Intent intent = new Intent(ShowSpeakersOfEventActivity.this, SearchSpeakersActivity.class);
+                    intent.putExtra("idEvent", event_);
+                    startActivity(intent);
                 }
             });
 
@@ -99,7 +101,7 @@ public class ShowSpeakersOfEventActivity extends BaseActivity {
                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                            Intent myIntent = new Intent(getApplicationContext(), ProfileActivity.class);
                            myIntent.putExtra("goingTo", "Speaker");
-                           myIntent.putExtra("idAuthor", speakers.get(position).getId());
+                           myIntent.putExtra("idSpeaker", speakers.get(position).getId());
                            getApplication().startActivity(myIntent);
                        }
                    });
@@ -107,37 +109,6 @@ public class ShowSpeakersOfEventActivity extends BaseActivity {
 
                 } else {
                     Toast.makeText(ShowSpeakersOfEventActivity.this, "This event has no speakers!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Actor>> call, Throwable t) {
-                Toast.makeText(ShowSpeakersOfEventActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void getSpeakers(){
-        Intent myIntent = getIntent();
-        final String id = myIntent.getExtras().get("idEvent").toString();
-
-        Call<List<Actor>> call = userService.getSpeakersNotInEvent(id);
-        call.enqueue(new Callback<List<Actor>>() {
-            @Override
-            public void onResponse(Call<List<Actor>> call, Response<List<Actor>> response) {
-                if(response.isSuccessful()){
-
-                    Intent myIntent = getIntent();
-                    String id = myIntent.getExtras().get("idEvent").toString();
-
-                    speakers = response.body();
-
-                    Intent intent = new Intent(ShowSpeakersOfEventActivity.this, SearchSpeakersActivity.class);
-                    intent.putExtra("idEvent", id);
-                    startActivity(intent);
-
-                } else {
-                    Toast.makeText(ShowSpeakersOfEventActivity.this, "There are no speakers in the system", Toast.LENGTH_SHORT).show();
                 }
             }
 

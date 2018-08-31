@@ -7,6 +7,8 @@
         <!-- Customize your theme here. -->
 
         <!-- colorPrimary is used for the default action bar background -->
+        <item name="android:actionMenuTextColor">@color/grey</item>
+
         <item name="colorPrimary">@color/grey</item>
 
         <!-- colorPrimaryDark is used for the status bar -->

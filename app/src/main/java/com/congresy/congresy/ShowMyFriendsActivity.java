@@ -59,7 +59,7 @@ public class ShowMyFriendsActivity extends BaseActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent intent = new Intent(ShowMyFriendsActivity.this, ProfileActivity.class);
                         intent.putExtra("goingTo", "Unknown");
-                        intent.putExtra("idUser", friends.get(position).getId());
+                        intent.putExtra("idAuthor", friends.get(position).getId());
                         startActivity(intent);
                     }
                 });

@@ -165,13 +165,12 @@ public class LoginActivity extends AppCompatActivity {
 
                             } else {
                                 try {
-                                    if (!role_.equals("User") && !role_.equals("Administrator")){
+                                    Intent intentN = getIntent();
+                                    String id = intentN.getExtras().get("idConference").toString();
+
+                                    if (id != null && !role_.equals("User") && !role_.equals("Administrator")){
                                         showAlertDialogButtonClicked();
                                     } else {
-
-                                        Intent intentN = getIntent();
-                                        String id = intentN.getExtras().get("idConference").toString();
-
                                         if (actor.getConferences().contains(id)){
                                             showAlertDialogButtonClicked1();
                                         } else {

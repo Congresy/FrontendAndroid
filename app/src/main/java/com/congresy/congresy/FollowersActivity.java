@@ -53,7 +53,7 @@ public class FollowersActivity extends BaseActivity {
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         String actorId = sp.getString("Id", "not found");
 
-        Call<List<Actor>> call = userService.getFollowing(actorId);
+        Call<List<Actor>> call = userService.getFollowers(actorId);
         call.enqueue(new Callback<List<Actor>>() {
             @Override
             public void onResponse(Call<List<Actor>> call, Response<List<Actor>> response) {

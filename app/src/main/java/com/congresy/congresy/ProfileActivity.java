@@ -106,9 +106,10 @@ public class ProfileActivity extends BaseActivity {
                 if (myIntent.getExtras().get("idOrganizator").toString() != null){
                     ll1.setVisibility(View.VISIBLE);
 
-                    String aux = sp.getString("followed " + myIntent.getExtras().get("idOrganizator").toString(), "not found");
+                    String aux1 = sp.getString("followed " + myIntent.getExtras().get("idOrganizator").toString() + ", " + sp.getString("Id", "not found"), "not found");
+                    String aux2 = sp.getString("followed " + sp.getString("Id", "not found") + ", " + myIntent.getExtras().get("idOrganizator").toString(), "not found");
 
-                    if (!aux.equals("not found")) {
+                    if (!aux1.equals("not found") || !aux2.equals("not found")) {
                         follow.setVisibility(View.GONE);
                     } else if (role__.equals("Organizator") || role__.equals("Administrator")) {
                         follow.setVisibility(View.GONE);
@@ -120,7 +121,8 @@ public class ProfileActivity extends BaseActivity {
                             public void onClick(View v) {
                                 SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sp.edit();
-                                editor.putString("followed " + myIntent.getExtras().get("idOrganizator").toString(), "1");
+                                editor.putString("followed " + myIntent.getExtras().get("idOrganizator").toString() + ", " + sp.getString("Id", "not found"), "1");
+                                editor.putString("followed " + sp.getString("Id", "not found") + ", " + myIntent.getExtras().get("idOrganizator").toString(), "1");
                                 editor.apply();
 
                                 follow(myIntent.getExtras().get("idOrganizator").toString());
@@ -132,13 +134,19 @@ public class ProfileActivity extends BaseActivity {
                     aux(myIntent.getExtras().get("idOrganizator").toString());
                 }
             } else if (myIntent.getExtras().get("goingTo").equals("Speaker")){
-                ll1.setVisibility(View.VISIBLE);
+
+                if (sp.getString("Role", "not found").equals("Organizator") || sp.getString("Role", "not found").equals("Administrator")){
+                    ll1.setVisibility(View.GONE);
+                } else {
+                    ll1.setVisibility(View.VISIBLE);
+                }
 
                 if (myIntent.getExtras().get("idSpeaker").toString() != null){
 
-                    String aux = sp.getString("followed " + myIntent.getExtras().get("idSpeaker").toString(), "not found");
+                    String aux1 = sp.getString("followed " + myIntent.getExtras().get("idSpeaker").toString() + ", " + sp.getString("Id", "not found"), "not found");
+                    String aux2 = sp.getString("followed " + sp.getString("Id", "not found") + ", " + myIntent.getExtras().get("idSpeaker").toString(), "not found");
 
-                    if (!aux.equals("not found")) {
+                    if (!aux1.equals("not found") || !aux2.equals("not found")) {
                         follow.setVisibility(View.GONE);
                     } else if (role__.equals("Organizator") || role__.equals("Administrator")) {
                         follow.setVisibility(View.GONE);
@@ -150,7 +158,8 @@ public class ProfileActivity extends BaseActivity {
                             public void onClick(View v) {
                                 SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sp.edit();
-                                editor.putString("followed " + myIntent.getExtras().get("idSpeaker").toString(), "1");
+                                editor.putString("followed " + myIntent.getExtras().get("idSpeaker").toString() + ", " + sp.getString("Id", "not found"), "1");
+                                editor.putString("followed " + sp.getString("Id", "not found") + ", " + myIntent.getExtras().get("idSpeaker").toString(), "1");
                                 editor.apply();
 
                                 follow(myIntent.getExtras().get("idSpeaker").toString());
@@ -159,7 +168,7 @@ public class ProfileActivity extends BaseActivity {
                     }
 
                     executeRest(myIntent.getExtras().get("idSpeaker").toString());
-                    aux(myIntent.getExtras().get("Speaker").toString());
+                    aux(myIntent.getExtras().get("idSpeaker").toString());
                 }
             }  else if (myIntent.getExtras().get("goingTo").equals("Unknown")){
                 ll1.setVisibility(View.VISIBLE);
@@ -269,23 +278,23 @@ public class ProfileActivity extends BaseActivity {
 
                 if (actor.getRole().equals("User")){
 
-                    String aux = sp.getString("friend " + myIntent.getExtras().get("idAuthor").toString(), "not found");
+                    String aux1 = sp.getString("friend " + myIntent.getExtras().get("idAuthor").toString() + ", " + sp.getString("Id", "not found"), "not found");
+                    String aux2 = sp.getString("friend " + sp.getString("Id", "not found") + ", " + myIntent.getExtras().get("idAuthor").toString(), "not found");
 
-                    if (!aux.equals("not found")) {
+                    if (!aux1.equals("not found") || !aux2.equals("not found") ) {
+                        friend.setVisibility(View.GONE);
+                    } else if (role.equals("Organizator") || role.equals("Administrator")) {
                         friend.setVisibility(View.GONE);
                     } else {
-                        if (role.equals("Organizator") || role.equals("Administrator")) {
-                            friend.setVisibility(View.GONE);
-                        } else {
-                            friend.setVisibility(View.VISIBLE);
-                        }
+                        friend.setVisibility(View.VISIBLE);
+
 
                         friend.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sp.edit();
-                                editor.putString("friend " + myIntent.getExtras().get("idAuthor").toString(), "1");
+                                editor.putString("friend " + myIntent.getExtras().get("idAuthor").toString() + ", " + sp.getString("Id", "not found"), "1");
 
                                 Set<String> values = new HashSet<>();
                                 values.add(myIntent.getExtras().get("idAuthor").toString());
@@ -302,9 +311,10 @@ public class ProfileActivity extends BaseActivity {
 
                 } else if (actor.getRole().equals("Organizator") || actor.getRole().equals("Administrator")) {
 
-                    String aux = sp.getString("followed " + myIntent.getExtras().get("idAuthor").toString(), "not found");
+                    String aux1 = sp.getString("followed " + myIntent.getExtras().get("idAuthor").toString() + ", " + sp.getString("Id", "not found"), "not found");
+                    String aux2 = sp.getString("followed " + sp.getString("Id", "not found") + ", " + myIntent.getExtras().get("idAuthor").toString(), "not found");
 
-                    if (!aux.equals("not found")) {
+                    if (!aux1.equals("not found") || !aux2.equals("not found")) {
                         follow.setVisibility(View.GONE);
                     } if (role.equals("Organizator") || role.equals("Administrator")) {
                         follow.setVisibility(View.GONE);
@@ -316,7 +326,8 @@ public class ProfileActivity extends BaseActivity {
                             public void onClick(View v) {
                                 SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sp.edit();
-                                editor.putString("followed " + myIntent.getExtras().get("idAuthor").toString(), "1");
+                                editor.putString("followed " + myIntent.getExtras().get("idAuthor").toString() + ", " + sp.getString("Id", "not found"), "1");
+                                editor.putString("followed " + sp.getString("Id", "not found") + ", " + myIntent.getExtras().get("idAuthor").toString(), "1");
                                 editor.apply();
 
                                 follow(myIntent.getExtras().get("idAuthor").toString());
@@ -328,9 +339,10 @@ public class ProfileActivity extends BaseActivity {
 
                 } else if (actor.getRole().equals("Speaker")){
 
-                    String aux = sp.getString("followed " + myIntent.getExtras().get("idAuthor").toString(), "not found");
+                    String aux1 = sp.getString("followed " + myIntent.getExtras().get("idAuthor").toString() + ", " + sp.getString("Id", "not found"), "not found");
+                    String aux2 = sp.getString("followed " + sp.getString("Id", "not found") + ", " + myIntent.getExtras().get("idAuthor").toString(), "not found");
 
-                    if (!aux.equals("not found")) {
+                    if (!aux1.equals("not found") || !aux2.equals("not found")) {
                         follow.setVisibility(View.GONE);
                     }  if (role.equals("Organizator") || role.equals("Administrator")) {
                     follow.setVisibility(View.GONE);
@@ -343,7 +355,8 @@ public class ProfileActivity extends BaseActivity {
                             public void onClick(View v) {
                                 SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sp.edit();
-                                editor.putString("followed " + myIntent.getExtras().get("idAuthor").toString(), "1");
+                                editor.putString("followed " + myIntent.getExtras().get("idAuthor").toString() + ", " + sp.getString("Id", "not found"), "1");
+                                editor.putString("followed " + sp.getString("Id", "not found") + ", " + myIntent.getExtras().get("idAuthor").toString(), "1");
                                 editor.apply();
 
                                 follow(myIntent.getExtras().get("idAuthor").toString());
@@ -359,7 +372,7 @@ public class ProfileActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<Actor> call, Throwable t) {
-                Toast.makeText(ProfileActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this, "Error! Please try again!2", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -564,8 +577,7 @@ public class ProfileActivity extends BaseActivity {
                         eDetails.setVisibility(View.GONE);
 
                         ll.setVisibility(View.GONE);
-                        follow.setVisibility(View.GONE);
-                        friend.setVisibility(View.GONE);
+                        ll1.setVisibility(View.GONE);
                         followers.setVisibility(View.GONE);
 
                     } else {

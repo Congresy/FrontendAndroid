@@ -43,19 +43,23 @@ public class ShowMyCommentsActivity extends BaseActivity {
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         String id = sp.getString("Id", "not_found");
 
-        Intent myIntent = getIntent();
-        final String parent = myIntent.getExtras().get("parent").toString();
-
         Call<List<Comment>> call = userService.getMyComments(id);
         call.enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
 
-                List<Comment> myComments = response.body();
+                if (response.isSuccessful()){
 
-                MyCommentsListAdapter adapter = new MyCommentsListAdapter(getApplicationContext(), myComments, parent);
+                    List<Comment> myComments = response.body();
 
-                lv.setAdapter(adapter);
+                    MyCommentsListAdapter adapter = new MyCommentsListAdapter(getApplicationContext(), myComments);
+
+                    lv.setAdapter(adapter);
+                } else {
+                    Toast.makeText(ShowMyCommentsActivity.this, "You have no comments yet!", Toast.LENGTH_SHORT).show();
+
+                }
+
 
             }
 

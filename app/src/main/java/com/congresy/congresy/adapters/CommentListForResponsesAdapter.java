@@ -74,8 +74,7 @@ public class CommentListForResponsesAdapter extends BaseAdapter implements ListA
             holder.reply = convertView.findViewById(R.id.reply);
             holder.replies = convertView.findViewById(R.id.replies);
             holder.author = convertView.findViewById(R.id.author);
-            holder.text1 = convertView.findViewById(R.id.text1);
-            holder.text2 = convertView.findViewById(R.id.text2);
+            holder.aux = convertView.findViewById(R.id.aux);
 
 
             convertView.setTag(holder);
@@ -88,8 +87,8 @@ public class CommentListForResponsesAdapter extends BaseAdapter implements ListA
         holder.title.setText(items.get(position).getTitle());
         holder.text.setText(items.get(position).getText());
 
-        holder.text1.setText(items.get(position).getThumbsUp());
-        holder.text2.setText(items.get(position).getThumbsDown());
+        holder.aux.setText(String.valueOf(items.get(position).getThumbsUp()) + " - " + String.valueOf(items.get(position).getThumbsDown()));
+
 
 
         SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
@@ -198,8 +197,7 @@ public class CommentListForResponsesAdapter extends BaseAdapter implements ListA
         ImageButton reply;
         ImageButton replies;
         ImageButton author;
-        TextView text1;
-        TextView text2;
+        TextView aux;
     }
 
 }

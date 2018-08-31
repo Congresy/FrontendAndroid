@@ -86,9 +86,10 @@ public class FriendsListAdapter extends BaseAdapter implements ListAdapter {
         holder.upcoming.setVisibility(View.GONE);
         holder.message.setVisibility(View.GONE);
 
-        holder.name.setText(items.get(position).getName());
+        holder.name.setText(items.get(position).getName() + " " + items.get(position).getSurname());
 
         final SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+
         final String check1 = sp.getString("statusFriendWhoDontKnowString " + sp.getString("Id", "not found") + ", " + items.get(position).getId(), "0");
         final String check2 = sp.getString("statusFriendWhoDontKnowString " + items.get(position).getId() + ", " + sp.getString("Id", "not found"), "0");
 
@@ -121,26 +122,14 @@ public class FriendsListAdapter extends BaseAdapter implements ListAdapter {
                 });
 
         } else if (!status22.isEmpty()) {
+            holder.done.setImageResource(R.drawable.baseline_access_time_black_18dp);
             holder.done.setVisibility(View.VISIBLE);
-            holder.cancel.setVisibility(View.VISIBLE);
-
             holder.done.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.putString("statusFriendWhoDontKnowString " + sp.getString("Id", "not found") + ", " + items.get(position).getId(), "1");
-                        editor.apply();
-                        Intent intent = new Intent(context, ShowMyFriendsActivity.class);
-                        context.startActivity(intent);
-                    }
-                });
-
-                holder.cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        unfriend(items.get(position).getId());
-                    }
-                });
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context.getApplicationContext(), "This friend request is pending", Toast.LENGTH_SHORT).show();
+                }
+            });
 
         } else {
             holder.done.setImageResource(R.drawable.baseline_access_time_black_18dp);
@@ -212,7 +201,9 @@ public class FriendsListAdapter extends BaseAdapter implements ListAdapter {
 
                 SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sp.edit();
-                editor.remove("friend " + idActorToFriend);
+                editor.remove("friend " + sp.getString("Id", "not found") + ", " + idActorToFriend);
+                editor.remove("friend " + idActorToFriend + ", " + sp.getString("Id", "not found"));
+
                 editor.apply();
 
                 Intent intent = new Intent(context, ShowMyFriendsActivity.class);

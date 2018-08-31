@@ -69,7 +69,7 @@ public class BaseActivity extends AppCompatActivity {
             osArray.add("Messages");
         }
 
-        if(role.equals("User")){
+        if(role.equals("User") || role.equals("Speaker")){
             osArray.add("Home");
             osArray.add("Profile");
             osArray.add("Social");
@@ -122,7 +122,7 @@ public class BaseActivity extends AppCompatActivity {
             });
         }
 
-        if(role.equals("User")) {
+        if(role.equals("User") || role.equals("Speaker")) {
             mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -85,10 +85,10 @@ public class CreateCommentActivity extends BaseActivity {
 
     private boolean validate(String title, String body){
 
-        if(checkString("both", title, titleE, 20))
+        if(checkString("both", title, titleE, 40))
             aux++;
 
-        if(checkString("both", body, bodyE, 100))
+        if(checkString("both", body, bodyE, 350))
             aux++;
 
         return aux == 0;

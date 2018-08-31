@@ -215,29 +215,30 @@ public class CreateEventActivity extends BaseActivity {
     }
 
     private boolean validate(String name, String description, String allowedParticipants, String town, String country, String address, String postalCode, String details){
-        if(checkString("both", name, edtName, 20))
+        if(checkString("both", name, edtName, 50))
             aux++;
 
-        if(checkString("both", description, edtDescription, 80))
+        if(checkString("both", description, edtDescription, 300))
             aux++;
 
         if(checkInteger("both", allowedParticipants, edtAllw))
             aux++;
 
-        if(checkString("both", town, edtTown, 20))
+        if (checkString("both", town, edtTown, 40))
             aux++;
 
-        if(checkString("both", country, edtCountry, 20))
+        if (checkString("both", country, edtCountry, 30))
             aux++;
 
-        if(checkString("both", address, edtAddress, 30))
+        if (checkString("both", address, edtAddress, 60))
             aux++;
 
-        if(checkString("both", postalCode, edtPostalCode, 15))
+        if (checkString("both", postalCode, edtPostalCode, 15))
             aux++;
 
-        if(checkString("both", details, edtDetails, 20))
+        if (checkString("both", details, edtDetails, 70))
             aux++;
+
 
         return aux == 0;
     }

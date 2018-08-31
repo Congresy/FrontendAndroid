@@ -1,17 +1,14 @@
 package com.congresy.congresy;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.congresy.congresy.adapters.ConferenceListAddSpeakerAdapter;
-import com.congresy.congresy.adapters.EventListOrganizatorAdapter;
 import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
@@ -19,9 +16,12 @@ import com.congresy.congresy.remote.UserService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchSpeakersActivity extends BaseActivity implements SearchView.OnQueryTextListener {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-    private final static List<Actor> speakers = ShowSpeakersOfEventActivity.speakers;
+public class SearchSpeakersActivity extends BaseActivity{
+
     private ConferenceListAddSpeakerAdapter adapter;
 
     ListView list;
@@ -49,13 +49,6 @@ public class SearchSpeakersActivity extends BaseActivity implements SearchView.O
 
         userService = ApiUtils.getUserService();
 
-        List<Actor> aux = new ArrayList<>(speakers);
-
-        adapter = new ConferenceListAddSpeakerAdapter(getApplicationContext(), speakers, aux, idEvent);
-        list.setAdapter(adapter);
-
-        search.setOnQueryTextListener(this);
-
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,23 +61,57 @@ public class SearchSpeakersActivity extends BaseActivity implements SearchView.O
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(SearchSpeakersActivity.this, ShowSpeakersOfEventActivity.class);
+                Intent myIntent = new Intent(SearchSpeakersActivity.this, SearchSpeakersActivity.class);
                 myIntent.putExtra("idEvent", idEvent);
                 myIntent.putExtra("comeFrom", "organizator");
                 startActivity(myIntent);
             }
         });
+
+        getSpeakers();
     }
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
+    private void getSpeakers(){
+        Intent myIntent = getIntent();
+        final String id = myIntent.getExtras().get("idEvent").toString();
 
-        return false;
-    }
+        Call<List<Actor>> call = userService.getSpeakersNotInEvent(id);
+        call.enqueue(new Callback<List<Actor>>() {
+            @Override
+            public void onResponse(Call<List<Actor>> call, Response<List<Actor>> response) {
+                if(response.isSuccessful()){
 
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        adapter.filter(newText);
-        return false;
+                    List<Actor> aux = new ArrayList<>(response.body());
+
+                    adapter = new ConferenceListAddSpeakerAdapter(getApplicationContext(), response.body(), aux, id);
+                    list.setAdapter(adapter);
+
+                    search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String query) {
+
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onQueryTextChange(String newText) {
+                            adapter.filter(newText);
+                            return false;
+                        }
+                    });
+
+
+
+
+                } else {
+                    Toast.makeText(SearchSpeakersActivity.this, "There are no speakers in the system", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Actor>> call, Throwable t) {
+                Toast.makeText(SearchSpeakersActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

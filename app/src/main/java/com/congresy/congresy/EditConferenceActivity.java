@@ -76,7 +76,7 @@ public class EditConferenceActivity extends BaseActivity {
 
         // set spinner values
         String[] arraySpinner = new String[] {
-                "General", "Another", "New one"
+                "General", "Physics", "Future", "Gaming", "Present", "Computer Science", "Engineering", "Medicine", "Sports", "eSports", "Consoles", "Other"
         };
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
@@ -219,20 +219,21 @@ public class EditConferenceActivity extends BaseActivity {
         if(checkString("both", description, edtDescription, 200))
             aux++;
 
-        if(checkString("both", town, edtTown, 20))
+        if (checkString("both", town, edtTown, 40))
             aux++;
 
-        if(checkString("both", country, edtCountry, 20))
+        if (checkString("both", country, edtCountry, 30))
             aux++;
 
-        if(checkString("both", address, edtAddress, 30))
+        if (checkString("both", address, edtAddress, 60))
             aux++;
 
-        if(checkString("both", postalCode, edtPostalCode, 15))
+        if (checkString("both", postalCode, edtPostalCode, 15))
             aux++;
 
-        if(checkString("both", details, edtDetails, 50))
+        if (checkString("both", details, edtDetails, 70))
             aux++;
+
 
         return aux == 0;
     }

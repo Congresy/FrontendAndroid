@@ -167,19 +167,19 @@ public class EditProfileActivity extends BaseActivity {
         if (checkString("blank", phone, edtPhone, null) || checkPhone(phone, edtPhone))
             aux++;
 
-        if (checkString("both", town, edtTown, 20))
+        if (checkString("both", town, edtTown, 40))
             aux++;
 
-        if (checkString("both", country, edtCountry, 20))
+        if (checkString("both", country, edtCountry, 30))
             aux++;
 
-        if (checkString("both", address, edtAddress, 30))
+        if (checkString("both", address, edtAddress, 60))
             aux++;
 
         if (checkString("both", postalCode, edtPostalCode, 15))
             aux++;
 
-        if (checkString("both", details, edtDetails, 20))
+        if (checkString("both", details, edtDetails, 70))
             aux++;
 
         if (!photo.equals(""))

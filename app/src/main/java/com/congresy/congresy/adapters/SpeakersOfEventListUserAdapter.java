@@ -68,8 +68,7 @@ public class SpeakersOfEventListUserAdapter extends BaseAdapter implements ListA
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.name.setText(items.get(position).getName());
-
+        holder.name.setText(items.get(position).getName() + " " + items.get(position).getSurname());
 
         holder.speakers.setOnClickListener(new View.OnClickListener(){
             @Override

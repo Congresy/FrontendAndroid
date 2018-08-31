@@ -99,7 +99,7 @@ public class ShowMyConferencesActivity extends BaseActivity {
                     conferencesList = response.body();
 
                     if (response.body().isEmpty()){
-                        Toast.makeText(ShowMyConferencesActivity.this, "There are no past conferences!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ShowMyConferencesActivity.this, "There are no upcoming conferences!", Toast.LENGTH_SHORT).show();
                     }
 
                     if(role.equals("Organizator")) {

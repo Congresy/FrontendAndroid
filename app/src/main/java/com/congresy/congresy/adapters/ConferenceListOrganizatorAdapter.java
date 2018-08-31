@@ -121,8 +121,8 @@ public class ConferenceListOrganizatorAdapter extends BaseAdapter implements Lis
         holder.message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (items.get(position).getParticipants() != null){
-                    Toast.makeText(context.getApplicationContext(), "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                if (items.get(position).getParticipants() == null){
+                    Toast.makeText(context.getApplicationContext(), "This conference has no participants to send a broadcast message", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent myIntent = new Intent(context, CreateMessageActivity.class);
                     myIntent.putExtra("fromConference", items.get(position).getId());

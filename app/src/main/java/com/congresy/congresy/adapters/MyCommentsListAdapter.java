@@ -1,7 +1,10 @@
 package com.congresy.congresy.adapters;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +14,20 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.congresy.congresy.CreateCommentActivity;
 import com.congresy.congresy.EditCommentActivity;
+import com.congresy.congresy.ParticipantsOfElementActivity;
 import com.congresy.congresy.R;
 import com.congresy.congresy.ShowConferenceActivity;
 import com.congresy.congresy.ShowMyCommentsActivity;
 import com.congresy.congresy.ShowPostActivity;
 import com.congresy.congresy.ShowResponsesOfComment;
 import com.congresy.congresy.domain.Comment;
+import com.congresy.congresy.domain.Conference;
+import com.congresy.congresy.domain.Post;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -33,12 +41,12 @@ public class MyCommentsListAdapter extends BaseAdapter implements ListAdapter {
 
     private List<Comment> items;
     private Context context;
-    private String parent_;
 
-    public MyCommentsListAdapter(Context context, List<Comment> items, String parent_) {
+    private int aux;
+
+    public MyCommentsListAdapter(Context context, List<Comment> items) {
         this.context = context;
         this.items = items;
-        this.parent_ = parent_;
     }
 
     @Override
@@ -110,24 +118,14 @@ public class MyCommentsListAdapter extends BaseAdapter implements ListAdapter {
 
         } catch (Exception e){
 
-            holder.replies.setImageResource(R.drawable.baseline_label_off_black_18dp);
-            holder.replies.setClickable(false);
+            holder.replies.setVisibility(View.GONE);
         }
 
 
         holder.toC.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if (parent_.equals("conference")){
-                    Intent myIntent = new Intent(context, ShowConferenceActivity.class);
-                    myIntent.putExtra("idConference", items.get(position).getCommentable());
-                    context.startActivity(myIntent);
-                } else if (parent_.equals("post")){
-                    Intent myIntent = new Intent(context, ShowPostActivity.class);
-                    myIntent.putExtra("idPost", items.get(position).getCommentable());
-                    context.startActivity(myIntent);
-                }
-
+                getComment(items.get(position).getId(), position);
             }
         });
 
@@ -141,6 +139,70 @@ public class MyCommentsListAdapter extends BaseAdapter implements ListAdapter {
         });
 
         return convertView;
+    }
+
+    private void getComment(final String idComment, final int position){
+        Call<Comment> call = userService.getComment(idComment);
+        call.enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+
+                getConference(response.body().getCommentable(), position);
+            }
+
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
+                Toast.makeText(context, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getConference(final String idConference, final int position){
+        Call<Conference> call = userService.getConference(idConference);
+        call.enqueue(new Callback<Conference>() {
+            @Override
+            public void onResponse(Call<Conference> call, Response<Conference> response) {
+
+                if (response.code() == 404){
+                    getPost(idConference, position);
+                } else {
+                    Intent myIntent = new Intent(context, ShowConferenceActivity.class);
+                    myIntent.putExtra("idConference", items.get(position).getCommentable());
+                    context.startActivity(myIntent);
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Conference> call, Throwable t) {
+                Toast.makeText(context, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void getPost(final String idPost, final int position){
+        Call<Post> call = userService.getPost(idPost);
+        call.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+
+                if (response.code() != 404){
+                    Intent myIntent = new Intent(context, ShowPostActivity.class);
+                        myIntent.putExtra("idPost", items.get(position).getCommentable());
+                        context.startActivity(myIntent);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                Toast.makeText(context, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void delete(String idComment){

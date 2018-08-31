@@ -130,10 +130,10 @@ public class EditPostActivity extends BaseActivity {
     }
 
     private boolean validate(String title, String body){
-        if(checkString("both", title, titleE, 20))
+        if(checkString("both", title, titleE, 80))
             aux++;
 
-        if(checkString("both", body, bodyE, 200))
+        if(checkString("both", body, bodyE, 500))
             aux++;
 
         return aux == 0;
