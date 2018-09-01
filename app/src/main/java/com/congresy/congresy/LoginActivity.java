@@ -137,7 +137,6 @@ public class LoginActivity extends AppCompatActivity {
                             intent = new Intent(LoginActivity.this, HomeActivity.class);
                         }
 
-
                         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sp.edit();
                         editor.putString("Role", actor.getRole());
@@ -168,18 +167,18 @@ public class LoginActivity extends AppCompatActivity {
                                     Intent intentN = getIntent();
                                     String id = intentN.getExtras().get("idConference").toString();
 
-                                    if (id != null && !role_.equals("User") && !role_.equals("Administrator")){
+                                    if (id != null && !role_.equals("User")){
                                         showAlertDialogButtonClicked();
                                     } else {
                                         if (actor.getConferences().contains(id)){
                                             showAlertDialogButtonClicked1();
                                         } else {
                                             Intent intentConference = new Intent(LoginActivity.this, JoiningConferenceActivity.class);
+                                            intentConference.putExtra("price", getIntent().getStringExtra("price"));
                                             intentConference.putExtra("idConference", id);
                                             startActivity(intentConference);
                                         }
                                     }
-
                                 } catch (Exception e) {
                                     startActivity(intent);
                                 }

@@ -147,7 +147,7 @@ public class ShowPostActivity extends BaseActivity {
 
                 comments.setAdapter(adapter);
 
-                justifyListViewHeightBasedOnChildren(comments);
+                // justifyListViewHeightBasedOnChildren(comments);
 
                 comments.setScrollContainer(false);
 

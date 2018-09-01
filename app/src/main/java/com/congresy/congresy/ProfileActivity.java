@@ -44,6 +44,7 @@ public class ProfileActivity extends BaseActivity {
     TextView ePlace;
     TextView eAddress;
     TextView eDetails;
+    TextView text3;
 
     Button btnEdit;
     Button follow;
@@ -83,6 +84,7 @@ public class ProfileActivity extends BaseActivity {
         ll = findViewById(R.id.header);
         ll1 = findViewById(R.id.header1);
         aux1 = findViewById(R.id.aux1);
+        text3 = findViewById(R.id.text3);
 
         aux.setVisibility(View.GONE);
 
@@ -149,6 +151,7 @@ public class ProfileActivity extends BaseActivity {
                     if (!aux1.equals("not found") || !aux2.equals("not found")) {
                         follow.setVisibility(View.GONE);
                     } else if (role__.equals("Organizator") || role__.equals("Administrator")) {
+                        friend.setVisibility(View.GONE);
                         follow.setVisibility(View.GONE);
                     } else {
                         follow.setVisibility(View.VISIBLE);
@@ -177,6 +180,9 @@ public class ProfileActivity extends BaseActivity {
             }
 
         } catch (Exception e){
+            if (role__.equals("Administrator")){
+                text3.setVisibility(View.GONE);
+            }
             ll.setVisibility(View.VISIBLE);
             execute();
         }
@@ -229,7 +235,12 @@ public class ProfileActivity extends BaseActivity {
                     followers.setVisibility(View.GONE);
                 }
 
-                
+                if (role__.equals("Administrator")){
+                    ll1.setVisibility(View.GONE);
+                    friend.setVisibility(View.GONE);
+                    follow.setVisibility(View.GONE);
+                }
+
 
             }
 
@@ -274,8 +285,6 @@ public class ProfileActivity extends BaseActivity {
                     followers.setText("Followers (0)");
                 }
 
-                followers.setVisibility(View.VISIBLE);
-
                 if (actor.getRole().equals("User")){
 
                     String aux1 = sp.getString("friend " + myIntent.getExtras().get("idAuthor").toString() + ", " + sp.getString("Id", "not found"), "not found");
@@ -309,7 +318,9 @@ public class ProfileActivity extends BaseActivity {
 
                     executeRest(myIntent.getExtras().get("idAuthor").toString());
 
-                } else if (actor.getRole().equals("Organizator") || actor.getRole().equals("Administrator")) {
+                } else if (actor.getRole().equals("Organizator")) {
+
+                    followers.setVisibility(View.VISIBLE);
 
                     String aux1 = sp.getString("followed " + myIntent.getExtras().get("idAuthor").toString() + ", " + sp.getString("Id", "not found"), "not found");
                     String aux2 = sp.getString("followed " + sp.getString("Id", "not found") + ", " + myIntent.getExtras().get("idAuthor").toString(), "not found");
@@ -339,6 +350,8 @@ public class ProfileActivity extends BaseActivity {
 
                 } else if (actor.getRole().equals("Speaker")){
 
+                    followers.setVisibility(View.VISIBLE);
+
                     String aux1 = sp.getString("followed " + myIntent.getExtras().get("idAuthor").toString() + ", " + sp.getString("Id", "not found"), "not found");
                     String aux2 = sp.getString("followed " + sp.getString("Id", "not found") + ", " + myIntent.getExtras().get("idAuthor").toString(), "not found");
 
@@ -366,6 +379,17 @@ public class ProfileActivity extends BaseActivity {
 
                     executeRest(myIntent.getExtras().get("idAuthor").toString());
 
+                } else if (actor.getRole().equals("Administrator")){
+                    text3.setVisibility(View.GONE);
+                    ll1.setVisibility(View.GONE);
+
+                    executeRest(myIntent.getExtras().get("idAuthor").toString());
+                }
+
+                if (role__.equals("Administrator")){
+                    ll1.setVisibility(View.GONE);
+                    friend.setVisibility(View.GONE);
+                    follow.setVisibility(View.GONE);
                 }
 
             }

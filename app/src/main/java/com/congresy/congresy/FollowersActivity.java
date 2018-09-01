@@ -84,7 +84,7 @@ public class FollowersActivity extends BaseActivity {
     }
 
     private void loadFollowersAll(String actorId){
-        Call<List<Actor>> call = userService.getFollowing(actorId);
+        Call<List<Actor>> call = userService.getFollowers(actorId);
         call.enqueue(new Callback<List<Actor>>() {
             @Override
             public void onResponse(Call<List<Actor>> call, Response<List<Actor>> response) {

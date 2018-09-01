@@ -61,10 +61,12 @@ public class BaseActivity extends AppCompatActivity {
         List<String> osArray = new ArrayList<>();
 
         if(role.equals("Administrator")){
+            osArray.add("Profile");
             osArray.add("Announcements");
             osArray.add("Actors");
             osArray.add("Conferences");
             osArray.add("Posts");
+            osArray.add("Forum");
             osArray.add("Comments");
             osArray.add("Messages");
         }
@@ -100,21 +102,27 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position == 0) {
-                        Intent intent = new Intent(BaseActivity.this, ShowAllAnnouncementsActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, ProfileActivity.class);
                         startActivity(intent);
                     } else if (position == 1) {
-                        Intent intent = new Intent(BaseActivity.this, AdministrationActorsActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, ShowAllAnnouncementsActivity.class);
                         startActivity(intent);
                     } else if (position == 2) {
-                        Intent intent = new Intent(BaseActivity.this, AdministrationConferencesActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, AdministrationActorsActivity.class);
                         startActivity(intent);
                     } else if (position == 3) {
+                        Intent intent = new Intent(BaseActivity.this, AdministrationConferencesActivity.class);
+                        startActivity(intent);
+                    } else if (position == 4) {
                         Intent intent = new Intent(BaseActivity.this, AdministrationPostsActivity.class);
                         startActivity(intent);
-                    }  else if (position == 4) {
+                    } else if (position == 5) {
+                            Intent intent = new Intent(BaseActivity.this, ShowAllPostsActivity.class);
+                            startActivity(intent);
+                    }  else if (position == 6) {
                         Intent intent = new Intent(BaseActivity.this, AdministrationCommentsActivity.class);
                         startActivity(intent);
-                    } else if (position == 5) {
+                    } else if (position == 7) {
                         Intent intent = new Intent(BaseActivity.this, ShowMyFoldersActivity.class);
                         startActivity(intent);
                     }
@@ -127,7 +135,8 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (position == 0) {
-                        Intent intent = new Intent(BaseActivity.this, HomeActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, IndexActivityLogged.class);
+                        intent.putExtra("goToHome", 1);
                         startActivity(intent);
                     } else if (position == 1) {
                         Intent intent = new Intent(BaseActivity.this, ProfileActivity.class);

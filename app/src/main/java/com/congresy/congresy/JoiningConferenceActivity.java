@@ -30,6 +30,7 @@ import com.braintreepayments.api.interfaces.HttpResponseCallback;
 import com.braintreepayments.api.internal.HttpClient;
 import com.braintreepayments.api.models.PaymentMethodNonce;
 import com.congresy.congresy.adapters.EventListJoinProcessAdapter;
+import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.domain.Event;
 import com.congresy.congresy.remote.ApiUtils;
 import com.congresy.congresy.remote.UserService;
@@ -92,12 +93,136 @@ public class JoiningConferenceActivity extends BaseActivity {
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBraintreeSubmit();
+                checkEvents();
             }
         });
 
         new HttpRequest().execute();
-        }
+
+    }
+
+    public void showAlertDialogButtonClicked1() {
+
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Attention!");
+        builder.setMessage("You have to select one or more events before paying.");
+
+        // add a button
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void showAlertDialogButtonClicked2() {
+
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Attention!");
+        builder.setMessage("Make sure to dismiss all the events before going back");
+
+        // add a button
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void checkProcess(){
+        Call<Conference> call = userService.getConference(getIntent().getStringExtra("idConference"));
+        call.enqueue(new Callback<Conference>() {
+            @Override
+            public void onResponse(Call<Conference> call, Response<Conference> response) {
+
+                checkEventsBack(response.body().getEvents());
+
+            }
+
+            @Override
+            public void onFailure(Call<Conference> call, Throwable t) {
+                Toast.makeText(JoiningConferenceActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void checkEventsBack(final List<String> events){
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        String idActor = sp.getString("Id", "not found");
+
+        Call<List<Event>> call = userService.getOwnEvents(idActor);
+        call.enqueue(new Callback<List<Event>>() {
+            @Override
+            public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
+
+                List<Event> events_ = response.body();
+
+                int aux = 0;
+
+                if (events_.isEmpty()){
+                    onBraintreeSubmit();
+                } else {
+                    for (Event e : events_){
+                        if (events.contains(e.getId())){
+                            aux++;
+                        }
+                    }
+                }
+
+                if (aux > 0) {
+                    showAlertDialogButtonClicked2();
+                } else {
+                    finish();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Event>> call, Throwable t) {
+                Toast.makeText(JoiningConferenceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void checkEvents(){
+        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+        String idActor = sp.getString("Id", "not found");
+
+        Call<List<Event>> call = userService.getOwnEvents(idActor);
+        call.enqueue(new Callback<List<Event>>() {
+            @Override
+            public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
+
+                if (response.body().isEmpty()){
+                    showAlertDialogButtonClicked1();
+                } else {
+                    onBraintreeSubmit();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Event>> call, Throwable t) {
+                Toast.makeText(JoiningConferenceActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        checkProcess();
+    }
 
     public static boolean getStatus(Context context, List<Event> events){
         boolean status = false;

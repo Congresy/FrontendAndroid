@@ -85,6 +85,14 @@ public class EventListJoinProcessAdapter extends BaseAdapter implements ListAdap
             holder = (ViewHolder) convertView.getTag();
         }
 
+        if (holder.join.getTag() == null){
+            holder.join.setTag("Join");
+        }
+
+        if (items.get(position).getSeatsLeft() == 0){
+            holder.join.setVisibility(View.GONE);
+        }
+
         SharedPreferences sp = context.getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
 
         if (sp.getBoolean("Join " + items.get(position).getId() + ", " + sp.getString("Id", "not found"), false)) {

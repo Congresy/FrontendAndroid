@@ -50,6 +50,8 @@ public class ShowEventsOfConferenceAuxActivity extends BaseActivity {
         userService = ApiUtils.getUserService();
 
         btnEvents = findViewById(R.id.btnCreateEvent);
+        ll = findViewById(R.id.header);
+
         ll.setVisibility(View.GONE);
 
         loadEventsUser();

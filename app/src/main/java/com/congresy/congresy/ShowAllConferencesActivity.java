@@ -224,7 +224,9 @@ public class ShowAllConferencesActivity extends BaseActivity {
                     List<Conference> aux = new ArrayList<>();
 
                     for(Conference c : conferencesListAll_){
-                        if(c.getParticipants() == null){
+                        if(c.getParticipants() == null) {
+                            aux.add(c);
+                        } else if (c.getParticipants() != null && c.getSeatsLeft() != 0) {
                             aux.add(c);
                         } else {
                             if (!c.getParticipants().contains(actorId)){

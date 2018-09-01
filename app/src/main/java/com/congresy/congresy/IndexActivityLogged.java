@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.LinearGradient;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -21,7 +20,6 @@ import com.congresy.congresy.domain.Actor;
 import com.congresy.congresy.domain.Announcement;
 import com.congresy.congresy.domain.Conference;
 import com.congresy.congresy.remote.ApiUtils;
-import com.congresy.congresy.remote.RetrofitClient;
 import com.congresy.congresy.remote.UserService;
 
 import java.text.DateFormat;
@@ -36,7 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class IndexActivity extends AppCompatActivity {
+public class IndexActivityLogged extends BaseActivity {
 
     private int conferencesSize;
     private int usersSize;
@@ -62,34 +60,7 @@ public class IndexActivity extends AppCompatActivity {
 
         setTitle("Home");
 
-        SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-        int logged = sp.getInt("logged", 0);
-
-        Intent intentAux = getIntent();
-
-        if(logged == 1){
-
-            try {
-
-                intentAux.getExtras().get("logged");
-
-            } catch (NullPointerException e){
-
-                SharedPreferences sp1 = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
-                String role_ = sp1.getString("Role", "not found");
-
-                if (role_.equals("Administrator")) {
-                    Intent intent = new Intent(IndexActivity.this, AdministrationConferencesActivity.class);
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(IndexActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                }
-
-            }
-        }
-
-        setContentView(R.layout.activity_index);
+        loadDrawer(R.layout.activity_index_logged);
 
         data = findViewById(R.id.data);
 
@@ -107,36 +78,9 @@ public class IndexActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        try {
 
-           intent.getExtras().get("logged");
-
-            btnLogin.setVisibility(View.GONE);
-            btnRegister.setVisibility(View.GONE);
-
-        } catch (NullPointerException e){
-
-            btnLogin.setVisibility(View.VISIBLE);
-            btnRegister.setVisibility(View.VISIBLE);
-
-        }
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(IndexActivity.this, LoginActivity.class);
-                intent.putExtra("fromLogin", 0);
-                startActivity(intent);
-                }
-        });
-        
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(IndexActivity.this, RegisterActivity.class);
-                startActivity(intent);
-                }
-        });
+        btnLogin.setVisibility(View.GONE);
+        btnRegister.setVisibility(View.GONE);
 
         loadData();
 
@@ -175,12 +119,12 @@ public class IndexActivity extends AppCompatActivity {
                 editor.putInt("logged", 0);
                 editor.apply();
 
-                startActivity(new Intent(IndexActivity.this, IndexActivity.class));
+                startActivity(new Intent(IndexActivityLogged.this, IndexActivityLogged.class));
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                Toast.makeText(IndexActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(IndexActivityLogged.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -201,7 +145,7 @@ public class IndexActivity extends AppCompatActivity {
         } catch (Exception e){
             switch (item.getItemId()) {
                 case R.id.login:
-                    Intent intent = new Intent(IndexActivity.this, LoginActivity.class);
+                    Intent intent = new Intent(IndexActivityLogged.this, LoginActivity.class);
                     intent.putExtra("fromLogin", 0);
                     startActivity(intent);
                     return true;
@@ -230,13 +174,13 @@ public class IndexActivity extends AppCompatActivity {
                     data.setText(conferencesSize + " conferences registed in our database\n" + activeConferences + " active conferences\n" + usersSize + " users using our app");
 
                 } else {
-                    Toast.makeText(IndexActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(IndexActivityLogged.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Actor>> call, Throwable t) {
-                Toast.makeText(IndexActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(IndexActivityLogged.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -264,13 +208,13 @@ public class IndexActivity extends AppCompatActivity {
                     getAllUsers();
 
                 } else {
-                    Toast.makeText(IndexActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(IndexActivityLogged.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Conference>> call, Throwable t) {
-                Toast.makeText(IndexActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(IndexActivityLogged.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -295,7 +239,7 @@ public class IndexActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Announcement>> call, Response<List<Announcement>> response) {
 
-                List<Announcement> announcements = response.body();
+                final List<Announcement> announcements = response.body();
 
                 if (announcements.size() > 0){
                     Random rand = new Random();
@@ -331,7 +275,7 @@ public class IndexActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Announcement>> call, Throwable t) {
-                Toast.makeText(IndexActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(IndexActivityLogged.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -344,7 +288,7 @@ public class IndexActivity extends AppCompatActivity {
 
                 Conference con = response.body();
 
-                Intent intent = new Intent(IndexActivity.this, LoginActivity.class);
+                Intent intent = new Intent(IndexActivityLogged.this, JoiningConferenceActivity.class);
                 intent.putExtra("idConference", announcement_.getIdConference());
                 intent.putExtra("price", String.valueOf(con.getPrice()));
                 startActivity(intent);
@@ -353,7 +297,7 @@ public class IndexActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Conference> call, Throwable t) {
-                Toast.makeText(IndexActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(IndexActivityLogged.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -370,31 +314,28 @@ public class IndexActivity extends AppCompatActivity {
 
                 Actor actor = response.body();
 
-                if (actor.getConferences().contains(idConference)){
-                    aux = true;
+                if (actor.getConferences() != null){
+                    if (actor.getConferences().contains(idConference)){
+                        aux = true;
+                    }
+                } else {
+                    aux = false;
                 }
 
                 Intent intent = getIntent();
 
-                try {
+                if (aux) {
+                    go.setText("Already in!");
 
-                    intent.getExtras().get("logged");
-
-                    if (aux){
-                        go.setText("Already in!");
-
-                        go.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(IndexActivity.this, ShowConferenceActivity.class);
-                                intent.putExtra("idConference", announcement_.getIdConference());
-                                startActivity(intent);
-                            }
-                        });
-                    }
-
-                } catch (NullPointerException e){
-
+                    go.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(IndexActivityLogged.this, ShowConferenceActivity.class);
+                            intent.putExtra("idConference", announcement_.getIdConference());
+                            startActivity(intent);
+                        }
+                    });
+                } else {
                     go.setText("Go!");
 
                     go.setOnClickListener(new View.OnClickListener() {
@@ -403,14 +344,13 @@ public class IndexActivity extends AppCompatActivity {
                             showConference(announcement_.getIdConference());
                         }
                     });
-
                 }
 
             }
 
             @Override
             public void onFailure(Call<Actor> call, Throwable t) {
-                Toast.makeText(IndexActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(IndexActivityLogged.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
             }
         });
     }
