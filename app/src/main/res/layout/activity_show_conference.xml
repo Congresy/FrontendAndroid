@@ -105,6 +105,7 @@
                 android:paddingEnd="20dp"
                 android:paddingTop="20dp"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 

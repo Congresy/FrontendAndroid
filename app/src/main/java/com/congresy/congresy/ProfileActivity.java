@@ -392,6 +392,12 @@ public class ProfileActivity extends BaseActivity {
                     follow.setVisibility(View.GONE);
                 }
 
+                if (role__.equals("Organizator")){
+                    ll1.setVisibility(View.GONE);
+                    friend.setVisibility(View.GONE);
+                    follow.setVisibility(View.GONE);
+                }
+
             }
 
             @Override
@@ -580,12 +586,8 @@ public class ProfileActivity extends BaseActivity {
                     Actor body = response.body();
 
                     if (body.getPrivate()){
+                        tName.setPadding(0, 70, 0, 0);
                         tName.setText("This profile is private");
-                        TextView places = findViewById(R.id.text3);
-                        TextView sN = findViewById(R.id.text2);
-
-                        places.setText("");
-                        sN.setText("");
 
                         follow.setVisibility(View.GONE);
                         friend.setVisibility(View.GONE);
@@ -603,6 +605,9 @@ public class ProfileActivity extends BaseActivity {
                         ll.setVisibility(View.GONE);
                         ll1.setVisibility(View.GONE);
                         followers.setVisibility(View.GONE);
+
+                        text3.setVisibility(View.GONE);
+                        findViewById(R.id.loadingPanel).setVisibility(View.GONE);
 
                     } else {
                         tName.setText(body.getName() + " " + body.getSurname());
