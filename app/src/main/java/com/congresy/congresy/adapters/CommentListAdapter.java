@@ -86,8 +86,8 @@ public class CommentListAdapter extends BaseAdapter implements ListAdapter {
         try {
 
             if (!items.get(position).getResponses().isEmpty()){
-                String str = String.valueOf(items.get(position).getResponses().size());
-                //holder.replies.setText(String.format("Replies (%s)", str));
+
+                holder.replies.setVisibility(View.VISIBLE);
 
                 holder.replies.setOnClickListener(new View.OnClickListener(){
                     @Override
