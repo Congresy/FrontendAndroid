@@ -227,11 +227,10 @@ public class ShowAllConferencesActivity extends BaseActivity {
                         if(c.getParticipants() == null) {
                             aux.add(c);
                         } else if (c.getParticipants() != null && c.getSeatsLeft() != 0) {
-                            aux.add(c);
-                        } else {
                             if (!c.getParticipants().contains(actorId)){
                                 aux.add(c);
                             }
+
                         }
                     }
 

@@ -170,12 +170,12 @@ public class JoiningConferenceActivity extends BaseActivity {
 
                 int aux = 0;
 
-                if (events_.isEmpty()){
-                    onBraintreeSubmit();
-                } else {
-                    for (Event e : events_){
-                        if (events.contains(e.getId())){
-                            aux++;
+                if (events_ != null) {
+                    if (!events_.isEmpty()) {
+                        for (Event e : events_) {
+                            if (events.contains(e.getId())) {
+                                aux++;
+                            }
                         }
                     }
                 }
@@ -266,7 +266,7 @@ public class JoiningConferenceActivity extends BaseActivity {
         int i = 0;
 
         if (eventsList.size() > 1) {
-            while(i < eventsList.size()){
+            while(i < eventsList.size() - 1){
                 LocalDateTime startTime1 = f.parseLocalDateTime(eventsList.get(i).getStart());
                 LocalDateTime endTime1 = f.parseLocalDateTime(eventsList.get(i).getEnd());
                 LocalDateTime startTime2 = f.parseLocalDateTime(eventsList.get(i+1).getStart());
@@ -493,7 +493,7 @@ public class JoiningConferenceActivity extends BaseActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(JoiningConferenceActivity.this, "Successfully got token", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(JoiningConferenceActivity.this, "Ready for transaction", Toast.LENGTH_SHORT).show();
                             llHolder.setVisibility(View.VISIBLE);
                         }
                     });
