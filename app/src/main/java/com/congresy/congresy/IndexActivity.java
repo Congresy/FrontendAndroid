@@ -142,6 +142,8 @@ public class IndexActivity extends AppCompatActivity {
 
         showAnnouncement();
 
+        findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+
     }
 
     @Override
@@ -242,6 +244,9 @@ public class IndexActivity extends AppCompatActivity {
     }
 
     private void loadData(){
+        findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+        Toast.makeText(IndexActivity.this, "Loading data", Toast.LENGTH_SHORT).show();
+
         Call<List<Conference>> call = userService.getAllConferences();
         call.enqueue(new Callback<List<Conference>>() {
             @Override
@@ -262,15 +267,19 @@ public class IndexActivity extends AppCompatActivity {
                     }
 
                     getAllUsers();
+                    findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+                    Toast.makeText(IndexActivity.this, "Loading done!", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    Toast.makeText(IndexActivity.this, "Error! Please try again!", Toast.LENGTH_SHORT).show();
+                    findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+                    Toast.makeText(IndexActivity.this, "Wait until the server starts and try again in a moment!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Conference>> call, Throwable t) {
-                Toast.makeText(IndexActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+                Toast.makeText(IndexActivity.this, "Wait until the server starts and try again in a moment!", Toast.LENGTH_SHORT).show();
             }
         });
     }
