@@ -138,6 +138,12 @@ public class EditProfileActivity extends BaseActivity {
                 if (!passwordConfirm.equals("") || !password.equals("")){
                     if (!password.equals(passwordConfirm)) {
                         showAlertDialogButtonClicked("password");
+                    } else {
+                        if (validate(name, surname, email, phone, photo, town, country, address, postalCode, details, password, passwordConfirm)) {
+                            editProfile(json, jsonPlace);
+                        } else {
+                            edtPassword.requestFocus();
+                        }
                     }
                 } else {
                     if (validate(name, surname, email, phone, photo, town, country, address, postalCode, details, password, passwordConfirm)) {
@@ -185,14 +191,6 @@ public class EditProfileActivity extends BaseActivity {
         if (!photo.equals(""))
             if(checkUrl(photo, edtPhoto) && checkString("blank", photo, edtPhoto, null))
                 aux++;
-
-        if (aux == 0 && !pas1.equals("") && !pas2.equals("")){
-            if (!pas1.equals(pas2)) {
-                edtPasswordConfirm.setError("Both passwords must be the same");
-                edtPassword.setError("Both passwords must be the same");
-                aux++;
-            }
-        }
 
         return aux == 0;
 

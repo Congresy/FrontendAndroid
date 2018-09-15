@@ -16,7 +16,6 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="70dp"
         >
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -30,10 +29,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Password"
+                android:text="New password"
                 android:id="@+id/edtPasswordT"
                 android:layout_below = "@+id/edtUsername"
                 android:paddingStart="10dp"
+                android:paddingTop="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
