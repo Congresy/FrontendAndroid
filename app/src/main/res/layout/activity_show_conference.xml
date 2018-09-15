@@ -74,6 +74,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:id="@+id/edtAddress"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 />
 
