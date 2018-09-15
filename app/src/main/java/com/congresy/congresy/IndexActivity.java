@@ -65,17 +65,9 @@ public class IndexActivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
         int logged = sp.getInt("logged", 0);
 
-        Intent intentAux = getIntent();
-
         if(logged == 1){
 
-            try {
-
-                intentAux.getExtras().get("logged");
-
-            } catch (NullPointerException e){
-
-                SharedPreferences sp1 = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
+             SharedPreferences sp1 = getSharedPreferences("log_prefs", Activity.MODE_PRIVATE);
                 String role_ = sp1.getString("Role", "not found");
 
                 if (role_.equals("Administrator")) {
@@ -84,65 +76,66 @@ public class IndexActivity extends AppCompatActivity {
                 } else {
                     Intent intent = new Intent(IndexActivity.this, HomeActivity.class);
                     startActivity(intent);
-                }
 
             }
-        }
+        } else {
 
-        setContentView(R.layout.activity_index);
+            setContentView(R.layout.activity_index);
 
-        data = findViewById(R.id.data);
+            data = findViewById(R.id.data);
 
-        btnLogin = findViewById(R.id.btnLogin);
-        btnRegister = findViewById(R.id.btnRegister);
-        image = findViewById(R.id.image);
-        conferenceE = findViewById(R.id.conference);
-        title= findViewById(R.id.title);
-        go = findViewById(R.id.go);
+            btnLogin = findViewById(R.id.btnLogin);
+            btnRegister = findViewById(R.id.btnRegister);
+            image = findViewById(R.id.image);
+            conferenceE = findViewById(R.id.conference);
+            title= findViewById(R.id.title);
+            go = findViewById(R.id.go);
 
-        userService = ApiUtils.getUserService();
-
-        btnLogin.setVisibility(View.GONE);
-        btnRegister.setVisibility(View.GONE);
-
-        Intent intent = getIntent();
-
-        try {
-
-           intent.getExtras().get("logged");
+            userService = ApiUtils.getUserService();
 
             btnLogin.setVisibility(View.GONE);
             btnRegister.setVisibility(View.GONE);
 
-        } catch (NullPointerException e){
+            Intent intent = getIntent();
 
-            btnLogin.setVisibility(View.VISIBLE);
-            btnRegister.setVisibility(View.VISIBLE);
+            try {
+
+                intent.getExtras().get("logged");
+
+                btnLogin.setVisibility(View.GONE);
+                btnRegister.setVisibility(View.GONE);
+
+            } catch (NullPointerException e){
+
+                btnLogin.setVisibility(View.VISIBLE);
+                btnRegister.setVisibility(View.VISIBLE);
+
+            }
+
+            btnLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(IndexActivity.this, LoginActivity.class);
+                    intent.putExtra("fromLogin", 0);
+                    startActivity(intent);
+                }
+            });
+
+            btnRegister.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(IndexActivity.this, RegisterActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+            loadData();
+
+            showAnnouncement();
+
+            findViewById(R.id.loadingPanel).setVisibility(View.GONE);
 
         }
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(IndexActivity.this, LoginActivity.class);
-                intent.putExtra("fromLogin", 0);
-                startActivity(intent);
-                }
-        });
-        
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(IndexActivity.this, RegisterActivity.class);
-                startActivity(intent);
-                }
-        });
-
-        loadData();
-
-        showAnnouncement();
-
-        findViewById(R.id.loadingPanel).setVisibility(View.GONE);
 
     }
 
